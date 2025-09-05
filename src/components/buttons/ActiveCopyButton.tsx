@@ -73,14 +73,12 @@ export function ActiveCopyButton({
   };
 
   const buttonClasses = `
-    px-5 py-3 text-sm h-12 min-w-[80px]
+    px-5 py-3 text-sm h-12 w-[90px]
     bg-gray-600 dark:bg-gray-700 text-white border-none rounded-md
     font-medium flex items-center justify-center
-    transition-all duration-200 ease-in-out cursor-pointer
-    hover:bg-gray-700 dark:hover:bg-gray-600 hover:-translate-y-px
-    active:translate-y-0
-    ${copying ? 'bg-blue-600 dark:bg-blue-500 scale-95' : ''}
-    ${isLastClicked && !copying ? 'bg-green-600 dark:bg-green-500' : ''}
+    transition-colors duration-1000 ease-out cursor-pointer
+    hover:bg-gray-700 dark:hover:bg-gray-600
+    ${isLastClicked ? 'bg-green-600 dark:bg-green-500' : ''}
     ${className}
   `.trim();
 
