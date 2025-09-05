@@ -1,42 +1,16 @@
-# Integrated Header in Sidebar Layout Plan
+# Header Title Adjustments Plan
 
-## Current State Analysis
+## Two adjustments needed:
 
-- SidebarTrigger button is currently in main content area
-- No dedicated header component
-- Need to create sticky header that integrates with sidebar
+### 1. Color split
 
-## Implementation Steps
+- Make "code" blue and "ref" black using separate `<span>` elements with different text colors
 
-1. **Create Header Component**
-   - Create `src/components/layout/Header.tsx`
-   - Include SidebarTrigger button
-   - Make it sticky with proper z-index
+### 2. Position change
 
-2. **Update App Layout Structure**
-   - Move SidebarTrigger from main content to header
-   - Position header above content, spanning full content width
-   - Ensure header adjusts when sidebar collapses/expands
+- Move from right side (current: `justify-between`) to left side next to the toggle
+- Remove `justify-between`
+- Add `gap-4` back for spacing between toggle and title
+- Position will be: `[Toggle] [coderef]` on the left side
 
-3. **Layout Structure Target**
-
-   ```
-   ┌───────┬─────────────────────────┐
-   │Sidebar│  [☰] Header | Profile   │
-   ├───────┼─────────────────────────┤
-   │       │      Content            │
-   │       │                         │
-   └───────┴─────────────────────────┘
-   ```
-
-4. **Header Features**
-   - Sidebar toggle button (left)
-   - Sticky positioning
-   - Proper spacing and styling
-
-5. **Update Pages**
-   - Remove individual page containers/padding
-   - Let header handle top spacing
-   - Content flows naturally below header
-
-Result: Professional header that integrates seamlessly with collapsible sidebar, containing navigation controls and user interface elements.
+This creates a grouped left-aligned layout with the branded title right next to the navigation control.
