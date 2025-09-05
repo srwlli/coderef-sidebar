@@ -1,66 +1,46 @@
-# Collapsible Icon Sidebar Plan
+# Integrated Header in Sidebar Layout Plan
 
-Adjusted for current structure with landing page and `/app` route group.
+## Current State Analysis
 
-## 1. Install and Setup
+- SidebarTrigger button is currently in main content area
+- No dedicated header component
+- Need to create sticky header that integrates with sidebar
 
-- Run: `npx shadcn@latest add sidebar`
-- Add required CSS variables to globals.css
-- Install icons: `npm install lucide-react` (if not already installed)
+## Implementation Steps
 
-## 2. Current Route Structure
+1. **Create Header Component**
+   - Create `src/components/layout/Header.tsx`
+   - Include SidebarTrigger button
+   - Add breadcrumbs/page title
+   - Add user profile placeholder
+   - Make it sticky with proper z-index
 
-```
-src/app/
-├── page.tsx              # Landing page (no sidebar)
-├── layout.tsx           # Root layout (no sidebar)
-└── (app)/               # Route group for authenticated pages
-    ├── layout.tsx       # App layout WITH sidebar
-    ├── loading.tsx      # Loading for app pages
-    ├── dashboard/       # Former home page
-    ├── settings/
-    ├── prompts/
-    ├── git-commands/
-    └── nextjs-setup/
-```
+2. **Update App Layout Structure**
+   - Move SidebarTrigger from main content to header
+   - Position header above content, spanning full content width
+   - Ensure header adjusts when sidebar collapses/expands
 
-## 3. Sidebar Structure
+3. **Layout Structure Target**
 
-```
-SidebarProvider (wraps (app) layout only)
-└── Sidebar (collapsible)
-    └── SidebarContent
-        └── SidebarGroup
-            └── SidebarMenu
-                ├── Dashboard (Home icon)
-                ├── Next.js Setup (Settings icon)
-                ├── Git Commands (GitBranch icon)
-                ├── Settings (Cog icon)
-                └── Prompts (MessageSquare icon)
-```
+   ```
+   ┌───────┬─────────────────────────┐
+   │Sidebar│  [☰] Header | Profile   │
+   ├───────┼─────────────────────────┤
+   │       │      Content            │
+   │       │                         │
+   └───────┴─────────────────────────┘
+   ```
 
-## 4. Implementation Steps
+4. **Header Features**
+   - Sidebar toggle button (left)
+   - Dynamic page title/breadcrumbs (center)
+   - User profile/actions (right)
+   - Sticky positioning
+   - Proper spacing and styling
 
-- Create `src/app/(app)/layout.tsx` with SidebarProvider
-- Sidebar only appears in `/app/*` routes, NOT on landing page
-- Create sidebar navigation with icon + text for expanded state
-- Icons only for collapsed state
-- Use Next.js Link components for navigation
-- Configure collapsible behavior with icon-only mode
+5. **Update Pages**
+   - Remove individual page containers/padding
+   - Let header handle top spacing
+   - Content flows naturally below header
 
-## 5. Icon Mapping & Routes
-
-- Dashboard: `Home` icon → `/dashboard`
-- Next.js Setup: `Settings` icon → `/nextjs-setup`
-- Git Commands: `GitBranch` icon → `/git-commands`
-- Settings: `Cog` icon → `/settings`
-- Prompts: `MessageSquare` icon → `/prompts`
-
-## 6. Update Pages
-
-- Fix navigation links in dashboard page (currently broken)
-- Remove navigation cards from dashboard page eventually
-- Focus each page on its actual content
-- Sidebar becomes primary navigation for app section
-
-Result: Landing page stays clean, authenticated app section gets collapsible sidebar with icons.
+Result: Professional header that integrates seamlessly with collapsible sidebar, containing navigation controls and user interface elements.
