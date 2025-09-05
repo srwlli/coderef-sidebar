@@ -8,7 +8,7 @@ import {
 
 export default function GitCommandsPage() {
   return (
-    <div className="min-h-screen p-8">
+    <div className="p-8">
       <main className="mx-auto max-w-7xl">
         <div className="flex flex-wrap gap-6">
           <Card className="w-full max-w-sm">

@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen p-8">
+    <div className="p-8">
       <main className="mx-auto max-w-7xl">
         <div className="flex flex-wrap gap-6">
           <Link href="/nextjs-setup" className="no-underline">

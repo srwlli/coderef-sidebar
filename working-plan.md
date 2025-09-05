@@ -11,8 +11,6 @@
 1. **Create Header Component**
    - Create `src/components/layout/Header.tsx`
    - Include SidebarTrigger button
-   - Add breadcrumbs/page title
-   - Add user profile placeholder
    - Make it sticky with proper z-index
 
 2. **Update App Layout Structure**
@@ -33,8 +31,6 @@
 
 4. **Header Features**
    - Sidebar toggle button (left)
-   - Dynamic page title/breadcrumbs (center)
-   - User profile/actions (right)
    - Sticky positioning
    - Proper spacing and styling
 

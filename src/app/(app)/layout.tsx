@@ -6,10 +6,10 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { Home, Settings, GitBranch, Cog, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
+import Header from '@/components/layout/Header';
 
 const menuItems = [
   {
@@ -49,7 +49,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <SidebarMenu>
                 {menuItems.map((item) => (
                   <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild>
+                    <SidebarMenuButton tooltip={item.title} asChild>
                       <Link href={item.href}>
                         <item.icon />
                         <span>{item.title}</span>
@@ -61,11 +61,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
-        <main className="flex-1">
-          <div className="p-4">
-            <SidebarTrigger className="mb-4" />
-            {children}
-          </div>
+        <main className="flex flex-1 flex-col">
+          <Header />
+          <div className="flex-1">{children}</div>
         </main>
       </div>
     </SidebarProvider>
