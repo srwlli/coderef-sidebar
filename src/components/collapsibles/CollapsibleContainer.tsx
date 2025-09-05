@@ -4,23 +4,21 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface CollapsibleContainerProps {
+interface SimpleCollapsibleContainerProps {
   title: string;
   icon?: React.ReactNode;
-  description?: string;
   children: React.ReactNode;
   defaultExpanded?: boolean;
   className?: string;
 }
 
-export function CollapsibleContainer({
+export function SimpleCollapsibleContainer({
   title,
   icon,
-  description,
   children,
   defaultExpanded = false,
   className,
-}: CollapsibleContainerProps) {
+}: SimpleCollapsibleContainerProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (

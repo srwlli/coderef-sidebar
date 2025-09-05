@@ -1,2 +1,1 @@
-export { CollapsibleContainer } from './CollapsibleContainer';
-export { SimpleCommandBlock } from './SimpleCommandBlock';
+export { SimpleCollapsibleContainer } from './CollapsibleContainer';

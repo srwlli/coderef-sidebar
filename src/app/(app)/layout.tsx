@@ -6,7 +6,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from '@/components/ui/sidebar';
+} from '@/components/layout/sidebar';
 import { Home, Settings, GitBranch, Cog, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';

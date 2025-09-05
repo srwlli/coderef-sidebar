@@ -1,8 +1,5 @@
-import {
-  CollapsibleContainer,
-  SimpleCommandBlock,
-} from '@/components/collapsibles';
-import { InputCommandBlock } from '@/components/inputs';
+import { SimpleCollapsibleContainer } from '@/components/collapsibles';
+import { InputCommandBlock, SimpleCommandBlock } from '@/components/inputs';
 import { GitBranch } from 'lucide-react';
 
 export default function GitCommandsPage() {
@@ -10,10 +7,9 @@ export default function GitCommandsPage() {
     <div className="p-8">
       <main className="mx-auto max-w-7xl">
         <div className="space-y-4">
-          <CollapsibleContainer
+          <SimpleCollapsibleContainer
             title="Basic Git Commands"
             icon={<GitBranch className="h-5 w-5" />}
-            description="Essential commands for daily git usage"
           >
             <SimpleCommandBlock command="git status" />
             <SimpleCommandBlock command="git add ." />
@@ -22,7 +18,7 @@ export default function GitCommandsPage() {
               placeholder="commit message"
             />
             <SimpleCommandBlock command="git push" />
-          </CollapsibleContainer>
+          </SimpleCollapsibleContainer>
         </div>
       </main>
     </div>
