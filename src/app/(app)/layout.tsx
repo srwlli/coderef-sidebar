@@ -1,3 +1,5 @@
+'use client';
+
 import {
   SidebarProvider,
   Sidebar,
@@ -18,7 +20,9 @@ import {
   Layers,
 } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/Header';
+import { Breadcrumb } from '@/components/navigation/Breadcrumb';
 
 const menuItems = [
   {
@@ -64,6 +68,8 @@ const menuItems = [
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -71,22 +77,33 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <SidebarContent>
             <SidebarGroup>
               <SidebarMenu>
-                {menuItems.map((item) => (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton tooltip={item.title} asChild>
-                      <Link href={item.href}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {menuItems.map((item) => {
+                  const isActive =
+                    pathname === item.href ||
+                    (item.href === '/dashboard' && pathname === '/');
+
+                  return (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton
+                        tooltip={item.title}
+                        asChild
+                        isActive={isActive}
+                      >
+                        <Link href={item.href}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>
         <main className="flex flex-1 flex-col">
           <Header />
+          <Breadcrumb />
           <div className="flex-1">{children}</div>
         </main>
       </div>

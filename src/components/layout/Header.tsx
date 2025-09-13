@@ -6,7 +6,7 @@ export default function Header() {
       <SidebarTrigger />
       <div className="font-semibold">
         <span className="text-blue-600">code</span>
-        <span className="text-black">ref</span>
+        <span className="text-black dark:text-white">ref</span>
       </div>
     </header>
   );

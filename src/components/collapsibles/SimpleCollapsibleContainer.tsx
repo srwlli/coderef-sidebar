@@ -33,6 +33,7 @@ export function SimpleCollapsibleContainer({
           <ChevronRight className="text-foreground h-5 w-5" />
         )}
 
+        {icon && <span className="text-foreground">{icon}</span>}
         <h3 className="text-foreground flex-1 font-semibold">{title}</h3>
       </button>
 

@@ -1,14 +1,7 @@
 import { SimpleCollapsibleContainer } from '@/components/collapsibles';
 import { InputCommandBlock, SimpleCommandBlock } from '@/components/inputs';
 import { Button } from '@/components/buttons';
-import {
-  Package,
-  Workflow,
-  ExternalLink,
-  BookOpen,
-  Bot,
-  GitBranch,
-} from 'lucide-react';
+import { Workflow, BookOpen, Bot, GitBranch } from 'lucide-react';
 
 export default function SpecKitPage() {
   return (

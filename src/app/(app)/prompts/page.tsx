@@ -1,5 +1,4 @@
 import { CollapsiblePrompt } from '@/components/collapsibles';
-import { MessageSquare } from 'lucide-react';
 
 export default function PromptsPage() {
   return (

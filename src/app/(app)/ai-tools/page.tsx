@@ -1,15 +1,7 @@
 'use client';
 
-import { Bot, ExternalLink } from 'lucide-react';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardAction,
-} from '@/components/cards/Card';
-
+import { Bot } from 'lucide-react';
+import { Card, CardHeader, CardTitle } from '@/components/cards/Card';
 export default function AIToolsPage() {
   const aiTools = [
     {
@@ -64,7 +56,7 @@ export default function AIToolsPage() {
 
   return (
     <div className="p-8">
-      <div className="max-w-7xl">
+      <main className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {aiTools.map((tool, index) => (
             <a
@@ -85,7 +77,7 @@ export default function AIToolsPage() {
             </a>
           ))}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
