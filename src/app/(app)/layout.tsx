@@ -7,7 +7,16 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from '@/components/layout/sidebar';
-import { Home, Settings, GitBranch, Cog, MessageSquare } from 'lucide-react';
+import {
+  Home,
+  Settings,
+  GitBranch,
+  Cog,
+  MessageSquare,
+  Package,
+  Bot,
+  Layers,
+} from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 
@@ -28,14 +37,29 @@ const menuItems = [
     icon: GitBranch,
   },
   {
-    title: 'Settings',
-    href: '/settings',
-    icon: Cog,
+    title: 'Spec Kit',
+    href: '/spec-kit',
+    icon: Package,
   },
   {
     title: 'Prompts',
     href: '/prompts',
     icon: MessageSquare,
+  },
+  {
+    title: 'AI Tools',
+    href: '/ai-tools',
+    icon: Bot,
+  },
+  {
+    title: 'Tech Stacks',
+    href: '/tech-stacks',
+    icon: Layers,
+  },
+  {
+    title: 'Settings',
+    href: '/settings',
+    icon: Cog,
   },
 ];
 
