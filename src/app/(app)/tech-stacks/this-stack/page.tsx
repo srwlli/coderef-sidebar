@@ -118,7 +118,6 @@ export default function ThisStackPage() {
           <SimpleCollapsibleContainer
             title="Core"
             icon={<Layers className="h-5 w-5" />}
-            defaultExpanded={true}
           >
             <Table items={core} />
           </SimpleCollapsibleContainer>

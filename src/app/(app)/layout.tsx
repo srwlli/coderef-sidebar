@@ -33,7 +33,7 @@ const menuItems = [
   },
   {
     title: 'Next.js Setup',
-    href: '/nextjs-setup',
+    href: '/tech-stacks/nextjs-setup',
     icon: Settings,
   },
   {
@@ -43,12 +43,12 @@ const menuItems = [
   },
   {
     title: 'Spec Kit',
-    href: '/spec-kit',
+    href: '/ai-tools/spec-kit',
     icon: Package,
   },
   {
     title: 'Prompts',
-    href: '/prompts',
+    href: '/ai-tools/prompts',
     icon: MessageSquare,
   },
   {
@@ -63,7 +63,7 @@ const menuItems = [
   },
   {
     title: 'This Stack',
-    href: '/this-stack',
+    href: '/tech-stacks/this-stack',
     icon: Info,
   },
   {

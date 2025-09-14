@@ -1,37 +1,13 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import {
-  Code,
-  GitBranch,
-  Wrench,
-  MessageSquare,
-  Bot,
-  Layers,
-  Info,
-  Settings,
-} from 'lucide-react';
+import { GitBranch, Bot, Layers, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
   const dashboardItems = [
     {
-      title: 'Next.js Setup',
-      href: '/nextjs-setup',
-      icon: Code,
-    },
-    {
       title: 'Git Commands',
       href: '/git-commands',
       icon: GitBranch,
-    },
-    {
-      title: 'Spec Kit',
-      href: '/spec-kit',
-      icon: Wrench,
-    },
-    {
-      title: 'Prompts',
-      href: '/prompts',
-      icon: MessageSquare,
     },
     {
       title: 'AI Tools',
@@ -42,11 +18,6 @@ export default function Dashboard() {
       title: 'Tech Stacks',
       href: '/tech-stacks',
       icon: Layers,
-    },
-    {
-      title: 'This Stack',
-      href: '/this-stack',
-      icon: Info,
     },
     {
       title: 'Settings',

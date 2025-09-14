@@ -1,8 +1,25 @@
 'use client';
 
-import { Bot } from 'lucide-react';
+import { Bot, MessageSquare, Wrench } from 'lucide-react';
 import { Card, CardHeader, CardTitle } from '@/components/cards/Card';
+import Link from 'next/link';
 export default function AIToolsPage() {
+  // Internal tools
+  const internalTools = [
+    {
+      name: 'Prompts',
+      href: '/ai-tools/prompts',
+      icon: MessageSquare,
+      isInternal: true,
+    },
+    {
+      name: 'Spec Kit',
+      href: '/ai-tools/spec-kit',
+      icon: Wrench,
+      isInternal: true,
+    },
+  ];
+
   const aiTools = [
     {
       name: 'ChatGPT',
@@ -58,9 +75,31 @@ export default function AIToolsPage() {
     <div className="p-8">
       <main className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {/* Internal tools */}
+          {internalTools.map((tool, index) => {
+            const IconComponent = tool.icon;
+            return (
+              <Link
+                key={`internal-${index}`}
+                href={tool.href}
+                className="block"
+              >
+                <Card className="h-32 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
+                  <CardHeader className="flex h-full flex-col items-center justify-center p-4 text-center">
+                    <IconComponent className="mb-2 h-8 w-8 flex-shrink-0" />
+                    <CardTitle className="text-sm leading-tight sm:text-base">
+                      {tool.name}
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              </Link>
+            );
+          })}
+
+          {/* External AI tools */}
           {aiTools.map((tool, index) => (
             <a
-              key={index}
+              key={`external-${index}`}
               href={tool.url}
               target="_blank"
               rel="noopener noreferrer"

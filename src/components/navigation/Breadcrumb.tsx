@@ -19,12 +19,12 @@ interface BreadcrumbProps {
 const routeLabels: Record<string, string> = {
   '/': 'Dashboard',
   '/dashboard': 'Dashboard',
-  '/nextjs-setup': 'Next.js Setup',
   '/ai-tools': 'AI Tools',
+  '/ai-tools/prompts': 'Prompts',
+  '/ai-tools/spec-kit': 'Spec Kit',
   '/tech-stacks': 'Tech Stacks',
-  '/this-stack': 'This Stack',
-  '/prompts': 'Prompts',
-  '/spec-kit': 'Spec Kit',
+  '/tech-stacks/nextjs-setup': 'Next.js Setup',
+  '/tech-stacks/this-stack': 'This Stack',
   '/settings': 'Settings',
 };
 
