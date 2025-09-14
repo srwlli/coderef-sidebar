@@ -502,6 +502,7 @@ function SidebarMenuButton({
   size = 'default',
   tooltip,
   className,
+  onClick,
   ...props
 }: React.ComponentProps<'button'> & {
   asChild?: boolean;
@@ -509,7 +510,26 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>;
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button';
-  const { isMobile, state } = useSidebar();
+  const { isMobile, state, setOpenMobile } = useSidebar();
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<Element>) => {
+      // Call original onClick if provided
+      if (onClick) {
+        // TypeScript workaround for Slot component event handling
+        const originalOnClick = onClick as (
+          event: React.MouseEvent<Element>
+        ) => void;
+        originalOnClick(event);
+      }
+
+      // Auto-close sidebar on mobile after navigation
+      if (isMobile && setOpenMobile) {
+        setOpenMobile(false);
+      }
+    },
+    [isMobile, setOpenMobile, onClick]
+  );
 
   const button = (
     <Comp
@@ -518,6 +538,7 @@ function SidebarMenuButton({
       data-size={size}
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
+      onClick={handleClick}
       {...props}
     />
   );
