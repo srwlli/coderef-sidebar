@@ -25,9 +25,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Latest updates research prompts for technology stack evaluation
 - Idea logging prompt frameworks for systematic concept development
 - Claude Code review prompt for enterprise-grade codebase analysis
+- Mobile-responsive sidebar with auto-close functionality on menu item selection
+- Sidebar state persistence using localStorage instead of cookies
+- Comprehensive security headers implementation (CSP, HSTS, X-Content-Type-Options, etc.)
+- CI/CD workflow with automated lint, typecheck, and build validation
 
 ### Changed
 
+- Sidebar behavior: Menu items now auto-close sidebar on mobile devices
+- State persistence: Migrated from cookie-based to localStorage-based sidebar state
+- Security: Added baseline security headers via Next.js headers() configuration
 - Removed PageHeader components from AI Tools, Settings, and Tech Stacks pages for consistent layout
 - Updated CollapsiblePrompt component to use design tokens instead of hardcoded colors
 - Improved dark mode color palette consistency across all collapsible components
@@ -45,6 +52,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Used Tailwind CSS for responsive design
 - Integrated Lucide React icons throughout the application
 - Set up Next.js 15 with App Router architecture
+- Configured Next.js security headers for baseline web application security
+- Implemented localStorage-based state management for sidebar persistence
+- Added GitHub Actions CI workflow for automated code quality checks
 
 ## Project Structure
 

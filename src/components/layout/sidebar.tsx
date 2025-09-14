@@ -25,12 +25,34 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-const SIDEBAR_COOKIE_NAME = 'sidebar_state';
-const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+const SIDEBAR_STORAGE_KEY = 'sidebar_state';
 const SIDEBAR_WIDTH = '16rem';
 const SIDEBAR_WIDTH_MOBILE = '18rem';
 const SIDEBAR_WIDTH_ICON = '3rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
+
+// localStorage helpers for sidebar state persistence
+const setSidebarState = (open: boolean) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(SIDEBAR_STORAGE_KEY, JSON.stringify(open));
+    } catch (error) {
+      console.warn('Failed to save sidebar state:', error);
+    }
+  }
+};
+
+const getSidebarState = (): boolean => {
+  if (typeof window !== 'undefined') {
+    try {
+      const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : true; // default open
+    } catch (error) {
+      console.warn('Failed to read sidebar state:', error);
+    }
+  }
+  return true; // SSR default
+};
 
 type SidebarContextProps = {
   state: 'expanded' | 'collapsed';
@@ -72,6 +94,14 @@ function SidebarProvider({
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
   const [_open, _setOpen] = React.useState(defaultOpen);
+
+  // Initialize from localStorage after component mounts (SSR-safe)
+  React.useEffect(() => {
+    const storedState = getSidebarState();
+    if (storedState !== _open && !openProp) {
+      _setOpen(storedState);
+    }
+  }, [_open, openProp]);
   const open = openProp ?? _open;
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
@@ -82,8 +112,8 @@ function SidebarProvider({
         _setOpen(openState);
       }
 
-      // This sets the cookie to keep the sidebar state.
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+      // Save sidebar state to localStorage
+      setSidebarState(openState);
     },
     [setOpenProp, open]
   );
