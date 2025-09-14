@@ -32,6 +32,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Navigation restructure: Moved Prompts and Spec Kit pages under AI Tools section
+- Navigation restructure: Moved Next.js Setup and This Stack pages under Tech Stacks section
+- Dashboard simplified: Removed nested pages to show only main section cards
+- AI Tools page: Added internal tool cards (Prompts, Spec Kit) alongside external AI services
+- Tech Stacks page: Added internal tool cards (Next.js Setup, This Stack) at the top
 - Sidebar behavior: Menu items now auto-close sidebar on mobile devices
 - State persistence: Migrated from cookie-based to localStorage-based sidebar state
 - Security: Added baseline security headers via Next.js headers() configuration
@@ -39,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated CollapsiblePrompt component to use design tokens instead of hardcoded colors
 - Improved dark mode color palette consistency across all collapsible components
 - Enhanced sidebar navigation with proper active state management
+- Collapsible containers: Standardized all to default collapsed state for consistency
 
 ### Fixed
 
@@ -62,13 +68,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 src/
 ├── app/(app)/
 │   ├── ai-tools/           # AI tools directory and links
+│   │   ├── prompts/        # Development prompt templates
+│   │   └── spec-kit/       # Spec-Kit workflow documentation
 │   ├── dashboard/          # Main dashboard with navigation cards
 │   ├── git-commands/       # Git command reference
-│   ├── nextjs-setup/       # Next.js setup instructions
-│   ├── prompts/            # Development prompt templates
 │   ├── settings/           # Application settings
-│   ├── spec-kit/           # Spec-Kit workflow documentation
 │   ├── tech-stacks/        # Technology stack comparisons
+│   │   ├── nextjs-setup/   # Next.js setup instructions
+│   │   └── this-stack/     # Current project stack details
 │   └── layout.tsx          # Sidebar layout with navigation
 ├── components/
 │   ├── collapsibles/       # Collapsible content components
@@ -91,14 +98,15 @@ src/
 
 ### Core Pages
 
-1. **Dashboard** - Central navigation hub with cards for each section
-2. **AI Tools** - Curated directory of 147 AI tools with external links
-3. **Tech Stacks** - Comprehensive technology stack guides and comparisons
-4. **Spec Kit** - Complete workflow documentation for specification-driven development
-5. **Prompts** - Ready-to-use prompt templates for development tasks
-6. **Git Commands** - Interactive git command reference
-7. **Next.js Setup** - Step-by-step setup guides and configurations
-8. **Settings** - Application preferences including dark mode toggle
+1. **Dashboard** - Simplified navigation hub with cards for main sections only
+2. **AI Tools** - Curated directory with internal tools (Prompts, Spec Kit) and external AI services
+   - **Prompts** - Ready-to-use prompt templates for development tasks
+   - **Spec Kit** - Complete workflow documentation for specification-driven development
+3. **Tech Stacks** - Technology guides with internal tools and comparisons
+   - **Next.js Setup** - Step-by-step setup guides and configurations
+   - **This Stack** - Current project technology profile
+4. **Git Commands** - Interactive git command reference
+5. **Settings** - Application preferences including dark mode toggle
 
 ### Key Components
 

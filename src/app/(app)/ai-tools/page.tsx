@@ -50,8 +50,8 @@ export default function AIToolsPage() {
       url: 'https://perplexity.ai',
     },
     {
-      name: 'Loveable',
-      url: 'https://loveable.ai',
+      name: 'Lovable',
+      url: 'https://lovable.dev/',
     },
     {
       name: 'Replit',
