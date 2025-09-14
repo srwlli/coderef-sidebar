@@ -22,6 +22,7 @@ const routeLabels: Record<string, string> = {
   '/nextjs-setup': 'Next.js Setup',
   '/ai-tools': 'AI Tools',
   '/tech-stacks': 'Tech Stacks',
+  '/this-stack': 'This Stack',
   '/prompts': 'Prompts',
   '/spec-kit': 'Spec Kit',
   '/settings': 'Settings',

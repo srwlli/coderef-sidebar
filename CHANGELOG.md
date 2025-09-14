@@ -20,6 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sidebar navigation with breadcrumb support and active state indicators
 - Collapsible components for organized content presentation
 - Dark mode support throughout the application
+- Comprehensive prompt framework documentation with COSTAR, POWER, Five S, and CRISPE templates
+- Code scan prompt templates for systematic codebase analysis
+- Latest updates research prompts for technology stack evaluation
+- Idea logging prompt frameworks for systematic concept development
+- Claude Code review prompt for enterprise-grade codebase analysis
 
 ### Changed
 
@@ -63,7 +68,13 @@ src/
 │   ├── buttons/            # Interactive button components
 │   └── inputs/             # Command input components
 └── docs/
-    └── ai-tools/           # AI tools documentation and links
+    ├── ai-tools/           # AI tools documentation and links
+    ├── prompts/            # Prompt framework templates and documentation
+    │   ├── frameworks/     # Prompt framework examples and comparisons
+    │   ├── code-scan-prompts.md    # Code analysis prompt templates
+    │   ├── prompt-latest-updates.md # Technology research prompt templates
+    │   └── prompt-idea-log.md      # Idea logging prompt frameworks
+    └── tech-stacks/        # Technology stack documentation and guides
 ```
 
 ## Features

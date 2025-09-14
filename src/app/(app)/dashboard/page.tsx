@@ -6,6 +6,7 @@ import {
   MessageSquare,
   Bot,
   Layers,
+  Info,
   Settings,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -41,6 +42,11 @@ export default function Dashboard() {
       title: 'Tech Stacks',
       href: '/tech-stacks',
       icon: Layers,
+    },
+    {
+      title: 'This Stack',
+      href: '/this-stack',
+      icon: Info,
     },
     {
       title: 'Settings',
