@@ -26,7 +26,7 @@ export default function TechStacksPage() {
         <div className="space-y-6">
           <SimpleCollapsibleContainer
             title="Tech Stack Summaries - Real-World Applications"
-            icon={<BookOpen className="h-5 w-5 text-indigo-500" />}
+            icon={<BookOpen className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -145,7 +145,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="Decision Matrix"
-                icon={<Target className="h-4 w-4 text-red-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="grid gap-4 text-sm md:grid-cols-3">
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
@@ -182,7 +182,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="Use Cases Comparison"
-                icon={<Users className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="space-y-4">
                   <div className="overflow-x-auto">
@@ -257,7 +257,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="Performance & Rankings"
-                icon={<Rocket className="h-4 w-4 text-yellow-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="rounded-lg border border-green-200 bg-green-50 p-4">
@@ -349,7 +349,7 @@ export default function TechStacksPage() {
 
           <SimpleCollapsibleContainer
             title="Tier 3 Tech Stack (Standard / Mainstream)"
-            icon={<Layers className="h-5 w-5 text-blue-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -364,7 +364,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="🌐 Web Architectures"
-                icon={<Globe className="h-4 w-4 text-blue-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
                 defaultExpanded={false}
               >
                 <div className="space-y-4">
@@ -459,7 +459,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="📱 Mobile Architectures"
-                icon={<Smartphone className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
                 defaultExpanded={false}
               >
                 <div className="space-y-4">
@@ -533,7 +533,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="✅ Why Choose Tier 3?"
-                icon={<Settings className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
                 defaultExpanded={false}
               >
                 <div className="space-y-4">
@@ -588,7 +588,7 @@ export default function TechStacksPage() {
 
           <SimpleCollapsibleContainer
             title="Tier 4 Tech Stack (Modern / Production-Ready)"
-            icon={<Target className="h-5 w-5 text-green-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -603,7 +603,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="🌐 Web Architectures"
-                icon={<Globe className="h-4 w-4 text-blue-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
                 defaultExpanded={false}
               >
                 <div className="space-y-4">
@@ -692,7 +692,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="📱 Mobile Architectures"
-                icon={<Smartphone className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
                 defaultExpanded={false}
               >
                 <div className="space-y-4">
@@ -771,7 +771,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="💡 Use Cases & Characteristics"
-                icon={<Settings className="h-4 w-4 text-orange-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
                 defaultExpanded={false}
               >
                 <div className="space-y-4">
@@ -833,7 +833,7 @@ export default function TechStacksPage() {
 
           <SimpleCollapsibleContainer
             title="Next.js Full Stack Architecture (Tier 5 – Elite)"
-            icon={<Code2 className="h-5 w-5 text-blue-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -850,7 +850,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="Stack Overview (Latest Versions as of September 2025)"
-                icon={<Package className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -1188,7 +1188,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="Folder Structure"
-                icon={<Server className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`/tier5-app
@@ -1215,7 +1215,7 @@ export default function TechStacksPage() {
 
               <SimpleCollapsibleContainer
                 title="API Layer: tRPC Example"
-                icon={<Code2 className="h-4 w-4 text-indigo-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`// server/api/router.ts
@@ -1239,7 +1239,7 @@ export type AppRouter = typeof appRouter;`}
 
               <SimpleCollapsibleContainer
                 title="Dockerfile (Edge-Ready)"
-                icon={<Database className="h-4 w-4 text-orange-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`FROM node:18-alpine AS base
@@ -1348,7 +1348,7 @@ CMD ["node", "server.js"]`}
 
           <SimpleCollapsibleContainer
             title="Qwik Full Stack Architecture (Tier 5 – Elite)"
-            icon={<Zap className="h-5 w-5 text-purple-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -1365,7 +1365,7 @@ CMD ["node", "server.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Stack Overview (Latest Versions as of September 2025)"
-                icon={<Package className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -1665,7 +1665,7 @@ CMD ["node", "server.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Folder Structure"
-                icon={<Server className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`/qwik-app
@@ -1684,7 +1684,7 @@ CMD ["node", "server.js"]`}
 
               <SimpleCollapsibleContainer
                 title="API Layer Example (Qwik Endpoint)"
-                icon={<Code2 className="h-4 w-4 text-indigo-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`// src/routes/api/user.tsx
@@ -1701,7 +1701,7 @@ export const useUser = routeLoader$(async ({ query }) => {
 
               <SimpleCollapsibleContainer
                 title="Dockerfile (Optional Build)"
-                icon={<Database className="h-4 w-4 text-orange-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`FROM node:18-alpine AS builder
@@ -1794,7 +1794,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
           <SimpleCollapsibleContainer
             title="SvelteKit Full Stack Architecture (Tier 5 – Elite)"
-            icon={<Activity className="h-5 w-5 text-orange-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -1809,7 +1809,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Stack Overview (Latest Versions as of September 2025)"
-                icon={<Package className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -2113,7 +2113,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Folder Structure"
-                icon={<Server className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`/sveltekit-app
@@ -2167,7 +2167,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Lloyd T5 Spec Compliance"
-                icon={<TestTube className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -2274,7 +2274,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
           <SimpleCollapsibleContainer
             title="React Native + Expo + tRPC Full Stack Architecture (Tier 5 – Elite)"
-            icon={<Smartphone className="h-5 w-5 text-green-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -2290,7 +2290,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Stack Overview (Latest Versions as of September 2025)"
-                icon={<Package className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -2594,7 +2594,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Folder Structure"
-                icon={<Server className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`/react-native-app
@@ -2650,7 +2650,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Lloyd T5 Spec Compliance"
-                icon={<TestTube className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -2746,7 +2746,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
           <SimpleCollapsibleContainer
             title="Flutter + Dart Frog + Supabase Full Stack Architecture (Tier 5 – Elite)"
-            icon={<Palette className="h-5 w-5 text-cyan-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -2761,7 +2761,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Stack Overview (Latest Versions as of September 2025)"
-                icon={<Package className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -3023,7 +3023,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Folder Structure"
-                icon={<Server className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`/flutter-app
@@ -3081,7 +3081,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Lloyd T5 Spec Compliance"
-                icon={<TestTube className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -3172,7 +3172,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
           <SimpleCollapsibleContainer
             title="Capacitor + SvelteKit Full Stack Architecture (Tier 5 – Elite Hybrid Mobile)"
-            icon={<Globe className="h-5 w-5 text-teal-500" />}
+            icon={<Layers className="text-foreground h-5 w-5" />}
             defaultExpanded={false}
           >
             <div className="space-y-6">
@@ -3188,7 +3188,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Stack Overview (Latest Versions as of September 2025)"
-                icon={<Package className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -3462,7 +3462,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Folder Structure"
-                icon={<Server className="h-4 w-4 text-purple-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <pre className="overflow-x-auto rounded bg-gray-50 p-4 text-sm">
                   {`/capacitor-sveltekit-app
@@ -3529,7 +3529,7 @@ CMD ["node", "dist/server/entry.js"]`}
 
               <SimpleCollapsibleContainer
                 title="Lloyd T5 Spec Compliance"
-                icon={<TestTube className="h-4 w-4 text-green-500" />}
+                icon={<Layers className="text-foreground h-4 w-4" />}
               >
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
