@@ -13,7 +13,8 @@
       "Read(//c/Users/willh/Desktop/draft-tracker/**)",
       "Read(//c/Users/willh/Desktop/projects/smart-phrase/smart-phrase-app/**)",
       "Bash(find:*)",
-      "Read(//c/Users/willh/Desktop/projects/uds/**)"
+      "Read(//c/Users/willh/Desktop/projects/uds/**)",
+      "Bash(npx shadcn:*)"
     ],
     "deny": []
   }
