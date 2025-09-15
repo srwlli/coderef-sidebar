@@ -200,3 +200,100 @@ utility: [
 - Name the file: `project-info-[project-slug].md`
 - Complete as much as possible from codebase analysis
 - Mark uncertain information clearly for later verification
+
+---
+
+## **Expected Result Example (Coderef2)**
+
+**This is the expected output format when the form is completed:**
+
+### **1. Project Header Information**
+
+**Project Name:** `Coderef2`
+**Project Description:** `Enterprise semantic code intelligence platform with AI governance capabilities, traceable code tags, and comprehensive documentation synchronization for development teams and organizations.`
+**Project Statistics:**
+
+- Pages: `127`
+- Components: `85`
+- Lines of Code: `25000`
+- Documentation Lines: `12700`
+
+### **2. Navigation Cards**
+
+**Card 1 - View Project:** `/projects/coderef2` | "View Project"
+**Card 2 - View Documentation:** `/projects/coderef2` | "View Documentation"
+**Card 3 - View Git:** `/projects/coderef2` | "View Repository"
+**Card 4 - View Workflow:** `/projects/coderef2` | "View Workflow"
+
+### **3. Applications Purpose Section**
+
+**Section Title:** `"Coderef2 Purpose"`
+**What is this project?** `"Coderef2 is an enterprise-grade semantic code intelligence platform featuring the SACOS framework..."`
+**Key Features:**
+
+1. **Semantic Code Tags:** Traceable @Type/Path#Element:Line tags with metadata tracking
+2. **AI Governance (SACOS):** Constitutional AI enforcement with multi-layer validation
+3. **Drift Detection:** Advanced rename similarity and automated change tracking
+4. **Enterprise Compliance:** 127 documentation files with comprehensive audit trails
+5. **Multi-Language Support:** TypeScript/JavaScript/Python with AST parsing capabilities
+
+**Target Use Cases:**
+
+1. **Enterprise Teams:** Development teams requiring AI governance and compliance tracking
+2. **Financial Services:** Organizations needing 87% microservices adoption compliance
+3. **Regulatory Industries:** Healthcare and government requiring AI accountability
+4. **Development Organizations:** Companies implementing AI-governed software development
+
+### **4. Applications Features Section**
+
+**Section Title:** `"Coderef2 Features"`
+**Core Functionality Cards:**
+
+1. **Code Intelligence:** Semantic parsing, tagging, and element discovery across codebases
+2. **AI Governance (SACOS):** Constitutional constraints and authorization gates for AI systems
+3. **Development Tools:** CLI suite with drift detection, validation, and automation
+4. **Enterprise Compliance:** Comprehensive audit trails and policy enforcement frameworks
+
+**UI/UX Features:**
+
+1. **Command Line Interface:** Professional CLI tools with JSON outputs and CI integration
+2. **Documentation System:** Automated generation with 127 comprehensive documentation files
+3. **Enterprise Integration:** Multi-signature deployment protocols and approval workflows
+
+### **5. Applications Stack Section**
+
+**Section Title:** `"Coderef2 Stack"`
+**Architecture Overview:**
+
+- App Style: `Enterprise semantic intelligence platform with constitutional AI governance`
+- Components: `Modular architecture with core library, CLI suite, validation services, governance layer`
+- State: `Immutable constitutional constraints with real-time policy enforcement`
+
+**Core Technologies:**
+
+```javascript
+core: [
+  {
+    name: 'TypeScript',
+    version: '^5.0',
+    description: 'Primary language with AST parsing',
+  },
+  {
+    name: 'Node.js',
+    version: '18.x',
+    description: 'Runtime environment for CLI tools',
+  },
+  {
+    name: 'Commander.js',
+    version: '^9.0',
+    description: 'CLI framework for coderef-cli',
+  },
+  {
+    name: 'Jest',
+    version: '^29.0',
+    description: 'Testing framework with coverage',
+  },
+];
+```
+
+This example shows the level of detail and accuracy expected when completing the form for any project.

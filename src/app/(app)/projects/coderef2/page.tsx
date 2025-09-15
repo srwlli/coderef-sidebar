@@ -26,89 +26,109 @@ import Link from 'next/link';
 // Coderef2 project page with mock data
 // TODO: Replace with actual project data when project details are defined
 export default function Coderef2Page() {
-  // Mock tech stack data for demonstration
+  // Coderef2 tech stack data
   const techStackData = {
     core: [
       {
-        name: 'Framework X',
-        version: '2.1.0',
-        description: 'Core application framework',
+        name: 'TypeScript',
+        version: '^5.0',
+        description: 'Primary language with AST parsing',
       },
       {
-        name: 'Language Y',
+        name: 'Node.js',
         version: '18.x',
-        description: 'Primary programming language',
+        description: 'Runtime environment for CLI tools',
       },
-      { name: 'TypeScript', version: '^5', description: 'Type safety' },
-      { name: 'CSS Framework', version: '^3', description: 'Styling solution' },
-      { name: 'Linter', version: '^8', description: 'Code quality' },
+      {
+        name: 'Commander.js',
+        version: '^9.0',
+        description: 'CLI framework for coderef-cli',
+      },
+      {
+        name: 'Jest',
+        version: '^29.0',
+        description: 'Testing framework with coverage',
+      },
+      {
+        name: 'Yargs',
+        version: '^17.0',
+        description: 'Alternative CLI framework',
+      },
     ],
     ui: [
       {
-        name: 'UI Library',
-        version: 'Latest',
-        description: 'Component primitives',
-      },
-      {
-        name: 'Component System',
+        name: 'CLI Interface',
         version: 'Custom',
-        description: 'Design system',
+        description: 'Professional command-line tools',
       },
       {
-        name: 'Icon Library',
-        version: 'Latest',
-        description: 'Icon components',
+        name: 'JSON Output',
+        version: 'Native',
+        description: 'Structured data output formats',
       },
       {
-        name: 'Animation Library',
-        version: 'Latest',
-        description: 'Motion effects',
+        name: 'Documentation',
+        version: 'UDS',
+        description: 'Universal Documentation System',
+      },
+      {
+        name: 'Reporting',
+        version: 'Advanced',
+        description: 'Comprehensive audit and drift reports',
       },
     ],
     state: [
       {
-        name: 'State Manager',
-        version: '^4',
-        description: 'Global state management',
+        name: 'SACOS Framework',
+        version: 'v1.0',
+        description: 'AI constitutional governance',
       },
-      { name: 'Data Fetcher', version: '^3', description: 'API data handling' },
-      { name: 'Form Handler', version: '^6', description: 'Form validation' },
       {
-        name: 'Schema Validator',
-        version: '^3',
-        description: 'Data validation',
+        name: 'Path Validation',
+        version: 'v2.0',
+        description: 'Local/network/UNC validation',
+      },
+      {
+        name: 'Index Management',
+        version: 'JSON',
+        description: 'Coderef index and tracking',
+      },
+      {
+        name: 'Drift Detection',
+        version: 'Advanced',
+        description: 'Change tracking and similarity',
       },
     ],
     utility: [
       {
-        name: 'Date Library',
-        version: 'Latest',
-        description: 'Date manipulation',
+        name: 'AST Parser',
+        version: 'TypeScript',
+        description: 'Advanced syntax tree analysis',
       },
       {
-        name: 'Class Utility',
-        version: 'Latest',
-        description: 'CSS class handling',
+        name: 'Multi-Language',
+        version: 'TS/JS/Python',
+        description: 'Cross-language support',
       },
       {
-        name: 'Merge Utility',
-        version: 'Latest',
-        description: 'Object merging',
+        name: 'CI Integration',
+        version: 'JSON/CLI',
+        description: 'Continuous integration ready',
       },
       {
-        name: 'Theme Manager',
-        version: 'Latest',
-        description: 'Theme switching',
+        name: 'Enterprise Tools',
+        version: 'Multi-sig',
+        description: 'Deployment and approval workflows',
       },
     ],
   };
 
-  // Mock project statistics
+  // Coderef2 project statistics
   const projectStats = {
-    pages: 12,
-    components: 45,
-    linesOfCode: 8750,
-    documentation: 3200,
+    pages: 127,
+    components: 85,
+    linesOfCode: 25000,
+    documentation: 12700,
   };
 
   return (
@@ -119,14 +139,14 @@ export default function Coderef2Page() {
           <CardHeader>
             <div className="flex items-center gap-3">
               <FolderOpen className="h-8 w-8 text-black" />
-              <CardTitle className="text-2xl">coderef2</CardTitle>
+              <CardTitle className="text-2xl">Coderef2</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A sample project description showcasing modern development
-              practices and technologies. This is mock content for demonstration
-              purposes.
+              Enterprise semantic code intelligence platform with AI governance
+              capabilities, traceable code tags, and comprehensive documentation
+              synchronization for development teams and organizations.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
@@ -163,7 +183,7 @@ export default function Coderef2Page() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/dashboard" className="block">
+          <Link href="/projects/coderef2" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
@@ -202,18 +222,20 @@ export default function Coderef2Page() {
 
         {/* App Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="Coderef2 Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is this app?</h4>
+              <h4 className="mb-3 font-semibold">What is Coderef2?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                This is a sample project demonstrating modern development
-                practices and application architecture. The content shown here
-                is mock data for presentation purposes and will be replaced with
-                actual project information when the project is fully defined.
+                Coderef2 is an enterprise-grade semantic code intelligence
+                platform featuring the SACOS (Sovereign AI Constitutional
+                Operating System) framework. It provides traceable code tags, AI
+                governance with constitutional constraints, drift detection, and
+                comprehensive development workflow automation for teams and
+                organizations.
               </p>
             </div>
 
@@ -223,36 +245,36 @@ export default function Coderef2Page() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Feature A:</strong> Core functionality demonstration
-                    with modern patterns
+                    <strong>Semantic Code Tags:</strong> Traceable
+                    @Type/Path#Element:Line tags with metadata tracking
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Feature B:</strong> Integration capabilities with
-                    external services
+                    <strong>AI Governance (SACOS):</strong> Constitutional AI
+                    enforcement with multi-layer validation
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Feature C:</strong> Advanced tooling and development
-                    workflow
+                    <strong>Drift Detection:</strong> Advanced rename similarity
+                    and automated change tracking
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Feature D:</strong> Comprehensive testing and
-                    quality assurance
+                    <strong>Enterprise Compliance:</strong> 127 documentation
+                    files with comprehensive audit trails
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Feature E:</strong> Responsive design and
-                    accessibility compliance
+                    <strong>Multi-Language Support:</strong>{' '}
+                    TypeScript/JavaScript/Python with AST parsing capabilities
                   </span>
                 </li>
               </ul>
@@ -263,38 +285,38 @@ export default function Coderef2Page() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">
-                    Individual Users
+                    Enterprise Teams
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Personal productivity and project management with intuitive
-                    interface design.
+                    Development teams requiring AI governance and compliance
+                    tracking for enterprise workflows.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Team Collaboration
+                    Financial Services
                   </h5>
                   <p className="text-sm text-green-700">
-                    Multi-user environments with shared resources and
-                    collaborative features.
+                    Organizations needing 87% microservices adoption compliance
+                    with regulatory requirements.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Development Workflow
+                    Regulatory Industries
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Integration with development tools and automated workflow
-                    processes.
+                    Healthcare and government sectors requiring AI
+                    accountability and constitutional compliance.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Enterprise Solutions
+                    Development Organizations
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Scalable architecture suitable for enterprise-level
-                    deployments.
+                    Companies implementing AI-governed software development with
+                    constitutional frameworks.
                   </p>
                 </div>
               </div>
@@ -304,7 +326,7 @@ export default function Coderef2Page() {
 
         {/* App Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="Coderef2 Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -317,12 +339,12 @@ export default function Coderef2Page() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Project Management
+                      Code Intelligence
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Comprehensive project organization with advanced tracking
-                    and reporting capabilities.
+                    Semantic parsing, tagging, and element discovery across
+                    codebases with advanced tracking.
                   </p>
                 </div>
 
@@ -330,12 +352,12 @@ export default function Coderef2Page() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Documentation System
+                      AI Governance (SACOS)
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Integrated documentation with real-time editing and
-                    collaborative features.
+                    Constitutional constraints and authorization gates for AI
+                    systems with real-time validation.
                   </p>
                 </div>
 
@@ -347,8 +369,8 @@ export default function Coderef2Page() {
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Integrated development environment with advanced debugging
-                    and testing capabilities.
+                    CLI suite with drift detection, validation, and automation
+                    for development workflows.
                   </p>
                 </div>
 
@@ -356,12 +378,12 @@ export default function Coderef2Page() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Architecture Tracking
+                      Enterprise Compliance
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Comprehensive system architecture documentation and
-                    dependency management.
+                    Comprehensive audit trails and policy enforcement frameworks
+                    for regulatory requirements.
                   </p>
                 </div>
               </div>
@@ -372,26 +394,26 @@ export default function Coderef2Page() {
               <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Responsive Design</h5>
+                  <h5 className="mb-2 font-medium">Command Line Interface</h5>
                   <p className="text-muted-foreground text-sm">
-                    Optimized for all device types with fluid layouts and
-                    adaptive components.
+                    Professional CLI tools with JSON outputs and CI integration
+                    for development workflows.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Interactive Elements</h5>
+                  <h5 className="mb-2 font-medium">Documentation System</h5>
                   <p className="text-muted-foreground text-sm">
-                    Rich user interactions with smooth animations and intuitive
-                    navigation.
+                    Automated generation with 127 comprehensive documentation
+                    files and UDS compliance.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Accessibility</h5>
+                  <h5 className="mb-2 font-medium">Enterprise Integration</h5>
                   <p className="text-muted-foreground text-sm">
-                    Full WCAG compliance with keyboard navigation and screen
-                    reader support.
+                    Multi-signature deployment protocols and approval workflows
+                    for enterprise environments.
                   </p>
                 </div>
               </div>
@@ -408,8 +430,8 @@ export default function Coderef2Page() {
                   <div>
                     <h5 className="font-medium">Security Framework</h5>
                     <p className="text-muted-foreground text-sm">
-                      Enterprise-grade security with encryption and
-                      authentication protocols.
+                      TPM attestation and multi-signature deployment protocols
+                      with enterprise-grade security.
                     </p>
                   </div>
                 </div>
@@ -419,8 +441,8 @@ export default function Coderef2Page() {
                   <div>
                     <h5 className="font-medium">Modular Architecture</h5>
                     <p className="text-muted-foreground text-sm">
-                      Scalable component-based architecture with clean
-                      separation of concerns.
+                      Core library, CLI tools, path validation, and governance
+                      layers with clean separation.
                     </p>
                   </div>
                 </div>
@@ -430,8 +452,8 @@ export default function Coderef2Page() {
                   <div>
                     <h5 className="font-medium">Testing Suite</h5>
                     <p className="text-muted-foreground text-sm">
-                      Comprehensive testing framework with automated quality
-                      assurance.
+                      Jest coverage with comprehensive validation and quality
+                      assurance frameworks.
                     </p>
                   </div>
                 </div>
@@ -442,7 +464,7 @@ export default function Coderef2Page() {
 
         {/* Application Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="Coderef2 Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -451,14 +473,14 @@ export default function Coderef2Page() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Applications Architecture
+                Coderef2 Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
                   <p className="text-sm text-blue-700">
-                    Modern framework architecture with component-based design
-                    patterns
+                    Enterprise semantic intelligence platform with
+                    constitutional AI governance and modular design
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
@@ -466,15 +488,15 @@ export default function Coderef2Page() {
                     Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Reusable UI components with consistent design system
-                    implementation
+                    Modular architecture with core library, CLI suite,
+                    validation services, and governance layers
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">State</h5>
                   <p className="text-sm text-purple-700">
-                    Advanced state management with predictable data flow
-                    patterns
+                    Immutable constitutional constraints with real-time policy
+                    enforcement and comprehensive audit trails
                   </p>
                 </div>
               </div>
