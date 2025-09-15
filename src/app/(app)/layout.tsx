@@ -36,11 +36,6 @@ const menuItems = [
     icon: Home,
   },
   {
-    title: 'Applications',
-    href: '/applications',
-    icon: FolderOpen,
-  },
-  {
     title: 'Projects',
     href: '/projects',
     icon: FileText,

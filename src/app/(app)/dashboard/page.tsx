@@ -13,11 +13,6 @@ import Link from 'next/link';
 export default function Dashboard() {
   const dashboardItems = [
     {
-      title: 'Applications',
-      href: '/applications',
-      icon: FolderOpen,
-    },
-    {
       title: 'Projects',
       href: '/projects',
       icon: FileText,

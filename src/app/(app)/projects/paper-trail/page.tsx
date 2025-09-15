@@ -23,9 +23,9 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Default application landing page with mock data
-// TODO: Replace with actual application data when individual applications are defined
-export default function ApplicationLandingPage() {
+// Default project landing page with mock data
+// TODO: Replace with actual project data when individual projects are defined
+export default function ProjectLandingPage() {
   // Mock tech stack data for demonstration
   const techStackData = {
     core: [
@@ -103,8 +103,8 @@ export default function ApplicationLandingPage() {
     ],
   };
 
-  // Mock application statistics
-  const applicationStats = {
+  // Mock project statistics
+  const projectStats = {
     pages: 12,
     components: 45,
     linesOfCode: 8750,
@@ -114,36 +114,36 @@ export default function ApplicationLandingPage() {
   return (
     <div className="p-8">
       <main className="mx-auto max-w-4xl space-y-6">
-        {/* Application Header */}
+        {/* Project Header */}
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3">
               <FolderOpen className="h-8 w-8 text-black" />
-              <CardTitle className="text-2xl">Application Name</CardTitle>
+              <CardTitle className="text-2xl">Paper trail</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A sample application description showcasing modern development
+              A sample project description showcasing modern development
               practices and technologies. This is mock content for demonstration
               purposes.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">
-                  {applicationStats.pages}
+                  {projectStats.pages}
                 </div>
                 <div className="text-muted-foreground text-sm">Pages</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">
-                  {applicationStats.components}
+                  {projectStats.components}
                 </div>
                 <div className="text-muted-foreground text-sm">Components</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">
-                  {applicationStats.linesOfCode.toLocaleString()}
+                  {projectStats.linesOfCode.toLocaleString()}
                 </div>
                 <div className="text-muted-foreground text-sm">
                   Lines of Code
@@ -151,7 +151,7 @@ export default function ApplicationLandingPage() {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">
-                  {applicationStats.documentation.toLocaleString()}
+                  {projectStats.documentation.toLocaleString()}
                 </div>
                 <div className="text-muted-foreground text-sm">
                   Documentation
@@ -167,12 +167,12 @@ export default function ApplicationLandingPage() {
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">View Application</CardTitle>
+                <CardTitle className="text-lg">View Project</CardTitle>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/applications/application-landing" className="block">
+          <Link href="/projects/paper-trail" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
@@ -181,7 +181,7 @@ export default function ApplicationLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/applications/application-landing" className="block">
+          <Link href="/projects/paper-trail" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
@@ -190,7 +190,7 @@ export default function ApplicationLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/applications/application-landing" className="block">
+          <Link href="/projects/paper-trail" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
@@ -202,7 +202,7 @@ export default function ApplicationLandingPage() {
 
         {/* App Purpose */}
         <SimpleCollapsibleContainer
-          title="Application Purpose"
+          title="Applications Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -210,11 +210,10 @@ export default function ApplicationLandingPage() {
             <div>
               <h4 className="mb-3 font-semibold">What is this app?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                This is a sample application demonstrating modern development
+                This is a sample project demonstrating modern development
                 practices and application architecture. The content shown here
                 is mock data for presentation purposes and will be replaced with
-                actual application information when the application is fully
-                defined.
+                actual project information when the project is fully defined.
               </p>
             </div>
 
@@ -267,8 +266,8 @@ export default function ApplicationLandingPage() {
                     Individual Users
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Personal productivity and application management with
-                    intuitive interface design.
+                    Personal productivity and project management with intuitive
+                    interface design.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
@@ -305,7 +304,7 @@ export default function ApplicationLandingPage() {
 
         {/* App Features */}
         <SimpleCollapsibleContainer
-          title="Application Features"
+          title="Applications Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -318,12 +317,12 @@ export default function ApplicationLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Application Management
+                      Project Management
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Comprehensive application organization with advanced
-                    tracking and reporting capabilities.
+                    Comprehensive project organization with advanced tracking
+                    and reporting capabilities.
                   </p>
                 </div>
 
@@ -344,7 +343,7 @@ export default function ApplicationLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Developer Tools
+                      Development Tools
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
@@ -443,7 +442,7 @@ export default function ApplicationLandingPage() {
 
         {/* Application Stack */}
         <SimpleCollapsibleContainer
-          title="Application Stack"
+          title="Applications Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -452,7 +451,7 @@ export default function ApplicationLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Application Architecture
+                Applications Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
