@@ -23,92 +23,109 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Default project landing page with mock data
-// TODO: Replace with actual project data when individual projects are defined
-export default function ProjectLandingPage() {
-  // Mock tech stack data for demonstration
+export default function WorkflowsProjectPage() {
+  // Tech stack data for Workflows project
   const techStackData = {
     core: [
       {
-        name: 'Framework X',
-        version: '2.1.0',
-        description: 'Core application framework',
+        name: 'Next.js',
+        version: '15.5.2',
+        description:
+          'Full-stack React framework with App Router for workflow interfaces',
       },
       {
-        name: 'Language Y',
-        version: '18.x',
-        description: 'Primary programming language',
+        name: 'React',
+        version: '19.1.0',
+        description: 'Component-based UI for dynamic workflow visualization',
       },
-      { name: 'TypeScript', version: '^5', description: 'Type safety' },
-      { name: 'CSS Framework', version: '^3', description: 'Styling solution' },
-      { name: 'Linter', version: '^8', description: 'Code quality' },
+      {
+        name: 'TypeScript',
+        version: '^5',
+        description: 'Type-safe development for complex workflow logic',
+      },
+      {
+        name: 'Node.js',
+        version: '20.x',
+        description: 'Runtime for workflow processing and automation scripts',
+      },
     ],
     ui: [
       {
-        name: 'UI Library',
-        version: 'Latest',
-        description: 'Component primitives',
+        name: 'Tailwind CSS',
+        version: '^4',
+        description: 'Utility-first styling for responsive workflow dashboards',
       },
       {
-        name: 'Component System',
-        version: 'Custom',
-        description: 'Design system',
+        name: 'Shadcn UI',
+        version: 'latest',
+        description: 'Accessible components for workflow forms and interfaces',
       },
       {
-        name: 'Icon Library',
-        version: 'Latest',
-        description: 'Icon components',
+        name: 'Framer Motion',
+        version: '^12',
+        description: 'Smooth animations for workflow transitions and feedback',
       },
       {
-        name: 'Animation Library',
-        version: 'Latest',
-        description: 'Motion effects',
+        name: 'React Flow',
+        version: '^11',
+        description: 'Interactive workflow diagram visualization and editing',
       },
     ],
     state: [
       {
-        name: 'State Manager',
-        version: '^4',
-        description: 'Global state management',
+        name: 'Zustand',
+        version: '^5',
+        description: 'Lightweight state management for workflow tracking',
       },
-      { name: 'Data Fetcher', version: '^3', description: 'API data handling' },
-      { name: 'Form Handler', version: '^6', description: 'Form validation' },
       {
-        name: 'Schema Validator',
-        version: '^3',
-        description: 'Data validation',
+        name: 'React Query',
+        version: '^5',
+        description:
+          'Server state management for workflow data synchronization',
+      },
+      {
+        name: 'React Hook Form',
+        version: '^7',
+        description:
+          'Form handling for workflow configuration and process creation',
+      },
+      {
+        name: 'Zod',
+        version: '^4',
+        description:
+          'Schema validation for workflow definitions and user inputs',
       },
     ],
     utility: [
       {
-        name: 'Date Library',
-        version: 'Latest',
-        description: 'Date manipulation',
+        name: 'D3.js',
+        version: '^7',
+        description: 'Data visualization for workflow analytics and patterns',
       },
       {
-        name: 'Class Utility',
-        version: 'Latest',
-        description: 'CSS class handling',
+        name: 'Puppeteer',
+        version: '^22',
+        description: 'Browser automation for workflow execution and testing',
       },
       {
-        name: 'Merge Utility',
-        version: 'Latest',
-        description: 'Object merging',
+        name: 'Cron Parser',
+        version: '^4',
+        description: 'Schedule parsing for automated workflow triggers',
       },
       {
-        name: 'Theme Manager',
-        version: 'Latest',
-        description: 'Theme switching',
+        name: 'OpenAI API',
+        version: '^4',
+        description: 'AI-powered workflow suggestions and optimization',
       },
     ],
   };
 
-  // Mock project statistics
+  // Project statistics
   const projectStats = {
-    pages: 12,
-    components: 45,
-    linesOfCode: 8750,
-    documentation: 3200,
+    pages: 18,
+    components: 52,
+    linesOfCode: 12400,
+    documentation: 2800,
   };
 
   return (
@@ -119,15 +136,15 @@ export default function ProjectLandingPage() {
           <CardHeader>
             <div className="flex items-center gap-3">
               <FolderOpen className="h-8 w-8 text-black" />
-              <CardTitle className="text-2xl">MyStudyApp</CardTitle>
+              <CardTitle className="text-2xl">Workflows</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A comprehensive study application designed to help students
-              organize their learning materials, track progress, and collaborate
-              with peers. Built with modern web technologies for optimal
-              performance and user experience.
+              An intelligent workflow tracking and optimization platform that
+              monitors user activity, identifies recurring patterns, and
+              suggests automated workflows, widgets, scripts, forms, and
+              processes to enhance productivity and streamline operations.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
@@ -164,10 +181,7 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link
-            href="https://my-study-app-alpha.vercel.app/auth"
-            className="block"
-          >
+          <Link href="/projects/workflows" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
@@ -176,7 +190,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/mystudyapp" className="block">
+          <Link href="/projects/workflows" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
@@ -185,7 +199,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/mystudyapp" className="block">
+          <Link href="/projects/workflows" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
@@ -194,7 +208,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/mystudyapp" className="block">
+          <Link href="/projects/workflows" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
@@ -204,21 +218,23 @@ export default function ProjectLandingPage() {
           </Link>
         </div>
 
-        {/* App Purpose */}
+        {/* Workflows Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="Workflows Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is MyStudyApp?</h4>
+              <h4 className="mb-3 font-semibold">What is Workflows?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                MyStudyApp is an intelligent study companion that helps students
-                and learners organize their educational journey. It combines
-                note-taking, flashcards, progress tracking, and collaborative
-                features in one seamless platform designed to enhance learning
-                outcomes and make studying more efficient and enjoyable.
+                Workflows is an AI-powered productivity platform that
+                continuously monitors user activity patterns, identifies
+                repetitive tasks, and intelligently suggests automated
+                solutions. By analyzing user behavior across applications and
+                systems, it discovers optimization opportunities and generates
+                custom workflows, widgets, scripts, forms, and processes that
+                eliminate manual work and enhance efficiency.
               </p>
             </div>
 
@@ -228,36 +244,41 @@ export default function ProjectLandingPage() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Smart Notes:</strong> Organize and search through
-                    notes with AI-powered summarization and tagging
+                    <strong>Activity Tracking:</strong> Comprehensive monitoring
+                    of user interactions across desktop and web applications
+                    with privacy-focused analytics
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Study Planner:</strong> Create personalized study
-                    schedules with reminders and progress tracking
+                    <strong>Pattern Recognition:</strong> Machine learning
+                    algorithms that identify recurring workflows and suggest
+                    automation opportunities
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Flashcard System:</strong> Spaced repetition
-                    algorithm for efficient memorization and retention
+                    <strong>Intelligent Suggestions:</strong> AI-generated
+                    recommendations for workflows, scripts, forms, and widgets
+                    tailored to user behavior patterns
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Collaboration Tools:</strong> Share notes and study
-                    groups with real-time collaboration features
+                    <strong>Workflow Builder:</strong> Visual drag-and-drop
+                    interface for creating, testing, and deploying custom
+                    automation workflows
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Progress Analytics:</strong> Track learning progress
-                    with detailed insights and performance metrics
+                    <strong>Performance Analytics:</strong> Detailed metrics on
+                    time saved, efficiency gains, and productivity improvements
+                    from implemented workflows
                   </span>
                 </li>
               </ul>
@@ -267,37 +288,42 @@ export default function ProjectLandingPage() {
               <h4 className="mb-3 font-semibold">Target Use Cases</h4>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
-                  <h5 className="mb-2 font-medium text-blue-900">Students</h5>
+                  <h5 className="mb-2 font-medium text-blue-900">
+                    Knowledge Workers
+                  </h5>
                   <p className="text-sm text-blue-700">
-                    High school and university students managing multiple
-                    courses and assignments efficiently.
+                    Professionals performing repetitive digital tasks who need
+                    automation to focus on higher-value work and reduce manual
+                    overhead.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Study Groups
+                    Development Teams
                   </h5>
                   <p className="text-sm text-green-700">
-                    Collaborative learning environments for group projects and
-                    shared study sessions.
+                    Software teams looking to streamline development workflows,
+                    automate testing processes, and optimize deployment
+                    pipelines.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Self-Learners
+                    Operations Teams
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Independent learners pursuing online courses and
-                    professional development.
+                    IT and operations professionals managing system
+                    administration, monitoring, and maintenance tasks requiring
+                    automation.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Educational Institutions
+                    Business Analysts
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Schools and universities providing study tools for their
-                    students.
+                    Data professionals automating report generation, analysis
+                    workflows, and business process optimization initiatives.
                   </p>
                 </div>
               </div>
@@ -305,9 +331,9 @@ export default function ProjectLandingPage() {
           </div>
         </SimpleCollapsibleContainer>
 
-        {/* App Features */}
+        {/* Workflows Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="Workflows Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -320,12 +346,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Note Management
+                      Activity Monitoring
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Rich text editor with markdown support, tagging, and
-                    intelligent organization features.
+                    Real-time tracking of user interactions with privacy
+                    controls, application usage analytics, and workflow pattern
+                    detection.
                   </p>
                 </div>
 
@@ -333,12 +360,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Study Materials
+                      Workflow Generator
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Upload and organize PDFs, presentations, and multimedia
-                    learning resources.
+                    AI-powered analysis engine that identifies automation
+                    opportunities and generates custom workflow solutions based
+                    on user patterns.
                   </p>
                 </div>
 
@@ -346,12 +374,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Learning Tools
+                      Script Automation
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Flashcards, quizzes, and practice tests with adaptive
-                    learning algorithms.
+                    Dynamic script generation for task automation, including
+                    browser automation, file processing, and API integration
+                    workflows.
                   </p>
                 </div>
 
@@ -359,12 +388,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Progress Tracking
+                      Widget Creation
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Visual dashboards showing study progress, time spent, and
-                    achievement milestones.
+                    Customizable dashboard widgets and productivity tools
+                    generated based on user needs and workflow requirements.
                   </p>
                 </div>
               </div>
@@ -375,26 +404,26 @@ export default function ProjectLandingPage() {
               <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Responsive Design</h5>
+                  <h5 className="mb-2 font-medium">Visual Workflow Builder</h5>
                   <p className="text-muted-foreground text-sm">
-                    Optimized for all device types with fluid layouts and
-                    adaptive components.
+                    Intuitive drag-and-drop interface for creating and modifying
+                    workflows with real-time preview and testing capabilities.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Interactive Elements</h5>
+                  <h5 className="mb-2 font-medium">Smart Recommendations</h5>
                   <p className="text-muted-foreground text-sm">
-                    Rich user interactions with smooth animations and intuitive
-                    navigation.
+                    Contextual suggestions appear based on current activity with
+                    one-click implementation and customization options.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Accessibility</h5>
+                  <h5 className="mb-2 font-medium">Privacy Dashboard</h5>
                   <p className="text-muted-foreground text-sm">
-                    Full WCAG compliance with keyboard navigation and screen
-                    reader support.
+                    Comprehensive privacy controls with data retention settings,
+                    activity filtering, and secure local processing options.
                   </p>
                 </div>
               </div>
@@ -409,10 +438,11 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Shield className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Security Framework</h5>
+                    <h5 className="font-medium">Privacy-First Architecture</h5>
                     <p className="text-muted-foreground text-sm">
-                      Enterprise-grade security with encryption and
-                      authentication protocols.
+                      Local-first data processing with encrypted storage,
+                      minimal cloud dependency, and user-controlled data
+                      sharing.
                     </p>
                   </div>
                 </div>
@@ -420,10 +450,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Package className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Modular Architecture</h5>
+                    <h5 className="font-medium">Cross-Platform Integration</h5>
                     <p className="text-muted-foreground text-sm">
-                      Scalable component-based architecture with clean
-                      separation of concerns.
+                      Universal workflow execution across desktop applications,
+                      web browsers, and mobile devices with API integrations.
                     </p>
                   </div>
                 </div>
@@ -431,10 +461,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <TestTube className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Testing Suite</h5>
+                    <h5 className="font-medium">Machine Learning Engine</h5>
                     <p className="text-muted-foreground text-sm">
-                      Comprehensive testing framework with automated quality
-                      assurance.
+                      Advanced pattern recognition and predictive modeling for
+                      proactive workflow suggestions and optimization.
                     </p>
                   </div>
                 </div>
@@ -443,9 +473,9 @@ export default function ProjectLandingPage() {
           </div>
         </SimpleCollapsibleContainer>
 
-        {/* Application Stack */}
+        {/* Workflows Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="Workflows Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -454,14 +484,14 @@ export default function ProjectLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Applications Architecture
+                Workflows Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
                   <p className="text-sm text-blue-700">
-                    Modern framework architecture with component-based design
-                    patterns
+                    Electron-based desktop application with web dashboard for
+                    comprehensive activity monitoring and workflow management
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
@@ -469,15 +499,15 @@ export default function ProjectLandingPage() {
                     Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Reusable UI components with consistent design system
-                    implementation
+                    Modular React components with real-time data visualization,
+                    workflow editors, and automation management interfaces
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">State</h5>
                   <p className="text-sm text-purple-700">
-                    Advanced state management with predictable data flow
-                    patterns
+                    Event-driven state management with local database storage,
+                    real-time sync, and offline-first architecture
                   </p>
                 </div>
               </div>
@@ -568,7 +598,7 @@ export default function ProjectLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <TestTube className="h-4 w-4 text-black" />
-                Development Utilities
+                Specialized Tools
               </h4>
               <div className="grid gap-3">
                 {techStackData.utility.map((tech, index) => (

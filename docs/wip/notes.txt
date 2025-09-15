@@ -1,0 +1,1 @@
+add https://huggingface.co/welcome to C:\Users\willh\Desktop\sidebar-app\src\app\(app)\ai-tools use the same review the other cards and replicate with this link

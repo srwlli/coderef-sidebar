@@ -14,7 +14,13 @@
       "Read(//c/Users/willh/Desktop/projects/smart-phrase/smart-phrase-app/**)",
       "Bash(find:*)",
       "Read(//c/Users/willh/Desktop/projects/uds/**)",
-      "Bash(npx shadcn:*)"
+      "Bash(npx shadcn:*)",
+      "Bash(npm audit:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx eslint:*)",
+      "Bash(awk:*)",
+      "Bash(xargs:*)",
+      "Bash(npm ls:*)"
     ],
     "deny": []
   }

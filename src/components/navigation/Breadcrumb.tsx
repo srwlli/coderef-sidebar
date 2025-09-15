@@ -33,6 +33,7 @@ const routeLabels: Record<string, string> = {
   '/projects/my-dash': 'My Dash',
   '/projects/paper-trail': 'Paper trail',
   '/projects/uds': 'UDS',
+  '/projects/workflows': 'Workflows',
   '/projects/project-landing': 'Coming Soon',
   '/ai-tools': 'AI Tools',
   '/ai-tools/prompts': 'Prompts',

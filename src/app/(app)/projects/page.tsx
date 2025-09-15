@@ -61,8 +61,8 @@ export default function ProjectsPage() {
       href: '/projects/uds',
     },
     {
-      name: 'Project 14',
-      href: '/projects/project-landing',
+      name: 'Workflows',
+      href: '/projects/workflows',
     },
     {
       name: 'Project 15',
