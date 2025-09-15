@@ -20,6 +20,9 @@ import {
   Layers,
   Info,
   Link as LinkIcon,
+  FolderOpen,
+  Grid3x3,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -31,6 +34,16 @@ const menuItems = [
     title: 'Dashboard',
     href: '/dashboard',
     icon: Home,
+  },
+  {
+    title: 'Applications',
+    href: '/applications',
+    icon: FolderOpen,
+  },
+  {
+    title: 'Projects',
+    href: '/projects',
+    icon: FileText,
   },
   {
     title: 'Next.js Setup',

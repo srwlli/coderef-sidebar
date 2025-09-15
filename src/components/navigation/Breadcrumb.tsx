@@ -19,12 +19,22 @@ interface BreadcrumbProps {
 const routeLabels: Record<string, string> = {
   '/': 'Dashboard',
   '/dashboard': 'Dashboard',
+  '/projects': 'Projects',
+  '/projects/coderef': 'coderef',
+  '/projects/coderef2': 'coderef2',
+  '/projects/project-landing': 'Coming Soon',
+  '/applications': 'Applications',
+  '/applications/coderef': 'coderef',
+  '/applications/coderef2': 'coderef2',
+  '/applications/application-landing': 'Coming Soon',
   '/ai-tools': 'AI Tools',
   '/ai-tools/prompts': 'Prompts',
   '/ai-tools/spec-kit': 'Spec Kit',
   '/tech-stacks': 'Tech Stacks',
   '/tech-stacks/nextjs-setup': 'Next.js Setup',
   '/tech-stacks/this-stack': 'This Stack',
+  '/links': 'Links',
+  '/git-commands': 'Git Commands',
   '/settings': 'Settings',
 };
 

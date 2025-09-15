@@ -5,11 +5,23 @@ import {
   Layers,
   Settings,
   Link as LinkIcon,
+  FolderOpen,
+  FileText,
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
   const dashboardItems = [
+    {
+      title: 'Applications',
+      href: '/applications',
+      icon: FolderOpen,
+    },
+    {
+      title: 'Projects',
+      href: '/projects',
+      icon: FileText,
+    },
     {
       title: 'Git Commands',
       href: '/git-commands',

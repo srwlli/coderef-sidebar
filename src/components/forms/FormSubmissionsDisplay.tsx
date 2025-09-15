@@ -108,9 +108,12 @@ function ErrorState({
   );
 }
 
+// TODO: Eventually migrate to full-stack solution with custom forms and database
+// for complete CRUD operations instead of read-only Google Forms integration
 export function FormSubmissionsDisplay() {
   const { data, isLoading, error, refetch, isRefetching } = useFormResponses();
   const [searchTerm, setSearchTerm] = useState('');
+  const [displayCount, setDisplayCount] = useState(10);
 
   const filteredSubmissions =
     data?.responses?.filter((submission) => {
@@ -126,8 +129,15 @@ export function FormSubmissionsDisplay() {
       );
     }) || [];
 
+  const displayedSubmissions = filteredSubmissions.slice(0, displayCount);
+  const hasMore = filteredSubmissions.length > displayCount;
+
   const handleRefresh = () => {
     refetch();
+  };
+
+  const handleLoadMore = () => {
+    setDisplayCount((prev) => prev + 10);
   };
 
   if (error) {
@@ -179,6 +189,7 @@ export function FormSubmissionsDisplay() {
           <div className="text-muted-foreground flex items-center gap-4 text-sm">
             <span>Total: {data.totalResponses}</span>
             {searchTerm && <span>Filtered: {filteredSubmissions.length}</span>}
+            <span>Showing: {displayedSubmissions.length}</span>
           </div>
         )}
 
@@ -193,12 +204,19 @@ export function FormSubmissionsDisplay() {
           </div>
         ) : (
           <div className="space-y-4">
-            {filteredSubmissions.map((submission) => (
+            {displayedSubmissions.map((submission) => (
               <SubmissionCard
                 key={submission.responseId}
                 submission={submission}
               />
             ))}
+            {hasMore && (
+              <div className="flex justify-center pt-4">
+                <Button onClick={handleLoadMore} variant="outline" size="sm">
+                  Load More
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
