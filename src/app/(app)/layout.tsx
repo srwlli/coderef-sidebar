@@ -23,8 +23,6 @@ import {
   Layers,
   Info,
   Link as LinkIcon,
-  FolderOpen,
-  Grid3x3,
   FileText,
 } from 'lucide-react';
 import Link from 'next/link';

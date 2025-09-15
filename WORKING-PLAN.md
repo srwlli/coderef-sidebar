@@ -60,6 +60,23 @@ This plan addresses mobile sidebar UX, state persistence, baseline security head
 - Risks: Low
 - Effort: ~0.5 day
 
+## Phase 6 — Custom Forms with Supabase Integration
+
+- Files: Database schema, API routes, form components, pages
+- Change:
+  - Design and implement custom forms for data collection
+  - Create Supabase tables with appropriate RLS policies
+  - Build form components with validation and error handling
+  - Implement CRUD operations with proper authentication
+  - Create dedicated pages for form management and data visualization
+- Acceptance:
+  - Authenticated users can create, read, update, and delete form data
+  - Forms include proper validation and user feedback
+  - Data persists securely in Supabase with RLS protection
+  - Clean UI/UX consistent with existing design system
+- Risks: Medium (database design, RLS policies, form validation)
+- Effort: ~2-3 days
+
 ## Acceptance Criteria (Summary)
 
 - Mobile: Sidebar auto‑closes on item click; desktop unchanged.
@@ -67,6 +84,8 @@ This plan addresses mobile sidebar UX, state persistence, baseline security head
 - Security: Baseline headers present; CSP tuned without breaking functionality.
 - ~~Content: Heavy pages use collapsibles and prefer Server Components.~~ (SKIPPED - rebuilding tech-stacks)
 - CI: Lint/type/build clean locally and in CI.
+- Authentication: Supabase auth flow with protected routes and user management.
+- Custom Forms: Data collection forms with Supabase persistence and RLS security.
 
 ## Tasks Checklist
 

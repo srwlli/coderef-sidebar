@@ -5,7 +5,6 @@ import {
   Layers,
   Settings,
   Link as LinkIcon,
-  FolderOpen,
   FileText,
 } from 'lucide-react';
 import Link from 'next/link';

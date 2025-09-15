@@ -2,7 +2,7 @@
 
 import { ArrowLeft } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
 interface BackButtonProps {
@@ -29,13 +29,13 @@ export function BackButton({
 
   const parentRoute = parentRoutes[pathname];
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (window.history.length > 1) {
       router.back();
     } else {
       router.push(parentRoute?.parent || fallbackHref);
     }
-  };
+  }, [router, parentRoute?.parent, fallbackHref]);
 
   // Add keyboard shortcut support
   useEffect(() => {
