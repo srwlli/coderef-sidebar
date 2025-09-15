@@ -40,6 +40,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Environment-aware Supabase Client** - Graceful handling of missing environment variables for build compatibility
 - **Auth Context Provider** - Global authentication state management with React Context API
 - **Protected Route System** - Client-side route protection with automatic redirects for unauthenticated users
+- **Git Commands Enhancement** - Added Git Init workflow with interactive GitHub repository creation
+- **Vercel Deployment Workflow** - Added Vercel CLI commands with copy functionality
+- **Interactive Command Navigation** - Git remote command field now opens GitHub new repository page on click
+- **Settings Sign Out Card** - Added sign out functionality with proper authentication flow
+- **Reusable Link Components** - Created LinkInputCommandBlock for future interactive command workflows
 
 ### Changed
 
@@ -48,6 +53,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Sidebar Navigation** - Updated with new Applications and Projects menu items and icons
 - **Component Architecture** - Added reusable form submission components with TypeScript types
 - **Data Management** - Implemented React Query for app-wide state management and caching
+- **Git Commands Page** - Enhanced with Git Init workflow, Vercel deployment commands, and interactive navigation
+- **InputCommandBlock Enhancement** - Added optional onFieldClick prop for custom click behaviors
+- **Command Workflow Organization** - Reorganized git commands with logical flow from init to deployment
 - Navigation restructure: Moved Prompts and Spec Kit pages under AI Tools section
 - Navigation restructure: Moved Next.js Setup and This Stack pages under Tech Stacks section
 - Dashboard simplified: Removed nested pages to show only main section cards
@@ -96,6 +104,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Protected Routes** - Client-side route protection with automatic auth redirects
 - **Auth Types** - TypeScript interfaces for user and auth state management
 - **Middleware Configuration** - Disabled middleware pattern to prevent Next.js 15 conflicts
+- **Interactive Components** - LinkInputCommandBlock component for command blocks with external navigation
+- **Client Component Architecture** - Enhanced git-commands page with client-side interactivity
+- **Command Block Enhancement** - Extended InputCommandBlock with custom click handler support
 
 ## Project Structure
 
