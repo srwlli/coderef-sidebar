@@ -19,6 +19,7 @@ import {
   Bot,
   Layers,
   Info,
+  Link as LinkIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -65,6 +66,11 @@ const menuItems = [
     title: 'This Stack',
     href: '/tech-stacks/this-stack',
     icon: Info,
+  },
+  {
+    title: 'Links',
+    href: '/links',
+    icon: LinkIcon,
   },
   {
     title: 'Settings',

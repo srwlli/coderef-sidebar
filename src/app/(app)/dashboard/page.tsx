@@ -1,5 +1,11 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import { GitBranch, Bot, Layers, Settings } from 'lucide-react';
+import {
+  GitBranch,
+  Bot,
+  Layers,
+  Settings,
+  Link as LinkIcon,
+} from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -18,6 +24,11 @@ export default function Dashboard() {
       title: 'Tech Stacks',
       href: '/tech-stacks',
       icon: Layers,
+    },
+    {
+      title: 'Links',
+      href: '/links',
+      icon: LinkIcon,
     },
     {
       title: 'Settings',

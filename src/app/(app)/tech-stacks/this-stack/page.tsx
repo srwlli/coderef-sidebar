@@ -1,4 +1,4 @@
-import pkg from '../../../../package.json';
+import pkg from '../../../../../package.json';
 import { SimpleCollapsibleContainer } from '@/components/collapsibles/SimpleCollapsibleContainer';
 import { Layers, Code2, Database, Wrench, Info } from 'lucide-react';
 
