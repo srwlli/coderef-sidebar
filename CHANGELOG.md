@@ -81,6 +81,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ESLint Warnings** - Cleaned up all unused imports and React hooks warnings
 - **Build Compatibility** - Ensured auth pages work with static generation through dynamic rendering
 - **Hydration Mismatches** - Resolved client/server rendering inconsistencies in auth flow
+- **Vercel Environment Configuration** - Fixed "supabase not configured" errors by properly setting NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel dashboard
+- **Client Component Event Handlers** - Fixed runtime error by adding 'use client' directive to git-commands page for onFieldClick functionality
+- **Production Deployment Flow** - Established proper workflow: local development → environment variable setup → Vercel deployment
 
 ### Technical
 
@@ -107,6 +110,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Interactive Components** - LinkInputCommandBlock component for command blocks with external navigation
 - **Client Component Architecture** - Enhanced git-commands page with client-side interactivity
 - **Command Block Enhancement** - Extended InputCommandBlock with custom click handler support
+- **Deployment Troubleshooting** - Documented Vercel environment variable setup and client component requirements
+- **Production Deployment Process** - Established reliable workflow for Supabase + Vercel deployments
 
 ## Project Structure
 
