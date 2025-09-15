@@ -25,9 +25,9 @@
 
 - Current Link: `/dashboard` (line ~166)
 - Current Title: "View Project" (line ~170)
-- **Instructions:** Update href to actual project/demo URL, keep title or customize
+- **Instructions:** Update href to actual project/demo URL, ALWAYS keep title as "View Project"
 - **New Link URL:** `[Where should "View Project" navigate to?]`
-- **New Title:** `[Keep "View Project" or change to "View Demo", "Launch App", etc.]`
+- **New Title:** `"View Project"` (REQUIRED - do not change)
 
 **Card 2 - View Documentation (FileText icon):**
 
@@ -35,7 +35,7 @@
 - Current Title: "View Documentation" (line ~179)
 - **Instructions:** Update href to documentation URL (GitHub README, docs site, etc.)
 - **New Link URL:** `[Documentation link - GitHub README, docs site, etc.]`
-- **New Title:** `[Keep "View Documentation" or customize]`
+- **New Title:** `"View Documentation"` (REQUIRED - do not change)
 
 **Card 3 - View Git (GitBranch icon):**
 
@@ -43,21 +43,21 @@
 - Current Title: "View Git" (line ~188)
 - **Instructions:** Update href to GitHub repository URL
 - **New Link URL:** `[GitHub repository URL]`
-- **New Title:** `[Keep "View Git" or change to "View Repository", "View Source", etc.]`
+- **New Title:** `"View Git"` (REQUIRED - do not change)
 
 **Card 4 - View Workflow (Settings icon):**
 
 - Current Link: `/projects/project-landing` (line ~193)
 - Current Title: "View Workflow" (line ~197)
-- **Instructions:** Update href and title based on project needs (could be settings, workflow, admin, etc.)
+- **Instructions:** Update href to project workflow/settings/admin URL
 - **New Link URL:** `[Project-specific link - settings, workflow, admin panel, etc.]`
-- **New Title:** `[Customize based on project: "View Settings", "View Workflow", "Admin Panel", etc.]`
+- **New Title:** `"View Workflow"` (REQUIRED - do not change)
 
 ---
 
-## **3. Applications Purpose Section** (First collapsible)
+## **3. Project Purpose Section** (First collapsible)
 
-**Section Title:** `[Replace "Applications Purpose" - what should this be called for your project?]`
+**Section Title:** `"[Project Name] Purpose"` (REQUIRED FORMAT - use exact project name + " Purpose")
 
 **What is this project?** `[Replace the "What is this app?" content with project-specific purpose]`
 
@@ -78,9 +78,9 @@
 
 ---
 
-## **4. Applications Features Section** (Second collapsible)
+## **4. Project Features Section** (Second collapsible)
 
-**Section Title:** `[Replace "Applications Features" with project-appropriate title]`
+**Section Title:** `"[Project Name] Features"` (REQUIRED FORMAT - use exact project name + " Features")
 
 **Core Functionality Cards:** `[Replace the 4 core feature cards]`
 
@@ -103,9 +103,9 @@
 
 ---
 
-## **5. Applications Stack Section** (Third collapsible)
+## **5. Project Stack Section** (Third collapsible)
 
-**Section Title:** `[Replace "Applications Stack" with project-appropriate title]`
+**Section Title:** `"[Project Name] Stack"` (REQUIRED FORMAT - use exact project name + " Stack")
 
 **Architecture Overview:** `[Replace the 3 architecture boxes]`
 
@@ -184,7 +184,24 @@ utility: [
 
 ---
 
-## **AI Agent Instructions**
+## **CRITICAL AI Agent Instructions for Consistency**
+
+### **MANDATORY NAMING CONVENTIONS (DO NOT DEVIATE):**
+
+**Navigation Cards (NEVER CHANGE THESE TITLES):**
+
+- Card 1: "View Project" (Home icon)
+- Card 2: "View Documentation" (FileText icon)
+- Card 3: "View Git" (GitBranch icon)
+- Card 4: "View Workflow" (Settings icon)
+
+**Collapsible Section Titles (REQUIRED FORMAT):**
+
+- Section 1: "[Project Name] Purpose"
+- Section 2: "[Project Name] Features"
+- Section 3: "[Project Name] Stack"
+
+### **Analysis Instructions:**
 
 1. **Analyze the codebase** to find any existing information about this project
 2. **Look for README files, documentation, or comments** that might provide context
@@ -193,6 +210,7 @@ utility: [
 5. **If information is not available in the codebase**, mark fields as `[NEEDS RESEARCH]`
 6. **Be specific and accurate** - this information will be used to update the live project pages
 7. **Focus on factual information** that can be verified from the code
+8. **ALWAYS follow the exact naming conventions above for consistency**
 
 **Template Usage:**
 
@@ -218,16 +236,16 @@ utility: [
 - Lines of Code: `25000`
 - Documentation Lines: `12700`
 
-### **2. Navigation Cards**
+### **2. Navigation Cards** (STANDARDIZED TITLES - DO NOT CHANGE)
 
 **Card 1 - View Project:** `/projects/coderef2` | "View Project"
 **Card 2 - View Documentation:** `/projects/coderef2` | "View Documentation"
-**Card 3 - View Git:** `/projects/coderef2` | "View Repository"
+**Card 3 - View Git:** `/projects/coderef2` | "View Git"
 **Card 4 - View Workflow:** `/projects/coderef2` | "View Workflow"
 
-### **3. Applications Purpose Section**
+### **3. Project Purpose Section**
 
-**Section Title:** `"Coderef2 Purpose"`
+**Section Title:** `"Coderef2 Purpose"` (PROJECT NAME + PURPOSE FORMAT)
 **What is this project?** `"Coderef2 is an enterprise-grade semantic code intelligence platform featuring the SACOS framework..."`
 **Key Features:**
 
@@ -244,9 +262,9 @@ utility: [
 3. **Regulatory Industries:** Healthcare and government requiring AI accountability
 4. **Development Organizations:** Companies implementing AI-governed software development
 
-### **4. Applications Features Section**
+### **4. Project Features Section**
 
-**Section Title:** `"Coderef2 Features"`
+**Section Title:** `"Coderef2 Features"` (PROJECT NAME + FEATURES FORMAT)
 **Core Functionality Cards:**
 
 1. **Code Intelligence:** Semantic parsing, tagging, and element discovery across codebases
@@ -260,9 +278,9 @@ utility: [
 2. **Documentation System:** Automated generation with 127 comprehensive documentation files
 3. **Enterprise Integration:** Multi-signature deployment protocols and approval workflows
 
-### **5. Applications Stack Section**
+### **5. Project Stack Section**
 
-**Section Title:** `"Coderef2 Stack"`
+**Section Title:** `"Coderef2 Stack"` (PROJECT NAME + STACK FORMAT)
 **Architecture Overview:**
 
 - App Style: `Enterprise semantic intelligence platform with constitutional AI governance`

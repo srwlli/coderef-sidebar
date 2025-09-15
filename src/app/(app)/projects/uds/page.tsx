@@ -23,92 +23,107 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Default project landing page with mock data
-// TODO: Replace with actual project data when individual projects are defined
+// UDS documentation framework landing page
+// Updated with real project data from comprehensive analysis
 export default function ProjectLandingPage() {
-  // Mock tech stack data for demonstration
+  // UDS tech stack data from comprehensive analysis
   const techStackData = {
     core: [
       {
-        name: 'Framework X',
-        version: '2.1.0',
-        description: 'Core application framework',
+        name: 'Markdown',
+        version: 'CommonMark',
+        description: 'Primary documentation format with structured standards',
       },
       {
-        name: 'Language Y',
-        version: '18.x',
-        description: 'Primary programming language',
+        name: 'YAML',
+        version: '1.2',
+        description: 'Metadata and configuration specification',
       },
-      { name: 'TypeScript', version: '^5', description: 'Type safety' },
-      { name: 'CSS Framework', version: '^3', description: 'Styling solution' },
-      { name: 'Linter', version: '^8', description: 'Code quality' },
+      {
+        name: 'Git',
+        version: '2.x',
+        description: 'Version control and collaboration framework',
+      },
+      {
+        name: 'Semantic Versioning',
+        version: '2.0.0',
+        description: 'Document and standard versioning system',
+      },
     ],
     ui: [
       {
-        name: 'UI Library',
-        version: 'Latest',
-        description: 'Component primitives',
+        name: 'Markdown Templates',
+        version: 'UDS 1.0',
+        description: 'Structured document templates with required sections',
       },
       {
-        name: 'Component System',
+        name: 'YAML Front Matter',
         version: 'Custom',
-        description: 'Design system',
+        description: 'Metadata specification for document headers',
       },
       {
-        name: 'Icon Library',
-        version: 'Latest',
-        description: 'Icon components',
+        name: 'Footer Standards',
+        version: 'UDS 1.0',
+        description: 'Machine-readable metadata blocks for tracking',
       },
       {
-        name: 'Animation Library',
-        version: 'Latest',
-        description: 'Motion effects',
+        name: 'Agent Profiles',
+        version: 'UDS 1.0',
+        description: 'AI instruction frameworks for automated generation',
       },
     ],
     state: [
       {
-        name: 'State Manager',
-        version: '^4',
-        description: 'Global state management',
+        name: 'Document Metadata',
+        version: 'UDS 1.0',
+        description: 'YAML front matter and footer block tracking',
       },
-      { name: 'Data Fetcher', version: '^3', description: 'API data handling' },
-      { name: 'Form Handler', version: '^6', description: 'Form validation' },
       {
-        name: 'Schema Validator',
-        version: '^3',
-        description: 'Data validation',
+        name: 'Version Control',
+        version: 'Git 2.x',
+        description: 'Document lifecycle and change management',
+      },
+      {
+        name: 'Compliance Tracking',
+        version: 'UDS 1.0',
+        description: 'Rule validation and standard enforcement',
+      },
+      {
+        name: 'Agent Instructions',
+        version: 'UDS 1.0',
+        description: 'Behavioral constraints and generation prompts',
       },
     ],
     utility: [
       {
-        name: 'Date Library',
-        version: 'Latest',
-        description: 'Date manipulation',
+        name: 'Markdown Linters',
+        version: 'MD001-MD058',
+        description: 'Comprehensive formatting rule validation',
       },
       {
-        name: 'Class Utility',
-        version: 'Latest',
-        description: 'CSS class handling',
+        name: 'EditorConfig',
+        version: '0.12.x',
+        description: 'Standardized formatting across editors',
       },
       {
-        name: 'Merge Utility',
-        version: 'Latest',
-        description: 'Object merging',
+        name: 'Language Linters',
+        version: 'Various',
+        description: 'ESLint, Pylint, CheckStyle, RuboCop, StyleCop support',
       },
       {
-        name: 'Theme Manager',
-        version: 'Latest',
-        description: 'Theme switching',
+        name: 'Pre-commit Hooks',
+        version: 'Git 2.x',
+        description: 'Automated compliance checking before commits',
       },
     ],
   };
 
-  // Mock project statistics
+  // Project statistics from UDS analysis
   const projectStats = {
-    pages: 12,
-    components: 45,
-    linesOfCode: 8750,
-    documentation: 3200,
+    pages: 8,
+    components: 15,
+    linesOfCode: 3200,
+    documentation: 25000,
   };
 
   return (
@@ -124,9 +139,11 @@ export default function ProjectLandingPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A sample project description showcasing modern development
-              practices and technologies. This is mock content for demonstration
-              purposes.
+              A comprehensive documentation framework and standards system
+              designed to enforce consistent, high-quality technical
+              documentation across software development projects. Provides
+              structured markdown standards, automated compliance checking, and
+              AI-agent driven documentation generation.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
@@ -163,7 +180,7 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/dashboard" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
@@ -172,7 +189,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/uds" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
@@ -181,7 +198,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/uds" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
@@ -190,7 +207,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/uds" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
@@ -202,18 +219,21 @@ export default function ProjectLandingPage() {
 
         {/* App Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="UDS Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is this app?</h4>
+              <h4 className="mb-3 font-semibold">What is this project?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                This is a sample project demonstrating modern development
-                practices and application architecture. The content shown here
-                is mock data for presentation purposes and will be replaced with
-                actual project information when the project is fully defined.
+                UDS (Unified Documentation Standards) is a comprehensive
+                documentation framework designed to enforce consistent,
+                high-quality technical documentation across software development
+                projects. It provides structured markdown standards with YAML
+                front matter, automated compliance checking, and specialized
+                AI-agent instruction frameworks for generating standardized
+                technical documentation.
               </p>
             </div>
 
@@ -223,36 +243,43 @@ export default function ProjectLandingPage() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Feature A:</strong> Core functionality demonstration
-                    with modern patterns
+                    <strong>Structured YAML Front Matter Standards:</strong>{' '}
+                    Enforces consistent metadata across all documents with
+                    required fields including title, version, date, authors,
+                    tags, and classification
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Feature B:</strong> Integration capabilities with
-                    external services
+                    <strong>Automated Footer Metadata System:</strong>{' '}
+                    Implements structured footer blocks with machine-readable
+                    metadata for document tracking and lifecycle management
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Feature C:</strong> Advanced tooling and development
-                    workflow
+                    <strong>Agent-Driven Document Generation:</strong> Provides
+                    standardized prompts and instructions for AI agents to
+                    generate compliant documentation
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Feature D:</strong> Comprehensive testing and
-                    quality assurance
+                    <strong>Comprehensive Formatting Rules:</strong> Includes
+                    detailed markdown standards covering headings, lists,
+                    tables, code blocks, and visual styling (MD001-MD058)
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Feature E:</strong> Responsive design and
-                    accessibility compliance
+                    <strong>Component Documentation Framework:</strong>{' '}
+                    Specialized standards for documenting reusable software
+                    components with props tables, behavior specs, and
+                    accessibility notes
                   </span>
                 </li>
               </ul>
@@ -263,38 +290,38 @@ export default function ProjectLandingPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">
-                    Individual Users
+                    Enterprise Documentation Standardization
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Personal productivity and project management with intuitive
-                    interface design.
+                    Large organizations requiring consistent documentation
+                    format across multiple teams and projects.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Team Collaboration
+                    AI-Assisted Technical Writing
                   </h5>
                   <p className="text-sm text-green-700">
-                    Multi-user environments with shared resources and
-                    collaborative features.
+                    Projects leveraging AI agents for automated documentation
+                    generation with strict compliance requirements.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Development Workflow
+                    Open Source Project Documentation
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Integration with development tools and automated workflow
-                    processes.
+                    Maintainers needing standardized documentation structure for
+                    contributors and users.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Enterprise Solutions
+                    Software Component Libraries
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Scalable architecture suitable for enterprise-level
-                    deployments.
+                    Development teams creating reusable components requiring
+                    detailed documentation standards.
                   </p>
                 </div>
               </div>
@@ -304,7 +331,7 @@ export default function ProjectLandingPage() {
 
         {/* App Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="UDS Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -317,12 +344,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Project Management
+                      Document Structure Enforcement
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Comprehensive project organization with advanced tracking
-                    and reporting capabilities.
+                    Validates and enforces proper heading hierarchy, table of
+                    contents generation, and section ordering according to UDS
+                    specifications.
                   </p>
                 </div>
 
@@ -330,12 +358,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Documentation System
+                      Metadata Management
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Integrated documentation with real-time editing and
-                    collaborative features.
+                    Handles document metadata through YAML front matter and
+                    structured footer blocks with version tracking and
+                    authorship information.
                   </p>
                 </div>
 
@@ -343,12 +372,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Development Tools
+                      Agent Instruction Framework
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Integrated development environment with advanced debugging
-                    and testing capabilities.
+                    Provides standardized prompts and behavioral constraints for
+                    AI agents generating UDS-compliant documentation.
                   </p>
                 </div>
 
@@ -356,12 +385,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Architecture Tracking
+                      Compliance Validation
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Comprehensive system architecture documentation and
-                    dependency management.
+                    Implements rules for markdown formatting, naming
+                    conventions, and structural requirements with automated
+                    checking capabilities.
                   </p>
                 </div>
               </div>
@@ -372,26 +402,33 @@ export default function ProjectLandingPage() {
               <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Responsive Design</h5>
+                  <h5 className="mb-2 font-medium">
+                    Structured Document Templates
+                  </h5>
                   <p className="text-muted-foreground text-sm">
-                    Optimized for all device types with fluid layouts and
-                    adaptive components.
+                    Pre-defined templates with required sections including
+                    Purpose, Module Contract Specification, Control Contract
+                    Specification, and References.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Interactive Elements</h5>
+                  <h5 className="mb-2 font-medium">
+                    Human-Readable Instructions
+                  </h5>
                   <p className="text-muted-foreground text-sm">
-                    Rich user interactions with smooth animations and intuitive
-                    navigation.
+                    Footer blocks include multiline instruction fields intended
+                    for human interpretation and guidance.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Accessibility</h5>
+                  <h5 className="mb-2 font-medium">
+                    Progressive Disclosure Standards
+                  </h5>
                   <p className="text-muted-foreground text-sm">
-                    Full WCAG compliance with keyboard navigation and screen
-                    reader support.
+                    Hierarchical heading structure with table of contents for
+                    easy navigation and content discovery.
                   </p>
                 </div>
               </div>
@@ -406,10 +443,11 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Shield className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Security Framework</h5>
+                    <h5 className="font-medium">Multi-Language Support</h5>
                     <p className="text-muted-foreground text-sm">
-                      Enterprise-grade security with encryption and
-                      authentication protocols.
+                      Standards and naming conventions covering Java, Python,
+                      JavaScript/TypeScript, C#, C++, Go, Ruby, Swift, PHP, and
+                      Rust.
                     </p>
                   </div>
                 </div>
@@ -417,10 +455,12 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Package className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Modular Architecture</h5>
+                    <h5 className="font-medium">
+                      Database Integration Standards
+                    </h5>
                     <p className="text-muted-foreground text-sm">
-                      Scalable component-based architecture with clean
-                      separation of concerns.
+                      Comprehensive naming conventions for tables, columns,
+                      indexes, stored procedures, and views.
                     </p>
                   </div>
                 </div>
@@ -428,10 +468,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <TestTube className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Testing Suite</h5>
+                    <h5 className="font-medium">Version Control Integration</h5>
                     <p className="text-muted-foreground text-sm">
-                      Comprehensive testing framework with automated quality
-                      assurance.
+                      Standards for branch naming, commit messages, and tag
+                      conventions with conventional commit support.
                     </p>
                   </div>
                 </div>
@@ -442,7 +482,7 @@ export default function ProjectLandingPage() {
 
         {/* Application Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="UDS Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -451,14 +491,14 @@ export default function ProjectLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Applications Architecture
+                UDS Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
                   <p className="text-sm text-blue-700">
-                    Modern framework architecture with component-based design
-                    patterns
+                    Documentation framework and standards system with AI-agent
+                    integration capabilities
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
@@ -466,15 +506,15 @@ export default function ProjectLandingPage() {
                     Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Reusable UI components with consistent design system
-                    implementation
+                    Markdown-based templates with YAML metadata, validation
+                    rules, and agent instruction frameworks
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">State</h5>
                   <p className="text-sm text-purple-700">
-                    Advanced state management with predictable data flow
-                    patterns
+                    Git-based version control with structured metadata tracking
+                    and compliance enforcement
                   </p>
                 </div>
               </div>

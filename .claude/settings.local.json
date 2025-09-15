@@ -9,7 +9,11 @@
       "Bash(taskkill:*)",
       "Bash(cmd /c:*)",
       "Bash(cp:*)",
-      "Read(//c/Users/willh/Desktop/coderef-sorted/latest/**)"
+      "Read(//c/Users/willh/Desktop/coderef-sorted/latest/**)",
+      "Read(//c/Users/willh/Desktop/draft-tracker/**)",
+      "Read(//c/Users/willh/Desktop/projects/smart-phrase/smart-phrase-app/**)",
+      "Bash(find:*)",
+      "Read(//c/Users/willh/Desktop/projects/uds/**)"
     ],
     "deny": []
   }

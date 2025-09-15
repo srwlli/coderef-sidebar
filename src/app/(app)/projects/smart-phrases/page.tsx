@@ -23,92 +23,112 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Default project landing page with mock data
-// TODO: Replace with actual project data when individual projects are defined
+// Smart Phrases clinical documentation tool landing page
+// Updated with real project data from clinical analysis
 export default function ProjectLandingPage() {
-  // Mock tech stack data for demonstration
+  // Smart Phrases tech stack data from clinical analysis
   const techStackData = {
     core: [
       {
-        name: 'Framework X',
-        version: '2.1.0',
-        description: 'Core application framework',
+        name: 'Node.js',
+        version: '18.x',
+        description: 'Backend runtime environment for clinical data processing',
       },
       {
-        name: 'Language Y',
-        version: '18.x',
-        description: 'Primary programming language',
+        name: 'Express.js',
+        version: '^4.18',
+        description: 'Web framework for clinical API endpoints',
       },
-      { name: 'TypeScript', version: '^5', description: 'Type safety' },
-      { name: 'CSS Framework', version: '^3', description: 'Styling solution' },
-      { name: 'Linter', version: '^8', description: 'Code quality' },
+      {
+        name: 'TypeScript',
+        version: '^5.0',
+        description: 'Type-safe development for medical data integrity',
+      },
+      {
+        name: 'React',
+        version: '^18.0',
+        description: 'Frontend framework for clinical user interface',
+      },
     ],
     ui: [
       {
-        name: 'UI Library',
-        version: 'Latest',
-        description: 'Component primitives',
+        name: 'Tailwind CSS',
+        version: '^3.0',
+        description: 'Utility-first styling for medical interface design',
       },
       {
-        name: 'Component System',
-        version: 'Custom',
-        description: 'Design system',
+        name: 'Lucide React',
+        version: 'latest',
+        description: 'Professional medical icons and interface elements',
       },
       {
-        name: 'Icon Library',
-        version: 'Latest',
-        description: 'Icon components',
+        name: 'Vite',
+        version: '^4.0',
+        description:
+          'Build tool optimized for clinical application development',
       },
       {
-        name: 'Animation Library',
-        version: 'Latest',
-        description: 'Motion effects',
+        name: 'Custom Components',
+        version: 'N/A',
+        description: 'Medical-specific React components for clinical workflows',
       },
     ],
     state: [
       {
-        name: 'State Manager',
-        version: '^4',
-        description: 'Global state management',
+        name: 'React Query',
+        version: '^4.0',
+        description:
+          'Data fetching and caching for clinical content management',
       },
-      { name: 'Data Fetcher', version: '^3', description: 'API data handling' },
-      { name: 'Form Handler', version: '^6', description: 'Form validation' },
       {
-        name: 'Schema Validator',
-        version: '^3',
-        description: 'Data validation',
+        name: 'Fuse.js',
+        version: '^6.0',
+        description:
+          'Fuzzy search for medication and coping strategy discovery',
+      },
+      {
+        name: 'Zod',
+        version: '^3.0',
+        description: 'Schema validation for medical data integrity',
+      },
+      {
+        name: 'React Hooks',
+        version: '18.x',
+        description: 'Form state management for clinical data entry',
       },
     ],
     utility: [
       {
-        name: 'Date Library',
-        version: 'Latest',
-        description: 'Date manipulation',
+        name: 'tsx',
+        version: '^3.0',
+        description: 'TypeScript execution for clinical data processing',
       },
       {
-        name: 'Class Utility',
-        version: 'Latest',
-        description: 'CSS class handling',
+        name: 'CORS',
+        version: '^2.8',
+        description: 'Cross-origin resource sharing for clinical API access',
       },
       {
-        name: 'Merge Utility',
-        version: 'Latest',
-        description: 'Object merging',
+        name: 'JSON Database',
+        version: 'N/A',
+        description:
+          'Structured storage for medication and coping strategy data',
       },
       {
-        name: 'Theme Manager',
-        version: 'Latest',
-        description: 'Theme switching',
+        name: 'Markdown Parser',
+        version: 'N/A',
+        description:
+          'Clinical content processing from evidence-based documentation',
       },
     ],
   };
 
-  // Mock project statistics
+  // Project statistics from Smart Phrases analysis
   const projectStats = {
-    pages: 12,
-    components: 45,
-    linesOfCode: 8750,
-    documentation: 3200,
+    pages: 5,
+    components: 12,
+    linesOfCode: 2500,
+    documentation: 8000,
   };
 
   return (
@@ -124,9 +144,11 @@ export default function ProjectLandingPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A sample project description showcasing modern development
-              practices and technologies. This is mock content for demonstration
-              purposes.
+              A clinical documentation efficiency tool specifically designed for
+              child psychiatry practices. Transforms evidence-based markdown
+              documents into a searchable web application providing standardized
+              SmartPhrases for medication education and coping strategies with
+              child-friendly explanations.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
@@ -163,7 +185,7 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/dashboard" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
@@ -172,7 +194,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/smart-phrases" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
@@ -181,7 +203,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/smart-phrases" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
@@ -190,7 +212,7 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/smart-phrases" className="block">
+          <Link href="#" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
@@ -202,18 +224,21 @@ export default function ProjectLandingPage() {
 
         {/* App Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="Smart Phrases Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is this app?</h4>
+              <h4 className="mb-3 font-semibold">What is this project?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                This is a sample project demonstrating modern development
-                practices and application architecture. The content shown here
-                is mock data for presentation purposes and will be replaced with
-                actual project information when the project is fully defined.
+                Smart Phrases is a clinical documentation efficiency tool
+                specifically designed for child psychiatry practices. It
+                transforms a collection of evidence-based markdown documents
+                into a fully functional, searchable web application that
+                provides standardized SmartPhrases for medication education and
+                coping strategies with child-friendly explanations at
+                appropriate reading levels.
               </p>
             </div>
 
@@ -223,36 +248,41 @@ export default function ProjectLandingPage() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Feature A:</strong> Core functionality demonstration
-                    with modern patterns
+                    <strong>Comprehensive SmartPhrase Database:</strong> Over 80
+                    medication SmartPhrases and multiple coping strategy
+                    templates with standardized .LAH codes
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Feature B:</strong> Integration capabilities with
-                    external services
+                    <strong>Advanced Search & Filtering:</strong> Multi-field
+                    search across medication names, brand names, generic names,
+                    categories, and content with fuzzy matching
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Feature C:</strong> Advanced tooling and development
-                    workflow
+                    <strong>Clinical Integration Ready:</strong> One-click
+                    copy-to-clipboard functionality for seamless EHR integration
+                    during patient visits
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Feature D:</strong> Comprehensive testing and
-                    quality assurance
+                    <strong>Evidence-Based Content:</strong> All SmartPhrases
+                    include research citations and are organized by clinical
+                    categories (ADHD, Depression, Anxiety, etc.)
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Feature E:</strong> Responsive design and
-                    accessibility compliance
+                    <strong>Responsive Medical Interface:</strong> Professional
+                    design optimized for clinical workflows on desktop, tablet,
+                    and mobile devices
                   </span>
                 </li>
               </ul>
@@ -263,38 +293,39 @@ export default function ProjectLandingPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">
-                    Individual Users
+                    Clinical Documentation
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Personal productivity and project management with intuitive
-                    interface design.
+                    Psychiatrists and mental health professionals inserting
+                    standardized, evidence-based content into patient notes and
+                    treatment plans.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Team Collaboration
+                    Patient Education
                   </h5>
                   <p className="text-sm text-green-700">
-                    Multi-user environments with shared resources and
-                    collaborative features.
+                    Providing child-friendly medication explanations and coping
+                    strategy instructions to patients and families.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Development Workflow
+                    Training and Reference
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Integration with development tools and automated workflow
-                    processes.
+                    Medical students and residents accessing quick reference
+                    materials during clinical rotations.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Enterprise Solutions
+                    Practice Standardization
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Scalable architecture suitable for enterprise-level
-                    deployments.
+                    Healthcare organizations ensuring consistent information
+                    delivery across multiple providers.
                   </p>
                 </div>
               </div>
@@ -304,7 +335,7 @@ export default function ProjectLandingPage() {
 
         {/* App Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="Smart Phrases Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -317,12 +348,13 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Project Management
+                      Medication Reference System
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Comprehensive project organization with advanced tracking
-                    and reporting capabilities.
+                    Complete database of psychiatric medications with
+                    brand/generic mapping, dosing information, and
+                    child-appropriate explanations.
                   </p>
                 </div>
 
@@ -330,12 +362,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Documentation System
+                      Coping Strategies Repository
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Integrated documentation with real-time editing and
-                    collaborative features.
+                    Evidence-based behavioral interventions and mindfulness
+                    techniques formatted for clinical use.
                   </p>
                 </div>
 
@@ -343,12 +375,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Development Tools
+                      Smart Search Engine
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Integrated development environment with advanced debugging
-                    and testing capabilities.
+                    Fuzzy search across multiple fields with category filtering
+                    and type-based organization.
                   </p>
                 </div>
 
@@ -356,12 +388,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Architecture Tracking
+                      Clinical Workflow Integration
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Comprehensive system architecture documentation and
-                    dependency management.
+                    Copy-paste functionality designed for EHR systems with
+                    formatted text output.
                   </p>
                 </div>
               </div>
@@ -372,26 +404,28 @@ export default function ProjectLandingPage() {
               <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Responsive Design</h5>
+                  <h5 className="mb-2 font-medium">Clean Medical Interface</h5>
                   <p className="text-muted-foreground text-sm">
-                    Optimized for all device types with fluid layouts and
-                    adaptive components.
+                    Minimal, professional design with subtle shadows, clean
+                    typography, and medical-appropriate color scheme.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Interactive Elements</h5>
+                  <h5 className="mb-2 font-medium">
+                    Intelligent Filtering System
+                  </h5>
                   <p className="text-muted-foreground text-sm">
-                    Rich user interactions with smooth animations and intuitive
-                    navigation.
+                    Category-based filtering (Anxiety, ADHD, Depression) with
+                    type toggles (medication vs coping-strategy).
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Accessibility</h5>
+                  <h5 className="mb-2 font-medium">Mobile-Responsive Design</h5>
                   <p className="text-muted-foreground text-sm">
-                    Full WCAG compliance with keyboard navigation and screen
-                    reader support.
+                    Optimized layouts for clinical settings with touch-friendly
+                    interfaces and readable text sizes.
                   </p>
                 </div>
               </div>
@@ -406,10 +440,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Shield className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Security Framework</h5>
+                    <h5 className="font-medium">Type-Safe Data Processing</h5>
                     <p className="text-muted-foreground text-sm">
-                      Enterprise-grade security with encryption and
-                      authentication protocols.
+                      Zod schema validation ensuring data integrity across the
+                      medication database and coping strategies.
                     </p>
                   </div>
                 </div>
@@ -417,10 +451,12 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Package className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Modular Architecture</h5>
+                    <h5 className="font-medium">
+                      Performance-Optimized Search
+                    </h5>
                     <p className="text-muted-foreground text-sm">
-                      Scalable component-based architecture with clean
-                      separation of concerns.
+                      Fuse.js implementation with weighted search fields and
+                      configurable thresholds for clinical relevance.
                     </p>
                   </div>
                 </div>
@@ -428,10 +464,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <TestTube className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Testing Suite</h5>
+                    <h5 className="font-medium">Scalable Architecture</h5>
                     <p className="text-muted-foreground text-sm">
-                      Comprehensive testing framework with automated quality
-                      assurance.
+                      Express.js API with JSON database, designed for future
+                      expansion and integration with clinical systems.
                     </p>
                   </div>
                 </div>
@@ -442,7 +478,7 @@ export default function ProjectLandingPage() {
 
         {/* Application Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="Smart Phrases Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -451,14 +487,14 @@ export default function ProjectLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Applications Architecture
+                Smart Phrases Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
                   <p className="text-sm text-blue-700">
-                    Modern framework architecture with component-based design
-                    patterns
+                    Clinical documentation efficiency tool with evidence-based
+                    medical content management
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
@@ -466,15 +502,15 @@ export default function ProjectLandingPage() {
                     Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Reusable UI components with consistent design system
-                    implementation
+                    React-based medical interface with TypeScript type safety
+                    and professional clinical design
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">State</h5>
                   <p className="text-sm text-purple-700">
-                    Advanced state management with predictable data flow
-                    patterns
+                    React Query for data fetching with Fuse.js search state
+                    management for clinical workflows
                   </p>
                 </div>
               </div>

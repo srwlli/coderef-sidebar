@@ -26,89 +26,104 @@ import Link from 'next/link';
 // Default project landing page with mock data
 // TODO: Replace with actual project data when individual projects are defined
 export default function ProjectLandingPage() {
-  // Mock tech stack data for demonstration
+  // Tech stack data from draft-tracker analysis
   const techStackData = {
     core: [
       {
-        name: 'Framework X',
-        version: '2.1.0',
-        description: 'Core application framework',
+        name: 'Next.js',
+        version: '15.5.2',
+        description: 'App Router framework with Turbopack optimization',
       },
       {
-        name: 'Language Y',
-        version: '18.x',
-        description: 'Primary programming language',
+        name: 'React',
+        version: '19.1.0',
+        description: 'Modern React with concurrent features',
       },
-      { name: 'TypeScript', version: '^5', description: 'Type safety' },
-      { name: 'CSS Framework', version: '^3', description: 'Styling solution' },
-      { name: 'Linter', version: '^8', description: 'Code quality' },
+      {
+        name: 'TypeScript',
+        version: '^5',
+        description: 'Type-safe development with strict configuration',
+      },
+      {
+        name: 'Supabase',
+        version: '^2.57.0',
+        description: 'Real-time database with PostgreSQL backend',
+      },
     ],
     ui: [
       {
-        name: 'UI Library',
-        version: 'Latest',
-        description: 'Component primitives',
+        name: 'Tailwind CSS',
+        version: '^4',
+        description: 'Utility-first CSS framework for mobile optimization',
       },
       {
-        name: 'Component System',
-        version: 'Custom',
-        description: 'Design system',
+        name: 'Shadcn UI',
+        version: 'latest',
+        description: 'Radix UI components with consistent design system',
       },
       {
-        name: 'Icon Library',
-        version: 'Latest',
-        description: 'Icon components',
+        name: 'Lucide React',
+        version: '^0.542.0',
+        description: 'Modern icon library for sports interfaces',
       },
       {
-        name: 'Animation Library',
-        version: 'Latest',
-        description: 'Motion effects',
+        name: 'Next Themes',
+        version: '^0.4.6',
+        description: 'Theme management for dark/light modes',
       },
     ],
     state: [
       {
-        name: 'State Manager',
-        version: '^4',
-        description: 'Global state management',
+        name: 'React Context',
+        version: '19.1.0',
+        description: 'Optimized state management for real-time updates',
       },
-      { name: 'Data Fetcher', version: '^3', description: 'API data handling' },
-      { name: 'Form Handler', version: '^6', description: 'Form validation' },
       {
-        name: 'Schema Validator',
-        version: '^3',
-        description: 'Data validation',
+        name: 'Supabase Realtime',
+        version: '^2.57.0',
+        description: 'Live database subscriptions with fallback polling',
+      },
+      {
+        name: 'Custom Hooks',
+        version: 'N/A',
+        description: 'useSupabaseRealtime and usePollingFallback for sync',
+      },
+      {
+        name: 'Zod',
+        version: '^4.1.5',
+        description: 'Runtime type validation for API safety',
       },
     ],
     utility: [
       {
-        name: 'Date Library',
-        version: 'Latest',
-        description: 'Date manipulation',
+        name: 'ESLint',
+        version: '^9',
+        description: 'Code quality and consistency enforcement',
       },
       {
-        name: 'Class Utility',
-        version: 'Latest',
-        description: 'CSS class handling',
+        name: 'Vercel',
+        version: 'latest',
+        description: 'Deployment platform with edge optimization',
       },
       {
-        name: 'Merge Utility',
-        version: 'Latest',
-        description: 'Object merging',
+        name: 'UUID',
+        version: '^11.1.0',
+        description: 'Unique identifier generation for draft sessions',
       },
       {
-        name: 'Theme Manager',
-        version: 'Latest',
-        description: 'Theme switching',
+        name: 'Sonner',
+        version: '^2.0.7',
+        description: 'Toast notifications for draft updates',
       },
     ],
   };
 
-  // Mock project statistics
+  // Project statistics from draft-tracker analysis
   const projectStats = {
-    pages: 12,
-    components: 45,
-    linesOfCode: 8750,
-    documentation: 3200,
+    pages: 15,
+    components: 25,
+    linesOfCode: 8500,
+    documentation: 1200,
   };
 
   return (
@@ -124,9 +139,10 @@ export default function ProjectLandingPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A sample project description showcasing modern development
-              practices and technologies. This is mock content for demonstration
-              purposes.
+              A real-time fantasy football draft tracking application built for
+              mobile-first usage. Track draft picks, player rankings, and team
+              selections with live updates across all connected devices for the
+              BBFL (Big Boy Fantasy League).
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
@@ -163,7 +179,10 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/dashboard" className="block">
+          <Link
+            href="https://draft-tracker-ff5pf58p6-teamhart.vercel.app"
+            className="block"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
@@ -172,7 +191,10 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/my-sports-rank" className="block">
+          <Link
+            href="https://github.com/srwlli/draft-tracker/blob/main/README.md"
+            className="block"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
@@ -181,7 +203,10 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/my-sports-rank" className="block">
+          <Link
+            href="https://github.com/srwlli/draft-tracker"
+            className="block"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
@@ -190,7 +215,10 @@ export default function ProjectLandingPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/my-sports-rank" className="block">
+          <Link
+            href="https://draft-tracker-ff5pf58p6-teamhart.vercel.app/dashboard"
+            className="block"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
@@ -202,18 +230,19 @@ export default function ProjectLandingPage() {
 
         {/* App Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="My Sports Rank Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is this app?</h4>
+              <h4 className="mb-3 font-semibold">What is this project?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                This is a sample project demonstrating modern development
-                practices and application architecture. The content shown here
-                is mock data for presentation purposes and will be replaced with
-                actual project information when the project is fully defined.
+                My Sports Rank is a real-time fantasy football draft tracking
+                application designed for mobile-first usage. It enables fantasy
+                sports enthusiasts to track draft picks, manage player rankings,
+                and monitor team selections with live synchronization across all
+                connected devices for the BBFL (Big Boy Fantasy League).
               </p>
             </div>
 
@@ -223,36 +252,36 @@ export default function ProjectLandingPage() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Feature A:</strong> Core functionality demonstration
-                    with modern patterns
+                    <strong>Real-time Updates:</strong> Live synchronization
+                    across all connected users with polling fallback system
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Feature B:</strong> Integration capabilities with
-                    external services
+                    <strong>Mobile Optimization:</strong> Touch-and-hold
+                    drafting with confirmation dialogs and responsive design
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Feature C:</strong> Advanced tooling and development
-                    workflow
+                    <strong>Dual Access Modes:</strong> Admin controls with
+                    drafting capabilities and viewer-only mode for participants
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Feature D:</strong> Comprehensive testing and
-                    quality assurance
+                    <strong>Position Filtering:</strong> Advanced filtering by
+                    QB, RB, WR, TE, DEF, K positions
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Feature E:</strong> Responsive design and
-                    accessibility compliance
+                    <strong>Live Statistics:</strong> Real-time draft statistics
+                    grid showing picks by position and team
                   </span>
                 </li>
               </ul>
@@ -263,38 +292,38 @@ export default function ProjectLandingPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">
-                    Individual Users
+                    Fantasy League Commissioners
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Personal productivity and project management with intuitive
-                    interface design.
+                    Draft administrators needing real-time control and undo
+                    functionality for managing league drafts.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Team Collaboration
+                    League Participants
                   </h5>
                   <p className="text-sm text-green-700">
-                    Multi-user environments with shared resources and
-                    collaborative features.
+                    Fantasy players wanting live draft updates and player
+                    tracking without administrative controls.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Development Workflow
+                    Mobile Draft Events
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Integration with development tools and automated workflow
-                    processes.
+                    In-person drafts requiring mobile-optimized touch interfaces
+                    and confirmation dialogs.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Enterprise Solutions
+                    Remote Draft Management
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Scalable architecture suitable for enterprise-level
-                    deployments.
+                    Distributed leagues needing secure URL-based access without
+                    login requirements.
                   </p>
                 </div>
               </div>
@@ -304,7 +333,7 @@ export default function ProjectLandingPage() {
 
         {/* App Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="My Sports Rank Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -317,12 +346,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Project Management
+                      Draft Management
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Comprehensive project organization with advanced tracking
-                    and reporting capabilities.
+                    Real-time pick tracking with admin controls and undo
+                    functionality for comprehensive draft oversight.
                   </p>
                 </div>
 
@@ -330,12 +359,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Documentation System
+                      Player Database
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Integrated documentation with real-time editing and
-                    collaborative features.
+                    Comprehensive player rankings with position-based filtering
+                    system for strategic drafting.
                   </p>
                 </div>
 
@@ -343,12 +372,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Development Tools
+                      Live Synchronization
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Integrated development environment with advanced debugging
-                    and testing capabilities.
+                    Supabase real-time subscriptions with polling fallback for
+                    reliable cross-device updates.
                   </p>
                 </div>
 
@@ -356,12 +385,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Architecture Tracking
+                      Mobile Interface
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Comprehensive system architecture documentation and
-                    dependency management.
+                    Touch-optimized drafting with confirmation dialogs and
+                    loading states preventing double-clicks.
                   </p>
                 </div>
               </div>
@@ -372,26 +401,26 @@ export default function ProjectLandingPage() {
               <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Responsive Design</h5>
+                  <h5 className="mb-2 font-medium">Mobile-First Design</h5>
                   <p className="text-muted-foreground text-sm">
-                    Optimized for all device types with fluid layouts and
-                    adaptive components.
+                    Touch-and-hold interactions optimized for mobile draft
+                    environments with responsive layouts.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Interactive Elements</h5>
+                  <h5 className="mb-2 font-medium">Real-time Feedback</h5>
                   <p className="text-muted-foreground text-sm">
-                    Rich user interactions with smooth animations and intuitive
-                    navigation.
+                    Instant UI updates with loading states preventing
+                    double-clicks during draft selections.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Accessibility</h5>
+                  <h5 className="mb-2 font-medium">Professional Branding</h5>
                   <p className="text-muted-foreground text-sm">
-                    Full WCAG compliance with keyboard navigation and screen
-                    reader support.
+                    BBFL-themed interface with consistent visual identity for
+                    fantasy league branding.
                   </p>
                 </div>
               </div>
@@ -406,10 +435,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Shield className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Security Framework</h5>
+                    <h5 className="font-medium">Security Model</h5>
                     <p className="text-muted-foreground text-sm">
-                      Enterprise-grade security with encryption and
-                      authentication protocols.
+                      Admin access via server-set HttpOnly cookies with
+                      timing-safe validation for secure draft management.
                     </p>
                   </div>
                 </div>
@@ -417,10 +446,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Package className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Modular Architecture</h5>
+                    <h5 className="font-medium">Performance Optimization</h5>
                     <p className="text-muted-foreground text-sm">
-                      Scalable component-based architecture with clean
-                      separation of concerns.
+                      Race condition prevention and optimized real-time
+                      synchronization for smooth draft experience.
                     </p>
                   </div>
                 </div>
@@ -428,10 +457,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <TestTube className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Testing Suite</h5>
+                    <h5 className="font-medium">No Login Required</h5>
                     <p className="text-muted-foreground text-sm">
-                      Comprehensive testing framework with automated quality
-                      assurance.
+                      URL-based access system with secure admin token management
+                      eliminating user registration barriers.
                     </p>
                   </div>
                 </div>
@@ -442,7 +471,7 @@ export default function ProjectLandingPage() {
 
         {/* Application Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="My Sports Rank Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -451,14 +480,14 @@ export default function ProjectLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Applications Architecture
+                Fantasy Sports Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
                   <p className="text-sm text-blue-700">
-                    Modern framework architecture with component-based design
-                    patterns
+                    Mobile-first real-time fantasy sports application with live
+                    synchronization
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
@@ -466,15 +495,15 @@ export default function ProjectLandingPage() {
                     Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Reusable UI components with consistent design system
-                    implementation
+                    Modular React architecture with Shadcn UI components and
+                    real-time contexts
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">State</h5>
                   <p className="text-sm text-purple-700">
-                    Advanced state management with predictable data flow
-                    patterns
+                    React Context with optimized real-time sync and Supabase
+                    subscriptions
                   </p>
                 </div>
               </div>
