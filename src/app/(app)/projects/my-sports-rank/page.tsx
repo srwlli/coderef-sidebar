@@ -179,10 +179,7 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link
-            href="https://draft-tracker-ff5pf58p6-teamhart.vercel.app"
-            className="block"
-          >
+          <Link href="https://draft-tracker-inky.vercel.app/" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
