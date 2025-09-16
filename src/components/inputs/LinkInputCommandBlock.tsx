@@ -8,7 +8,6 @@ interface LinkInputCommandBlockProps {
   baseCommand: string;
   placeholder: string;
   linkUrl: string;
-  linkText?: string;
   defaultValue?: string;
 }
 
@@ -16,7 +15,6 @@ export function LinkInputCommandBlock({
   baseCommand,
   placeholder,
   linkUrl,
-  linkText = 'Open Link',
   defaultValue = '',
 }: LinkInputCommandBlockProps) {
   const [inputValue, setInputValue] = useState(defaultValue);

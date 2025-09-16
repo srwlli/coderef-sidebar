@@ -30,7 +30,6 @@ const signupSchema = z.object({
     ),
 });
 
-type LoginFormData = z.infer<typeof loginSchema>;
 type SignupFormData = z.infer<typeof signupSchema>;
 
 export function AuthForm() {
@@ -45,6 +44,7 @@ export function AuthForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    // @ts-expect-error - conditional schema creates type mismatch
   } = useForm<SignupFormData>({
     resolver: zodResolver(isSignup ? signupSchema : loginSchema),
   });

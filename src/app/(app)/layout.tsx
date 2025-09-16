@@ -22,7 +22,6 @@ import {
   Bot,
   Layers,
   Info,
-  Link as LinkIcon,
   FileText,
 } from 'lucide-react';
 import Link from 'next/link';
