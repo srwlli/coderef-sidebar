@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation';
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
+  username: z.string().optional(),
 });
 
 const signupSchema = z.object({
@@ -30,7 +31,7 @@ const signupSchema = z.object({
     ),
 });
 
-type SignupFormData = z.infer<typeof signupSchema>;
+type FormData = z.infer<typeof signupSchema>;
 
 export function AuthForm() {
   const { signIn, signUp } = useAuth();
@@ -44,17 +45,16 @@ export function AuthForm() {
     handleSubmit,
     formState: { errors },
     reset,
-    // @ts-expect-error - conditional schema creates type mismatch
-  } = useForm<SignupFormData>({
+  } = useForm<FormData>({
     resolver: zodResolver(isSignup ? signupSchema : loginSchema),
   });
 
-  const onSubmit = async (data: SignupFormData) => {
+  const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
 
       if (isSignup) {
-        await signUp(data.email, data.password, data.username);
+        await signUp(data.email, data.password, data.username!);
         toast.success(
           'Account created! Please check your email to verify your account.'
         );
