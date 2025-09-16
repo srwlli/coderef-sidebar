@@ -162,3 +162,11 @@ export interface ProjectData extends Record<string, unknown> {
   local_link?: string;
   deployed_link?: string;
 }
+
+// Database project type with additional fields
+export interface DbProject extends ProjectData {
+  id: number;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+}
