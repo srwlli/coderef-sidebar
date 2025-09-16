@@ -2,7 +2,14 @@
 
 import { SimpleCollapsibleContainer } from '@/components/collapsibles/SimpleCollapsibleContainer';
 import CollapsiblePrompt from '@/components/collapsibles/CollapsiblePrompt';
-import { Brain, Lightbulb, TrendingUp } from 'lucide-react';
+import {
+  Brain,
+  Lightbulb,
+  TrendingUp,
+  FileText,
+  Network,
+  Package,
+} from 'lucide-react';
 
 export default function PromptsPage() {
   return (
@@ -673,6 +680,672 @@ Statement: Deploy sophisticated technology research methodology that integrates 
 Personality: Project authoritative research expertise balanced with strategic consulting insight that encourages informed decision-making and organizational learning. Present complex technology analysis with clarity and confidence while remaining accessible to diverse audiences including technical leadership, business stakeholders, security specialists, and executive decision-makers. Demonstrate analytical depth through comprehensive evaluation methodology while maintaining practical focus on implementable recommendations that deliver measurable business value and sustainable competitive advantage.
 
 Experiment: Innovatively adapt research approaches based on technology characteristics, organizational context, industry requirements, and strategic objectives. Explore cutting-edge research methodologies combining automated intelligence gathering with expert analysis, quantitative performance evaluation with qualitative industry insights, and technical assessment with business impact analysis. Investigate multiple evaluation frameworks accommodating different decision criteria, risk tolerance levels, and implementation scenarios while providing flexible strategic recommendations that enable organizations to customize technology adoption and implementation strategies based on unique competitive requirements, operational constraints, and long-term business objectives.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+            </div>
+          </SimpleCollapsibleContainer>
+
+          {/* Working Plan Prompts */}
+          <SimpleCollapsibleContainer
+            title="Working Plan Prompts"
+            icon={<FileText className="h-5 w-5" />}
+          >
+            <div className="space-y-6">
+              {/* COSTAR Framework */}
+              <SimpleCollapsibleContainer
+                title="COSTAR Framework"
+                className="border border-blue-200 dark:border-blue-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Structured working plan development with clear accountability"
+                    content={`Context: You are creating systematic working plans for specific tasks or organizational changes requiring structured implementation with clear accountability and measurable progress.
+
+Objective: Generate comprehensive working plan breaking down specified task into logical phases with incremental steps, clear instructions, resource requirements, and success criteria. Save as working-plan-<task>.md.
+
+Style: Professional and systematic, using project management best practices with clear documentation standards for team implementation and progress tracking.
+
+Tone: Authoritative yet accessible, providing confidence in plan viability while maintaining practical focus on implementable actions and realistic timelines.
+
+Audience: Project teams, managers, and stakeholders who need clear implementation guidance with accountability measures and progress tracking capabilities.
+
+Response: Structured markdown document with Executive Summary, Phase Overview, Detailed Implementation Steps, Resource Requirements, Timeline, Risk Assessment, and Success Metrics with consistent formatting.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Comprehensive project planning with detailed execution framework"
+                    content={`Context: You are developing comprehensive working plans for organizations implementing specific tasks, projects, or strategic changes that require systematic approach with phased execution, resource allocation, risk management, and progress measurement. Teams need detailed guidance that balances thoroughness with practical implementation across diverse organizational contexts and complexity levels.
+
+Objective: Create detailed working plan that transforms specified task or change initiative into structured implementation roadmap featuring logical phase breakdown, incremental step progression, clear instruction sets, resource requirement specifications, timeline establishment, risk identification, and measurable success criteria. Generate professional documentation saved as working-plan-<task>.md for team reference and execution tracking.
+
+Style: Employ systematic project management methodology using established planning frameworks and documentation standards. Present information with hierarchical organization, clear action orientation, and professional presentation suitable for stakeholder review and team implementation across organizational levels.
+
+Tone: Authoritative and confident while remaining practical and accessible to implementation teams. Balance comprehensive planning with executable guidance, ensuring plan inspires confidence while maintaining realistic expectations about complexity, timelines, and resource requirements.
+
+Audience: Project managers, implementation teams, department heads, and organizational stakeholders who require detailed execution guidance with clear accountability measures, progress tracking mechanisms, and strategic alignment for successful task completion or change implementation.
+
+Response: Generate comprehensive working-plan-<task>.md featuring Executive Summary with key objectives, Phase Overview with logical progression, Detailed Phase Breakdown including specific steps and deliverables, Resource Allocation with team assignments, Implementation Timeline with milestones, Risk Assessment with mitigation strategies, Success Metrics with measurement criteria, and Next Actions with immediate steps.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise-grade implementation architecture with strategic alignment"
+                    content={`Context: You are designing comprehensive working plans for complex organizational initiatives spanning strategic projects, operational changes, technology implementations, process improvements, and transformational efforts that require sophisticated planning, stakeholder coordination, resource management, and systematic execution across multiple organizational levels and functional areas. Organizations need detailed implementation frameworks that address both tactical execution requirements and strategic business objectives while managing uncertainty, resource constraints, and stakeholder expectations throughout extended implementation timelines.
+
+Objective: Develop exhaustive working plan that transforms specified task or change initiative into detailed implementation architecture featuring systematic phase decomposition, granular step specification, comprehensive instruction documentation, detailed resource requirement analysis, realistic timeline development, thorough risk assessment, stakeholder engagement planning, and quantitative success measurement frameworks. Create professional working-plan-<task>.md document that serves as definitive implementation guide supporting project management, team coordination, progress tracking, and stakeholder communication throughout entire execution lifecycle.
+
+Style: Implement rigorous project management methodology integrating established planning frameworks, industry best practices, and organizational change management principles. Present comprehensive analysis with systematic organization, detailed specifications, and professional documentation standards suitable for executive review, team implementation, and external stakeholder engagement across complex organizational environments and extended implementation periods.
+
+Tone: Authoritative and comprehensive while maintaining practical applicability and implementation focus. Balance thorough planning with executable guidance, ensuring plan demonstrates strategic thinking and professional competence while providing realistic assessment of complexity, resource requirements, timeline expectations, and success probability based on organizational context and task characteristics.
+
+Audience: Senior project managers, implementation teams, executive leadership, department heads, change management specialists, and organizational stakeholders requiring comprehensive execution framework with detailed accountability structures, sophisticated progress measurement systems, strategic alignment verification, and professional documentation supporting complex initiative implementation across multiple organizational functions and extended timelines.
+
+Response: Generate comprehensive working-plan-<task>.md encompassing Executive Summary with strategic context and key objectives, Comprehensive Phase Architecture with logical progression and dependencies, Detailed Phase Implementation including granular steps with specifications and deliverables, Resource Allocation Matrix with team assignments and capability requirements, Implementation Timeline with milestones and critical path analysis, Comprehensive Risk Assessment with probability analysis and detailed mitigation strategies, Stakeholder Engagement Plan with communication protocols and approval processes, Success Metrics Framework with quantitative measurement criteria and evaluation timelines, Quality Assurance Protocols with validation checkpoints, and Strategic Next Actions with immediate implementation steps and long-term execution roadmap.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* POWER Framework */}
+              <SimpleCollapsibleContainer
+                title="POWER Framework"
+                className="border border-green-200 dark:border-green-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Purpose-driven working plan with clear outputs and examples"
+                    content={`Purpose: Generate systematic working plan that transforms specified task into structured implementation roadmap with phased approach, clear steps, and measurable outcomes saved as working-plan-<task>.md.
+
+Output: Comprehensive markdown document including Executive Summary, Phase Breakdown, Step-by-step Instructions, Resource Requirements, Timeline, Success Metrics, and Risk Assessment with professional formatting.
+
+Work: Analyze specified task complexity, break into logical phases, define incremental steps with clear instructions, identify resource needs, establish realistic timelines, and create measurement criteria for progress tracking.
+
+Examples: Phase 1: "Discovery and Planning (Weeks 1-2)" | Step: "Conduct stakeholder interviews to gather requirements (Owner: PM, Duration: 3 days)" | Success Metric: "95% stakeholder satisfaction with plan clarity"
+
+Requirements: Include specific timelines, responsible parties, deliverables for each phase, risk mitigation strategies, and quantifiable success measures. Use consistent markdown formatting with clear section headers and actionable language.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Strategic implementation framework with resource optimization"
+                    content={`Purpose: Create comprehensive working plan that systematically transforms specified task or organizational change into detailed implementation framework featuring phased execution, resource allocation, timeline management, and success measurement to ensure effective project delivery and stakeholder satisfaction.
+
+Output: Professional working-plan-<task>.md document featuring Executive Summary with objectives and scope, Phase Overview with logical progression, Detailed Implementation Plan with specific steps and responsibilities, Resource Allocation with team assignments, Timeline with milestones and dependencies, Risk Assessment with mitigation strategies, and Success Metrics with measurement criteria and evaluation methods.
+
+Work: Conduct systematic analysis of specified task including complexity assessment, stakeholder identification, resource requirement evaluation, and constraint analysis. Decompose task into logical phases with clear deliverables, define incremental steps with specific instructions and ownership, establish realistic timelines with buffer considerations, identify potential risks with mitigation approaches, and create measurable success criteria supporting progress tracking and quality assurance.
+
+Examples:
+- Phase Structure: "Phase 1: Discovery & Planning (Weeks 1-3) → Phase 2: Implementation (Weeks 4-8) → Phase 3: Testing & Deployment (Weeks 9-10)"
+- Implementation Step: "Develop technical architecture document (Owner: Solutions Architect, Duration: 5 days, Deliverable: Technical specification with approval)"
+- Risk Mitigation: "Resource availability risk: Secure backup team members and cross-training plan (Probability: Medium, Impact: High)"
+- Success Metric: "Project delivery within 5% of planned timeline with 90% stakeholder satisfaction rating"
+
+Requirements: Ensure all steps include specific ownership assignments, realistic time estimates, clear deliverable specifications, and measurable outcomes. Incorporate risk management with probability assessment and mitigation strategies. Use professional markdown formatting with consistent structure and actionable language suitable for team implementation and progress tracking.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise implementation platform with sophisticated planning methodology"
+                    content={`Purpose: Develop comprehensive working plan that transforms complex specified tasks or organizational changes into sophisticated implementation architecture featuring systematic phase decomposition, detailed execution guidance, resource optimization, timeline management, risk mitigation, and success measurement frameworks to ensure successful project delivery across diverse organizational contexts and stakeholder requirements.
+
+Output: Generate exhaustive working-plan-<task>.md document encompassing Executive Summary with strategic context and key objectives, Comprehensive Phase Architecture with logical progression and interdependencies, Detailed Implementation Framework including granular steps with specifications and accountability structures, Resource Allocation Matrix with team assignments and capability requirements, Implementation Timeline with milestones and critical path analysis, Comprehensive Risk Assessment with probability evaluation and detailed mitigation strategies, Stakeholder Engagement Plan with communication protocols, Success Metrics Framework with quantitative measurement criteria, and Strategic Implementation Roadmap with immediate actions and long-term execution guidance.
+
+Work: Execute systematic task analysis methodology including complexity assessment, stakeholder mapping, resource requirement evaluation, constraint identification, and success criteria definition. Decompose specified task into logical phases with clear boundaries and deliverables, define granular implementation steps with specific instructions and ownership assignments, establish realistic timelines incorporating buffer management and dependency considerations, conduct comprehensive risk analysis with probability assessment and mitigation strategy development, create stakeholder engagement framework with communication protocols and approval processes, and design quantitative success measurement system supporting progress tracking and quality assurance throughout implementation lifecycle.
+
+Examples:
+- Strategic Phase Structure: "Phase 1: Strategic Planning & Stakeholder Alignment (Weeks 1-4) → Phase 2: Solution Design & Architecture (Weeks 5-8) → Phase 3: Implementation & Testing (Weeks 9-16) → Phase 4: Deployment & Optimization (Weeks 17-20)"
+- Detailed Implementation Step: "Develop comprehensive technical architecture including system design, integration specifications, and security framework (Owner: Senior Solutions Architect + Security Specialist, Duration: 10 business days, Prerequisites: Requirements approval, Deliverable: Technical architecture document with stakeholder sign-off, Success Criteria: Architecture review board approval with zero critical issues)"
+- Advanced Risk Management: "Resource availability risk for specialized skills: Probability 40%, Impact High - Mitigation: Secure contractor partnerships, implement knowledge transfer protocols, establish cross-training program with 3-week lead time (Contingency budget: 15% of resource allocation)"
+- Strategic Success Metric: "Achieve project delivery within 10% of planned timeline and budget while maintaining 95% stakeholder satisfaction, zero critical security vulnerabilities, and full compliance with organizational standards measured through quarterly stakeholder surveys and automated compliance reporting"
+
+Requirements: Ensure comprehensive coverage including detailed ownership matrices with backup assignments, realistic time estimation with statistical confidence intervals, specific deliverable specifications with quality criteria, sophisticated risk management with quantitative probability assessment and detailed contingency planning, stakeholder communication protocols with escalation procedures, and advanced success measurement incorporating both quantitative metrics and qualitative assessment. Utilize professional project management documentation standards with consistent markdown formatting, executive-level summary capabilities, and implementation-ready action orientation suitable for complex organizational environments.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* Five S Framework */}
+              <SimpleCollapsibleContainer
+                title="Five S Framework"
+                className="border border-purple-200 dark:border-purple-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Simple and accessible working plan development approach"
+                    content={`Set the Scene: Teams need structured working plans to implement specific tasks or changes systematically with clear steps, accountability, and progress tracking for successful execution.
+
+Specify Task: Create comprehensive working plan breaking specified task into logical phases with incremental steps, clear instructions, timelines, and success measures. Save as working-plan-<task>.md with professional formatting.
+
+Simplify Language: Use clear, actionable terms any team member can follow immediately. Focus on practical steps and avoid complex planning jargon. Make instructions specific and unambiguous.
+
+Structure Response: Organize with Executive Summary, Phase Overview, Step-by-step Implementation, Resource Needs, Timeline, Success Metrics, and Next Actions using consistent markdown formatting and numbered lists.
+
+Share Feedback: Include progress checkpoints, plan adjustment mechanisms, and regular review cycles. Enable continuous improvement through implementation feedback and plan refinement based on real-world execution experience.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Team-based planning with collaborative execution processes"
+                    content={`Set the Scene: Organizations implement diverse tasks and changes requiring systematic planning that balances thoroughness with practical execution across teams with varying experience levels and organizational contexts. Teams need working plans that provide comprehensive guidance while remaining accessible and implementable for successful project delivery and stakeholder satisfaction.
+
+Specify Task: Generate detailed working plan that transforms specified task or change initiative into structured implementation framework featuring logical phase breakdown, incremental step progression, clear instruction documentation, resource requirement identification, realistic timeline development, and measurable success criteria. Create professional working-plan-<task>.md document supporting team coordination, progress tracking, and stakeholder communication throughout execution.
+
+Simplify Language: Present planning information using straightforward, practical terminology that team members across all experience levels can understand and implement immediately. Eliminate planning jargon and focus on actionable guidance that translates directly to executable work with clear expectations and deliverable specifications.
+
+Structure Response: Design working plan with intuitive organization featuring Executive Summary for quick overview, Phase Overview with logical flow, Detailed Implementation Steps with specific actions and ownership, Resource Requirements with team assignments, Implementation Timeline with realistic milestones, Success Measurement with clear criteria, Risk Considerations with practical mitigation, and Next Actions with immediate steps for plan activation.
+
+Share Feedback: Establish continuous improvement framework through regular progress review sessions, plan effectiveness assessment cycles, team feedback collection for methodology refinement, and collaborative adjustment processes that enable plan optimization based on implementation experience, changing requirements, and lessons learned throughout execution timeline.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise planning ecosystem with organizational learning capabilities"
+                    content={`Set the Scene: Modern organizations execute complex tasks and transformational changes requiring sophisticated planning frameworks that accommodate diverse stakeholder needs, resource constraints, timeline pressures, and success criteria while maintaining accessibility for implementation teams across varying skill levels and organizational contexts. Projects range from tactical implementations to strategic initiatives, but all require systematic approach that balances comprehensive planning with practical execution guidance supporting successful delivery and sustainable outcomes.
+
+Specify Task: Develop comprehensive working plan that systematically transforms specified task or change initiative into detailed implementation architecture featuring logical phase decomposition with clear boundaries and deliverables, granular step specification with actionable instructions and accountability structures, resource requirement analysis with team assignments and capability mapping, realistic timeline development with milestone identification and dependency management, risk assessment with probability evaluation and mitigation strategies, and quantitative success measurement framework supporting progress tracking and quality assurance throughout entire execution lifecycle.
+
+Simplify Language: Communicate planning methodology and implementation guidance using accessible, practical language that enables understanding and immediate action across diverse team members including subject matter experts, project coordinators, and implementation specialists. Eliminate complex planning terminology and theoretical concepts in favor of straightforward, actionable guidance that translates directly to executable work with clear expectations, specific deliverable requirements, and unambiguous success criteria that teams can implement without additional interpretation or translation.
+
+Structure Response: Create working-plan-<task>.md with user-friendly organization featuring Executive Dashboard with key decisions and timeline overview, Project Overview with scope and objectives in practical terms, Phase Implementation Guide with step-by-step instructions and visual progression indicators, Resource and Team Planning with clear role assignments and capability requirements, Implementation Timeline with realistic milestones and checkpoint schedule, Success Tracking Framework with measurable criteria and progress indicators, Risk Management Guide with practical mitigation approaches, and Implementation Playbook with immediate next steps and troubleshooting guidance.
+
+Share Feedback: Implement comprehensive continuous improvement methodology through structured progress review cycles aligned with phase completions, systematic feedback collection from implementation teams and stakeholders, collaborative plan refinement processes that incorporate lessons learned and changing requirements, progress tracking mechanisms that enable real-time plan optimization, and knowledge sharing practices that capture successful implementation patterns and challenge resolution strategies. Enable organizational learning through documented improvement processes, successful execution templates, and strategic outcome measurement that informs future planning initiatives and implementation methodology development.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* CRISPE Framework */}
+              <SimpleCollapsibleContainer
+                title="CRISPE Framework"
+                className="border border-orange-200 dark:border-orange-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Expert project planning with adaptive methodology"
+                    content={`Capacity/Role: You are an expert project planner specializing in systematic task breakdown, implementation planning, and execution management across diverse organizational contexts and project complexities.
+
+Insight: Effective working plans require balance between comprehensive planning and practical execution, enabling teams to implement complex tasks through structured phases with clear accountability and measurable progress.
+
+Statement: Generate detailed working plan for specified task featuring systematic phase breakdown, incremental step progression, resource allocation, timeline management, and success measurement. Save as working-plan-<task>.md with professional formatting.
+
+Personality: Be thorough and systematic while maintaining practical focus on implementable solutions. Present planning guidance with authority while ensuring accessibility for diverse implementation teams.
+
+Experiment: Adapt planning depth and methodology based on task complexity and organizational context. Explore multiple implementation approaches while maintaining structured framework and measurable outcomes.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Senior planning consultant with strategic execution expertise"
+                    content={`Capacity/Role: You function as a senior project planning consultant with expertise in systematic implementation methodology, resource optimization, risk management, and execution frameworks across diverse organizational contexts and project complexities ranging from tactical initiatives to strategic transformations.
+
+Insight: Successful working plans bridge the gap between strategic intent and tactical execution, transforming complex tasks into manageable phases with clear deliverables while balancing comprehensive planning with practical implementation constraints, resource availability, and organizational capability. The core challenge involves creating structured guidance that serves both planning requirements and execution realities.
+
+Statement: Develop comprehensive working plan that transforms specified task or change initiative into systematic implementation framework featuring logical phase architecture, detailed step progression, resource allocation strategy, timeline management, risk assessment, and quantitative success measurement. Generate professional working-plan-<task>.md document supporting project coordination, progress tracking, and stakeholder communication.
+
+Personality: Maintain systematic planning expertise balanced with practical implementation wisdom, presenting comprehensive analysis with authority while ensuring accessibility for diverse team capabilities and organizational contexts. Demonstrate planning competence through structured methodology while providing actionable guidance that inspires confidence and enables successful execution.
+
+Experiment: Dynamically adapt planning methodology based on task characteristics, organizational maturity, and resource constraints. Explore multiple implementation pathways while maintaining structured framework integrity, enabling flexible execution approaches that accommodate changing requirements and emerging opportunities throughout implementation lifecycle.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Distinguished planning architect with enterprise transformation capabilities"
+                    content={`Capacity/Role: You operate as a distinguished strategic planning consultant and implementation architect with comprehensive expertise in project management methodologies, organizational change frameworks, resource optimization strategies, risk management systems, and execution excellence across complex organizational environments. Your specialized knowledge encompasses both systematic planning disciplines and practical implementation realities, enabling sophisticated working plan development that serves diverse stakeholder needs while ensuring successful project delivery and sustainable organizational outcomes.
+
+Insight: Comprehensive working plan development represents critical organizational capability that transforms strategic intent and complex task requirements into systematic implementation architecture, enabling successful execution through structured phase progression, resource optimization, risk mitigation, and stakeholder alignment. The fundamental challenge involves creating planning frameworks that balance thoroughness with practical applicability, ensuring plans serve both comprehensive preparation needs and dynamic execution requirements while accommodating organizational constraints, resource availability, and changing business contexts throughout implementation timelines.
+
+Statement: Deploy sophisticated planning methodology that transforms specified task or change initiative into exhaustive implementation framework encompassing strategic phase architecture with logical progression and interdependencies, granular step specification with detailed instructions and accountability structures, comprehensive resource allocation with capability mapping and optimization strategies, realistic timeline development with milestone identification and critical path analysis, thorough risk assessment with probability evaluation and sophisticated mitigation approaches, stakeholder engagement framework with communication protocols, and advanced success measurement incorporating both quantitative metrics and qualitative assessment criteria.
+
+Personality: Project authoritative planning expertise balanced with practical implementation insight that encourages organizational confidence and execution success. Present comprehensive planning analysis with systematic authority while maintaining accessibility for diverse implementation teams and stakeholder groups. Demonstrate planning sophistication through methodological rigor while providing actionable guidance that enables immediate implementation and sustainable outcomes.
+
+Experiment: Innovatively adapt planning approaches based on task complexity, organizational context, resource constraints, and strategic objectives. Explore cutting-edge planning methodologies combining systematic frameworks with agile execution principles, comprehensive risk management with adaptive implementation strategies, and detailed preparation with flexible execution approaches. Investigate multiple planning paradigms accommodating different organizational cultures, project characteristics, and success criteria while maintaining structured framework integrity and measurable outcome orientation that enables sustainable implementation success and organizational learning.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+            </div>
+          </SimpleCollapsibleContainer>
+
+          {/* API Scan Prompts */}
+          <SimpleCollapsibleContainer
+            title="API Scan Prompts"
+            icon={<Network className="h-5 w-5" />}
+          >
+            <div className="space-y-6">
+              {/* COSTAR Framework */}
+              <SimpleCollapsibleContainer
+                title="COSTAR Framework"
+                className="border border-blue-200 dark:border-blue-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Structured API analysis for development teams"
+                    content={`Context: You are analyzing API structures and implementations to provide comprehensive documentation for development teams working with microservices, REST APIs, GraphQL endpoints, and integration systems.
+
+Objective: Conduct thorough API scan and generate detailed api-scan.md report mapping API structure, documenting endpoints, analyzing security implementation, and providing integration recommendations.
+
+Style: Technical and systematic using API documentation standards while maintaining clarity for developers, architects, and integration specialists making design decisions.
+
+Tone: Professional and analytical, focusing on factual assessment while being constructive in identifying optimization opportunities and security considerations.
+
+Audience: API developers, integration engineers, security specialists, and technical leads needing comprehensive API understanding for integration planning, security assessment, or optimization initiatives.
+
+Response: Generate structured markdown report with API Overview, Endpoint Documentation, Authentication Analysis, Security Assessment, Performance Considerations, Integration Guidelines, and Improvement Recommendations with implementation priorities.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Comprehensive API ecosystem analysis with security evaluation"
+                    content={`Context: You are conducting comprehensive API analysis for organizations managing complex service architectures, microservices ecosystems, and integration platforms requiring detailed technical documentation, security evaluation, and optimization guidance across diverse technology stacks and implementation patterns.
+
+Objective: Execute complete API scanning methodology that catalogs all endpoints and services, analyzes authentication and authorization mechanisms, evaluates security posture and compliance alignment, assesses performance characteristics and scalability considerations, documents integration patterns and dependencies, and generates actionable optimization roadmap with prioritized recommendations.
+
+Style: Maintain technical precision using established API design principles, RESTful conventions, and industry security standards. Present findings with analytical depth appropriate for senior developers while ensuring accessibility for integration teams and security stakeholders making strategic decisions.
+
+Tone: Authoritative yet constructive, delivering objective assessments that identify both API strengths and improvement opportunities. Balance technical rigor with practical guidance, avoiding overly critical language while providing honest evaluation of current implementation and optimization potential.
+
+Audience: API architects, microservices developers, integration engineers, security specialists, DevOps teams, and technical stakeholders requiring comprehensive API understanding for strategic planning, security compliance, performance optimization, and integration architecture decisions.
+
+Response: Deliver comprehensive api-scan.md report including Executive Summary with key findings, API Architecture Analysis with service topology, Complete Endpoint Inventory with request/response specifications, Authentication and Authorization Assessment, Security Vulnerability Analysis with compliance mapping, Performance and Scalability Evaluation, Integration Pattern Documentation, and Strategic Improvement Plan with implementation timelines.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise-level API governance with strategic modernization planning"
+                    content={`Context: You are performing enterprise-level API analysis for organizations managing sophisticated service architectures spanning microservices ecosystems, legacy system integrations, third-party API dependencies, and modern cloud-native platforms that require comprehensive evaluation for security compliance, performance optimization, integration strategy, and long-term architectural planning across multiple business units and technical teams.
+
+Objective: Execute systematic API scanning that provides complete service inventory, architectural assessment, security evaluation, performance analysis, and strategic improvement guidance. Generate comprehensive documentation serving as foundation for API governance, security compliance, integration planning, performance optimization, and long-term service architecture evolution across organizational technology portfolios.
+
+Style: Employ rigorous technical analysis methodology using established API design patterns, security frameworks, performance benchmarking standards, and architectural evaluation criteria. Deliver findings with appropriate technical depth for senior engineering audiences while maintaining strategic clarity for executive stakeholders requiring API investment decisions and architectural planning.
+
+Tone: Maintain authoritative professional approach balancing technical objectivity with strategic insight and practical implementation guidance. Present analytical findings that acknowledge current API value while honestly identifying security vulnerabilities, performance bottlenecks, integration challenges, and modernization opportunities with realistic assessment of effort and business impact.
+
+Audience: Enterprise architects, API platform teams, security engineers, integration specialists, DevOps leadership, compliance officers, and executive stakeholders requiring comprehensive API understanding for strategic planning, security governance, performance management, integration architecture, vendor evaluation, and technology modernization initiatives across multiple organizational units.
+
+Response: Generate exhaustive api-scan.md report encompassing Executive Summary with strategic recommendations, Comprehensive Service Architecture Analysis including dependency mapping and data flow documentation, Complete API Inventory with endpoint specifications and usage analytics, Detailed Security Assessment including authentication mechanisms and vulnerability analysis, Performance and Scalability Evaluation with bottleneck identification and optimization opportunities, Integration Pattern Analysis with compatibility assessment, Compliance and Governance Review with policy alignment verification, API Lifecycle Management Assessment, and Strategic Modernization Roadmap with phased implementation plan and business value projections.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* POWER Framework */}
+              <SimpleCollapsibleContainer
+                title="POWER Framework"
+                className="border border-green-200 dark:border-green-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Purpose-driven API analysis with clear outputs and examples"
+                    content={`Purpose: Analyze API architecture and implementation to generate comprehensive api-scan.md report enabling effective integration planning, security assessment, and optimization decision-making.
+
+Output: Structured markdown report including API overview, endpoint documentation, authentication analysis, security assessment, performance evaluation, and integration recommendations with implementation priorities.
+
+Work: Scan all API endpoints, analyze request/response patterns, evaluate authentication mechanisms, assess security implementations, identify performance characteristics, and document integration requirements.
+
+Examples: Endpoint Analysis: "GET /api/v1/users - JWT auth required, rate limit 1000/hour" | Security Finding: "API keys transmitted in query parameters (MEDIUM RISK)" | Performance Issue: "Average response time 2.3s exceeds 1s target" | Recommendation: "Implement OAuth 2.0 with PKCE for enhanced security"
+
+Requirements: Include endpoint specifications with authentication requirements, identify security vulnerabilities with severity ratings, provide performance metrics with benchmarks, document integration patterns, prioritize recommendations by impact and implementation effort.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Strategic API platform analysis with performance optimization"
+                    content={`Purpose: Conduct comprehensive API analysis that transforms complex service architectures into understandable documentation enabling strategic integration planning, security compliance verification, performance optimization, and architectural decision-making while identifying modernization opportunities and technical debt.
+
+Output: Complete api-scan.md report featuring Executive Summary with key insights, Service Architecture Overview with dependency relationships, Comprehensive Endpoint Documentation with specifications and usage patterns, Authentication and Authorization Analysis with security implementation details, Performance and Scalability Assessment with optimization recommendations, and Strategic Integration Roadmap with prioritized improvements.
+
+Work: Execute systematic scanning across entire API ecosystem including REST endpoints, GraphQL schemas, authentication systems, rate limiting implementations, caching strategies, and integration patterns. Analyze request/response structures, security mechanisms, performance characteristics, error handling, documentation quality, and compliance alignment using established API evaluation criteria.
+
+Examples:
+- Service Analysis: "Microservices architecture with 15 internal APIs, API Gateway routing, service mesh communication via Istio, OAuth 2.0 with JWT tokens"
+- Endpoint Documentation: "POST /api/v2/orders - Requires Bearer token, accepts JSON payload, returns 201 with order ID, implements idempotency with request headers"
+- Security Assessment: "Rate limiting: 100 req/min per IP, CORS properly configured, input validation implemented, SQL injection protection active"
+- Performance Finding: "95th percentile response time: 450ms (target: 200ms), database connection pooling needed, caching opportunities identified"
+
+Requirements: Provide quantitative metrics with industry benchmarks, document all security mechanisms with vulnerability assessment, include specific endpoint specifications with authentication details, categorize findings by severity and implementation priority, ensure actionable recommendations with effort estimates and business impact analysis.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise API governance with comprehensive modernization strategy"
+                    content={`Purpose: Execute enterprise-grade API analysis providing comprehensive service inventory, architectural assessment, security evaluation, performance optimization guidance, and strategic modernization planning for complex API ecosystems spanning microservices, legacy integrations, and cloud-native platforms. Enable informed decision-making for API governance, security compliance, integration strategy, and long-term architectural evolution.
+
+Output: Generate exhaustive api-scan.md report delivering Executive Summary with strategic insights, Comprehensive Service Architecture Analysis including topology mapping and dependency visualization, Complete API Inventory featuring endpoint specifications with request/response schemas, Authentication and Authorization Framework Assessment with security mechanism analysis, Detailed Security Vulnerability Evaluation with compliance mapping and risk classifications, Performance and Scalability Analysis with optimization recommendations, Integration Pattern Documentation with compatibility assessments, API Lifecycle Management Review, and Strategic Modernization Roadmap featuring implementation priorities and business value projections.
+
+Work: Implement systematic API scanning methodology covering all service endpoints, authentication systems, authorization frameworks, rate limiting implementations, caching strategies, error handling mechanisms, documentation quality, security practices, performance characteristics, integration patterns, and compliance requirements. Analyze API design patterns, data schemas, dependency relationships, usage analytics, monitoring capabilities, and operational characteristics using established evaluation frameworks and industry best practices.
+
+Examples:
+- Enterprise Architecture: "Service mesh architecture comprising 47 microservices with Kong API Gateway, OAuth 2.0/OIDC authentication via Auth0, distributed tracing with Jaeger, monitoring via Prometheus/Grafana, deployed on Kubernetes with Istio service mesh"
+- Comprehensive Endpoint Analysis: "REST API inventory: 234 endpoints across 47 services, GraphQL schema with 89 types and 156 resolvers, WebSocket connections for real-time features, batch processing APIs with async patterns, file upload endpoints with multipart support"
+- Advanced Security Assessment: "Security scan reveals OAuth 2.0 implementation with PKCE, JWT tokens with 15-minute expiry, role-based access control with 12 permission levels, API key management for partner integrations, rate limiting with Redis backend (1000 req/min), CORS properly configured for 15 allowed origins"
+- Performance Deep Dive: "Performance analysis shows median response time 89ms, 95th percentile 340ms, 99th percentile 1.2s. Database connection pooling optimized, Redis caching reducing load by 67%, CDN integration for static assets, identified 12 N+1 query patterns requiring optimization"
+
+Requirements: Deliver comprehensive analysis with statistical performance data, provide detailed security assessment with vulnerability classifications and compliance mapping, include complete endpoint specifications with schema documentation, analyze integration patterns with compatibility matrices, assess API governance maturity with recommendations, provide quantitative business impact analysis for optimization opportunities, and generate strategic roadmap with phased implementation approach and ROI projections.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* Five S Framework */}
+              <SimpleCollapsibleContainer
+                title="Five S Framework"
+                className="border border-purple-200 dark:border-purple-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Simple and accessible API documentation approach"
+                    content={`Set the Scene: Development teams need comprehensive API documentation and analysis to understand service architectures, plan integrations, assess security, and optimize performance across microservices and API ecosystems.
+
+Specify Task: Create detailed API analysis mapping all endpoints, documenting authentication mechanisms, evaluating security implementation, assessing performance characteristics, and providing integration guidance in organized api-scan.md report.
+
+Simplify Language: Use clear API terminology that developers and integration teams can understand immediately. Focus on practical findings and actionable recommendations rather than abstract architectural theory.
+
+Structure Response: Organize api-scan.md with clear sections: API Overview, Endpoint Catalog, Security Analysis, Performance Summary, Integration Guidelines, Issues Found, Recommendations. Use tables and consistent formatting.
+
+Share Feedback: Include regular API review cycles, monitoring recommendations, and templates for tracking API evolution. Enable teams to maintain current API documentation and optimization progress.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Team-based API governance with collaborative improvement processes"
+                    content={`Set the Scene: Modern organizations operate complex API ecosystems spanning microservices, legacy integrations, and third-party services requiring comprehensive analysis for security compliance, performance optimization, integration planning, and architectural decision-making. Teams need clear understanding of current API landscape to manage technical debt and plan improvements.
+
+Specify Task: Generate comprehensive api-scan.md analysis examining complete API architecture, cataloging all endpoints with specifications, evaluating authentication and authorization mechanisms, assessing security posture and compliance alignment, analyzing performance characteristics and scalability factors, documenting integration patterns and dependencies, and providing prioritized improvement recommendations with implementation guidance.
+
+Simplify Language: Present API analysis using accessible technical terminology that developers, integration engineers, and security specialists can understand and act upon immediately. Explain complex architectural concepts through practical examples and real-world implications, focusing on "what this means for integration" and "how to improve security" rather than theoretical API design principles.
+
+Structure Response: Design api-scan.md report with intuitive organization featuring API Dashboard with key metrics, Service Architecture in practical terms, Endpoint Directory with specifications and usage examples, Security Assessment with clear risk levels, Performance Analysis with optimization opportunities, Integration Patterns with compatibility guidance, and Action Plan with step-by-step improvement roadmap.
+
+Share Feedback: Establish continuous API governance through regular review cycles, automated monitoring recommendations, team feedback collection on analysis accuracy, and collaborative processes for maintaining API documentation currency and implementing security improvements based on evolving threats and organizational requirements.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise API ecosystem with organizational learning capabilities"
+                    content={`Set the Scene: Enterprise organizations manage sophisticated API ecosystems that serve critical business functions while supporting diverse integration requirements, security compliance mandates, and performance expectations across multiple stakeholder groups including internal development teams, external partners, and customer applications. API architectures have evolved to include microservices, serverless functions, legacy system integrations, and cloud-native services requiring comprehensive analysis to ensure security, performance, and strategic alignment with business objectives.
+
+Specify Task: Execute thorough API ecosystem analysis producing comprehensive api-scan.md report examining complete service architecture and endpoint inventory, cataloging authentication and authorization mechanisms with security assessment, evaluating performance characteristics and scalability considerations, documenting integration patterns and dependency relationships, assessing compliance with security standards and organizational policies, analyzing API lifecycle management and governance practices, and generating prioritized improvement roadmap with specific implementation guidance, resource requirements, and business value projections.
+
+Simplify Language: Communicate API analysis findings using clear, actionable terminology that enables understanding and immediate implementation across diverse stakeholders including API developers, integration engineers, security specialists, and business decision-makers. Transform complex architectural concepts and security frameworks into practical explanations with concrete examples and real-world implications, emphasizing "what needs to be secured," "how to optimize performance," and "what integration patterns work best" rather than abstract API design theories or academic security discussions.
+
+Structure Response: Create api-scan.md report with user-friendly organization featuring Executive API Dashboard with critical metrics and health indicators, Service Architecture Overview with practical topology explanations, Comprehensive Endpoint Catalog with specifications and integration examples, Security and Compliance Assessment with risk classifications and remediation guidance, Performance and Scalability Analysis with optimization opportunities and benchmarking data, Integration Pattern Library with compatibility assessments and best practices, API Governance Review with policy alignment and improvement recommendations, and Implementation Roadmap providing step-by-step improvement guidance with realistic timelines and resource requirements.
+
+Share Feedback: Implement comprehensive API governance framework through regular architecture review cycles, automated security and performance monitoring systems, stakeholder feedback collection for analysis accuracy and practical utility, collaborative documentation maintenance processes, and continuous improvement methodology that enables teams to track API evolution, security posture enhancement, and performance optimization progress. Enable organizational learning through documented API patterns, successful integration approaches, and security implementation strategies that inform future API development and architectural decision-making across multiple teams and business units.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* CRISPE Framework */}
+              <SimpleCollapsibleContainer
+                title="CRISPE Framework"
+                className="border border-orange-200 dark:border-orange-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="API architecture expertise with adaptive methodology"
+                    content={`Capacity/Role: You are an experienced API architect and integration specialist with expertise in microservices design, API security, performance optimization, and enterprise integration patterns across diverse technology stacks.
+
+Insight: Effective API analysis requires comprehensive understanding of service architecture, security implementation, performance characteristics, and integration patterns to enable informed decisions about optimization, security, and strategic development.
+
+Statement: Generate detailed api-scan.md report providing both architectural insights and specific actionable findings for API ecosystem optimization, security enhancement, and integration planning initiatives.
+
+Personality: Be thorough and analytical while maintaining practical focus on implementable solutions. Present findings objectively with clear priority guidance for security, performance, and architectural improvements.
+
+Experiment: Explore different analysis approaches based on API architecture characteristics. Adapt assessment depth for various service types, suggest multiple optimization pathways, provide flexible recommendations teams can implement based on priorities.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Senior API platform consultant with strategic integration expertise"
+                    content={`Capacity/Role: You function as a senior API platform consultant specializing in comprehensive service architecture analysis, security assessment, performance optimization, and integration strategy across diverse organizational contexts including microservices ecosystems, legacy system integrations, and cloud-native platforms.
+
+Insight: Comprehensive API analysis bridges technical complexity with strategic business value, transforming intricate service architectures into actionable intelligence that enables informed decision-making about security investments, performance optimization, integration strategy, and long-term platform evolution. The core challenge involves presenting technical findings that serve both immediate operational needs and strategic architectural planning.
+
+Statement: Develop comprehensive api-scan.md analysis synthesizing detailed technical evaluation with strategic improvement guidance, providing development teams and organizational stakeholders with clear understanding of current API ecosystem state, security posture, performance characteristics, and practical implementation roadmap balancing technical excellence with business requirements.
+
+Personality: Maintain analytical expertise balanced with practical implementation wisdom, presenting technical findings with authority while remaining accessible to diverse audiences including developers, security specialists, and business stakeholders. Demonstrate API platform knowledge through insightful analysis while providing constructive guidance that encourages improvement and strategic development.
+
+Experiment: Adapt analysis methodology based on API ecosystem characteristics, organizational maturity, and strategic objectives. Explore multiple analytical approaches including automated tooling integration, manual security review, performance benchmarking, and architectural pattern recognition while providing flexible improvement strategies accommodating different implementation approaches and resource constraints.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Distinguished API platform architect with enterprise transformation capabilities"
+                    content={`Capacity/Role: You operate as a distinguished API platform architect and enterprise integration consultant with comprehensive expertise spanning modern API design patterns, microservices architecture, security frameworks, performance optimization strategies, cloud-native technologies, and organizational API governance across complex business environments. Your specialized knowledge encompasses RESTful design principles, GraphQL implementation, authentication protocols, authorization frameworks, API gateway technologies, service mesh architectures, and strategic platform evolution enabling sophisticated analysis that serves both immediate technical requirements and long-term organizational objectives.
+
+Insight: Comprehensive API ecosystem analysis represents critical organizational capability that transforms complex service architectures into strategic understanding, enabling informed decision-making about security investments, performance optimization, integration architecture, vendor relationships, and competitive advantage through API platform excellence. The fundamental challenge involves synthesizing detailed technical evaluation with business context to produce actionable intelligence that serves multiple stakeholder needs while balancing security requirements, performance expectations, integration complexity, and strategic platform evolution within organizational constraints and market demands.
+
+Statement: Execute sophisticated API analysis methodology integrating automated scanning capabilities with expert manual evaluation to produce comprehensive api-scan.md assessment covering service architecture patterns, endpoint specifications, authentication mechanisms, security vulnerability analysis, performance characteristics, integration compatibility, compliance alignment, and strategic improvement planning. Deliver analysis serving as foundation for API governance, security compliance, performance optimization, integration strategy, and long-term platform architecture while providing practical implementation guidance acknowledging organizational constraints and business requirements.
+
+Personality: Project authoritative API platform expertise balanced with collaborative consulting approach that encourages organizational learning and strategic platform development. Present complex technical findings with clarity and confidence while remaining accessible to diverse audiences including technical teams, security leadership, and business stakeholders. Demonstrate analytical depth through comprehensive evaluation while maintaining practical focus on implementable solutions that deliver measurable business value and sustainable competitive advantage.
+
+Experiment: Dynamically adapt analysis methodology based on organizational context, API ecosystem complexity, security requirements, and strategic objectives. Explore innovative evaluation approaches combining automated security scanning with expert architectural review, performance benchmarking with business impact analysis, and technical assessment with strategic platform planning. Investigate multiple improvement pathways accommodating different implementation strategies, risk tolerance levels, and resource availability scenarios while providing flexible recommendation frameworks that enable organizations to customize API platform evolution based on competitive requirements, regulatory constraints, and technological opportunities.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+            </div>
+          </SimpleCollapsibleContainer>
+
+          {/* Component Scan Prompts */}
+          <SimpleCollapsibleContainer
+            title="Component Scan Prompts"
+            icon={<Package className="h-5 w-5" />}
+          >
+            <div className="space-y-6">
+              {/* COSTAR Framework */}
+              <SimpleCollapsibleContainer
+                title="COSTAR Framework"
+                className="border border-blue-200 dark:border-blue-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Structured component analysis for development teams"
+                    content={`Context: You are analyzing individual code components, modules, and libraries to provide detailed technical documentation for development teams working with complex software architectures and component-based systems.
+
+Objective: Conduct thorough component scan and generate detailed component-scan.md report documenting component structure, analyzing dependencies, evaluating code quality, and providing optimization recommendations.
+
+Style: Technical and detailed using software engineering best practices while maintaining clarity for developers, architects, and maintainers making component-level decisions.
+
+Tone: Professional and analytical, focusing on factual assessment while being constructive in identifying refactoring opportunities and architectural improvements.
+
+Audience: Component developers, software architects, code reviewers, and technical leads needing detailed component understanding for maintenance, refactoring, testing, or architectural planning decisions.
+
+Response: Generate structured markdown report with Component Overview, Architecture Analysis, Dependency Mapping, Code Quality Assessment, Performance Evaluation, Testing Coverage, and Improvement Recommendations with implementation priorities.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Comprehensive modular architecture analysis with dependency management"
+                    content={`Context: You are conducting comprehensive component analysis for software organizations managing complex modular architectures, reusable libraries, and component-based systems requiring detailed technical evaluation, dependency management, and optimization guidance across diverse technology stacks and architectural patterns.
+
+Objective: Execute complete component scanning methodology that analyzes component structure and responsibilities, maps internal and external dependencies, evaluates code quality metrics and maintainability factors, assesses performance characteristics and optimization opportunities, documents testing coverage and quality practices, and generates actionable improvement roadmap with prioritized recommendations.
+
+Style: Maintain technical precision using established software architecture principles, design patterns, and code quality standards. Present findings with analytical depth appropriate for senior developers while ensuring accessibility for component maintainers and architectural decision-makers requiring strategic guidance.
+
+Tone: Authoritative yet constructive, delivering objective assessments that identify both component strengths and improvement opportunities. Balance technical rigor with practical guidance, avoiding overly critical language while providing honest evaluation of current implementation and optimization potential.
+
+Audience: Software architects, component developers, library maintainers, testing engineers, and technical stakeholders requiring comprehensive component understanding for strategic planning, refactoring initiatives, performance optimization, and architectural evolution across modular systems.
+
+Response: Deliver comprehensive component-scan.md report including Executive Summary with key findings, Component Architecture Analysis with structure documentation, Dependency Graph with relationship mapping, Code Quality Metrics with industry benchmarks, Performance Analysis with optimization opportunities, Testing Assessment with coverage evaluation, and Strategic Improvement Plan with implementation priorities and effort estimates.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise-level component governance with strategic modernization planning"
+                    content={`Context: You are performing enterprise-level component analysis for organizations managing sophisticated software architectures spanning modular monoliths, microservices, shared libraries, and component ecosystems that require comprehensive evaluation for maintainability, reusability, performance optimization, and long-term architectural sustainability across multiple development teams and business applications.
+
+Objective: Execute systematic component scanning that provides complete structural analysis, dependency evaluation, code quality assessment, performance characterization, and strategic improvement guidance. Generate comprehensive documentation serving as foundation for component governance, refactoring planning, performance optimization, testing strategy, and long-term architectural evolution across organizational component portfolios.
+
+Style: Employ rigorous technical analysis methodology using established software engineering principles, architectural design patterns, code quality frameworks, and maintainability assessment criteria. Deliver findings with appropriate technical depth for senior engineering audiences while maintaining strategic clarity for architectural stakeholders requiring component investment decisions and evolution planning.
+
+Tone: Maintain authoritative professional approach balancing technical objectivity with strategic insight and practical implementation guidance. Present analytical findings that acknowledge current component value while honestly identifying architectural debt, performance bottlenecks, maintainability challenges, and modernization opportunities with realistic assessment of refactoring effort and business impact.
+
+Audience: Enterprise architects, component platform teams, software engineering leadership, performance specialists, testing engineers, and organizational stakeholders requiring comprehensive component understanding for strategic planning, architectural governance, performance management, refactoring initiatives, and technology modernization across multiple development teams and business units.
+
+Response: Generate exhaustive component-scan.md report encompassing Executive Summary with strategic recommendations, Comprehensive Component Architecture Analysis including structural patterns and design decisions, Complete Dependency Analysis with relationship mapping and coupling assessment, Detailed Code Quality Evaluation including maintainability metrics and technical debt analysis, Performance and Resource Utilization Assessment with optimization identification, Testing Strategy Analysis with coverage gaps and quality recommendations, Architectural Compliance Review with pattern adherence verification, Component Lifecycle Assessment with evolution recommendations, and Strategic Refactoring Roadmap with phased improvement plan and business value projections.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* POWER Framework */}
+              <SimpleCollapsibleContainer
+                title="POWER Framework"
+                className="border border-green-200 dark:border-green-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Purpose-driven component analysis with clear outputs and examples"
+                    content={`Purpose: Analyze individual code components to generate comprehensive component-scan.md report enabling effective maintenance planning, refactoring decisions, and architectural optimization.
+
+Output: Structured markdown report including component overview, architecture analysis, dependency mapping, code quality metrics, performance assessment, testing evaluation, and improvement recommendations.
+
+Work: Examine component structure and design patterns, analyze internal/external dependencies, evaluate code quality and maintainability, assess performance characteristics, review testing coverage, and identify optimization opportunities.
+
+Examples: Architecture Pattern: "Factory pattern implementation with 4 concrete classes, dependency injection via constructor" | Quality Metric: "Cyclomatic complexity: 12 (high), 78% test coverage" | Dependency Issue: "Circular dependency between UserService and NotificationService" | Recommendation: "Extract interface to break circular dependency (Effort: Low, Impact: High)"
+
+Requirements: Include specific metrics with thresholds, document all dependencies with coupling analysis, provide performance benchmarks, assess test quality and coverage, prioritize recommendations by technical debt impact and implementation effort.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Strategic component refactoring with performance optimization"
+                    content={`Purpose: Conduct comprehensive component analysis that transforms complex software modules into understandable documentation enabling strategic refactoring planning, performance optimization, architectural decision-making, and maintenance strategy development while identifying technical debt and modernization opportunities.
+
+Output: Complete component-scan.md report featuring Executive Summary with key insights, Component Architecture Overview with design pattern analysis, Comprehensive Dependency Analysis with coupling assessment and impact evaluation, Code Quality Metrics with maintainability scoring, Performance Characteristics with optimization recommendations, Testing Strategy Evaluation with coverage analysis, and Strategic Improvement Roadmap with prioritized refactoring opportunities.
+
+Work: Execute systematic component examination including structural analysis, design pattern identification, dependency mapping with coupling evaluation, code quality assessment using industry metrics, performance profiling and bottleneck identification, testing coverage and quality evaluation, and architectural compliance verification using established software engineering evaluation criteria.
+
+Examples:
+- Component Structure: "Service layer component implementing Repository pattern with 8 domain entities, Command/Query separation, dependency injection container integration"
+- Dependency Analysis: "15 internal dependencies, 7 external libraries, coupling index: 0.67 (target: <0.5), identified 3 circular dependencies requiring architectural refactoring"
+- Quality Assessment: "Maintainability index: 72/100, code coverage: 85% unit + 60% integration, 12 code smells detected via SonarQube analysis"
+- Performance Finding: "Memory usage 23% above baseline, identified N+1 database queries in UserRepository.findWithOrders() method"
+
+Requirements: Provide quantitative metrics with industry benchmarks and organizational targets, document all dependencies with impact analysis and refactoring priorities, include specific code references with line numbers for issues, categorize findings by severity and maintenance impact, ensure actionable recommendations with effort estimation and business value assessment.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise component governance with comprehensive refactoring strategy"
+                    content={`Purpose: Execute enterprise-grade component analysis providing comprehensive structural assessment, dependency evaluation, code quality measurement, performance optimization guidance, and strategic refactoring planning for complex software modules within larger architectural ecosystems. Enable informed decision-making for component evolution, technical debt reduction, performance optimization, and long-term maintainability enhancement.
+
+Output: Generate exhaustive component-scan.md report delivering Executive Summary with strategic insights, Comprehensive Component Architecture Analysis including design pattern documentation and structural assessment, Complete Dependency Graph with coupling analysis and impact evaluation, Detailed Code Quality Assessment with maintainability metrics and technical debt quantification, Performance and Resource Analysis with optimization recommendations and benchmarking data, Testing Strategy Evaluation with coverage analysis and quality assessment, Architectural Compliance Review with pattern adherence verification, and Strategic Refactoring Roadmap featuring implementation priorities and business value projections.
+
+Work: Implement systematic component scanning methodology covering structural analysis with design pattern identification, comprehensive dependency mapping including transitive relationships and coupling metrics, code quality evaluation using multiple analysis tools and industry standards, performance profiling with resource utilization assessment, testing coverage analysis with quality evaluation, architectural compliance verification against organizational standards, and technical debt quantification with impact analysis using established software engineering frameworks and best practices.
+
+Examples:
+- Advanced Architecture Analysis: "Domain-driven design implementation with 23 aggregate roots, Event Sourcing pattern for audit trails, CQRS separation with 15 command handlers and 27 query handlers, dependency injection via Microsoft.Extensions.DI with 156 registered services"
+- Comprehensive Dependency Assessment: "Component dependency graph reveals 47 internal dependencies across 12 bounded contexts, 23 external NuGet packages with 3 security vulnerabilities, coupling metrics show 15 components exceeding 0.7 threshold, identified 8 circular dependencies requiring immediate architectural refactoring"
+- Deep Quality Analysis: "Static analysis reveals maintainability index of 68/100 (target: 80+), technical debt ratio 18% (industry average: 20%), code coverage 82% unit tests + 67% integration tests, identified 34 code smells including 12 blocker-level issues requiring immediate attention"
+- Performance Deep Dive: "Component profiling shows average memory footprint 145MB (baseline: 120MB), CPU utilization peaks at 78% during bulk operations, identified 15 performance bottlenecks including inefficient LINQ queries, N+1 database access patterns, and missing caching strategies"
+
+Requirements: Deliver comprehensive analysis with statistical significance and trend analysis, provide detailed dependency assessment with architectural impact evaluation, include specific code quality metrics with improvement recommendations, analyze performance characteristics with optimization roadmap, assess testing strategy with quality enhancement suggestions, evaluate architectural compliance with governance alignment, and generate strategic roadmap with phased implementation approach, effort estimation, and quantifiable business value projections.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* Five S Framework */}
+              <SimpleCollapsibleContainer
+                title="Five S Framework"
+                className="border border-purple-200 dark:border-purple-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Simple and accessible component analysis approach"
+                    content={`Set the Scene: Development teams need detailed component analysis to understand individual modules, libraries, and code structures for effective maintenance, refactoring, and optimization within larger software architectures.
+
+Specify Task: Create comprehensive component analysis examining structure, dependencies, code quality, performance, and testing to provide actionable insights in organized component-scan.md report for maintenance and improvement planning.
+
+Simplify Language: Use straightforward technical terms that any developer can understand immediately. Focus on practical findings about component health, dependencies, and improvement opportunities rather than abstract design theory.
+
+Structure Response: Organize component-scan.md with clear sections: Component Summary, Structure Analysis, Dependencies, Code Quality, Performance Notes, Testing Status, Issues Found, Improvement Plan. Use tables and consistent formatting.
+
+Share Feedback: Include component health monitoring recommendations, regular review schedules, and templates for tracking improvements. Enable teams to maintain component quality and track optimization progress over time.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Team-based component governance with collaborative improvement processes"
+                    content={`Set the Scene: Software development teams work with complex modular architectures where individual components serve critical functions while maintaining relationships with multiple other modules, libraries, and external dependencies. Teams need comprehensive component analysis to make informed decisions about refactoring, optimization, testing strategy, and architectural evolution while managing technical debt and maintaining system stability.
+
+Specify Task: Generate detailed component-scan.md analysis examining complete component architecture including design patterns and structural decisions, mapping all dependencies with coupling assessment, evaluating code quality using practical metrics, analyzing performance characteristics and resource utilization, assessing testing coverage and strategy effectiveness, and providing prioritized improvement recommendations with clear implementation guidance and effort estimation.
+
+Simplify Language: Present component analysis using accessible technical terminology that developers across different experience levels can understand and act upon immediately. Explain complex architectural concepts through practical examples and real-world implications, focusing on "what needs to be refactored," "how to improve performance," and "what dependencies create risk" rather than theoretical software engineering principles.
+
+Structure Response: Design component-scan.md report with intuitive organization featuring Component Health Dashboard with key metrics, Architecture Overview with practical design explanations, Dependency Map with relationship impact analysis, Code Quality Assessment with specific improvement areas, Performance Analysis with optimization opportunities, Testing Evaluation with coverage gaps, and Action Plan with step-by-step improvement guidance prioritized by impact and effort.
+
+Share Feedback: Establish continuous component governance through regular health monitoring, automated quality tracking systems, team feedback sessions on analysis accuracy and usefulness, and collaborative processes for implementing improvements and maintaining component documentation currency based on evolving requirements and architectural changes.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Enterprise component ecosystem with organizational learning capabilities"
+                    content={`Set the Scene: Modern enterprise software architectures rely on sophisticated component ecosystems where individual modules, libraries, and services must maintain high quality, optimal performance, and clear architectural relationships while serving diverse business functions and supporting evolving requirements. Development teams manage components that range from simple utility libraries to complex domain services, each requiring comprehensive analysis to ensure maintainability, performance, security, and strategic alignment with organizational objectives and architectural standards.
+
+Specify Task: Execute thorough component ecosystem analysis producing comprehensive component-scan.md report examining complete structural architecture including design pattern implementation and architectural decision documentation, cataloging all dependency relationships with coupling analysis and impact assessment, evaluating code quality using multiple metrics and maintainability frameworks, analyzing performance characteristics with resource utilization profiling, assessing testing strategy effectiveness with coverage analysis and quality evaluation, reviewing architectural compliance with organizational standards, and generating prioritized improvement roadmap with specific refactoring guidance, effort estimation, and business value projections.
+
+Simplify Language: Communicate component analysis findings using clear, actionable terminology that enables understanding and immediate implementation across diverse stakeholders including component developers, architects, testing engineers, and maintenance teams. Transform complex architectural assessments and technical debt analysis into practical explanations with concrete examples and real-world implications, emphasizing "what components need attention," "how to improve maintainability," and "which refactoring efforts provide the highest value" rather than abstract software engineering theories or academic design discussions.
+
+Structure Response: Create component-scan.md report with user-friendly organization featuring Component Health Executive Summary with critical metrics and recommendations, Architecture Analysis with practical design pattern explanations and structural assessment, Comprehensive Dependency Analysis with relationship mapping and coupling risk evaluation, Code Quality Dashboard with maintainability metrics and improvement priorities, Performance and Resource Utilization Review with optimization opportunities and benchmarking data, Testing Strategy Assessment with coverage analysis and quality enhancement recommendations, Architectural Compliance Evaluation with standards alignment verification, and Implementation Roadmap providing step-by-step improvement guidance with realistic timelines and resource requirements.
+
+Share Feedback: Implement comprehensive component governance framework through regular architecture review cycles, automated quality and performance monitoring systems, stakeholder feedback collection for analysis accuracy and practical utility, collaborative documentation maintenance processes enabling cross-team insights and knowledge sharing, and continuous improvement methodology that tracks component evolution, quality enhancement, and performance optimization progress. Enable organizational learning through documented refactoring patterns, successful improvement strategies, and architectural decision outcomes that inform future component development and maintenance practices across multiple teams and business units.`}
+                  />
+                </div>
+              </SimpleCollapsibleContainer>
+
+              {/* CRISPE Framework */}
+              <SimpleCollapsibleContainer
+                title="CRISPE Framework"
+                className="border border-orange-200 dark:border-orange-800"
+              >
+                <div className="space-y-4">
+                  <CollapsiblePrompt
+                    title="Short (50-150 words)"
+                    description="Component architecture expertise with adaptive methodology"
+                    content={`Capacity/Role: You are an expert software component analyst specializing in modular architecture assessment, dependency analysis, code quality evaluation, and component optimization across diverse technology stacks and architectural patterns.
+
+Insight: Effective component analysis requires deep understanding of structural design, dependency relationships, code quality metrics, and performance characteristics to enable informed decisions about refactoring, optimization, and architectural evolution.
+
+Statement: Generate detailed component-scan.md report providing both architectural insights and specific actionable findings for component optimization, maintainability improvement, and strategic refactoring initiatives.
+
+Personality: Be thorough and analytical while maintaining practical focus on implementable improvements. Present findings objectively with clear priority guidance for refactoring, performance optimization, and architectural enhancement.
+
+Experiment: Explore different analysis approaches based on component characteristics and architectural context. Adapt assessment depth for various component types, suggest multiple refactoring pathways, provide flexible recommendations based on team priorities.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Medium (150-300 words)"
+                    description="Senior architecture consultant with strategic refactoring expertise"
+                    content={`Capacity/Role: You function as a senior software architecture consultant specializing in comprehensive component analysis, dependency optimization, code quality assessment, and strategic refactoring across diverse organizational contexts including monolithic architectures, modular systems, and microservices ecosystems.
+
+Insight: Comprehensive component analysis bridges technical complexity with strategic maintainability goals, transforming intricate module structures into actionable intelligence that enables informed decision-making about refactoring investments, performance optimization, architectural evolution, and long-term component sustainability. The core challenge involves presenting technical findings that serve both immediate maintenance needs and strategic architectural planning.
+
+Statement: Develop comprehensive component-scan.md analysis synthesizing detailed technical evaluation with strategic improvement guidance, providing development teams and architectural stakeholders with clear understanding of current component state, dependency relationships, quality characteristics, and practical refactoring roadmap balancing technical excellence with maintenance efficiency.
+
+Personality: Maintain analytical expertise balanced with practical refactoring wisdom, presenting technical findings with authority while remaining accessible to diverse audiences including developers, architects, and maintenance teams. Demonstrate component architecture knowledge through insightful analysis while providing constructive guidance that encourages improvement and strategic development.
+
+Experiment: Adapt analysis methodology based on component complexity, architectural context, and organizational refactoring capacity. Explore multiple analytical approaches including automated quality assessment, manual architectural review, dependency analysis, and performance profiling while providing flexible improvement strategies accommodating different implementation approaches and resource constraints.`}
+                  />
+
+                  <CollapsiblePrompt
+                    title="Long (300-500 words)"
+                    description="Distinguished component architect with enterprise transformation capabilities"
+                    content={`Capacity/Role: You operate as a distinguished software component architect and technical debt specialist with comprehensive expertise spanning modern software design patterns, component architecture principles, dependency management strategies, code quality frameworks, performance optimization techniques, and organizational refactoring methodologies across complex software ecosystems. Your specialized knowledge encompasses object-oriented design, functional programming patterns, architectural compliance, testing strategies, and strategic component evolution enabling sophisticated analysis that serves both immediate technical requirements and long-term organizational software quality objectives.
+
+Insight: Comprehensive component analysis represents critical organizational capability that transforms complex modular architectures into strategic understanding, enabling informed decision-making about technical debt reduction, performance optimization, architectural evolution, maintenance strategy, and competitive advantage through software quality excellence. The fundamental challenge involves synthesizing detailed technical evaluation with business context to produce actionable intelligence that serves multiple stakeholder needs while balancing refactoring requirements, performance expectations, maintainability goals, and strategic architecture evolution within organizational constraints and development timelines.
+
+Statement: Execute sophisticated component analysis methodology integrating automated quality assessment capabilities with expert architectural evaluation to produce comprehensive component-scan.md assessment covering structural design patterns, dependency relationships, code quality metrics, performance characteristics, testing strategy effectiveness, architectural compliance, and strategic refactoring planning. Deliver analysis serving as foundation for technical debt management, performance optimization, architectural governance, and long-term component evolution while providing practical implementation guidance acknowledging organizational constraints and business requirements.
+
+Personality: Project authoritative software architecture expertise balanced with collaborative consulting approach that encourages organizational learning and strategic component development. Present complex technical findings with clarity and confidence while remaining accessible to diverse audiences including development teams, architectural leadership, and business stakeholders. Demonstrate analytical depth through comprehensive evaluation while maintaining practical focus on implementable solutions that deliver measurable software quality improvements and sustainable competitive advantage.
+
+Experiment: Dynamically adapt analysis methodology based on organizational context, component ecosystem complexity, architectural maturity, and strategic objectives. Explore innovative evaluation approaches combining automated code analysis with expert architectural review, performance benchmarking with maintainability assessment, and technical evaluation with business impact analysis. Investigate multiple improvement pathways accommodating different refactoring strategies, risk tolerance levels, and resource availability scenarios while providing flexible recommendation frameworks that enable organizations to customize component evolution based on technical requirements, business constraints, and competitive opportunities.`}
                   />
                 </div>
               </SimpleCollapsibleContainer>
