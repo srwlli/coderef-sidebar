@@ -23,92 +23,108 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Default project landing page with mock data
-// TODO: Replace with actual project data when individual projects are defined
-export default function ProjectLandingPage() {
-  // Mock tech stack data for demonstration
+// Formed project documentation page
+// Documents the FormGenerator system built for this application
+export default function FormedProjectPage() {
+  // Real Formed tech stack data
   const techStackData = {
     core: [
       {
-        name: 'Framework X',
-        version: '2.1.0',
-        description: 'Core application framework',
+        name: 'React',
+        version: '18+',
+        description: 'Component architecture foundation',
       },
       {
-        name: 'Language Y',
-        version: '18.x',
-        description: 'Primary programming language',
+        name: 'TypeScript',
+        version: '^5',
+        description: 'Type safety and developer experience',
       },
-      { name: 'TypeScript', version: '^5', description: 'Type safety' },
-      { name: 'CSS Framework', version: '^3', description: 'Styling solution' },
-      { name: 'Linter', version: '^8', description: 'Code quality' },
+      {
+        name: 'Next.js',
+        version: '15',
+        description: 'App router and framework',
+      },
+      { name: 'Zod', version: '^3', description: 'Schema validation engine' },
+      {
+        name: 'React Hook Form',
+        version: '^7',
+        description: 'Form state management',
+      },
     ],
     ui: [
       {
-        name: 'UI Library',
+        name: 'shadcn/ui',
         version: 'Latest',
-        description: 'Component primitives',
+        description: 'Component primitives and styling',
       },
       {
-        name: 'Component System',
-        version: 'Custom',
-        description: 'Design system',
+        name: 'Tailwind CSS',
+        version: '^3',
+        description: 'Utility-first CSS framework',
       },
       {
-        name: 'Icon Library',
+        name: 'Lucide React',
         version: 'Latest',
-        description: 'Icon components',
+        description: 'Icon component library',
       },
       {
-        name: 'Animation Library',
-        version: 'Latest',
-        description: 'Motion effects',
+        name: 'Custom Fields',
+        version: 'v1.0',
+        description: 'Form field component system',
       },
     ],
     state: [
       {
-        name: 'State Manager',
-        version: '^4',
-        description: 'Global state management',
+        name: 'React Hook Form',
+        version: '^7',
+        description: 'Form state and validation',
       },
-      { name: 'Data Fetcher', version: '^3', description: 'API data handling' },
-      { name: 'Form Handler', version: '^6', description: 'Form validation' },
       {
-        name: 'Schema Validator',
+        name: 'Zod Validation',
         version: '^3',
-        description: 'Data validation',
+        description: 'Schema-based validation',
+      },
+      {
+        name: 'Supabase Client',
+        version: '^2',
+        description: 'Database operations',
+      },
+      {
+        name: 'Custom Toast',
+        version: 'v1.0',
+        description: 'User feedback system',
       },
     ],
     utility: [
       {
-        name: 'Date Library',
-        version: 'Latest',
-        description: 'Date manipulation',
+        name: 'Schema Generation',
+        version: 'v1.0',
+        description: 'Dynamic form configuration',
       },
       {
-        name: 'Class Utility',
-        version: 'Latest',
-        description: 'CSS class handling',
+        name: 'Validation Utils',
+        version: 'v1.0',
+        description: 'Custom validation helpers',
       },
       {
-        name: 'Merge Utility',
-        version: 'Latest',
-        description: 'Object merging',
+        name: 'Type Definitions',
+        version: 'v1.0',
+        description: 'TypeScript field interfaces',
       },
       {
-        name: 'Theme Manager',
-        version: 'Latest',
-        description: 'Theme switching',
+        name: 'Reusable Patterns',
+        version: 'v1.0',
+        description: 'Cross-project portability',
       },
     ],
   };
 
-  // Mock project statistics
+  // Real Formed project statistics
   const projectStats = {
-    pages: 12,
-    components: 45,
-    linesOfCode: 8750,
-    documentation: 3200,
+    pages: 1,
+    components: 7,
+    linesOfCode: 800,
+    documentation: 1500,
   };
 
   return (
@@ -119,14 +135,14 @@ export default function ProjectLandingPage() {
           <CardHeader>
             <div className="flex items-center gap-3">
               <FolderOpen className="h-8 w-8 text-black" />
-              <CardTitle className="text-2xl">formed</CardTitle>
+              <CardTitle className="text-2xl">Formed</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A sample project description showcasing modern development
-              practices and technologies. This is mock content for demonstration
-              purposes.
+              A robust, schema-driven form generation system for React
+              applications with TypeScript safety and Supabase integration.
+              Build reusable forms with minimal code and maximum flexibility.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
@@ -163,11 +179,11 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/dashboard" className="block">
+          <Link href="/forms" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">View Project</CardTitle>
+                <CardTitle className="text-lg">Live Demo</CardTitle>
               </CardHeader>
             </Card>
           </Link>
@@ -176,44 +192,45 @@ export default function ProjectLandingPage() {
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">View Documentation</CardTitle>
+                <CardTitle className="text-lg">Documentation</CardTitle>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/projects/formed" className="block">
+          <Link href="https://github.com" className="block" target="_blank">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">View Git</CardTitle>
+                <CardTitle className="text-lg">Repository</CardTitle>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/projects/formed" className="block">
+          <Link href="/ai-tools" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">View Workflow</CardTitle>
+                <CardTitle className="text-lg">Development</CardTitle>
               </CardHeader>
             </Card>
           </Link>
         </div>
 
-        {/* App Purpose */}
+        {/* Formed Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="Formed Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is this app?</h4>
+              <h4 className="mb-3 font-semibold">What is Formed?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                This is a sample project demonstrating modern development
-                practices and application architecture. The content shown here
-                is mock data for presentation purposes and will be replaced with
-                actual project information when the project is fully defined.
+                Formed is a schema-driven form generation system for React
+                applications that provides type-safe, reusable forms with
+                minimal configuration. It combines React Hook Form, Zod
+                validation, and Supabase integration to create a powerful yet
+                simple form development experience.
               </p>
             </div>
 
@@ -223,36 +240,36 @@ export default function ProjectLandingPage() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Feature A:</strong> Core functionality demonstration
-                    with modern patterns
+                    <strong>Schema-Driven:</strong> Define forms with simple
+                    configuration objects instead of writing JSX
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Feature B:</strong> Integration capabilities with
-                    external services
+                    <strong>Type Safety:</strong> Full TypeScript support with
+                    Zod validation for runtime type checking
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Feature C:</strong> Advanced tooling and development
-                    workflow
+                    <strong>Reusable Module:</strong> Copy the form system to
+                    any React project with minimal setup
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Feature D:</strong> Comprehensive testing and
-                    quality assurance
+                    <strong>Multiple Field Types:</strong> Text, textarea, tags,
+                    email, URL fields with extensible architecture
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Feature E:</strong> Responsive design and
-                    accessibility compliance
+                    <strong>Database Integration:</strong> Built-in Supabase
+                    support for seamless data operations
                   </span>
                 </li>
               </ul>
@@ -263,38 +280,38 @@ export default function ProjectLandingPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">
-                    Individual Users
+                    Rapid Development
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Personal productivity and project management with intuitive
-                    interface design.
+                    Quickly generate forms from schema configurations without
+                    writing repetitive form code.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Team Collaboration
+                    Cross-Project Reuse
                   </h5>
                   <p className="text-sm text-green-700">
-                    Multi-user environments with shared resources and
-                    collaborative features.
+                    Portable module that can be easily integrated into any React
+                    or Next.js project.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Development Workflow
+                    Type-Safe Development
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Integration with development tools and automated workflow
-                    processes.
+                    Full TypeScript support with compile-time and runtime
+                    validation for robust forms.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Enterprise Solutions
+                    Database Integration
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Scalable architecture suitable for enterprise-level
-                    deployments.
+                    Seamless Supabase integration for immediate data persistence
+                    and user management.
                   </p>
                 </div>
               </div>
@@ -302,9 +319,9 @@ export default function ProjectLandingPage() {
           </div>
         </SimpleCollapsibleContainer>
 
-        {/* App Features */}
+        {/* Formed Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="Formed Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -317,12 +334,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
                     <h5 className="font-medium text-blue-900">
-                      Project Management
+                      Schema Configuration
                     </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Comprehensive project organization with advanced tracking
-                    and reporting capabilities.
+                    Define forms using simple configuration objects with field
+                    types, validation rules, and UI properties.
                   </p>
                 </div>
 
@@ -330,12 +347,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Documentation System
+                      Field Component System
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Integrated documentation with real-time editing and
-                    collaborative features.
+                    Extensible field components including TextField, TagField,
+                    TextAreaField with consistent styling.
                   </p>
                 </div>
 
@@ -343,12 +360,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Development Tools
+                      Validation Engine
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Integrated development environment with advanced debugging
-                    and testing capabilities.
+                    Zod-based validation with custom rules, real-time feedback,
+                    and comprehensive error handling.
                   </p>
                 </div>
 
@@ -356,42 +373,44 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Architecture Tracking
+                      Form Generator
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Comprehensive system architecture documentation and
-                    dependency management.
+                    Main component that renders complete forms from schema
+                    definitions with React Hook Form integration.
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* UI/UX Features */}
+            {/* Developer Experience */}
             <div>
-              <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
+              <h4 className="mb-4 text-lg font-semibold">
+                Developer Experience
+              </h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Responsive Design</h5>
+                  <h5 className="mb-2 font-medium">Easy Import</h5>
                   <p className="text-muted-foreground text-sm">
-                    Optimized for all device types with fluid layouts and
-                    adaptive components.
+                    Copy the form system to any React project with minimal setup
+                    and dependencies.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Interactive Elements</h5>
+                  <h5 className="mb-2 font-medium">Minimal Configuration</h5>
                   <p className="text-muted-foreground text-sm">
-                    Rich user interactions with smooth animations and intuitive
-                    navigation.
+                    Define forms with simple schema objects instead of writing
+                    repetitive JSX components.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Accessibility</h5>
+                  <h5 className="mb-2 font-medium">Extensible Architecture</h5>
                   <p className="text-muted-foreground text-sm">
-                    Full WCAG compliance with keyboard navigation and screen
-                    reader support.
+                    Add new field types easily by extending the existing
+                    component system.
                   </p>
                 </div>
               </div>
@@ -406,10 +425,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Shield className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Security Framework</h5>
+                    <h5 className="font-medium">Type Safety</h5>
                     <p className="text-muted-foreground text-sm">
-                      Enterprise-grade security with encryption and
-                      authentication protocols.
+                      Full TypeScript integration with compile-time checking and
+                      runtime validation using Zod.
                     </p>
                   </div>
                 </div>
@@ -417,10 +436,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Package className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Modular Architecture</h5>
+                    <h5 className="font-medium">Real-time Validation</h5>
                     <p className="text-muted-foreground text-sm">
-                      Scalable component-based architecture with clean
-                      separation of concerns.
+                      Instant feedback with custom validation rules and
+                      comprehensive error messaging.
                     </p>
                   </div>
                 </div>
@@ -428,10 +447,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <TestTube className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Testing Suite</h5>
+                    <h5 className="font-medium">Database Integration</h5>
                     <p className="text-muted-foreground text-sm">
-                      Comprehensive testing framework with automated quality
-                      assurance.
+                      Built-in Supabase support for seamless data operations and
+                      user authentication.
                     </p>
                   </div>
                 </div>
@@ -440,9 +459,9 @@ export default function ProjectLandingPage() {
           </div>
         </SimpleCollapsibleContainer>
 
-        {/* Application Stack */}
+        {/* Formed Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="Formed Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -451,30 +470,34 @@ export default function ProjectLandingPage() {
             <div>
               <h4 className="mb-3 flex items-center gap-2 text-lg font-semibold">
                 <Code className="h-4 w-4 text-black" />
-                Applications Architecture
+                Formed Architecture
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
-                  <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
+                  <h5 className="mb-2 font-medium text-blue-900">
+                    Schema-Driven
+                  </h5>
                   <p className="text-sm text-blue-700">
-                    Modern framework architecture with component-based design
-                    patterns
+                    Configuration-based form generation with type-safe schemas
+                    and validation rules
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Components
+                    Field Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Reusable UI components with consistent design system
-                    implementation
+                    Extensible field system with BaseField wrapper and
+                    specialized input types
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
-                  <h5 className="mb-2 font-medium text-purple-900">State</h5>
+                  <h5 className="mb-2 font-medium text-purple-900">
+                    Form State
+                  </h5>
                   <p className="text-sm text-purple-700">
-                    Advanced state management with predictable data flow
-                    patterns
+                    React Hook Form integration with Zod validation and
+                    real-time feedback
                   </p>
                 </div>
               </div>

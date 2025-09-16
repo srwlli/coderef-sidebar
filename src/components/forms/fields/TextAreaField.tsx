@@ -1,0 +1,60 @@
+'use client';
+
+import React from 'react';
+import { Textarea } from '@/components/ui/textarea';
+import { BaseField } from './BaseField';
+import { TextAreaFieldConfig } from '@/lib/forms/formTypes';
+import { cn } from '@/lib/utils';
+
+interface TextAreaFieldProps {
+  config: TextAreaFieldConfig;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+  disabled?: boolean;
+  className?: string;
+}
+
+export function TextAreaField({
+  config,
+  value,
+  onChange,
+  error,
+  disabled,
+  className,
+}: TextAreaFieldProps) {
+  const { key, placeholder, maxLength, rows = 3, autoFocus } = config;
+
+  return (
+    <BaseField config={config} error={error} className={className}>
+      <Textarea
+        id={key}
+        name={key}
+        value={value || ''}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          onChange(e.target.value)
+        }
+        placeholder={placeholder}
+        maxLength={maxLength}
+        rows={rows}
+        autoFocus={autoFocus}
+        disabled={disabled}
+        className={cn(
+          'resize-vertical',
+          error && 'border-destructive focus-visible:ring-destructive'
+        )}
+        aria-invalid={error ? 'true' : 'false'}
+        aria-describedby={error ? `${key}-error` : undefined}
+      />
+
+      {/* Character count */}
+      {maxLength && (
+        <div className="flex justify-end">
+          <span className="text-muted-foreground text-xs">
+            {(value || '').length} / {maxLength}
+          </span>
+        </div>
+      )}
+    </BaseField>
+  );
+}

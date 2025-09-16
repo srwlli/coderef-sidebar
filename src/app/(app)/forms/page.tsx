@@ -1,31 +1,30 @@
 'use client';
 
-import { FileText } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { SimpleCollapsibleContainer } from '@/components/collapsibles/SimpleCollapsibleContainer';
+import { ProjectForm } from '@/components/forms/ProjectForm';
+import { ProjectData } from '@/lib/forms/formTypes';
 
 export default function FormsPage() {
+  const handleProjectSuccess = (data: ProjectData) => {
+    console.log('Project created successfully:', data);
+  };
+
   return (
     <div className="p-8">
       <main className="mx-auto max-w-7xl">
         <div className="space-y-6">
           <SimpleCollapsibleContainer
-            title="Forms"
-            icon={<FileText />}
+            title="Create New Project"
+            icon={<Plus />}
             defaultExpanded={true}
             className="w-full"
           >
-            <div className="flex flex-col items-center gap-4 py-12">
-              <div className="space-y-4 text-center">
-                <FileText className="text-muted-foreground mx-auto h-16 w-16" />
-                <h2 className="text-foreground text-2xl font-semibold">
-                  Forms Coming Soon
-                </h2>
-                <p className="text-muted-foreground max-w-md">
-                  We're working on a powerful forms system integrated with
-                  Supabase. Check back soon for form creation and management
-                  capabilities.
-                </p>
-              </div>
+            <div className="p-6">
+              <ProjectForm
+                onSuccess={handleProjectSuccess}
+                className="mx-auto max-w-2xl"
+              />
             </div>
           </SimpleCollapsibleContainer>
         </div>
