@@ -12,26 +12,14 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-const loginSchema = z.object({
+// Unified schema that works for both login and signup
+const authSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   username: z.string().optional(),
 });
 
-const signupSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  username: z
-    .string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(20, 'Username must be less than 20 characters')
-    .regex(
-      /^[a-zA-Z0-9_-]+$/,
-      'Username can only contain letters, numbers, underscores, and dashes'
-    ),
-});
-
-type FormData = z.infer<typeof signupSchema>;
+type FormData = z.infer<typeof authSchema>;
 
 export function AuthForm() {
   const { signIn, signUp } = useAuth();
@@ -45,16 +33,44 @@ export function AuthForm() {
     handleSubmit,
     formState: { errors },
     reset,
+    setError,
   } = useForm<FormData>({
-    resolver: zodResolver(isSignup ? signupSchema : loginSchema),
+    resolver: zodResolver(authSchema),
   });
 
   const onSubmit = async (data: FormData) => {
     try {
       setIsLoading(true);
 
+      // Validate username for signup
       if (isSignup) {
-        await signUp(data.email, data.password, data.username!);
+        if (!data.username || data.username.length < 3) {
+          setError('username', {
+            type: 'manual',
+            message: 'Username must be at least 3 characters',
+          });
+          setIsLoading(false);
+          return;
+        }
+        if (data.username.length > 20) {
+          setError('username', {
+            type: 'manual',
+            message: 'Username must be less than 20 characters',
+          });
+          setIsLoading(false);
+          return;
+        }
+        if (!/^[a-zA-Z0-9_-]+$/.test(data.username)) {
+          setError('username', {
+            type: 'manual',
+            message:
+              'Username can only contain letters, numbers, underscores, and dashes',
+          });
+          setIsLoading(false);
+          return;
+        }
+
+        await signUp(data.email, data.password, data.username);
         toast.success(
           'Account created! Please check your email to verify your account.'
         );
