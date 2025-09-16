@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-09-16
+
+### Added
+
+- **"Organized" Project Page** - Complete AI-powered mobile organization app project with photo analysis and categorization features
+- **Projects Table View** - Alternative table view for projects with sorting, filtering, and management capabilities
+- **View Toggle Component** - Switch between card and table views for projects page
+- **Forms Module Architecture** - Complete form generation system with TypeScript validation and field components
+- **Project Form Components** - Reusable form fields including text, textarea, tags, and base field components
+- **Working Plan Documentation** - Project planning methodology and implementation guides
+
+### Changed
+
+- **Navigation Cleanup** - Removed "Spec Kit" from sidebar navigation while keeping page accessible via direct URL
+- **Projects Page Enhancement** - Added view toggle between traditional card layout and new table layout
+- **Form Components** - Enhanced form generation with proper TypeScript typing and validation schemas
+- **Documentation Structure** - Reorganized prompt documentation and added report format specifications
+
+### Fixed
+
+- **Project Routing** - Updated project list to include "Organized" project with proper routing
+- **Form Validation** - Resolved TypeScript issues in form components and validation schemas
+- **Component Architecture** - Improved form field component structure and reusability
+
+### Technical
+
+- **Form Validation Schema** - Zod-based validation schemas for project forms with TypeScript integration
+- **Component Library** - Enhanced UI components including tables, badges, checkboxes, and form controls
+- **Hook Development** - Custom React hooks for project data management and form handling
+- **Supabase Integration** - Enhanced client configuration for form data persistence
+
 ### Added
 
 - **Google Forms API Integration** - Complete real-time form submissions display with service account authentication

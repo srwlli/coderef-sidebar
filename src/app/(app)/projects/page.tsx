@@ -30,7 +30,7 @@ function ProjectsContent() {
     { name: 'Paper trail', href: '/projects/paper-trail' },
     { name: 'UDS', href: '/projects/uds' },
     { name: 'Workflows', href: '/projects/workflows' },
-    { name: 'Project 15', href: '/projects/project-landing' },
+    { name: 'Organized', href: '/projects/organized' },
     { name: 'Project 16', href: '/projects/project-landing' },
   ];
 

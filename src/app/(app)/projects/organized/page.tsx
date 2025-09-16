@@ -26,105 +26,97 @@ import Link from 'next/link';
 // Default project landing page with mock data
 // TODO: Replace with actual project data when individual projects are defined
 export default function ProjectLandingPage() {
-  // Noted application tech stack
+  // Organized app tech stack
   const techStackData = {
     core: [
       {
-        name: 'Next.js',
-        version: '14.x',
-        description: 'React framework with App Router',
-      },
-      {
-        name: 'React',
-        version: '18.x',
-        description: 'Component-based UI library',
+        name: 'React Native',
+        version: '0.72',
+        description: 'Cross-platform mobile framework',
       },
       {
         name: 'TypeScript',
-        version: '^5',
-        description: 'Type safety and IntelliSense',
+        version: '5.2',
+        description: 'Type-safe JavaScript',
       },
-      {
-        name: 'Tailwind CSS',
-        version: '^3',
-        description: 'Utility-first styling',
-      },
-      {
-        name: 'ESLint',
-        version: '^8',
-        description: 'Code linting and quality',
-      },
+      { name: 'Expo SDK', version: '49', description: 'Development platform' },
+      { name: 'Metro', version: '0.76', description: 'JavaScript bundler' },
+      { name: 'ESLint', version: '8.4', description: 'Code quality' },
     ],
     ui: [
       {
-        name: 'ShadCN/UI',
-        version: 'Latest',
-        description: 'Accessible component library',
+        name: 'NativeBase',
+        version: '3.4',
+        description: 'Mobile-first components',
       },
       {
-        name: 'Radix UI',
-        version: 'Latest',
-        description: 'Headless UI primitives',
+        name: 'React Native Elements',
+        version: '3.4',
+        description: 'Cross-platform UI toolkit',
       },
       {
-        name: 'Lucide Icons',
-        version: 'Latest',
-        description: 'Beautiful icon set',
+        name: 'React Native Vector Icons',
+        version: '10.0',
+        description: 'Icon components',
       },
       {
-        name: 'Framer Motion',
-        version: 'Latest',
+        name: 'Reanimated',
+        version: '3.5',
         description: 'Smooth animations',
       },
     ],
     state: [
       {
+        name: 'Redux Toolkit',
+        version: '1.9',
+        description: 'Global state management',
+      },
+      {
         name: 'React Query',
-        version: '^4',
+        version: '5.0',
         description: 'Server state management',
       },
       {
-        name: 'Supabase',
-        version: '^2',
-        description: 'Database and real-time',
+        name: 'React Hook Form',
+        version: '7.4',
+        description: 'Form validation',
       },
-      { name: 'React Hook Form', version: '^7', description: 'Form handling' },
       {
-        name: 'Zod',
-        version: '^3',
-        description: 'Schema validation',
+        name: 'AsyncStorage',
+        version: '1.19',
+        description: 'Persistent storage',
       },
     ],
     utility: [
       {
-        name: 'date-fns',
-        version: 'Latest',
-        description: 'Date formatting utilities',
+        name: 'React Native Camera',
+        version: '4.2',
+        description: 'Camera integration',
       },
       {
-        name: 'clsx',
-        version: 'Latest',
-        description: 'Conditional className utility',
+        name: 'ML Kit',
+        version: '16.0',
+        description: 'On-device machine learning',
       },
       {
-        name: 'tailwind-merge',
-        version: 'Latest',
-        description: 'Merge Tailwind classes',
+        name: 'Firebase',
+        version: '18.6',
+        description: 'Backend services',
       },
       {
-        name: 'next-themes',
-        version: 'Latest',
-        description: 'Theme switching support',
+        name: 'Sentry',
+        version: '5.1',
+        description: 'Error tracking',
       },
     ],
   };
 
-  // Noted application statistics
+  // Organized app statistics
   const projectStats = {
-    notes: 247,
-    projects: 12,
-    totalWords: 18650,
-    tags: 85,
+    pages: 8,
+    components: 32,
+    linesOfCode: 6500,
+    documentation: 2100,
   };
 
   return (
@@ -135,39 +127,42 @@ export default function ProjectLandingPage() {
           <CardHeader>
             <div className="flex items-center gap-3">
               <FolderOpen className="h-8 w-8 text-black" />
-              <CardTitle className="text-2xl">noted</CardTitle>
+              <CardTitle className="text-2xl">Organized</CardTitle>
             </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              A smart notepad application for capturing thoughts, ideas, and
-              notes. Seamlessly organize your notes and link them to projects
-              for better productivity and knowledge management.
+              AI-powered organization assistant that analyzes photos to suggest
+              optimal organization strategies for your spaces and belongings.
             </p>
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">
                   {projectStats.pages}
                 </div>
-                <div className="text-muted-foreground text-sm">Notes</div>
+                <div className="text-muted-foreground text-sm">Pages</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">
                   {projectStats.components}
                 </div>
-                <div className="text-muted-foreground text-sm">Projects</div>
+                <div className="text-muted-foreground text-sm">Components</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">
                   {projectStats.linesOfCode.toLocaleString()}
                 </div>
-                <div className="text-muted-foreground text-sm">Total Words</div>
+                <div className="text-muted-foreground text-sm">
+                  Lines of Code
+                </div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">
                   {projectStats.documentation.toLocaleString()}
                 </div>
-                <div className="text-muted-foreground text-sm">Tags</div>
+                <div className="text-muted-foreground text-sm">
+                  Documentation
+                </div>
               </div>
             </div>
           </CardContent>
@@ -175,38 +170,44 @@ export default function ProjectLandingPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/dashboard" className="block">
+          <Link href="https://organized-app.demo.com" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">Create Note</CardTitle>
+                <CardTitle className="text-lg">View Project</CardTitle>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/projects/noted" className="block">
+          <Link href="https://docs.organized-app.com" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">Browse Notes</CardTitle>
+                <CardTitle className="text-lg">View Documentation</CardTitle>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/projects/noted" className="block">
+          <Link
+            href="https://github.com/yourusername/organized-app"
+            className="block"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <GitBranch className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">Project Notes</CardTitle>
+                <CardTitle className="text-lg">View Git</CardTitle>
               </CardHeader>
             </Card>
           </Link>
 
-          <Link href="/projects/noted" className="block">
+          <Link
+            href="https://organized-app.demo.com/workflow"
+            className="block"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Settings className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">Note Settings</CardTitle>
+                <CardTitle className="text-lg">View Workflow</CardTitle>
               </CardHeader>
             </Card>
           </Link>
@@ -214,19 +215,19 @@ export default function ProjectLandingPage() {
 
         {/* App Purpose */}
         <SimpleCollapsibleContainer
-          title="Applications Purpose"
+          title="Organized Purpose"
           icon={<Target className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
           <div className="space-y-4">
             <div>
-              <h4 className="mb-3 font-semibold">What is Noted?</h4>
+              <h4 className="mb-3 font-semibold">What is this app?</h4>
               <p className="text-muted-foreground leading-relaxed">
-                Noted is a powerful notepad application designed for developers
-                and knowledge workers. It provides a seamless way to capture
-                thoughts, ideas, code snippets, and project-related notes in one
-                centralized location with smart organization and project
-                integration.
+                An intelligent mobile application that transforms cluttered
+                spaces into organized environments using computer vision and AI
+                recommendations. Simply take a photo of any space or collection
+                of items, and receive personalized organization strategies
+                tailored to your needs.
               </p>
             </div>
 
@@ -236,36 +237,37 @@ export default function ProjectLandingPage() {
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></span>
                   <span>
-                    <strong>Quick Note Creation:</strong> Instantly capture
-                    thoughts with our streamlined one-form interface
+                    <strong>Photo Analysis:</strong> Instant item recognition
+                    and categorization from photos using advanced computer
+                    vision technology
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-green-500"></span>
                   <span>
-                    <strong>Project Integration:</strong> Link notes to specific
-                    projects or keep them as standalone entries
+                    <strong>AI Suggestions:</strong> Personalized organization
+                    strategies based on space constraints and item types
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-purple-500"></span>
                   <span>
-                    <strong>Multiple Note Types:</strong> Support for text,
-                    links, lists, and comments with rich formatting
+                    <strong>Smart Categorization:</strong> Automatic grouping
+                    and labeling of similar items for efficient organization
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-orange-500"></span>
                   <span>
-                    <strong>Smart Tagging:</strong> Organize notes with flexible
-                    tagging system for easy retrieval
+                    <strong>Action Plans:</strong> Step-by-step organization
+                    guides with realistic time estimates
                   </span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></span>
                   <span>
-                    <strong>Search & Filter:</strong> Quickly find notes by
-                    content, project, or tags with powerful search
+                    <strong>Progress Tracking:</strong> Before/after comparisons
+                    and organization metrics to measure success
                   </span>
                 </li>
               </ul>
@@ -276,38 +278,38 @@ export default function ProjectLandingPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-blue-50 p-3">
                   <h5 className="mb-2 font-medium text-blue-900">
-                    Personal Knowledge Base
+                    Home Organization
                   </h5>
                   <p className="text-sm text-blue-700">
-                    Maintain a personal repository of ideas, code snippets, and
-                    project notes for individual productivity.
+                    Declutter rooms, closets, and storage spaces with AI-powered
+                    organization recommendations.
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Project Documentation
+                    Office Optimization
                   </h5>
                   <p className="text-sm text-green-700">
-                    Document project decisions, meeting notes, and development
-                    insights linked to specific projects.
+                    Organize desks, supplies, and filing systems for maximum
+                    productivity and efficiency.
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
                   <h5 className="mb-2 font-medium text-purple-900">
-                    Learning & Research
+                    Moving Assistant
                   </h5>
                   <p className="text-sm text-purple-700">
-                    Capture learning notes, technical research, and reference
-                    materials for future use.
+                    Catalog items for packing and unpacking with smart labeling
+                    and tracking features.
                   </p>
                 </div>
                 <div className="rounded-lg bg-orange-50 p-3">
                   <h5 className="mb-2 font-medium text-orange-900">
-                    Quick Captures
+                    Inventory Management
                   </h5>
                   <p className="text-sm text-orange-700">
-                    Rapidly jot down meeting notes, ideas, and todos without
-                    disrupting your workflow.
+                    Track and organize personal belongings with searchable
+                    photo-based inventory.
                   </p>
                 </div>
               </div>
@@ -317,7 +319,7 @@ export default function ProjectLandingPage() {
 
         {/* App Features */}
         <SimpleCollapsibleContainer
-          title="Applications Features"
+          title="Organized Features"
           icon={<Star className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -329,11 +331,13 @@ export default function ProjectLandingPage() {
                 <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
                   <div className="mb-2 flex items-center gap-3">
                     <FolderOpen className="h-5 w-5 text-blue-600" />
-                    <h5 className="font-medium text-blue-900">Note Creation</h5>
+                    <h5 className="font-medium text-blue-900">
+                      Visual Recognition Engine
+                    </h5>
                   </div>
                   <p className="text-sm text-blue-700">
-                    Streamlined note creation with rich text support and instant
-                    project linking capabilities.
+                    Advanced object detection and classification for accurate
+                    item identification.
                   </p>
                 </div>
 
@@ -341,12 +345,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <FileText className="h-5 w-5 text-green-600" />
                     <h5 className="font-medium text-green-900">
-                      Organization System
+                      Organization Algorithm
                     </h5>
                   </div>
                   <p className="text-sm text-green-700">
-                    Smart tagging and categorization with project-based
-                    organization for easy note retrieval.
+                    Smart suggestions based on space constraints and
+                    organization best practices.
                   </p>
                 </div>
 
@@ -354,12 +358,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Code className="h-5 w-5 text-purple-600" />
                     <h5 className="font-medium text-purple-900">
-                      Content Types
+                      Task Generation
                     </h5>
                   </div>
                   <p className="text-sm text-purple-700">
-                    Support for multiple note types including text, links,
-                    lists, and comments with rich formatting.
+                    Automated creation of actionable organization steps with
+                    priority ranking.
                   </p>
                 </div>
 
@@ -367,12 +371,12 @@ export default function ProjectLandingPage() {
                   <div className="mb-2 flex items-center gap-3">
                     <Layers className="h-5 w-5 text-orange-600" />
                     <h5 className="font-medium text-orange-900">
-                      Search & Discovery
+                      Progress Dashboard
                     </h5>
                   </div>
                   <p className="text-sm text-orange-700">
-                    Powerful search functionality with filtering by content,
-                    projects, tags, and note types.
+                    Real-time tracking of organization projects with visual
+                    analytics.
                   </p>
                 </div>
               </div>
@@ -383,26 +387,26 @@ export default function ProjectLandingPage() {
               <h4 className="mb-4 text-lg font-semibold">User Experience</h4>
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Instant Capture</h5>
+                  <h5 className="mb-2 font-medium">Camera Integration</h5>
                   <p className="text-muted-foreground text-sm">
-                    Quick note creation interface that doesn't interrupt your
-                    workflow or thinking process.
+                    Seamless photo capture with grid overlay guides for optimal
+                    framing.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Smart Linking</h5>
+                  <h5 className="mb-2 font-medium">Interactive Suggestions</h5>
                   <p className="text-muted-foreground text-sm">
-                    Automatically detect and format links, with support for
-                    internal project references.
+                    Swipeable recommendation cards with visual examples and
+                    alternatives.
                   </p>
                 </div>
 
                 <div className="rounded-lg bg-gray-50 p-4">
-                  <h5 className="mb-2 font-medium">Contextual Tags</h5>
+                  <h5 className="mb-2 font-medium">Visual Progress</h5>
                   <p className="text-muted-foreground text-sm">
-                    Intelligent tagging suggestions based on note content and
-                    project context.
+                    Before/after sliders and completion animations for
+                    motivation.
                   </p>
                 </div>
               </div>
@@ -417,10 +421,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Shield className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Data Security</h5>
+                    <h5 className="font-medium">Offline Processing</h5>
                     <p className="text-muted-foreground text-sm">
-                      Secure note storage with user authentication and row-level
-                      security for privacy.
+                      Core features work without internet connection for privacy
+                      and reliability.
                     </p>
                   </div>
                 </div>
@@ -428,10 +432,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <Package className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Real-time Updates</h5>
+                    <h5 className="font-medium">Cloud Sync</h5>
                     <p className="text-muted-foreground text-sm">
-                      Instant synchronization of notes across sessions with
-                      optimistic updates for smooth UX.
+                      Backup and sync organization plans across all your devices
+                      seamlessly.
                     </p>
                   </div>
                 </div>
@@ -439,10 +443,10 @@ export default function ProjectLandingPage() {
                 <div className="flex items-start gap-3 rounded-lg bg-slate-50 p-3">
                   <TestTube className="mt-0.5 h-5 w-5 text-slate-600" />
                   <div>
-                    <h5 className="font-medium">Export & Backup</h5>
+                    <h5 className="font-medium">Export Options</h5>
                     <p className="text-muted-foreground text-sm">
-                      Export notes in multiple formats with automated backup and
-                      data portability options.
+                      Share plans via PDF, email, or task management apps for
+                      collaboration.
                     </p>
                   </div>
                 </div>
@@ -453,7 +457,7 @@ export default function ProjectLandingPage() {
 
         {/* Application Stack */}
         <SimpleCollapsibleContainer
-          title="Applications Stack"
+          title="Organized Stack"
           icon={<Layers className="h-5 w-5 text-black" />}
           defaultExpanded={false}
         >
@@ -466,28 +470,26 @@ export default function ProjectLandingPage() {
               </h4>
               <div className="mb-4 grid gap-4 md:grid-cols-3">
                 <div className="rounded-lg bg-blue-50 p-3">
-                  <h5 className="mb-2 font-medium text-blue-900">Note-First</h5>
+                  <h5 className="mb-2 font-medium text-blue-900">App Style</h5>
                   <p className="text-sm text-blue-700">
-                    Optimized for rapid note capture with minimal friction and
-                    maximum organization
+                    React Native cross-platform mobile application with native
+                    performance
                   </p>
                 </div>
                 <div className="rounded-lg bg-green-50 p-3">
                   <h5 className="mb-2 font-medium text-green-900">
-                    Forms-Based
+                    Components
                   </h5>
                   <p className="text-sm text-green-700">
-                    Built on a flexible form system for consistent note creation
-                    and editing experiences
+                    Reusable UI components with gesture support and
+                    mobile-optimized interactions
                   </p>
                 </div>
                 <div className="rounded-lg bg-purple-50 p-3">
-                  <h5 className="mb-2 font-medium text-purple-900">
-                    Real-time
-                  </h5>
+                  <h5 className="mb-2 font-medium text-purple-900">State</h5>
                   <p className="text-sm text-purple-700">
-                    Live synchronization with optimistic updates for seamless
-                    note taking experience
+                    Context API for local state, Redux for global app state
+                    management
                   </p>
                 </div>
               </div>

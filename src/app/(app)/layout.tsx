@@ -18,7 +18,6 @@ import {
   GitBranch,
   Cog,
   MessageSquare,
-  Package,
   Bot,
   Layers,
   Info,
@@ -49,11 +48,6 @@ const menuItems = [
     title: 'Git Commands',
     href: '/git-commands',
     icon: GitBranch,
-  },
-  {
-    title: 'Spec Kit',
-    href: '/ai-tools/spec-kit',
-    icon: Package,
   },
   {
     title: 'Prompts',
