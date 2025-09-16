@@ -41,7 +41,7 @@ const routeLabels: Record<string, string> = {
   '/tech-stacks': 'Tech Stacks',
   '/tech-stacks/nextjs-setup': 'Next.js Setup',
   '/tech-stacks/this-stack': 'This Stack',
-  '/links': 'Links',
+  '/forms': 'Forms',
   '/git-commands': 'Git Commands',
   '/settings': 'Settings',
 };

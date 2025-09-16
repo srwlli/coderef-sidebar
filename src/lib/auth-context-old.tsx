@@ -44,15 +44,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (error) throw error;
   };
 
-  const signUp = async (email: string, password: string, username: string) => {
+  const signUp = async (email: string, password: string, fullName: string) => {
     if (!supabase) throw new Error('Supabase not configured');
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
-          display_name: username,
-          full_name: username,
+          full_name: fullName,
         },
       },
     });
@@ -61,25 +60,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     if (!supabase) throw new Error('Supabase not configured');
-
-    try {
-      // Check if there's an active session first
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        // If no session, just clear local state
-        setUser(null);
-        return;
-      }
-
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-    } catch (error) {
-      // If sign out fails, still clear local state
-      setUser(null);
-      throw error;
-    }
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
   };
 
   const resetPassword = async (email: string) => {
@@ -93,8 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       ? {
           id: user.id,
           email: user.email!,
-          full_name:
-            user.user_metadata?.full_name || user.user_metadata?.display_name,
+          full_name: user.user_metadata?.full_name,
           avatar_url: user.user_metadata?.avatar_url,
         }
       : null,

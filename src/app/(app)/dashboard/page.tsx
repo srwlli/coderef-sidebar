@@ -1,12 +1,5 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import {
-  GitBranch,
-  Bot,
-  Layers,
-  Settings,
-  Link as LinkIcon,
-  FileText,
-} from 'lucide-react';
+import { GitBranch, Bot, Layers, Settings, FileText } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -32,9 +25,9 @@ export default function Dashboard() {
       icon: Layers,
     },
     {
-      title: 'Links',
-      href: '/links',
-      icon: LinkIcon,
+      title: 'Forms',
+      href: '/forms',
+      icon: FileText,
     },
     {
       title: 'Settings',

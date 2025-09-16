@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 export const dynamic = 'force-dynamic';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth-context';
-import { AuthForm } from '@/components/auth/auth-form';
+import { LoginForm } from '@/components/auth/login-form';
 import {
   Card,
   CardContent,
@@ -49,7 +49,7 @@ export default function AuthPage() {
             <CardDescription>Access your dashboard</CardDescription>
           </CardHeader>
           <CardContent>
-            <AuthForm />
+            <LoginForm />
           </CardContent>
         </Card>
       </main>

@@ -77,9 +77,9 @@ const menuItems = [
     icon: Info,
   },
   {
-    title: 'Links',
-    href: '/links',
-    icon: LinkIcon,
+    title: 'Forms',
+    href: '/forms',
+    icon: FileText,
   },
   {
     title: 'Settings',
