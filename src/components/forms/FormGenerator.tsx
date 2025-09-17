@@ -20,6 +20,7 @@ import { TextField } from './fields/TextField';
 import { TextAreaField } from './fields/TextAreaField';
 import { TagField } from './fields/TagField';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 interface FormGeneratorProps<
   T extends Record<string, unknown> = Record<string, unknown>,
@@ -29,6 +30,7 @@ interface FormGeneratorProps<
   onReset?: () => void;
   className?: string;
   disabled?: boolean;
+  initialData?: T;
 }
 
 export function FormGenerator<
@@ -39,9 +41,10 @@ export function FormGenerator<
   onReset,
   className,
   disabled = false,
+  initialData,
 }: FormGeneratorProps<T>) {
   const zodSchema = generateZodSchema(schema.fields);
-  const defaultValues = getDefaultValues(schema.fields);
+  const defaultValues = initialData || getDefaultValues(schema.fields);
 
   const {
     handleSubmit,
@@ -145,6 +148,7 @@ export function FormGenerator<
             disabled={disabled || isSubmitting}
             className="min-w-[120px]"
           >
+            {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isSubmitting ? 'Submitting...' : schema.submitText || 'Submit'}
           </Button>
 

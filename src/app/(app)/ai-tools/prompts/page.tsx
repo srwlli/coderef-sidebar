@@ -82,103 +82,115 @@ Experiment: Adapt analysis depth based on codebase characteristics. Suggest mult
 
           {/* Code Scan Prompt Chain */}
           <CodeScanChainContainer
-            title="Code Scan Prompt Chain"
+            title="Code Scan Prompt Chain (5-Step)"
             icon={<Brain className="h-5 w-5" />}
             steps={[
               {
-                title: 'Step 1: Discovery',
+                title: 'Step 1: README Generation',
                 description:
-                  'Phase 1: Identify codebase fundamentals - project type, entry points, structure, and configuration',
-                content: `<purpose>Phase 1: Identify codebase fundamentals</purpose>
+                  'Generate README.md as the discovery entry document with overview, quickstart, and usage examples',
+                content: `framework: POWER
 
-<o>
-- Project type and programming languages
-- Main entry points (files that start the application)
-- Directory structure overview
-- Key configuration files found
-</o>
+purpose: Generate README.md as the discovery entry document.
 
-<work>SCAN ONLY - focus on project identification, no deep analysis</work>
+output: Must follow required header/footer format with [Project Name], [Date], [Version], [Maintainer]. Include overview, quickstart steps, usage examples, prerequisites, and troubleshooting patterns.
 
-<examples>
-Entry point: "app.py - Flask application"
-Config: "requirements.txt, .env files"
-Structure: "src/, tests/, docs/ directories"
-</examples>
+work: Scan project root, configs, and entry points. Do not modify code.
 
-<requirements>
-Save as root/coderef/code-scan/discovery.md with:
-- Table of Contents with section links
-- All findings in bulleted lists
-- Metrics tables (file counts, directory counts, language breakdown)
-- Structured markdown with ## headers
-- Clear section hierarchy (## Project Type, ## Entry Points, ## Structure, ## Configuration)
-</requirements>`,
+examples:
+- Installation command with sample output
+- Common error message and resolution
+
+requirements: Must include command sequences, decision trees, and AI-focused footer.
+
+save_as: README.md
+store_as: readme_summary`,
               },
               {
-                title: 'Step 2: Architecture',
+                title: 'Step 2: Architecture Documentation',
                 description:
-                  'Phase 2: Map architecture using discovery.md findings - components, patterns, dependencies, and services',
-                content: `<purpose>Phase 2: Map architecture using discovery.md findings</purpose>
+                  'Generate ARCHITECTURE.md as the system design reference with topology and data flow',
+                content: `framework: POWER
 
-<o>
-- Component relationships and dependencies
-- Design patterns identified (MVC, Repository, Factory, etc.)
-- Core classes/functions and their purposes
-- Database and external service connections
-</o>
+purpose: Generate ARCHITECTURE.md as the system design reference.
 
-<work>Read root/coderef/code-scan/discovery.md, then SCAN architecture based on those findings</work>
+output: Must follow required header/footer with [Date] and [Version]. Include topology, module boundaries, stack decisions, and data flow. Reference project overview from README.md ({{readme_summary}}).
 
-<examples>
-Pattern: "Repository pattern in data access layer"
-Dependency: "UserService → Database → Redis cache"
-Component: "AuthController handles login/logout endpoints"
-</examples>
+work: Parse structure and dependency graphs. Scan only.
 
-<requirements>
-Save as root/coderef/code-scan/architecture.md with:
-- Table of Contents with clickable links
-- Component dependency lists in bullet format
-- Architecture metrics (coupling scores, component counts, pattern usage)
-- Structured tables for component relationships
-- Clear sections (## Components, ## Dependencies, ## Patterns, ## External Services)
-</requirements>`,
+examples:
+- ASCII diagram of system topology
+- Dependency map with explanation
+
+requirements: Must include rationale for design choices and AI-focused footer.
+
+save_as: ARCHITECTURE.md
+store_as: architecture_summary`,
               },
               {
-                title: 'Step 3: Final Report',
+                title: 'Step 3: API Documentation',
                 description:
-                  'Synthesize discovery + architecture into comprehensive code-scan.md with integrated overview and prioritized recommendations',
-                content: `<purpose>Synthesize discovery + architecture into comprehensive code-scan.md</purpose>
+                  'Generate API.md as the technical interface reference with endpoints and schemas',
+                content: `framework: POWER
 
-<o>
-- Integrated project overview with key metrics
-- Component dependency graph in structured list format
-- Quality issues ranked by priority with precise counts
-- Specific recommendations with effort estimates and priorities
-</o>
+purpose: Generate API.md as the technical interface reference.
 
-<work>Read root/coderef/code-scan/discovery.md and root/coderef/code-scan/architecture.md, then COMBINE all findings</work>
+output: Must follow required header/footer with [Date] and [Version]. Document endpoints, schemas, authentication, and error handling. Reference README.md ({{readme_summary}}) and ARCHITECTURE.md ({{architecture_summary}}).
 
-<examples>
-Issue: "3 circular dependencies found in auth module (HIGH priority)"
-Metric: "Code complexity: 847 total lines, avg 12.3 per function"
-Recommendation: "Refactor UserService interface (Effort: Medium, Impact: High)"
-</examples>
+work: Parse controllers, routes, and services. No execution.
 
-<requirements>
-Save as root/coderef/code-scan/code-scan.md with:
-- Complete Table of Contents with numbered sections and page links
-- Executive Summary in precise bullet points with metrics
-- All findings organized in numbered and bulleted lists
-- Comprehensive metrics tables (complexity, coverage, dependency counts, file statistics)
-- Priority-ranked recommendations with effort estimates (High/Medium/Low)
-- Structured markdown with consistent header hierarchy (# ## ### ####)
-- Clear sections: Executive Summary, Project Overview, Architecture Analysis, Quality Assessment, Recommendations
-</requirements>`,
+examples:
+- cURL request and response sample
+- Error response JSON object
+
+requirements: Must include pagination, rate limits, and AI-focused footer.
+
+save_as: API.md
+store_as: api_summary`,
+              },
+              {
+                title: 'Step 4: Components Documentation',
+                description:
+                  'Generate COMPONENTS.md as the component library reference with props and usage rules',
+                content: `framework: POWER
+
+purpose: Generate COMPONENTS.md as the component library reference.
+
+output: Must follow required header/footer with [Framework] and [Version]. Inventory all reusable components, props, and usage rules. Reference README.md ({{readme_summary}}), ARCHITECTURE.md ({{architecture_summary}}), and API.md ({{api_summary}}).
+
+work: Scan UI/logic directories. Identify components by convention. No execution.
+
+examples:
+- Code snippet with props
+- State management pattern
+
+requirements: Must include copy-paste ready examples and AI-focused footer.
+
+save_as: COMPONENTS.md
+store_as: components_summary`,
+              },
+              {
+                title: 'Step 5: Schema Documentation',
+                description:
+                  'Generate SCHEMA.md as the data schema reference with database models and validation rules',
+                content: `framework: POWER
+
+purpose: Generate SCHEMA.md as the data schema reference.
+
+output: Must follow required header/footer with [Date] and [Schema Version]. Document database schemas, enums, relationships, and validation rules. Reference README.md ({{readme_summary}}), ARCHITECTURE.md ({{architecture_summary}}), API.md ({{api_summary}}), and COMPONENTS.md ({{components_summary}}).
+
+work: Parse models, migrations, and schema definitions. No execution.
+
+examples:
+- JSON schema with validation errors
+- TypeScript interface definition
+
+requirements: Must include relationships, constraints, and AI-focused footer.
+
+save_as: SCHEMA.md`,
               },
             ]}
-            className="border-green-200 dark:border-green-800"
+            className=""
             defaultExpanded={false}
           />
 

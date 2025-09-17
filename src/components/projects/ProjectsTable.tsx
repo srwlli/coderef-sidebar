@@ -21,10 +21,19 @@ import {
   Download,
   Eye,
   EyeOff,
+  Trash2,
 } from 'lucide-react';
-import { useProjects } from '@/hooks/useProjects';
+import { useProjects, useDeleteProject } from '@/hooks/useProjects';
 import type { DbProject } from '@/lib/forms/formTypes';
 import { format } from 'date-fns';
+import { useToast } from '@/hooks/use-toast';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
+import { ProjectForm } from '@/components/forms/ProjectForm';
 
 interface ProjectsTableProps {
   className?: string;
@@ -35,6 +44,8 @@ type SortDirection = 'asc' | 'desc';
 
 export function ProjectsTable({ className }: ProjectsTableProps) {
   const { data: projects = [], isLoading, error } = useProjects();
+  const deleteProject = useDeleteProject();
+  const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortField, setSortField] = useState<SortField>('created_at');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
@@ -42,6 +53,8 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
   const [selectedProjects, setSelectedProjects] = useState<Set<number>>(
     new Set()
   );
+  const [editingProject, setEditingProject] = useState<DbProject | null>(null);
+  const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
 
   // Filter projects based on search and missing fields
   const filteredProjects = projects.filter((project) => {
@@ -125,6 +138,53 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
     if (!project.local_link) missing.push('Local');
     if (!project.deployed_link) missing.push('Deployed');
     return missing;
+  };
+
+  const handleEditProject = (project: DbProject) => {
+    setEditingProject(project);
+    setIsEditSheetOpen(true);
+  };
+
+  const handleEditSuccess = () => {
+    setIsEditSheetOpen(false);
+    setEditingProject(null);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditSheetOpen(false);
+    setEditingProject(null);
+  };
+
+  const handleDeleteProject = async (project: DbProject) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete "${project.project_name}"? This action cannot be undone.`
+      )
+    ) {
+      try {
+        await deleteProject.mutateAsync(project.id);
+
+        // Remove from selection if it was selected
+        if (selectedProjects.has(project.id)) {
+          const newSelection = new Set(selectedProjects);
+          newSelection.delete(project.id);
+          setSelectedProjects(newSelection);
+        }
+
+        toast({
+          title: 'Project Deleted',
+          description: `"${project.project_name}" has been deleted successfully.`,
+          type: 'success',
+        });
+      } catch (error) {
+        console.error('Delete failed:', error);
+        toast({
+          title: 'Delete Failed',
+          description: 'Failed to delete project. Please try again.',
+          type: 'error',
+        });
+      }
+    }
   };
 
   const exportToCSV = () => {
@@ -430,9 +490,25 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
                     </TableCell>
 
                     <TableCell>
-                      <Button variant="ghost" size="sm" title="Edit Project">
-                        <Edit className="h-4 w-4" />
-                      </Button>
+                      <div className="flex gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          title="Edit Project"
+                          onClick={() => handleEditProject(project)}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          title="Delete Project"
+                          onClick={() => handleDeleteProject(project)}
+                          disabled={deleteProject.isPending}
+                        >
+                          <Trash2 className="h-4 w-4 text-red-500" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 );
@@ -441,6 +517,25 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
           </TableBody>
         </Table>
       </div>
+
+      {/* Edit Project Sheet */}
+      <Sheet open={isEditSheetOpen} onOpenChange={setIsEditSheetOpen}>
+        <SheetContent className="sm:max-w-md">
+          <SheetHeader>
+            <SheetTitle>Edit Project</SheetTitle>
+          </SheetHeader>
+          <div className="mt-6">
+            {editingProject && (
+              <ProjectForm
+                mode="edit"
+                initialData={editingProject}
+                onSuccess={handleEditSuccess}
+                onCancel={handleEditCancel}
+              />
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
