@@ -211,7 +211,11 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
           <Checkbox
             id="missing-only"
             checked={showMissingOnly}
-            onCheckedChange={setShowMissingOnly}
+            onCheckedChange={(checked) => {
+              if (typeof checked === 'boolean') {
+                setShowMissingOnly(checked);
+              }
+            }}
           />
           <label
             htmlFor="missing-only"

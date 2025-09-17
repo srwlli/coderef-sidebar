@@ -147,25 +147,25 @@ export default function ProjectLandingPage() {
             <div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-4">
               <div className="text-center">
                 <div className="text-2xl font-bold text-blue-600">
-                  {projectStats.pages}
+                  {projectStats.notes}
                 </div>
                 <div className="text-muted-foreground text-sm">Notes</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-green-600">
-                  {projectStats.components}
+                  {projectStats.projects}
                 </div>
                 <div className="text-muted-foreground text-sm">Projects</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-purple-600">
-                  {projectStats.linesOfCode.toLocaleString()}
+                  {projectStats.totalWords.toLocaleString()}
                 </div>
                 <div className="text-muted-foreground text-sm">Total Words</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">
-                  {projectStats.documentation.toLocaleString()}
+                  {projectStats.tags.toLocaleString()}
                 </div>
                 <div className="text-muted-foreground text-sm">Tags</div>
               </div>

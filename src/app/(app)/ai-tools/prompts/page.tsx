@@ -3,14 +3,7 @@
 import { SimpleCollapsibleContainer } from '@/components/collapsibles/SimpleCollapsibleContainer';
 import CollapsiblePrompt from '@/components/collapsibles/CollapsiblePrompt';
 import { CodeScanChainContainer } from '@/components/collapsibles/CodeScanChainContainer';
-import {
-  Brain,
-  Lightbulb,
-  TrendingUp,
-  FileText,
-  Network,
-  Package,
-} from 'lucide-react';
+import { Brain, FileText, Network, Package } from 'lucide-react';
 
 export default function PromptsPage() {
   return (

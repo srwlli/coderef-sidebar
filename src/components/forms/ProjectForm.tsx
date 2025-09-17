@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import { FormGenerator } from './FormGenerator';
 import { projectFormSchema } from '@/lib/forms/projectSchema';
-import { createClient } from '@/lib/supabase/client';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { ProjectData } from '@/lib/forms/formTypes';
+import { useAuth } from '@/lib/auth-context';
+import { User } from '@supabase/supabase-js';
 
 interface ProjectFormProps {
   onSuccess?: (data: ProjectData) => void;
@@ -15,15 +17,40 @@ interface ProjectFormProps {
 export function ProjectForm({ onSuccess, className }: ProjectFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const supabase = createClient();
+  const { user } = useAuth();
 
   const handleSubmit = async (data: ProjectData) => {
     setIsSubmitting(true);
 
     try {
+      // Check if Supabase is configured
+      if (!isSupabaseConfigured() || !supabase) {
+        throw new Error('Supabase is not configured');
+      }
+
+      // Check if user is authenticated
+      if (!user) {
+        throw new Error('You must be logged in to create a project');
+      }
+
+      // Include user ID in the project data
+      // Access user metadata safely
+      const userMetadata =
+        user && 'user_metadata' in user
+          ? (user as User & { user_metadata?: { display_name?: string } })
+              .user_metadata
+          : undefined;
+
+      const projectWithUser = {
+        ...data,
+        user_id: user.id,
+        username:
+          userMetadata?.display_name || user.email?.split('@')[0] || 'unknown',
+      };
+
       const { data: insertedData, error } = await supabase
         .from('projects')
-        .insert([data])
+        .insert([projectWithUser])
         .select()
         .single();
 
