@@ -7,7 +7,6 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { NotedData, DbNoted } from '@/lib/forms/formTypes';
 import { useAuth } from '@/lib/auth-context';
-import { User } from '@supabase/supabase-js';
 
 interface NotedFormProps {
   onSuccess?: (data: NotedData) => void;
@@ -73,12 +72,6 @@ export function NotedForm({
         onSuccess?.(updateData);
       } else {
         // Create mode
-        const userMetadata =
-          user && 'user_metadata' in user
-            ? (user as User & { user_metadata?: { display_name?: string } })
-                .user_metadata
-            : undefined;
-
         const noteWithUser = {
           ...data,
           user_id: user.id,
@@ -100,7 +93,8 @@ export function NotedForm({
 
         toast({
           title: 'Success',
-          description: notedFormSchema.successMessage || 'Note saved successfully!',
+          description:
+            notedFormSchema.successMessage || 'Note saved successfully!',
           type: 'success',
         });
 

@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/cards';
-import { Upload, Image as ImageIcon, Trash2, Eye } from 'lucide-react';
+import { Upload, Trash2, Eye } from 'lucide-react';
 import { ImagesFieldConfig, ImageObject } from '@/lib/forms/formTypes';
 
 interface ImagesFieldProps {
@@ -28,56 +28,64 @@ export function ImagesField({
 
   const maxFiles = config.maxFiles || 5;
   const maxFileSize = config.maxFileSize || 5 * 1024 * 1024; // 5MB default
-  const allowedTypes = config.allowedTypes || ['image/jpeg', 'image/png', 'image/webp'];
+  const allowedTypes = useMemo(
+    () => config.allowedTypes || ['image/jpeg', 'image/png', 'image/webp'],
+    [config.allowedTypes]
+  );
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    if (disabled || uploading) return;
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      if (disabled || uploading) return;
 
-    setUploading(true);
-    const newImages: ImageObject[] = [];
+      setUploading(true);
+      const newImages: ImageObject[] = [];
 
-    for (const file of acceptedFiles) {
-      // Validate file size
-      if (file.size > maxFileSize) {
-        console.error(`File ${file.name} is too large`);
-        continue;
+      for (const file of acceptedFiles) {
+        // Validate file size
+        if (file.size > maxFileSize) {
+          console.error(`File ${file.name} is too large`);
+          continue;
+        }
+
+        // Validate file type
+        if (!allowedTypes.includes(file.type)) {
+          console.error(`File ${file.name} has invalid type`);
+          continue;
+        }
+
+        try {
+          // Create temporary URL for preview
+          const url = URL.createObjectURL(file);
+
+          const imageObject: ImageObject = {
+            url,
+            alt: file.name,
+            caption: '',
+            filename: file.name,
+            size: file.size,
+            type: file.type,
+          };
+
+          newImages.push(imageObject);
+        } catch (error) {
+          console.error(`Error processing file ${file.name}:`, error);
+        }
       }
 
-      // Validate file type
-      if (!allowedTypes.includes(file.type)) {
-        console.error(`File ${file.name} has invalid type`);
-        continue;
-      }
-
-      try {
-        // Create temporary URL for preview
-        const url = URL.createObjectURL(file);
-
-        const imageObject: ImageObject = {
-          url,
-          alt: file.name,
-          caption: '',
-          filename: file.name,
-          size: file.size,
-          type: file.type,
-        };
-
-        newImages.push(imageObject);
-      } catch (error) {
-        console.error(`Error processing file ${file.name}:`, error);
-      }
-    }
-
-    // Update value with new images
-    const updatedImages = [...value, ...newImages].slice(0, maxFiles);
-    onChange(updatedImages);
-    setUploading(false);
-  }, [value, onChange, maxFiles, maxFileSize, allowedTypes, disabled, uploading]);
+      // Update value with new images
+      const updatedImages = [...value, ...newImages].slice(0, maxFiles);
+      onChange(updatedImages);
+      setUploading(false);
+    },
+    [value, onChange, maxFiles, maxFileSize, allowedTypes, disabled, uploading]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': allowedTypes.map(type => type.split('/')[1]).map(ext => `.${ext}`)
+      'image/*': allowedTypes
+        .map((type) => type.split('/')[1])
+        .map((ext) => `.${ext}`),
     },
     maxFiles: maxFiles - value.length,
     disabled: disabled || uploading || value.length >= maxFiles,
@@ -118,7 +126,7 @@ export function ImagesField({
           {config.required && <span className="text-destructive ml-1">*</span>}
         </Label>
         {config.description && (
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-sm">
             {config.description}
           </p>
         )}
@@ -126,16 +134,17 @@ export function ImagesField({
 
       {/* Image Grid */}
       {value.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {value.map((image, index) => (
             <Card key={index} className="relative overflow-hidden">
               <CardContent className="p-0">
                 {/* Image Preview */}
-                <div className="relative aspect-video bg-muted">
+                <div className="bg-muted relative aspect-video">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={image.url}
                     alt={image.alt || `Image ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="h-full w-full object-cover"
                   />
                   <div className="absolute top-2 right-2 flex gap-1">
                     <Button
@@ -161,7 +170,7 @@ export function ImagesField({
                 </div>
 
                 {/* Image Details */}
-                <div className="p-3 space-y-2">
+                <div className="space-y-2 p-3">
                   <div>
                     <Label className="text-xs">Alt Text</Label>
                     <Input
@@ -186,7 +195,7 @@ export function ImagesField({
                     </div>
                   )}
 
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-muted-foreground text-xs">
                     {image.filename} ({(image.size || 0 / 1024).toFixed(1)} KB)
                   </div>
                 </div>
@@ -200,48 +209,46 @@ export function ImagesField({
       {canAddMore && (
         <div
           {...getRootProps()}
-          className={`
-            border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-            ${isDragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'}
-            ${disabled || uploading ? 'opacity-50 cursor-not-allowed' : 'hover:border-primary'}
-          `}
+          className={`cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors ${isDragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'} ${disabled || uploading ? 'cursor-not-allowed opacity-50' : 'hover:border-primary'} `}
         >
           <input {...getInputProps()} />
           <div className="flex flex-col items-center gap-2">
-            <Upload className="h-10 w-10 text-muted-foreground" />
+            <Upload className="text-muted-foreground h-10 w-10" />
             <div>
               <p className="font-medium">
                 {isDragActive ? 'Drop images here' : 'Drag & drop images here'}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 or click to browse files
               </p>
             </div>
-            <div className="text-xs text-muted-foreground">
-              Max {maxFiles} files, {Math.round(maxFileSize / 1024 / 1024)}MB each
+            <div className="text-muted-foreground text-xs">
+              Max {maxFiles} files, {Math.round(maxFileSize / 1024 / 1024)}MB
+              each
             </div>
-            <div className="text-xs text-muted-foreground">
-              Supports: {allowedTypes.map(type => type.split('/')[1].toUpperCase()).join(', ')}
+            <div className="text-muted-foreground text-xs">
+              Supports:{' '}
+              {allowedTypes
+                .map((type) => type.split('/')[1].toUpperCase())
+                .join(', ')}
             </div>
           </div>
         </div>
       )}
 
       {!canAddMore && (
-        <p className="text-sm text-muted-foreground text-center">
+        <p className="text-muted-foreground text-center text-sm">
           Maximum {maxFiles} images reached
         </p>
       )}
 
       {uploading && (
-        <p className="text-sm text-muted-foreground text-center">
+        <p className="text-muted-foreground text-center text-sm">
           Uploading images...
         </p>
       )}
 
-      {error && (
-        <p className="text-sm text-destructive">{error}</p>
-      )}
+      {error && <p className="text-destructive text-sm">{error}</p>}
     </div>
   );
 }

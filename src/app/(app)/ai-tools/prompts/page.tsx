@@ -1,10 +1,8 @@
 'use client';
 
-import { SimpleCollapsibleContainer } from '@/components/collapsibles/SimpleCollapsibleContainer';
-import CollapsiblePrompt from '@/components/collapsibles/CollapsiblePrompt';
 import { CodeScanChainContainer } from '@/components/collapsibles/CodeScanChainContainer';
 import { appGenerationChainSteps } from './app-generation-chain';
-import { Brain, FileText, Network, Package, Rocket } from 'lucide-react';
+import { Brain, Rocket } from 'lucide-react';
 
 export default function PromptsPage() {
   return (

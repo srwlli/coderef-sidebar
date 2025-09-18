@@ -26,11 +26,18 @@ import { LinksField } from './fields/LinksField';
 import { ImagesField } from './fields/ImagesField';
 import { ProjectSelectField } from './fields/ProjectSelectField';
 import { cn } from '@/lib/utils';
-import { Loader2, FolderOpen, Tag, Link, Plus, Image, Camera } from 'lucide-react';
+import {
+  Loader2,
+  FolderOpen,
+  Tag,
+  Link,
+  Plus,
+  Image,
+  Camera,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -76,12 +83,19 @@ export function FormGenerator<
 
     const getIcon = () => {
       switch (field.key) {
-        case 'project_name': return <FolderOpen className="h-4 w-4" />;
-        case 'tags': return <Tag className="h-4 w-4" />;
-        case 'links': return <Link className="h-4 w-4" />;
-        case 'images': return <Image className="h-4 w-4" />;
-        case 'screenshots': return <Camera className="h-4 w-4" />;
-        default: return <Plus className="h-4 w-4" />;
+        case 'project_name':
+          return <FolderOpen className="h-4 w-4" />;
+        case 'tags':
+          return <Tag className="h-4 w-4" />;
+        case 'links':
+          return <Link className="h-4 w-4" />;
+        case 'images':
+          // eslint-disable-next-line jsx-a11y/alt-text
+          return <Image className="h-4 w-4" aria-hidden="true" />;
+        case 'screenshots':
+          return <Camera className="h-4 w-4" />;
+        default:
+          return <Plus className="h-4 w-4" />;
       }
     };
 
@@ -117,16 +131,14 @@ export function FormGenerator<
             type="button"
             variant="ghost"
             size="sm"
-            className="h-8 gap-2 text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground h-8 gap-2"
           >
             {getIcon()}
             <span className="text-xs">{getDisplayText()}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-80 p-4" align="start">
-          <div className="space-y-2">
-            {renderField(field)}
-          </div>
+          <div className="space-y-2">{renderField(field)}</div>
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -242,9 +254,17 @@ export function FormGenerator<
         )}
 
         {/* Inline actions bar */}
-        <div className="flex items-center gap-2 p-3 bg-muted/30 rounded-lg border">
+        <div className="bg-muted/30 flex items-center gap-2 rounded-lg border p-3">
           {schema.fields
-            .filter((field) => ['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
+            .filter((field) =>
+              [
+                'project_name',
+                'tags',
+                'links',
+                'images',
+                'screenshots',
+              ].includes(field.key)
+            )
             .map((field) => renderInlineField(field))}
         </div>
       </div>
@@ -254,14 +274,23 @@ export function FormGenerator<
         {/* Main content fields */}
         <div className="space-y-4">
           {schema.fields
-            .filter((field) => !['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
+            .filter(
+              (field) =>
+                ![
+                  'project_name',
+                  'tags',
+                  'links',
+                  'images',
+                  'screenshots',
+                ].includes(field.key)
+            )
             .map((field) => (
               <div key={field.key}>{renderField(field)}</div>
             ))}
         </div>
 
         {/* Form actions */}
-        <div className="flex justify-end items-center gap-1 pt-4">
+        <div className="flex items-center justify-end gap-1 pt-4">
           {schema.resetText && (
             <>
               <Button
