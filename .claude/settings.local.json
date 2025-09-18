@@ -23,7 +23,8 @@
       "Bash(npm ls:*)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }
