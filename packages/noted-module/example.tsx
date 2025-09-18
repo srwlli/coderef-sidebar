@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { NotedForm } from './src';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type User } from '@supabase/supabase-js';
 
 // Initialize your Supabase client
 const supabase = createClient(
@@ -12,7 +12,11 @@ const supabase = createClient(
 );
 
 // Example toast function (you can use any toast library)
-const toast = ({ title, description, type }: {
+const toast = ({
+  title,
+  description,
+  type,
+}: {
   title: string;
   description: string;
   type: 'success' | 'error' | 'info';
@@ -24,20 +28,36 @@ const toast = ({ title, description, type }: {
 
 // Example usage in a React component
 export function ExampleNotedPage() {
-  // Your user object from authentication
+  // Your user object from authentication - this should come from Supabase auth
+  // In a real app, you'd get this from useAuth() or similar
   const user = {
     id: 'user-id-here',
-    // ... other user properties
-  };
+    app_metadata: {},
+    user_metadata: {},
+    aud: 'authenticated',
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    email: 'user@example.com',
+    phone: '',
+    confirmed_at: new Date().toISOString(),
+    email_confirmed_at: new Date().toISOString(),
+    phone_confirmed_at: null,
+    last_sign_in_at: new Date().toISOString(),
+    role: 'authenticated',
+    factor_id: null,
+    identities: [],
+    user_metadata: {},
+    app_metadata: {},
+  } as User;
 
   return (
     <div className="container mx-auto p-8">
       {/* Your page wrapper */}
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Create Note</h1>
+      <div className="mx-auto max-w-4xl">
+        <h1 className="mb-8 text-3xl font-bold">Create Note</h1>
 
         {/* The NotedForm component */}
-        <div className="bg-white rounded-lg border shadow-sm p-6">
+        <div className="rounded-lg border bg-white p-6 shadow-sm">
           <NotedForm
             supabaseClient={supabase}
             user={user}
@@ -80,10 +100,10 @@ export function ExampleEditNotePage() {
 
   return (
     <div className="container mx-auto p-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Edit Note</h1>
+      <div className="mx-auto max-w-4xl">
+        <h1 className="mb-8 text-3xl font-bold">Edit Note</h1>
 
-        <div className="bg-white rounded-lg border shadow-sm p-6">
+        <div className="rounded-lg border bg-white p-6 shadow-sm">
           <NotedForm
             supabaseClient={supabase}
             user={user}
