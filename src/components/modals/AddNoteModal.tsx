@@ -3,14 +3,18 @@
 import { X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NotedForm } from '../../../packages/noted-module/src';
-import type { SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient, User } from '@supabase/supabase-js';
 
 interface AddNoteModalProps {
   isOpen: boolean;
   onClose: () => void;
   supabaseClient: SupabaseClient;
-  user: any;
-  toast: (config: { title: string; description: string; type: 'success' | 'error' | 'info' }) => void;
+  user: User;
+  toast: (config: {
+    title: string;
+    description: string;
+    type: 'success' | 'error' | 'info';
+  }) => void;
 }
 
 export default function AddNoteModal({
@@ -23,9 +27,9 @@ export default function AddNoteModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-background">
+    <div className="bg-background fixed inset-0 z-50">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-border">
+      <div className="border-border flex items-center justify-between border-b p-4">
         <h2 className="text-lg font-semibold">New Note</h2>
         <Button
           onClick={onClose}
