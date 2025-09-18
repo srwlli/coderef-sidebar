@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import { GitBranch, Bot, Layers, Settings, FileText } from 'lucide-react';
+import { GitBranch, Bot, Layers, Settings, FileText, StickyNote } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -28,6 +28,11 @@ export default function Dashboard() {
       title: 'Forms',
       href: '/forms',
       icon: FileText,
+    },
+    {
+      title: 'Noted',
+      href: '/noted',
+      icon: StickyNote,
     },
     {
       title: 'Settings',

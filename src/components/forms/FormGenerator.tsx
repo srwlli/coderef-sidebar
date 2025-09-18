@@ -10,6 +10,9 @@ import {
   TextFieldConfig,
   TextAreaFieldConfig,
   TagsFieldConfig,
+  LinksFieldConfig,
+  ImagesFieldConfig,
+  ProjectSelectFieldConfig,
 } from '@/lib/forms/formTypes';
 import {
   generateZodSchema,
@@ -19,8 +22,17 @@ import {
 import { TextField } from './fields/TextField';
 import { TextAreaField } from './fields/TextAreaField';
 import { TagField } from './fields/TagField';
+import { LinksField } from './fields/LinksField';
+import { ImagesField } from './fields/ImagesField';
+import { ProjectSelectField } from './fields/ProjectSelectField';
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
+import { Loader2, FolderOpen, Tag, Link, Plus, Image, Camera } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface FormGeneratorProps<
   T extends Record<string, unknown> = Record<string, unknown>,
@@ -58,6 +70,67 @@ export function FormGenerator<
   });
 
   const watchedValues = watch();
+
+  const renderInlineField = (field: FieldConfig) => {
+    const value = watchedValues[field.key];
+
+    const getIcon = () => {
+      switch (field.key) {
+        case 'project_name': return <FolderOpen className="h-4 w-4" />;
+        case 'tags': return <Tag className="h-4 w-4" />;
+        case 'links': return <Link className="h-4 w-4" />;
+        case 'images': return <Image className="h-4 w-4" />;
+        case 'screenshots': return <Camera className="h-4 w-4" />;
+        default: return <Plus className="h-4 w-4" />;
+      }
+    };
+
+    const getDisplayText = () => {
+      switch (field.key) {
+        case 'project_name':
+          return value ? `Project: ${value}` : 'Add Project';
+        case 'tags':
+          return Array.isArray(value) && value.length > 0
+            ? `Tags (${value.length})`
+            : 'Add Tags';
+        case 'links':
+          return Array.isArray(value) && value.length > 0
+            ? `Links (${value.length})`
+            : 'Add Links';
+        case 'images':
+          return Array.isArray(value) && value.length > 0
+            ? `Images (${value.length})`
+            : 'Add Images';
+        case 'screenshots':
+          return Array.isArray(value) && value.length > 0
+            ? `Screenshots (${value.length})`
+            : 'Add Screenshots';
+        default:
+          return field.label;
+      }
+    };
+
+    return (
+      <DropdownMenu key={field.key}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="h-8 gap-2 text-muted-foreground hover:text-foreground"
+          >
+            {getIcon()}
+            <span className="text-xs">{getDisplayText()}</span>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-80 p-4" align="start">
+          <div className="space-y-2">
+            {renderField(field)}
+          </div>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  };
 
   const renderField = (field: FieldConfig) => {
     const value = watchedValues[field.key];
@@ -101,6 +174,36 @@ export function FormGenerator<
           />
         );
 
+      case 'links':
+        return (
+          <LinksField
+            {...commonProps}
+            config={field as LinksFieldConfig}
+            value={Array.isArray(value) ? value : []}
+            onChange={(newValue) => setValue(field.key, newValue)}
+          />
+        );
+
+      case 'images':
+        return (
+          <ImagesField
+            {...commonProps}
+            config={field as ImagesFieldConfig}
+            value={Array.isArray(value) ? value : []}
+            onChange={(newValue) => setValue(field.key, newValue)}
+          />
+        );
+
+      case 'project-select':
+        return (
+          <ProjectSelectField
+            {...commonProps}
+            config={field as ProjectSelectFieldConfig}
+            value={typeof value === 'string' ? value : ''}
+            onChange={(newValue) => setValue(field.key, newValue)}
+          />
+        );
+
       default:
         console.warn(`Unsupported field type: ${field.type}`);
         return null;
@@ -125,43 +228,65 @@ export function FormGenerator<
   return (
     <div className={cn('space-y-6', className)}>
       {/* Form header */}
-      <div className="space-y-2">
-        <h2 className="text-2xl font-semibold">{schema.title}</h2>
-        {schema.description && (
-          <p className="text-muted-foreground">{schema.description}</p>
+      <div className="space-y-3">
+        {/* Title and description - only show if they exist */}
+        {(schema.title || schema.description) && (
+          <div className="space-y-2">
+            {schema.title && (
+              <h2 className="text-2xl font-semibold">{schema.title}</h2>
+            )}
+            {schema.description && (
+              <p className="text-muted-foreground">{schema.description}</p>
+            )}
+          </div>
         )}
+
+        {/* Inline actions bar */}
+        <div className="flex items-center gap-2 p-3 bg-muted/30 rounded-lg border">
+          {schema.fields
+            .filter((field) => ['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
+            .map((field) => renderInlineField(field))}
+        </div>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* Form fields */}
+        {/* Main content fields */}
         <div className="space-y-4">
-          {schema.fields.map((field) => (
-            <div key={field.key}>{renderField(field)}</div>
-          ))}
+          {schema.fields
+            .filter((field) => !['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
+            .map((field) => (
+              <div key={field.key}>{renderField(field)}</div>
+            ))}
         </div>
 
         {/* Form actions */}
-        <div className="flex gap-3 pt-4">
+        <div className="flex justify-end items-center gap-1 pt-4">
+          {schema.resetText && (
+            <>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleReset}
+                disabled={disabled || isSubmitting}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {schema.resetText}
+              </Button>
+              <span className="text-muted-foreground">|</span>
+            </>
+          )}
           <Button
             type="submit"
+            variant="ghost"
+            size="sm"
             disabled={disabled || isSubmitting}
-            className="min-w-[120px]"
+            className="text-muted-foreground hover:text-foreground"
           >
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isSubmitting ? 'Submitting...' : schema.submitText || 'Submit'}
           </Button>
-
-          {schema.resetText && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleReset}
-              disabled={disabled || isSubmitting}
-            >
-              {schema.resetText}
-            </Button>
-          )}
         </div>
       </form>
     </div>

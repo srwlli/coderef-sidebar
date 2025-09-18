@@ -10,7 +10,10 @@ export type FieldType =
   | 'number'
   | 'select'
   | 'checkbox'
-  | 'date';
+  | 'date'
+  | 'links'
+  | 'images'
+  | 'project-select';
 
 // Base field configuration
 export interface BaseFieldConfig {
@@ -63,6 +66,30 @@ export interface NumberFieldConfig extends BaseFieldConfig {
   step?: number;
 }
 
+// Links field configuration
+export interface LinksFieldConfig extends BaseFieldConfig {
+  type: 'links';
+  maxLinks?: number;
+  allowTitleEdit?: boolean;
+  allowDescriptionEdit?: boolean;
+}
+
+// Images field configuration
+export interface ImagesFieldConfig extends BaseFieldConfig {
+  type: 'images';
+  maxFiles?: number;
+  maxFileSize?: number; // in bytes
+  allowedTypes?: string[];
+  allowCaptions?: boolean;
+}
+
+// Project select field configuration
+export interface ProjectSelectFieldConfig extends BaseFieldConfig {
+  type: 'project-select';
+  allowCustom?: boolean;
+  placeholder?: string;
+}
+
 // Union of all field configurations
 export type FieldConfig =
   | TextFieldConfig
@@ -70,6 +97,9 @@ export type FieldConfig =
   | TagsFieldConfig
   | SelectFieldConfig
   | NumberFieldConfig
+  | LinksFieldConfig
+  | ImagesFieldConfig
+  | ProjectSelectFieldConfig
   | BaseFieldConfig;
 
 // Form schema configuration
@@ -88,6 +118,23 @@ export interface FormSchema {
   };
 }
 
+// Link object type
+export interface LinkObject {
+  url: string;
+  title?: string;
+  description?: string;
+}
+
+// Image object type
+export interface ImageObject {
+  url: string;
+  alt?: string;
+  caption?: string;
+  filename?: string;
+  size?: number;
+  type?: string;
+}
+
 // Field value types
 export type FieldValue =
   | string
@@ -95,6 +142,8 @@ export type FieldValue =
   | boolean
   | string[]
   | Date
+  | LinkObject[]
+  | ImageObject[]
   | null
   | undefined;
 
@@ -165,6 +214,25 @@ export interface ProjectData extends Record<string, unknown> {
 
 // Database project type with additional fields
 export interface DbProject extends ProjectData {
+  id: number;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+}
+
+// Noted-specific data type
+export interface NotedData extends Record<string, unknown> {
+  title: string;
+  description: string;
+  project_name?: string;
+  tags: string[];
+  links: LinkObject[];
+  images: ImageObject[];
+  screenshots: ImageObject[];
+}
+
+// Database noted type with additional fields
+export interface DbNoted extends NotedData {
   id: number;
   user_id: string;
   created_at: string;

@@ -46,11 +46,12 @@ export default function CollapsiblePrompt({
           )}
           <h3 className="text-foreground flex-1 font-semibold">{title}</h3>
         </div>
-        <ActiveCopyButton
-          content={content}
-          className="!h-9 !min-w-[75px] !px-3 !py-2 !text-xs"
-          onClick={(e) => e.stopPropagation()}
-        />
+        <div onClick={(e) => e.stopPropagation()}>
+          <ActiveCopyButton
+            content={content}
+            className="!h-9 !min-w-[75px] !px-3 !py-2 !text-xs"
+          />
+        </div>
       </div>
 
       {/* Expandable Content */}

@@ -40,7 +40,7 @@ export function TextAreaField({
         autoFocus={autoFocus}
         disabled={disabled}
         className={cn(
-          'resize-vertical',
+          'resize-vertical min-h-[400px] text-base leading-relaxed',
           error && 'border-destructive focus-visible:ring-destructive'
         )}
         aria-invalid={error ? 'true' : 'false'}

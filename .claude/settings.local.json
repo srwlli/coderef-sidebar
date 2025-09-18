@@ -21,7 +21,8 @@
       "Bash(awk:*)",
       "Bash(xargs:*)",
       "Bash(npm ls:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": []
   }
