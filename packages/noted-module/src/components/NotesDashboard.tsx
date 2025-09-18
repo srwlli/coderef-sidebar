@@ -181,7 +181,7 @@ export function NotesDashboard({
                   type: 'success',
                 });
 
-                handleEditSuccess(updateData);
+                handleEditSuccess();
               } catch (error) {
                 console.error('Edit note error:', error);
                 toast({

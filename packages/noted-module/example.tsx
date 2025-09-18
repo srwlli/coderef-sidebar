@@ -32,22 +32,12 @@ export function ExampleNotedPage() {
   // In a real app, you'd get this from useAuth() or similar
   const user = {
     id: 'user-id-here',
-    app_metadata: {},
-    user_metadata: {},
     aud: 'authenticated',
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    email: 'user@example.com',
-    phone: '',
-    confirmed_at: new Date().toISOString(),
-    email_confirmed_at: new Date().toISOString(),
-    phone_confirmed_at: null,
-    last_sign_in_at: new Date().toISOString(),
     role: 'authenticated',
-    factor_id: null,
-    identities: [],
-    user_metadata: {},
+    email: 'user@example.com',
+    created_at: new Date().toISOString(),
     app_metadata: {},
+    user_metadata: {},
   } as User;
 
   return (
@@ -81,7 +71,15 @@ export function ExampleNotedPage() {
 
 // For editing existing notes
 export function ExampleEditNotePage() {
-  const user = { id: 'user-id-here' };
+  const user = {
+    id: 'user-id-here',
+    aud: 'authenticated',
+    role: 'authenticated',
+    email: 'user@example.com',
+    created_at: new Date().toISOString(),
+    app_metadata: {},
+    user_metadata: {},
+  } as User;
 
   // Your existing note data
   const existingNote = {
