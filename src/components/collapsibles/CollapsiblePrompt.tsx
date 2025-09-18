@@ -34,11 +34,11 @@ export default function CollapsiblePrompt({
   return (
     <div className="border-border mb-6 rounded-lg border-2">
       {/* Header */}
-      <div className="hover:bg-accent flex items-center justify-between p-4 transition-colors">
-        <div
-          className="flex flex-1 cursor-pointer items-center gap-3"
-          onClick={toggleExpanded}
-        >
+      <div
+        className="hover:bg-accent flex cursor-pointer items-center justify-between p-4 transition-colors"
+        onClick={toggleExpanded}
+      >
+        <div className="flex flex-1 items-center gap-3">
           {isExpanded ? (
             <ChevronDown className="text-foreground h-5 w-5" />
           ) : (
@@ -49,6 +49,7 @@ export default function CollapsiblePrompt({
         <ActiveCopyButton
           content={content}
           className="!h-9 !min-w-[75px] !px-3 !py-2 !text-xs"
+          onClick={(e) => e.stopPropagation()}
         />
       </div>
 

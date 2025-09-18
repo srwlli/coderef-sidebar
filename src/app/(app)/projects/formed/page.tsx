@@ -179,7 +179,12 @@ export default function FormedProjectPage() {
 
         {/* Navigation Cards */}
         <div className="grid gap-4 md:grid-cols-2">
-          <Link href="/forms" className="block">
+          <Link
+            href="https://formed.lovable.app/"
+            className="block"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <Home className="mr-3 h-6 w-6 text-black" />
@@ -188,11 +193,11 @@ export default function FormedProjectPage() {
             </Card>
           </Link>
 
-          <Link href="/projects/formed" className="block">
+          <Link href="/forms" className="block">
             <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
               <CardHeader className="flex h-full flex-row items-center justify-center p-4 text-center">
                 <FileText className="mr-3 h-6 w-6 text-black" />
-                <CardTitle className="text-lg">Documentation</CardTitle>
+                <CardTitle className="text-lg">Local Demo</CardTitle>
               </CardHeader>
             </Card>
           </Link>

@@ -1,0 +1,7 @@
+1. SimpleCollapsibleContainer Collapsible section wrapper (`@/components/collapsibles/SimpleCollapsibleContainer`)
+2. CollapsiblePrompt Individual prompt item (`@/components/collapsibles/CollapsiblePrompt`)
+3. CodeScanChainContainer Multi-step prompt chain (`@/components/collapsibles/CodeScanChainContainer`)
+4. Brain Section icon (`lucide-react`)
+5. FileText Section icon (`lucide-react`)
+6. Network Section icon (`lucide-react`)
+7. Package Section icon (`lucide-react`)
