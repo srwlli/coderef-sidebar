@@ -2,8 +2,8 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   eslint: {
-    // Temporarily allow warnings during build to fix deployment
-    ignoreDuringBuilds: true,
+    // Keep linting enabled during builds to catch real issues
+    ignoreDuringBuilds: false,
   },
   typescript: {
     // Warning: This allows production builds to successfully complete even if
