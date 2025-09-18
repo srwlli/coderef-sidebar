@@ -140,7 +140,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </Sidebar>
         <main className="flex flex-1 flex-col">
           <Header />
-          <Breadcrumb />
+          {pathname !== '/noted' && <Breadcrumb />}
           <div className="flex-1">{children}</div>
         </main>
       </div>

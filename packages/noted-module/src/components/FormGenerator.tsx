@@ -122,13 +122,14 @@ export function FormGenerator<
             type="button"
             variant="ghost"
             size="sm"
-            className="h-8 gap-2 text-muted-foreground hover:text-foreground"
+            className="h-8 gap-1 sm:gap-2 text-muted-foreground hover:text-foreground flex-shrink-0"
           >
             {getIcon()}
-            <span className="text-xs">{getDisplayText()}</span>
+            <span className="text-xs hidden sm:inline">{getDisplayText()}</span>
+            <span className="text-xs sm:hidden">{getDisplayText().split(' ')[0]}</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-80 p-4" align="start">
+        <DropdownMenuContent className="w-72 sm:w-80 p-3 sm:p-4" align="start">
           <div className="space-y-2">
             {renderField(field)}
           </div>
@@ -233,7 +234,7 @@ export function FormGenerator<
   };
 
   return (
-    <div className={cn('space-y-6', className)}>
+    <div className={cn('space-y-4 sm:space-y-6 p-3 sm:p-0', className)}>
       {/* Form header */}
       <div className="space-y-3">
         {/* Title and description - only show if they exist */}
@@ -249,7 +250,7 @@ export function FormGenerator<
         )}
 
         {/* Inline actions bar */}
-        <div className="flex items-center gap-2 p-3 bg-muted/30 rounded-lg border">
+        <div className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3 bg-muted/30 rounded-lg border overflow-x-auto">
           {schema.fields
             .filter((field) => ['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
             .map((field) => renderInlineField(field))}

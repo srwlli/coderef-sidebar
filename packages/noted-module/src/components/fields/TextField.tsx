@@ -53,15 +53,6 @@ export function TextField({
         aria-invalid={error ? 'true' : 'false'}
         aria-describedby={error ? `${key}-error` : undefined}
       />
-
-      {/* Character count */}
-      {maxLength && (
-        <div className="flex justify-end">
-          <span className="text-muted-foreground text-xs">
-            {(value || '').length} / {maxLength}
-          </span>
-        </div>
-      )}
     </BaseField>
   );
 }
