@@ -26,7 +26,11 @@ export function TextAreaField({
   const { key, placeholder, maxLength, rows = 3, autoFocus } = config;
 
   return (
-    <BaseField config={config} error={error} className={className}>
+    <BaseField
+      config={config}
+      error={error}
+      className={cn('flex h-full flex-col', className)}
+    >
       <Textarea
         id={key}
         name={key}
@@ -40,7 +44,7 @@ export function TextAreaField({
         autoFocus={autoFocus}
         disabled={disabled}
         className={cn(
-          'resize-vertical min-h-[400px] text-base leading-relaxed',
+          'flex-1 resize-none overflow-y-auto text-base leading-relaxed',
           error && 'border-destructive focus-visible:ring-destructive'
         )}
         aria-invalid={error ? 'true' : 'false'}

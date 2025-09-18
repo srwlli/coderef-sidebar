@@ -19,13 +19,23 @@ export function BaseField({
 }: BaseFieldProps) {
   const { label, description, required } = config;
 
+  const isFlexContainer = className?.includes('h-full flex');
+
   return (
-    <div className={cn('space-y-2', className)}>
+    <div
+      className={cn(
+        isFlexContainer ? 'flex h-full flex-col' : 'space-y-2',
+        className
+      )}
+    >
       {/* Label */}
       {label && (
         <label
           htmlFor={config.key}
-          className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className={cn(
+            'text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+            isFlexContainer && 'flex-shrink-0'
+          )}
         >
           {label}
           {required && <span className="text-destructive ml-1">*</span>}
@@ -34,16 +44,31 @@ export function BaseField({
 
       {/* Description */}
       {description && (
-        <p className="text-muted-foreground text-sm">{description}</p>
+        <p
+          className={cn(
+            'text-muted-foreground text-sm',
+            isFlexContainer && 'flex-shrink-0'
+          )}
+        >
+          {description}
+        </p>
       )}
 
       {/* Field */}
-      <div className="space-y-1">
+      <div
+        className={cn(isFlexContainer ? 'flex flex-1 flex-col' : 'space-y-1')}
+      >
         {children}
 
         {/* Error message */}
         {error && (
-          <p className="text-destructive text-sm font-medium" role="alert">
+          <p
+            className={cn(
+              'text-destructive text-sm font-medium',
+              isFlexContainer && 'flex-shrink-0'
+            )}
+            role="alert"
+          >
             {error}
           </p>
         )}

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FormGenerator } from './FormGenerator';
 import { notedFormSchema } from '../lib/forms/notedSchema';
 import { NotedData, DbNoted } from '../lib/types';
+import type { SupabaseClient, User } from '@supabase/supabase-js';
 
 interface NotedFormProps {
   onSuccess?: (data: NotedData) => void;
@@ -12,9 +13,13 @@ interface NotedFormProps {
   initialData?: DbNoted; // For editing
   mode?: 'create' | 'edit';
   // Required integrations
-  supabaseClient: any;
-  user: any;
-  toast: (config: { title: string; description: string; type: 'success' | 'error' | 'info' }) => void;
+  supabaseClient: SupabaseClient;
+  user: User;
+  toast: (config: {
+    title: string;
+    description: string;
+    type: 'success' | 'error' | 'info';
+  }) => void;
 }
 
 export function NotedForm({
@@ -74,11 +79,7 @@ export function NotedForm({
         onSuccess?.(updateData);
       } else {
         // Create mode
-        const userMetadata =
-          user && 'user_metadata' in user
-            ? (user as any & { user_metadata?: { display_name?: string } })
-                .user_metadata
-            : undefined;
+        // User metadata is not used, removed the unused variable
 
         const noteWithUser = {
           ...data,
@@ -101,7 +102,8 @@ export function NotedForm({
 
         toast({
           title: 'Success',
-          description: notedFormSchema.successMessage || 'Note saved successfully!',
+          description:
+            notedFormSchema.successMessage || 'Note saved successfully!',
           type: 'success',
         });
 

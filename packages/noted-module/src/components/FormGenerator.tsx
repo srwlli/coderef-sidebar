@@ -26,13 +26,8 @@ import { LinksField } from './fields/LinksField';
 import { ImagesField } from './fields/ImagesField';
 import { ProjectSelectField } from './fields/ProjectSelectField';
 import { cn } from '../lib/utils';
-import { Loader2, FolderOpen, Tag, Link, Plus, Image, Camera } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
+import { Loader2, Tag, FolderOpen, Link } from 'lucide-react';
+import type { SupabaseClient, User } from '@supabase/supabase-js';
 
 interface FormGeneratorProps<
   T extends Record<string, unknown> = Record<string, unknown>,
@@ -44,8 +39,8 @@ interface FormGeneratorProps<
   disabled?: boolean;
   initialData?: T;
   // Optional props for integrations
-  supabaseClient?: any;
-  user?: any;
+  supabaseClient?: SupabaseClient;
+  user?: User;
 }
 
 export function FormGenerator<
@@ -76,66 +71,13 @@ export function FormGenerator<
 
   const watchedValues = watch();
 
-  const renderInlineField = (field: FieldConfig) => {
-    const value = watchedValues[field.key];
-
-    const getIcon = () => {
-      switch (field.key) {
-        case 'project_name': return <FolderOpen className="h-4 w-4" />;
-        case 'tags': return <Tag className="h-4 w-4" />;
-        case 'links': return <Link className="h-4 w-4" />;
-        case 'images': return <Image className="h-4 w-4" />;
-        case 'screenshots': return <Camera className="h-4 w-4" />;
-        default: return <Plus className="h-4 w-4" />;
-      }
-    };
-
-    const getDisplayText = () => {
-      switch (field.key) {
-        case 'project_name':
-          return value ? `Project: ${value}` : 'Add Project';
-        case 'tags':
-          return Array.isArray(value) && value.length > 0
-            ? `Tags (${value.length})`
-            : 'Add Tags';
-        case 'links':
-          return Array.isArray(value) && value.length > 0
-            ? `Links (${value.length})`
-            : 'Add Links';
-        case 'images':
-          return Array.isArray(value) && value.length > 0
-            ? `Images (${value.length})`
-            : 'Add Images';
-        case 'screenshots':
-          return Array.isArray(value) && value.length > 0
-            ? `Screenshots (${value.length})`
-            : 'Add Screenshots';
-        default:
-          return field.label;
-      }
-    };
-
-    return (
-      <DropdownMenu key={field.key}>
-        <DropdownMenuTrigger asChild>
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="h-8 gap-1 sm:gap-2 text-muted-foreground hover:text-foreground flex-shrink-0"
-          >
-            {getIcon()}
-            <span className="text-xs hidden sm:inline">{getDisplayText()}</span>
-            <span className="text-xs sm:hidden">{getDisplayText().split(' ')[0]}</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-72 sm:w-80 p-3 sm:p-4" align="start">
-          <div className="space-y-2">
-            {renderField(field)}
-          </div>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
+  const handleFieldJump = (fieldKey: string) => {
+    // Scroll to the field
+    const fieldElement = document.getElementById(fieldKey);
+    if (fieldElement) {
+      fieldElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      fieldElement.focus();
+    }
   };
 
   const renderField = (field: FieldConfig) => {
@@ -151,6 +93,53 @@ export function FormGenerator<
       case 'text':
       case 'email':
       case 'url':
+        // Special handling for title field to include add dropdown
+        if (field.key === 'title') {
+          return (
+            <div className="flex items-end gap-2">
+              <div className="flex-1">
+                <TextField
+                  {...commonProps}
+                  config={field as TextFieldConfig}
+                  value={typeof value === 'string' ? value : ''}
+                  onChange={(newValue) => setValue(field.key, newValue)}
+                />
+              </div>
+              <div className="flex items-center gap-1">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9 w-9 p-0"
+                  title="Set Project"
+                  onClick={() => handleFieldJump('project_name')}
+                >
+                  <FolderOpen className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9 w-9 p-0"
+                  title="Add Tags"
+                  onClick={() => handleFieldJump('tags')}
+                >
+                  <Tag className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-9 w-9 p-0"
+                  title="Add Links"
+                  onClick={() => handleFieldJump('links')}
+                >
+                  <Link className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          );
+        }
         return (
           <TextField
             {...commonProps}
@@ -234,9 +223,9 @@ export function FormGenerator<
   };
 
   return (
-    <div className={cn('space-y-4 sm:space-y-6 p-3 sm:p-0', className)}>
-      {/* Form header */}
-      <div className="space-y-3">
+    <div className={cn('flex h-full flex-col p-3 sm:p-0', className)}>
+      {/* Form header - fixed height */}
+      <div className="mb-4 flex-shrink-0 space-y-3">
         {/* Title and description - only show if they exist */}
         {(schema.title || schema.description) && (
           <div className="space-y-2">
@@ -248,28 +237,27 @@ export function FormGenerator<
             )}
           </div>
         )}
-
-        {/* Inline actions bar */}
-        <div className="flex items-center gap-1 sm:gap-2 p-2 sm:p-3 bg-muted/30 rounded-lg border overflow-x-auto">
-          {schema.fields
-            .filter((field) => ['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
-            .map((field) => renderInlineField(field))}
-        </div>
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* Main content fields */}
-        <div className="space-y-4">
-          {schema.fields
-            .filter((field) => !['project_name', 'tags', 'links', 'images', 'screenshots'].includes(field.key))
-            .map((field) => (
-              <div key={field.key}>{renderField(field)}</div>
-            ))}
+      {/* Form - flexible height */}
+      <form
+        onSubmit={handleSubmit(handleFormSubmit)}
+        className="flex flex-1 flex-col"
+      >
+        {/* Main content fields - flexible */}
+        <div className="flex flex-1 flex-col gap-4">
+          {schema.fields.map((field) => (
+            <div
+              key={field.key}
+              className={field.type === 'textarea' ? 'flex-1' : 'flex-shrink-0'}
+            >
+              {renderField(field)}
+            </div>
+          ))}
         </div>
 
-        {/* Form actions */}
-        <div className="flex justify-end items-center gap-1 pt-4">
+        {/* Form actions - fixed height */}
+        <div className="flex flex-shrink-0 items-center justify-end gap-1 pt-4">
           {schema.resetText && (
             <>
               <Button
