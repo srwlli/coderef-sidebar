@@ -1,4 +1,25 @@
 import type { NextConfig } from 'next';
+import withPWA from 'next-pwa';
+
+const withPWAConfig = withPWA({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/.*\.supabase\.co\/.*$/,
+      handler: 'NetworkFirst',
+      options: {
+        cacheName: 'supabase-cache',
+        expiration: {
+          maxEntries: 50,
+          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+        },
+      },
+    },
+  ],
+});
 
 const nextConfig: NextConfig = {
   eslint: {
@@ -47,4 +68,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPWAConfig(nextConfig);

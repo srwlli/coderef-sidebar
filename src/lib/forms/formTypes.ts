@@ -201,15 +201,11 @@ export type GeneratedSchema<
 
 // Project-specific data type
 export interface ProjectData extends Record<string, unknown> {
-  username: string;
   project_name: string;
   description?: string;
   notes?: string;
   tags: string[];
-  git?: string;
-  supabase?: string;
-  local_link?: string;
-  deployed_link?: string;
+  links: LinkObject[];
 }
 
 // Database project type with additional fields

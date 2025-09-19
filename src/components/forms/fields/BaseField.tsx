@@ -21,14 +21,16 @@ export function BaseField({
 
   return (
     <div className={cn('space-y-2', className)}>
-      {/* Label */}
-      <label
-        htmlFor={config.key}
-        className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
-        {label}
-        {required && <span className="text-destructive ml-1">*</span>}
-      </label>
+      {/* Label - Only render if label exists */}
+      {label && (
+        <label
+          htmlFor={config.key}
+          className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          {label}
+          {required && <span className="text-destructive ml-1">*</span>}
+        </label>
+      )}
 
       {/* Description */}
       {description && (

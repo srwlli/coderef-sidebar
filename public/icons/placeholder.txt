@@ -1,0 +1,20 @@
+PWA Icon Placeholder
+
+For a complete PWA setup, you'll need to generate PNG icons in these sizes:
+- icon-72x72.png
+- icon-96x96.png
+- icon-128x128.png
+- icon-144x144.png
+- icon-152x152.png
+- icon-192x192.png
+- icon-384x384.png
+- icon-512x512.png
+
+Use the generated icon.svg as a base and convert to PNG at each size.
+
+Recommended tools:
+- https://realfavicongenerator.net/
+- https://www.pwabuilder.com/imageGenerator
+- Adobe Illustrator or Figma for professional icons
+
+The current setup will work without icons, but you'll see broken image icons in the install prompt.

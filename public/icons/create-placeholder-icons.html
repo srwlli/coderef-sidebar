@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate PWA Icons</title>
+</head>
+<body>
+    <canvas id="canvas" width="512" height="512" style="border: 1px solid #ccc;"></canvas>
+    <br><br>
+    <button onclick="generateIcons()">Generate All Icon Sizes</button>
+    <div id="downloads"></div>
+
+    <script>
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+
+            // Clear canvas
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, size, size);
+
+            // Draw rounded corners
+            const radius = size * 0.125; // 12.5% border radius
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, radius);
+            ctx.fill();
+
+            // Draw white note icon
+            ctx.fillStyle = '#ffffff';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = size * 0.015;
+
+            // Note outline
+            const margin = size * 0.25;
+            const noteWidth = size * 0.5;
+            const noteHeight = size * 0.5;
+
+            ctx.beginPath();
+            ctx.roundRect(margin, margin, noteWidth, noteHeight, size * 0.02);
+            ctx.stroke();
+
+            // Note lines
+            const lineSpacing = size * 0.08;
+            const lineStart = margin + size * 0.06;
+            const lineEnd = margin + noteWidth - size * 0.06;
+
+            for (let i = 0; i < 3; i++) {
+                const y = margin + size * 0.15 + (i * lineSpacing);
+                ctx.beginPath();
+                ctx.moveTo(lineStart, y);
+                ctx.lineTo(lineEnd - (i === 2 ? size * 0.1 : 0), y);
+                ctx.stroke();
+            }
+
+            // Pen dot
+            ctx.beginPath();
+            ctx.arc(margin + noteWidth * 0.8, margin + noteHeight * 0.8, size * 0.03, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            document.getElementById('downloads').appendChild(link);
+            link.textContent = `Download ${filename}`;
+            link.style.display = 'block';
+            link.style.margin = '5px 0';
+
+            // Auto download
+            // link.click();
+        }
+
+        function generateIcons() {
+            const canvas = document.getElementById('canvas');
+            const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+
+            document.getElementById('downloads').innerHTML = '';
+
+            sizes.forEach(size => {
+                drawIcon(canvas, size);
+                downloadCanvas(canvas, `icon-${size}x${size}.png`);
+            });
+
+            // Show the 192x192 version
+            drawIcon(canvas, 192);
+        }
+
+        // Draw initial icon
+        drawIcon(document.getElementById('canvas'), 512);
+    </script>
+</body>
+</html>

@@ -1,6 +1,70 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
+/* Global scrollbar hiding */
+html {
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* PWA Safe Area Support */
+html,
+body {
+  /* Handle iOS safe areas */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* PWA standalone mode styles */
+@media (display-mode: standalone) {
+  html,
+  body {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height */
+    overscroll-behavior: none;
+  }
+}
+
+/* Additional PWA fixes */
+@media (display-mode: fullscreen) {
+  html,
+  body {
+    overflow-x: hidden;
+    overscroll-behavior: none;
+  }
+}
+
+/* iOS PWA specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .ios-pwa-fix {
+    /* Prevent pull-to-refresh */
+    overscroll-behavior-y: none;
+    /* Prevent zoom on input focus */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* iOS PWA fullscreen */
+  @media (display-mode: standalone) {
+    body {
+      -webkit-appearance: none;
+      padding-top: constant(safe-area-inset-top);
+      padding-top: env(safe-area-inset-top);
+    }
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

@@ -11,24 +11,20 @@ export default function FormsPage() {
   };
 
   return (
-    <div className="p-8">
-      <main className="mx-auto max-w-7xl">
-        <div className="space-y-6">
-          <SimpleCollapsibleContainer
-            title="Create New Project"
-            icon={<Plus />}
-            defaultExpanded={true}
-            className="w-full"
-          >
-            <div className="p-6">
-              <ProjectForm
-                onSuccess={handleProjectSuccess}
-                className="mx-auto max-w-2xl"
-              />
-            </div>
-          </SimpleCollapsibleContainer>
+    <div className="space-y-6">
+      <SimpleCollapsibleContainer
+        title="Create New Project"
+        icon={<Plus />}
+        defaultExpanded={false}
+        className="w-full"
+      >
+        <div className="p-6">
+          <ProjectForm
+            onSuccess={handleProjectSuccess}
+            className="mx-auto max-w-2xl"
+          />
         </div>
-      </main>
+      </SimpleCollapsibleContainer>
     </div>
   );
 }

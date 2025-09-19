@@ -7,7 +7,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { ProjectData, DbProject } from '@/lib/forms/formTypes';
 import { useAuth } from '@/lib/auth-context';
-import { useUpdateProject } from '@/hooks/useProjects';
+import { useUpdateProject, useCheckProjectName } from '@/hooks/useProjects';
 import { User } from '@supabase/supabase-js';
 
 interface ProjectFormProps {
@@ -29,11 +29,23 @@ export function ProjectForm({
   const { toast } = useToast();
   const { user } = useAuth();
   const updateProject = useUpdateProject();
+  const checkProjectName = useCheckProjectName();
 
   const handleSubmit = async (data: ProjectData) => {
     setIsSubmitting(true);
 
     try {
+      // Check project name uniqueness before submitting
+      const isNameAvailable = await checkProjectName.mutateAsync({
+        projectName: data.project_name,
+        excludeId: mode === 'edit' && initialData ? initialData.id : undefined,
+      });
+
+      if (!isNameAvailable) {
+        throw new Error(
+          'A project with this name already exists. Please choose a different name.'
+        );
+      }
       if (mode === 'edit' && initialData) {
         // Edit mode - use mutation hook
         await updateProject.mutateAsync({
@@ -131,15 +143,11 @@ export function ProjectForm({
   // Convert DbProject to ProjectData for form
   const formInitialData = initialData
     ? {
-        username: initialData.username,
         project_name: initialData.project_name,
         description: initialData.description || '',
         notes: initialData.notes || '',
         tags: initialData.tags || [],
-        git: initialData.git || '',
-        supabase: initialData.supabase || '',
-        local_link: initialData.local_link || '',
-        deployed_link: initialData.deployed_link || '',
+        links: initialData.links || [],
       }
     : undefined;
 

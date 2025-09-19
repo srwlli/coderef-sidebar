@@ -115,6 +115,46 @@ export function useDeleteProject() {
   });
 }
 
+export function useCheckProjectName() {
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async ({
+      projectName,
+      excludeId,
+    }: {
+      projectName: string;
+      excludeId?: number;
+    }): Promise<boolean> => {
+      if (!supabase || !user?.id) {
+        throw new Error('Not authenticated or Supabase not configured');
+      }
+
+      if (!projectName.trim()) {
+        return true; // Empty names are handled by required validation
+      }
+
+      let query = supabase
+        .from('projects')
+        .select('id')
+        .eq('user_id', user.id)
+        .ilike('project_name', projectName.trim());
+
+      // Exclude current project when editing
+      if (excludeId) {
+        query = query.neq('id', excludeId);
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+
+      // Returns true if name is available (no duplicates found)
+      return !data || data.length === 0;
+    },
+  });
+}
+
 export function useBulkUpdateProjects() {
   const queryClient = useQueryClient();
   const { user } = useAuth();

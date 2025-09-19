@@ -14,14 +14,11 @@ import {
 } from '@/components/layout/sidebar';
 import {
   Home,
-  Settings,
-  GitBranch,
   Cog,
   MessageSquare,
   Bot,
-  Layers,
-  Info,
   FileText,
+  StickyNote,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -40,14 +37,9 @@ const menuItems = [
     icon: FileText,
   },
   {
-    title: 'Next.js Setup',
-    href: '/tech-stacks/nextjs-setup',
-    icon: Settings,
-  },
-  {
-    title: 'Git Commands',
-    href: '/git-commands',
-    icon: GitBranch,
+    title: 'Noted',
+    href: '/noted',
+    icon: StickyNote,
   },
   {
     title: 'Prompts',
@@ -58,16 +50,6 @@ const menuItems = [
     title: 'AI Tools',
     href: '/ai-tools',
     icon: Bot,
-  },
-  {
-    title: 'Tech Stacks',
-    href: '/tech-stacks',
-    icon: Layers,
-  },
-  {
-    title: 'This Stack',
-    href: '/tech-stacks/this-stack',
-    icon: Info,
   },
   {
     title: 'Forms',
@@ -141,7 +123,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <main className="flex flex-1 flex-col">
           <Header />
           {pathname !== '/noted' && <Breadcrumb />}
-          <div className="flex-1">{children}</div>
+          <div className="flex-1 overflow-x-hidden">
+            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+              {children}
+            </div>
+          </div>
         </main>
       </div>
     </SidebarProvider>

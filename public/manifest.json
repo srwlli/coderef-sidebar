@@ -1,0 +1,36 @@
+{
+  "name": "Coderef - Developer Toolkit",
+  "short_name": "Coderef",
+  "description": "Complete developer productivity suite with projects, notes, AI tools, git commands, and more",
+  "start_url": "/",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Create Note",
+      "short_name": "New Note",
+      "description": "Quickly create a new note",
+      "url": "/?tab=create",
+      "icons": [{ "src": "/favicon.ico", "sizes": "64x64" }]
+    },
+    {
+      "name": "My Notes",
+      "short_name": "Notes",
+      "description": "View all your notes",
+      "url": "/?tab=list",
+      "icons": [{ "src": "/favicon.ico", "sizes": "64x64" }]
+    }
+  ]
+}

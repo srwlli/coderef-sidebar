@@ -20,7 +20,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-background sticky top-0 z-50 flex h-12 items-center gap-4 border-b px-4">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 flex h-12 items-center gap-4 border-b px-4 backdrop-blur">
       <SidebarTrigger />
       <div className="font-semibold">
         {isNotedPage ? (

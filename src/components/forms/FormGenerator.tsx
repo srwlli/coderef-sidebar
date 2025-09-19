@@ -255,34 +255,32 @@ export function FormGenerator<
 
         {/* Inline actions bar */}
         <div className="bg-muted/30 flex items-center gap-2 rounded-lg border p-3">
-          {schema.fields
-            .filter((field) =>
-              [
-                'project_name',
-                'tags',
-                'links',
-                'images',
-                'screenshots',
-              ].includes(field.key)
-            )
-            .map((field) => renderInlineField(field))}
+          {(() => {
+            const inlineFields = schema.fields.filter((field) =>
+              ['tags', 'links', 'images', 'screenshots'].includes(field.key)
+            );
+
+            if (inlineFields.length === 0) {
+              return (
+                <div className="text-muted-foreground text-sm italic">
+                  Quick actions will appear here when available
+                </div>
+              );
+            }
+
+            return inlineFields.map((field) => renderInlineField(field));
+          })()}
         </div>
       </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        {/* Main content fields */}
+        {/* Main content fields - ungrouped */}
         <div className="space-y-4">
           {schema.fields
             .filter(
               (field) =>
-                ![
-                  'project_name',
-                  'tags',
-                  'links',
-                  'images',
-                  'screenshots',
-                ].includes(field.key)
+                !['links', 'tags', 'images', 'screenshots'].includes(field.key)
             )
             .map((field) => (
               <div key={field.key}>{renderField(field)}</div>
