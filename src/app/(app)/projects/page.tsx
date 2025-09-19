@@ -23,6 +23,7 @@ function ProjectsContent() {
   const { data: projects = [], isLoading, error } = useProjects();
   const [editingProject, setEditingProject] = useState<DbProject | null>(null);
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
+  const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
 
   const handleEditProject = (project: DbProject) => {
     setEditingProject(project);
@@ -37,6 +38,19 @@ function ProjectsContent() {
   const handleEditCancel = () => {
     setIsEditSheetOpen(false);
     setEditingProject(null);
+  };
+
+  const handleCreateProject = () => {
+    setIsCreateSheetOpen(true);
+  };
+
+  const handleCreateSuccess = () => {
+    setIsCreateSheetOpen(false);
+    // Project list will automatically refresh due to React Query
+  };
+
+  const handleCreateCancel = () => {
+    setIsCreateSheetOpen(false);
   };
 
   if (isLoading) {
@@ -59,7 +73,11 @@ function ProjectsContent() {
     <>
       {/* Header with view toggle */}
       <div className="mb-6 flex items-center justify-end gap-4">
-        <Button variant="outline" className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          className="flex items-center gap-2"
+          onClick={handleCreateProject}
+        >
           <Plus className="h-4 w-4" />
           New Project
         </Button>
@@ -103,6 +121,22 @@ function ProjectsContent() {
           )}
         </div>
       )}
+
+      {/* Create Project Sheet */}
+      <Sheet open={isCreateSheetOpen} onOpenChange={setIsCreateSheetOpen}>
+        <SheetContent className="sm:max-w-md">
+          <SheetHeader>
+            <SheetTitle>Create New Project</SheetTitle>
+          </SheetHeader>
+          <div className="mt-6">
+            <ProjectForm
+              mode="create"
+              onSuccess={handleCreateSuccess}
+              onCancel={handleCreateCancel}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
 
       {/* Edit Project Sheet */}
       <Sheet open={isEditSheetOpen} onOpenChange={setIsEditSheetOpen}>

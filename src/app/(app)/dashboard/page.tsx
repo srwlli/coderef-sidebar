@@ -6,6 +6,7 @@ import {
   Settings,
   FileText,
   StickyNote,
+  FolderOpen,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -14,7 +15,7 @@ export default function Dashboard() {
     {
       title: 'Projects',
       href: '/projects',
-      icon: FileText,
+      icon: FolderOpen,
     },
     {
       title: 'Git Commands',
