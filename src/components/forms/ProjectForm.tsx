@@ -57,6 +57,20 @@ const projectFormSchema = {
   ],
 };
 
+// Helper function to get username from user object
+function getUsernameFromUser(user: {
+  user_metadata?: { full_name?: string; display_name?: string };
+  email?: string;
+}): string {
+  const metadata = user?.user_metadata || {};
+  return (
+    metadata.full_name ||
+    metadata.display_name ||
+    user?.email?.split('@')[0] ||
+    'unknown'
+  );
+}
+
 export function ProjectForm({
   onSuccess,
   onCancel,
@@ -95,6 +109,7 @@ export function ProjectForm({
             project_name: data.project_name,
             description: data.description,
             notes: data.notes,
+            username: getUsernameFromUser(user),
           })
           .eq('id', initialData.id)
           .eq('user_id', user.id)
@@ -128,6 +143,7 @@ export function ProjectForm({
           description: data.description,
           notes: data.notes,
           user_id: user.id,
+          username: getUsernameFromUser(user),
           tags: [],
           links: [],
         };
