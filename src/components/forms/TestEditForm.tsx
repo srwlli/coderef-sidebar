@@ -7,7 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/lib/auth-context';
 import { DbProject } from '@/lib/forms/formTypes';
 
-interface TestData {
+interface TestData extends Record<string, unknown> {
   project_name: string;
   description: string;
 }

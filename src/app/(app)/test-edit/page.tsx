@@ -1,27 +1,54 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useProjects } from '@/hooks/useProjects';
+import { useProjectsSimple } from '@/hooks/useProjectsSimple';
+import { useAuth } from '@/lib/auth-context';
+import { supabase } from '@/lib/supabase';
 import { TestEditForm } from '@/components/forms/TestEditForm';
 import { DbProject } from '@/lib/forms/formTypes';
 
 export default function TestEditPage() {
-  const { data: projects, isLoading, error } = useProjects();
+  const { user, loading: authLoading } = useAuth();
   const [selectedProject, setSelectedProject] = useState<DbProject | null>(
     null
   );
 
+  // Always call hooks before any early returns
+  const { projects, loading, error } = useProjectsSimple({
+    supabaseClient: supabase,
+    user: user,
+  });
+
+  // Handle authentication and supabase availability
+  if (authLoading) {
+    return <div className="p-8">Loading...</div>;
+  }
+
+  if (!user) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-red-600">Please log in to access test edit.</p>
+      </div>
+    );
+  }
+
+  if (!supabase) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-red-600">Database not configured.</p>
+      </div>
+    );
+  }
+
   console.log('🔍 TestEditPage - projects:', projects);
 
-  if (isLoading) {
+  if (loading) {
     return <div className="p-8">Loading projects...</div>;
   }
 
   if (error) {
     return (
-      <div className="p-8 text-red-600">
-        Error loading projects: {error.message}
-      </div>
+      <div className="p-8 text-red-600">Error loading projects: {error}</div>
     );
   }
 

@@ -132,14 +132,24 @@ export function ProjectForm({
           links: [],
         };
 
+        console.log('🔍 Project data to insert:', projectWithUser);
+
         const { data: insertedData, error } = await supabase
           .from('projects')
           .insert([projectWithUser])
           .select()
           .single();
 
+        console.log('🔍 Supabase insert response:', { insertedData, error });
+
         if (error) {
-          console.error('❌ Create error:', error);
+          console.error('❌ Create error details:', {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code,
+            fullError: error,
+          });
           throw error;
         }
 
@@ -189,6 +199,8 @@ export function ProjectForm({
         project_name: initialData.project_name,
         description: initialData.description || '',
         notes: initialData.notes || '',
+        tags: initialData.tags || [],
+        links: initialData.links || [],
       }
     : undefined;
 

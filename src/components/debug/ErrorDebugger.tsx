@@ -55,7 +55,13 @@ export function ErrorDebugger() {
 
         setDebugInfo(info);
       } catch (err) {
-        setDebugInfo({ error: `Debug check failed: ${err}` });
+        setDebugInfo({
+          timestamp: new Date().toISOString(),
+          supabaseConfigured: false,
+          userAuthenticated: false,
+          userId: '',
+          error: `Debug check failed: ${err}`,
+        });
       }
     };
 

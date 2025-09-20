@@ -159,9 +159,25 @@
   </atomic_workflow_instructions>
 
   <agent_instructions>
-    <current_step>4</current_step>
-    <next_action>Sidebar navigation improvements completed - ready for next task</next_action>
+    <current_step>6</current_step>
+    <next_action>Projects UX migration to noted pattern completed - database username auto-generation fix required</next_action>
   </agent_instructions>
+
+  <build_log>
+    <step number="6" status="completed">
+      <description>Migrated projects module to noted's single-page UX pattern, removing modal complexity</description>
+      <file_created>ProjectView.tsx (new), ProjectsList.tsx (new), ProjectsDashboard.tsx (new), projects/page.tsx (simplified), forms/page.tsx (cleaned)</file_created>
+      <why>Projects had fragmented modal-based UX. Noted uses clean single-page pattern with linear navigation flow.</why>
+      <result>Consistent UX across modules, reduced code from ~200 to 16 lines in page.tsx, eliminated modal sheets, added view modes (list/create/view/edit)</result>
+    </step>
+
+    <step number="5" status="completed">
+      <description>Migrated projects module from complex React Query + realtime to simple useState pattern following noted module approach</description>
+      <file_created>src/hooks/useProjectsSimple.ts (new), src/app/(app)/projects/page.tsx (modified), src/components/projects/ProjectsTable.tsx (modified), src/app/(app)/test-edit/page.tsx (modified)</file_created>
+      <why>Projects module had overengineered sync causing silent failures and race conditions. Noted module uses reliable simple pattern that works consistently.</why>
+      <result>Eliminated silent form failures, simplified data flow from ~200 lines to ~100 lines, added manual refresh pattern, fixed all TypeScript errors, build passes successfully</result>
+    </step>
+  </build_log>
 
   <architectural_decisions>
     <ui_patterns>

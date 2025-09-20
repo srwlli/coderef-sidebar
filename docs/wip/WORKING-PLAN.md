@@ -1,5 +1,86 @@
 # Project Working Plan
 
+## ✅ COMPLETED: Projects Migration to Noted UX Pattern
+
+### Implementation Summary
+
+- **Status**: ✅ Complete
+- **Scope**: Full migration of projects module to match noted module's single-page UX
+- **Result**: Consistent, linear navigation flow without modals
+
+### Changes Made
+
+1. **Forms Page Cleanup** (`src/app/(app)/forms/page.tsx`):
+   - Removed project form from forms page
+   - Added placeholder for future form builder features
+   - Simplified to just collapsible container
+
+2. **ProjectForm Cleanup** (`src/components/forms/ProjectForm.tsx`):
+   - Removed manual `username` field assignment
+   - Now relies on Supabase auto-generation
+   - Made `username` optional in TypeScript interface
+
+3. **New Components Created**:
+   - **ProjectView** (`src/components/projects/ProjectView.tsx`): Detail view with edit/delete actions
+   - **ProjectsList** (`src/components/projects/ProjectsList.tsx`): Grid layout with inline actions
+   - **ProjectsDashboard** (`src/components/projects/ProjectsDashboard.tsx`): Main container with view modes
+
+4. **Projects Page Simplified** (`src/app/(app)/projects/page.tsx`):
+   - Reduced from ~200 lines to 16 lines
+   - Single dashboard component import
+   - No more modal/sheet complexity
+
+### UX Pattern Now Matches Noted:
+
+- **View Modes**: `'list' | 'create' | 'view' | 'edit'`
+- **Linear Flow**: List → View → Edit → List
+- **Success Navigation**: After operations, return to list
+- **Manual Refresh**: Simple state management
+
+---
+
+## 🔧 CURRENT ISSUE: Username Auto-Generation
+
+### Problem
+
+- Database expects `username` to be auto-generated
+- Currently getting 400 error: "username entry is null"
+- Auto-population mechanism not working
+
+### Database Solutions Available
+
+#### Option 1: Trigger (Recommended)
+
+```sql
+CREATE OR REPLACE FUNCTION public.set_username()
+RETURNS TRIGGER AS $$
+BEGIN
+  SELECT email INTO NEW.username FROM auth.users WHERE id = NEW.user_id;
+  IF NEW.username IS NULL THEN
+    NEW.username = 'user_' || NEW.user_id::text;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE TRIGGER set_username_trigger
+BEFORE INSERT OR UPDATE ON public.projects
+FOR EACH ROW EXECUTE FUNCTION public.set_username();
+```
+
+#### Option 2: Make Nullable
+
+```sql
+ALTER TABLE public.projects ALTER COLUMN username DROP NOT NULL;
+```
+
+### Action Required
+
+- Apply database fix via Supabase SQL Editor
+- No temporary application code fixes
+
+---
+
 ## ✅ COMPLETED: Move Breadcrumbs to Header (Excluding Noted Module)
 
 ### Implementation Summary
@@ -25,81 +106,56 @@
 
 ---
 
-## 🔧 CURRENT ISSUE: Non-Functional Sticky Header
+## ✅ COMPLETED: Sticky Header Fix
 
-### Problem Analysis
+### Problem Solved
 
-**Issue**: Header has `sticky top-0 z-50` CSS but doesn't stick during scroll.
-
-**Root Cause Found**: Layout structure prevents sticky positioning from working.
-
-### Current Layout Structure (Broken):
-
-```tsx
-<div className="flex min-h-screen w-full">
-  {' '}
-  // No scroll context
-  <Sidebar>...</Sidebar>
-  <main className="flex flex-1 flex-col">
-    {' '}
-    // No scroll context
-    <Header /> // Sticky fails here
-    <div className="flex-1 overflow-x-hidden">
-      {' '}
-      // Scroll happens here (too deep)
-      {content}
-    </div>
-  </main>
-</div>
-```
-
-### Why Sticky Fails:
-
-1. **Parent containers don't scroll** - `min-h-screen` creates full-height containers
-2. **Scrollable content nested too deep** - Header can't establish proper scroll context
-3. **Flex layout interference** - Multiple flex containers break sticky positioning
-
-### Proper Fix Required:
-
-**Need to restructure layout so header is in same scroll context as content:**
-
-```tsx
-<div className="flex min-h-screen w-full">
-  <Sidebar>...</Sidebar>
-  <main className="flex h-screen flex-1 flex-col overflow-hidden">
-    <Header /> // Sticky works here
-    <div className="flex-1 overflow-y-auto">
-      {' '}
-      // Creates proper scroll context
-      {content}
-    </div>
-  </main>
-</div>
-```
-
-### Implementation Files Needed:
-
-- `src/app/(app)/layout.tsx` - Restructure main container scroll context
-
----
-
-## 🔧 COMPLETED: Sidebar Divider Fix
-
-### Problem
-
-- Sidebar divider was incomplete, missing ~25% from left side
-- Caused by `mx-2` horizontal margins in `SidebarSeparator`
+- Header had `sticky top-0 z-50` CSS but didn't stick during scroll
+- Root cause: Layout structure prevented sticky positioning
 
 ### Solution Applied
 
-- **File**: `src/components/layout/sidebar.tsx:395`
-- **Change**: `mx-2` → `mr-2` (removed left margin)
-- **Result**: Full-width divider above Settings
+- Restructured layout for proper scroll context
+- Changed from `min-h-screen` to `h-screen overflow-hidden` on main
+- Added `overflow-y-auto` to content container
+- Header now properly sticks at top
+
+---
+
+## ✅ COMPLETED: Remove Coderef Branding
+
+### Changes
+
+- Removed "coderef" text from header
+- Cleaner, minimalist header design
+
+---
+
+## ✅ COMPLETED: Project Form Silent Failure Fix
+
+### Problem Solved
+
+- Edit form opened but failed silently when saving
+- Root cause: Complex mutation hooks in React Query
+
+### Solution Applied
+
+- Replaced mutation hooks with direct Supabase calls
+- Following NotedForm pattern
+- Added comprehensive error logging
+- Forms now save successfully with proper feedback
 
 ---
 
 ## 📋 Pending Tasks
 
-1. **Fix sticky header layout structure** (Critical)
+1. **Fix username auto-generation in database** (Critical)
 2. **Implement comprehensive git branch commands** (From git-commands-plan.md)
-3. **Test mobile header behavior** (After sticky fix)
+3. **Consider further UX improvements** (Optional)
+
+## 📚 Key Learnings
+
+1. **Direct Supabase calls > Mutation hooks** for form submissions
+2. **Simple state management > Complex React Query** for data sync
+3. **Single-page UX > Modal-based UX** for better user flow
+4. **Database triggers** should handle auto-generated fields

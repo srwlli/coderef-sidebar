@@ -12,7 +12,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Edit, Search } from 'lucide-react';
-import { useProjects } from '@/hooks/useProjects';
 import type { DbProject } from '@/lib/forms/formTypes';
 import {
   Sheet,
@@ -25,10 +24,19 @@ import { ProjectForm } from '@/components/forms/ProjectForm';
 
 interface ProjectsTableProps {
   className?: string;
+  projects: DbProject[];
+  loading: boolean;
+  error: string | null;
+  onRefresh: () => void;
 }
 
-export function ProjectsTable({ className }: ProjectsTableProps) {
-  const { data: projects = [], isLoading, error } = useProjects();
+export function ProjectsTable({
+  className,
+  projects,
+  loading,
+  error,
+  onRefresh,
+}: ProjectsTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingProject, setEditingProject] = useState<DbProject | null>(null);
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
@@ -36,8 +44,8 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
   console.log(
     'ProjectsTable - projects:',
     projects,
-    'isLoading:',
-    isLoading,
+    'loading:',
+    loading,
     'error:',
     error
   );
@@ -71,6 +79,7 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
   const handleEditSuccess = () => {
     setIsEditSheetOpen(false);
     setEditingProject(null);
+    onRefresh(); // Refresh data after edit
   };
 
   const handleEditCancel = () => {
@@ -78,7 +87,7 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
     setEditingProject(null);
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="border-primary h-8 w-8 animate-spin rounded-full border-b-2"></div>
@@ -89,7 +98,7 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
   if (error) {
     return (
       <div className="p-8 text-center text-red-500">
-        Error loading projects: {error.message}
+        Error loading projects: {error}
       </div>
     );
   }

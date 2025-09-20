@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Projects UX Modernization** - Migrated projects module from modal-based to single-page application pattern matching noted module design
+  - **ProjectView Component** - Full-page project detail view with inline edit/delete actions
+  - **ProjectsList Component** - Grid layout with hover actions and empty states
+  - **ProjectsDashboard Component** - Main container with view modes: list, create, view, edit
+  - **Linear Navigation Flow** - Create → List → View → Edit → List pattern for intuitive user journey
+
+### Changed
+
+- **Projects Navigation Pattern** - Replaced modal sheets with in-place view switching for better context retention
+- **Forms Page Simplified** - Removed project form, cleaned up to focus on future form builder features
+- **Data Sync Pattern** - Migrated from complex React Query + realtime to simple useState + manual refresh (matching noted)
+- **Code Architecture** - Reduced projects page from ~200 lines to 16 lines through component consolidation
+
 ### Fixed
 
 - **Project Form Edit Silent Failure** - Fixed project edit form failing silently by replacing `useUpdateProject` mutation hook with direct Supabase calls (following NotedForm pattern). The mutation hook was swallowing errors and preventing form submission. Direct Supabase calls provide better error handling and debugging.
@@ -18,13 +33,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Sidebar Navigation Icons** - Fixed duplicate FileText icons between Projects and Forms navigation items
 - **Icon Consistency** - Updated Projects sidebar to use FolderOpen icon matching dashboard card for visual coherence
 
-### Changed
-
-- **Sidebar Layout** - Moved Settings to footer section with visual separator for better navigation hierarchy
-- **Navigation Organization** - Established pattern: main navigation in content area, secondary/settings items in footer
-
 ### Technical
 
+- **UI Pattern Consistency** - Projects now follow noted module's proven UX patterns for maintainability
+- **Component Architecture** - Created reusable view components following single responsibility principle
+- **State Management** - Simplified data flow with useProjectsSimple hook matching noted's reliable pattern
+- **Database Integration** - Removed manual username field assignment, now expects Supabase auto-generation
 - **Icon Management** - Resolved icon.svg conflicts by removing public/icon.svg, keeping app/icon.svg route
 - **UI Patterns** - Implemented SidebarFooter + SidebarSeparator pattern for reusable secondary navigation sections
 - **Navigation Structure** - Enhanced sidebar architecture with proper separation of primary and secondary navigation items
