@@ -153,9 +153,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <main className="flex flex-1 flex-col">
+        <main className="flex h-screen flex-1 flex-col overflow-hidden">
           <Header />
-          <div className="flex-1 overflow-x-hidden">
+          <div className="flex-1 overflow-y-auto">
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
               {children}
             </div>
