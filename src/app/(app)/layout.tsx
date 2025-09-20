@@ -7,10 +7,14 @@ import {
   SidebarProvider,
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarSeparator,
+  SidebarTrigger,
 } from '@/components/layout/sidebar';
 import {
   Home,
@@ -19,6 +23,7 @@ import {
   Bot,
   FileText,
   StickyNote,
+  FolderOpen,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -34,7 +39,7 @@ const menuItems = [
   {
     title: 'Projects',
     href: '/projects',
-    icon: FileText,
+    icon: FolderOpen,
   },
   {
     title: 'Noted',
@@ -56,6 +61,9 @@ const menuItems = [
     href: '/forms',
     icon: FileText,
   },
+];
+
+const footerItems = [
   {
     title: 'Settings',
     href: '/settings',
@@ -93,6 +101,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <Sidebar collapsible="icon">
+          <SidebarHeader>
+            <SidebarTrigger className="hidden h-8 w-8 md:flex" />
+          </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
               <SidebarMenu>
@@ -119,6 +130,29 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
+          <SidebarFooter>
+            <SidebarSeparator />
+            <SidebarMenu>
+              {footerItems.map((item) => {
+                const isActive = pathname === item.href;
+
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      asChild
+                      isActive={isActive}
+                    >
+                      <Link href={item.href}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarFooter>
         </Sidebar>
         <main className="flex flex-1 flex-col">
           <Header />

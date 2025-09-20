@@ -35,16 +35,33 @@ export function ProjectForm({
     setIsSubmitting(true);
 
     try {
-      // Check project name uniqueness before submitting
-      const isNameAvailable = await checkProjectName.mutateAsync({
-        projectName: data.project_name,
-        excludeId: mode === 'edit' && initialData ? initialData.id : undefined,
-      });
+      // Check project name uniqueness before submitting (only if name changed in edit mode)
+      const shouldCheckName =
+        mode === 'create' ||
+        (mode === 'edit' &&
+          initialData &&
+          data.project_name !== initialData.project_name);
 
-      if (!isNameAvailable) {
-        throw new Error(
-          'A project with this name already exists. Please choose a different name.'
-        );
+      if (shouldCheckName) {
+        try {
+          const isNameAvailable = await checkProjectName.mutateAsync({
+            projectName: data.project_name,
+            excludeId:
+              mode === 'edit' && initialData ? initialData.id : undefined,
+          });
+
+          if (!isNameAvailable) {
+            throw new Error(
+              'A project with this name already exists. Please choose a different name.'
+            );
+          }
+        } catch (nameCheckError) {
+          console.error('Error checking project name:', nameCheckError);
+          // Don't block the update if name check fails - just warn
+          if (mode === 'create') {
+            throw nameCheckError;
+          }
+        }
       }
       if (mode === 'edit' && initialData) {
         // Edit mode - use mutation hook
@@ -59,10 +76,10 @@ export function ProjectForm({
           type: 'success',
         });
 
-        // Keep modal open briefly to show success, then close
+        // Close modal after successful update
         setTimeout(() => {
           onSuccess?.(data);
-        }, 1500);
+        }, 500);
       } else {
         // Create mode - existing logic
         // Check if Supabase is configured
@@ -83,14 +100,20 @@ export function ProjectForm({
                 .user_metadata
             : undefined;
 
+        // Ensure required fields have defaults
         const projectWithUser = {
           ...data,
+          tags: data.tags || [], // Ensure tags is always an array
+          links: data.links || [], // Ensure links is always an array
           user_id: user.id,
           username:
             userMetadata?.display_name ||
             user.email?.split('@')[0] ||
             'unknown',
         };
+
+        // Debug: Log the data being sent
+        console.log('Creating project with data:', projectWithUser);
 
         const { data: insertedData, error } = await supabase
           .from('projects')
@@ -109,16 +132,34 @@ export function ProjectForm({
           type: 'success',
         });
 
-        onSuccess?.(insertedData);
+        // Small delay to ensure UI updates properly
+        setTimeout(() => {
+          onSuccess?.(insertedData);
+        }, 100);
       }
     } catch (error: unknown) {
       console.error(`Project ${mode} error:`, error);
 
+      // Enhanced error logging
+      if (error && typeof error === 'object') {
+        console.error('Detailed error:', JSON.stringify(error, null, 2));
+      }
+
+      // Better error message extraction
+      let errorMessage = `Failed to ${mode} project. Please try again.`;
+
+      // Type-safe error handling
+      if (error && typeof error === 'object' && 'message' in error) {
+        errorMessage = (error as Error).message;
+      } else if (error && typeof error === 'object' && 'details' in error) {
+        errorMessage = String((error as { details: unknown }).details);
+      } else if (error && typeof error === 'object' && 'hint' in error) {
+        errorMessage = String((error as { hint: unknown }).hint);
+      }
+
       toast({
         title: 'Error',
-        description:
-          (error as Error)?.message ||
-          `Failed to ${mode} project. Please try again.`,
+        description: errorMessage,
         type: 'error',
       });
 
@@ -146,8 +187,8 @@ export function ProjectForm({
         project_name: initialData.project_name,
         description: initialData.description || '',
         notes: initialData.notes || '',
-        tags: initialData.tags || [],
-        links: initialData.links || [],
+        tags: Array.isArray(initialData.tags) ? initialData.tags : [],
+        links: Array.isArray(initialData.links) ? initialData.links : [],
       }
     : undefined;
 

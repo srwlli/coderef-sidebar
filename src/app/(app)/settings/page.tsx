@@ -13,17 +13,20 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/auth-context';
 import { useRouter } from 'next/navigation';
 import { usePWAInstall } from '@/components/InstallPWA';
-export default function SettingsPage() {
+import ErrorBoundary from '@/components/ErrorBoundary';
+function SettingsPageContent() {
+  const [mounted, setMounted] = useState(false);
+
+  // All hooks must be called unconditionally at top level
   const { theme, setTheme } = useTheme();
   const { signOut } = useAuth();
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const {
-    isInstalled,
-    canInstall,
-    isLoading: pwaLoading,
-    handleInstallClick,
-  } = usePWAInstall();
+    isInstalled = false,
+    canInstall = false,
+    isLoading: pwaLoading = false,
+    handleInstallClick = () => console.log('PWA install not available'),
+  } = usePWAInstall() || {};
 
   // Avoid hydration mismatch
   useEffect(() => {
@@ -189,5 +192,13 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <ErrorBoundary>
+      <SettingsPageContent />
+    </ErrorBoundary>
   );
 }

@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Plus, Edit } from 'lucide-react';
+import { Plus, Edit, RefreshCw } from 'lucide-react';
 import { Card, CardHeader, CardTitle } from '@/components/cards/Card';
 import { Button } from '@/components/ui/button';
 import { ViewToggle } from '@/components/projects/ViewToggle';
@@ -14,13 +14,20 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from '@/components/ui/sheet';
 import type { DbProject } from '@/lib/forms/formTypes';
 
 function ProjectsContent() {
   const searchParams = useSearchParams();
   const currentView = searchParams.get('view') || 'cards';
-  const { data: projects = [], isLoading, error } = useProjects();
+  const {
+    data: projects = [],
+    isLoading,
+    error,
+    refetch,
+    isFetching,
+  } = useProjects();
   const [editingProject, setEditingProject] = useState<DbProject | null>(null);
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
   const [isCreateSheetOpen, setIsCreateSheetOpen] = useState(false);
@@ -75,6 +82,18 @@ function ProjectsContent() {
       <div className="mb-6 flex items-center justify-end gap-4">
         <Button
           variant="outline"
+          size="sm"
+          onClick={() => refetch()}
+          disabled={isFetching}
+          className="flex items-center gap-2"
+        >
+          <RefreshCw
+            className={`h-4 w-4 ${isFetching ? 'animate-spin' : ''}`}
+          />
+          {isFetching ? 'Syncing...' : 'Refresh'}
+        </Button>
+        <Button
+          variant="outline"
           className="flex items-center gap-2"
           onClick={handleCreateProject}
         >
@@ -127,6 +146,9 @@ function ProjectsContent() {
         <SheetContent className="sm:max-w-md">
           <SheetHeader>
             <SheetTitle>Create New Project</SheetTitle>
+            <SheetDescription>
+              Fill out the form below to create a new project
+            </SheetDescription>
           </SheetHeader>
           <div className="mt-6">
             <ProjectForm
@@ -143,6 +165,9 @@ function ProjectsContent() {
         <SheetContent className="sm:max-w-md">
           <SheetHeader>
             <SheetTitle>Edit Project</SheetTitle>
+            <SheetDescription>
+              Update the project information below
+            </SheetDescription>
           </SheetHeader>
           <div className="mt-6">
             {editingProject && (

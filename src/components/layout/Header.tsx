@@ -1,9 +1,9 @@
 'use client';
 
-import { SidebarTrigger } from '@/components/layout/sidebar';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Plus, List } from 'lucide-react';
+import { SidebarTrigger } from '@/components/layout/sidebar';
 
 export default function Header() {
   const pathname = usePathname();
@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 flex h-12 items-center gap-4 border-b px-4 backdrop-blur">
-      <SidebarTrigger />
+      <SidebarTrigger className="md:hidden" />
       <div className="font-semibold">
         {isNotedPage ? (
           <span className="text-foreground">noted</span>

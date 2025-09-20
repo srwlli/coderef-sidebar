@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Sidebar Navigation Icons** - Fixed duplicate FileText icons between Projects and Forms navigation items
+- **Icon Consistency** - Updated Projects sidebar to use FolderOpen icon matching dashboard card for visual coherence
+
+### Changed
+
+- **Sidebar Layout** - Moved Settings to footer section with visual separator for better navigation hierarchy
+- **Navigation Organization** - Established pattern: main navigation in content area, secondary/settings items in footer
+
+### Technical
+
+- **Icon Management** - Resolved icon.svg conflicts by removing public/icon.svg, keeping app/icon.svg route
+- **UI Patterns** - Implemented SidebarFooter + SidebarSeparator pattern for reusable secondary navigation sections
+- **Navigation Structure** - Enhanced sidebar architecture with proper separation of primary and secondary navigation items
+
 ## [1.3.0] - 2025-09-16
 
 ### Added

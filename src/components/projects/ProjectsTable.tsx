@@ -19,6 +19,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from '@/components/ui/sheet';
 import { ProjectForm } from '@/components/forms/ProjectForm';
 
@@ -26,16 +27,20 @@ interface ProjectsTableProps {
   className?: string;
 }
 
-type SortField = 'project_name';
-type SortDirection = 'asc' | 'desc';
-
 export function ProjectsTable({ className }: ProjectsTableProps) {
   const { data: projects = [], isLoading, error } = useProjects();
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortField, setSortField] = useState<SortField>('project_name');
-  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [editingProject, setEditingProject] = useState<DbProject | null>(null);
   const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
+
+  console.log(
+    'ProjectsTable - projects:',
+    projects,
+    'isLoading:',
+    isLoading,
+    'error:',
+    error
+  );
 
   // Filter projects based on search
   const filteredProjects = projects.filter((project) => {
@@ -46,18 +51,20 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
     );
   });
 
-  // Sort projects by project name
-  const sortedProjects = [...filteredProjects].sort((a, b) => {
-    const aValue = a.project_name.toLowerCase();
-    const bValue = b.project_name.toLowerCase();
-
-    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
-    return 0;
-  });
-
   const handleEditProject = (project: DbProject) => {
-    setEditingProject(project);
+    console.log('Edit button clicked for project:', project);
+
+    // Ensure project has all required fields
+    const safeProject = {
+      ...project,
+      tags: Array.isArray(project.tags) ? project.tags : [],
+      links: Array.isArray(project.links) ? project.links : [],
+      description: project.description || '',
+      notes: project.notes || '',
+    };
+
+    console.log('Safe project for editing:', safeProject);
+    setEditingProject(safeProject);
     setIsEditSheetOpen(true);
   };
 
@@ -104,7 +111,7 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
 
       {/* Results summary */}
       <div className="text-muted-foreground mb-4 text-sm">
-        Showing {sortedProjects.length} of {projects.length} projects
+        Showing {filteredProjects.length} of {projects.length} projects
       </div>
 
       {/* Table */}
@@ -119,7 +126,7 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
           </TableHeader>
 
           <TableBody>
-            {sortedProjects.length === 0 ? (
+            {filteredProjects.length === 0 ? (
               <TableRow>
                 <TableCell
                   colSpan={3}
@@ -131,7 +138,7 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
                 </TableCell>
               </TableRow>
             ) : (
-              sortedProjects.map((project) => (
+              filteredProjects.map((project) => (
                 <TableRow key={project.id}>
                   <TableCell className="font-medium">
                     {project.project_name}
@@ -161,10 +168,21 @@ export function ProjectsTable({ className }: ProjectsTableProps) {
       </div>
 
       {/* Edit Project Sheet */}
-      <Sheet open={isEditSheetOpen} onOpenChange={setIsEditSheetOpen}>
+      <Sheet
+        open={isEditSheetOpen}
+        onOpenChange={(open) => {
+          setIsEditSheetOpen(open);
+          if (!open) {
+            setEditingProject(null);
+          }
+        }}
+      >
         <SheetContent className="sm:max-w-md">
           <SheetHeader>
             <SheetTitle>Edit Project</SheetTitle>
+            <SheetDescription>
+              Update the project information below
+            </SheetDescription>
           </SheetHeader>
           <div className="mt-6">
             {editingProject && (
