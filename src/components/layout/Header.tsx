@@ -51,13 +51,7 @@ export default function Header() {
           </div>
         </>
       ) : (
-        <>
-          <Breadcrumb inline className="min-w-0 flex-1" />
-          <div className="ml-auto font-semibold">
-            <span className="text-blue-600">code</span>
-            <span className="text-black dark:text-white">ref</span>
-          </div>
-        </>
+        <Breadcrumb inline className="min-w-0 flex-1" />
       )}
     </header>
   );

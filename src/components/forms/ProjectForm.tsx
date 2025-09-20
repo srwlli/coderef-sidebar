@@ -7,8 +7,9 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 import { ProjectData, DbProject } from '@/lib/forms/formTypes';
 import { useAuth } from '@/lib/auth-context';
-import { useUpdateProject, useCheckProjectName } from '@/hooks/useProjects';
+import { useCheckProjectName } from '@/hooks/useProjects';
 import { User } from '@supabase/supabase-js';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 interface ProjectFormProps {
   onSuccess?: (data: ProjectData) => void;
@@ -28,11 +29,15 @@ export function ProjectForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
-  const updateProject = useUpdateProject();
   const checkProjectName = useCheckProjectName();
 
   const handleSubmit = async (data: ProjectData) => {
     setIsSubmitting(true);
+    console.log('🔍 ProjectForm handleSubmit called:', {
+      mode,
+      data,
+      initialData,
+    });
 
     try {
       // Check project name uniqueness before submitting (only if name changed in edit mode)
@@ -43,12 +48,17 @@ export function ProjectForm({
           data.project_name !== initialData.project_name);
 
       if (shouldCheckName) {
+        console.log(
+          '🔍 Checking project name availability:',
+          data.project_name
+        );
         try {
           const isNameAvailable = await checkProjectName.mutateAsync({
             projectName: data.project_name,
             excludeId:
               mode === 'edit' && initialData ? initialData.id : undefined,
           });
+          console.log('🔍 Name check result:', isNameAvailable);
 
           if (!isNameAvailable) {
             throw new Error(
@@ -56,7 +66,7 @@ export function ProjectForm({
             );
           }
         } catch (nameCheckError) {
-          console.error('Error checking project name:', nameCheckError);
+          console.error('❌ Error checking project name:', nameCheckError);
           // Don't block the update if name check fails - just warn
           if (mode === 'create') {
             throw nameCheckError;
@@ -64,11 +74,31 @@ export function ProjectForm({
         }
       }
       if (mode === 'edit' && initialData) {
-        // Edit mode - use mutation hook
-        await updateProject.mutateAsync({
+        // Edit mode - Direct Supabase call (like NotedForm)
+        console.log('🔍 Calling direct Supabase update with:', {
           id: initialData.id,
           ...data,
         });
+
+        const { data: updateData, error } = await supabase
+          .from('projects')
+          .update({
+            project_name: data.project_name,
+            description: data.description,
+            notes: data.notes,
+            tags: data.tags || [],
+            links: data.links || [],
+          })
+          .eq('id', initialData.id)
+          .eq('user_id', user.id) // Ensure user can only update their own projects
+          .select()
+          .single();
+
+        if (error) {
+          throw error;
+        }
+
+        console.log('✅ Direct Supabase update successful:', updateData);
 
         toast({
           title: 'Success',
@@ -78,7 +108,7 @@ export function ProjectForm({
 
         // Close modal after successful update
         setTimeout(() => {
-          onSuccess?.(data);
+          onSuccess?.(updateData);
         }, 500);
       } else {
         // Create mode - existing logic
@@ -163,7 +193,11 @@ export function ProjectForm({
         type: 'error',
       });
 
-      throw error;
+      // Don't throw error to keep form open for debugging
+      console.error(
+        'Form submission failed - keeping form open for debugging:',
+        error
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -192,14 +226,26 @@ export function ProjectForm({
       }
     : undefined;
 
+  // Create schema with mode-specific text
+  const modeSpecificSchema = {
+    ...projectFormSchema,
+    submitText: mode === 'edit' ? 'Update Project' : 'Create Project',
+    successMessage:
+      mode === 'edit'
+        ? 'Project updated successfully!'
+        : 'Project created successfully!',
+  };
+
   return (
-    <FormGenerator<ProjectData>
-      schema={projectFormSchema}
-      onSubmit={handleSubmit}
-      onReset={handleReset}
-      disabled={isSubmitting}
-      className={className}
-      initialData={formInitialData}
-    />
+    <ErrorBoundary>
+      <FormGenerator<ProjectData>
+        schema={modeSpecificSchema}
+        onSubmit={handleSubmit}
+        onReset={handleReset}
+        disabled={isSubmitting}
+        className={className}
+        initialData={formInitialData}
+      />
+    </ErrorBoundary>
   );
 }

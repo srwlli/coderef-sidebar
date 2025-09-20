@@ -70,11 +70,24 @@ export function FormGenerator<
     reset,
     setValue,
     watch,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm({
     resolver: zodResolver(zodSchema),
     defaultValues,
   });
+
+  // Debug form state
+  React.useEffect(() => {
+    console.log('🔍 FormGenerator form state:', {
+      errors,
+      isSubmitting,
+      isValid,
+      isDirty,
+      hasErrors: Object.keys(errors).length > 0,
+      disabled,
+      buttonDisabled: disabled || isSubmitting,
+    });
+  }, [errors, isSubmitting, isValid, isDirty, disabled]);
 
   const watchedValues = watch();
 
@@ -223,11 +236,19 @@ export function FormGenerator<
   };
 
   const handleFormSubmit = async (data: Record<string, unknown>) => {
+    console.log('🔍 FormGenerator handleFormSubmit called with:', data);
+    console.log('🔍 Form errors:', errors);
+    console.log('🔍 Form isSubmitting:', isSubmitting);
+
     try {
       const supabaseData = prepareSupabaseData(data, schema);
+      console.log('🔍 Prepared supabase data:', supabaseData);
+
+      console.log('🔍 Calling onSubmit with supabaseData...');
       await onSubmit(supabaseData as T);
+      console.log('✅ FormGenerator onSubmit completed successfully');
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('❌ Form submission error in FormGenerator:', error);
       throw error;
     }
   };
@@ -274,7 +295,13 @@ export function FormGenerator<
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
+      <form
+        onSubmit={(e) => {
+          console.log('🔍 Form onSubmit event triggered!', e);
+          return handleSubmit(handleFormSubmit)(e);
+        }}
+        className="space-y-6"
+      >
         {/* Main content fields - ungrouped */}
         <div className="space-y-4">
           {schema.fields
@@ -305,11 +332,19 @@ export function FormGenerator<
             </>
           )}
           <Button
-            type="submit"
+            type="button"
             variant="ghost"
             size="sm"
             disabled={disabled || isSubmitting}
             className="text-muted-foreground hover:text-foreground"
+            onClick={(e) => {
+              console.log('🔍 Submit button clicked!', e);
+              e.preventDefault();
+              console.log('🔍 Calling handleSubmit manually...');
+              handleSubmit(handleFormSubmit)();
+            }}
+            onMouseDown={() => console.log('🔍 Submit button mouse down!')}
+            onPointerDown={() => console.log('🔍 Submit button pointer down!')}
           >
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isSubmitting ? 'Submitting...' : schema.submitText || 'Submit'}
