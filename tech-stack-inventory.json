@@ -1,0 +1,1005 @@
+{
+  "tech_stack_inventory": {
+    "metadata": {
+      "extraction_date": "2025-09-20",
+      "total_files_processed": 16,
+      "source_directory": "C:/Users/willh/Desktop/projects-working/sidebar-app/docs/tech-stacks/",
+      "methodology": "Exhaustive extraction of all technology components mentioned across documentation"
+    },
+    "categories": {
+      "frontend_frameworks": [
+        {
+          "name": "Next.js",
+          "version": "15.5.3",
+          "category": "Frontend Framework",
+          "subcategory": "React Meta-Framework",
+          "purpose": "Full-stack React framework with SSR/SSG/ISR capabilities",
+          "source_files": ["nextjs-tech-stack.md", "nextjs-updates.md", "tier-4-tech-stack.md", "summaries.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Next", "NextJS"],
+          "docs_url": "https://nextjs.org/docs",
+          "notes": "App Router and Pages Router variants, production-grade"
+        },
+        {
+          "name": "Qwik",
+          "version": "1.16.0",
+          "category": "Frontend Framework",
+          "subcategory": "Resumable Framework",
+          "purpose": "Zero-JavaScript resumable framework with O(1) loading",
+          "source_files": ["qwik-tech-stack.md", "summaries.md"],
+          "tier": "T5 Elite",
+          "aliases": ["QwikJS"],
+          "docs_url": "https://qwik.dev/docs",
+          "notes": "Built for performance and resumability"
+        },
+        {
+          "name": "SvelteKit",
+          "version": "2.39.1",
+          "category": "Frontend Framework",
+          "subcategory": "Svelte Meta-Framework",
+          "purpose": "Full-stack framework built on Svelte with file-based routing",
+          "source_files": ["sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md", "summaries.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Svelte Kit"],
+          "docs_url": "https://svelte.dev/docs/kit",
+          "notes": "Excellent developer experience and performance"
+        },
+        {
+          "name": "Svelte",
+          "version": "5.38.10",
+          "category": "Frontend Framework",
+          "subcategory": "Compiled Framework",
+          "purpose": "Compile-time optimized reactive framework",
+          "source_files": ["sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md", "tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["SvelteJS"],
+          "docs_url": "https://svelte.dev/docs",
+          "notes": "Compiler-based with minimal runtime"
+        },
+        {
+          "name": "React",
+          "version": "Latest",
+          "category": "Frontend Framework",
+          "subcategory": "Component Library",
+          "purpose": "Component-based UI library for building user interfaces",
+          "source_files": ["nextjs-tech-stack.md", "react-native-tech-stack.md", "tier-3-tech-stack.md", "tier-4-tech-stack.md", "tech-stack-webapp.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["ReactJS", "React.js"],
+          "docs_url": "https://react.dev",
+          "notes": "Most popular frontend framework, 40.58% developer adoption"
+        },
+        {
+          "name": "Vue.js",
+          "version": "3.x",
+          "category": "Frontend Framework",
+          "subcategory": "Progressive Framework",
+          "purpose": "Progressive framework for building user interfaces",
+          "source_files": ["tier-3-tech-stack.md", "tier-4-tech-stack.md", "tech-stack-webapp.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["Vue", "VueJS"],
+          "docs_url": "https://vuejs.org",
+          "notes": "Developer-friendly with gentle learning curve"
+        },
+        {
+          "name": "Angular",
+          "version": "Latest",
+          "category": "Frontend Framework",
+          "subcategory": "Full Framework",
+          "purpose": "TypeScript-based enterprise framework with integrated tooling",
+          "source_files": ["tier-3-tech-stack.md", "tech-stack-webapp.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["AngularJS"],
+          "docs_url": "https://angular.io",
+          "notes": "Enterprise choice with 25.1% usage"
+        },
+        {
+          "name": "Astro",
+          "version": "Latest",
+          "category": "Frontend Framework",
+          "subcategory": "Static Site Generator",
+          "purpose": "Content-focused framework with islands architecture",
+          "source_files": ["tier-4-tech-stack.md"],
+          "tier": "T4 Production Modern",
+          "aliases": ["AstroJS"],
+          "docs_url": "https://astro.build",
+          "notes": "SSG with partial hydration"
+        },
+        {
+          "name": "Nuxt",
+          "version": "3.x",
+          "category": "Frontend Framework",
+          "subcategory": "Vue Meta-Framework",
+          "purpose": "Vue-based full-stack framework",
+          "source_files": ["tier-4-tech-stack.md"],
+          "tier": "T4 Production Modern",
+          "aliases": ["Nuxt.js", "NuxtJS"],
+          "docs_url": "https://nuxt.com",
+          "notes": "Vue ecosystem meta-framework"
+        },
+        {
+          "name": "Remix",
+          "version": "Latest",
+          "category": "Frontend Framework",
+          "subcategory": "React Meta-Framework",
+          "purpose": "Web standards-focused React framework",
+          "source_files": ["tier-4-tech-stack.md"],
+          "tier": "T4 Production Modern",
+          "aliases": ["RemixJS"],
+          "docs_url": "https://remix.run",
+          "notes": "Form-heavy applications focus"
+        }
+      ],
+      "mobile_frameworks": [
+        {
+          "name": "React Native",
+          "version": "0.74.0",
+          "category": "Mobile Framework",
+          "subcategory": "Cross-Platform Native",
+          "purpose": "Cross-platform mobile app development using React",
+          "source_files": ["react-native-tech-stack.md", "tier-3-tech-stack.md", "tier-4-tech-stack.md", "tech-stack-mobile.md"],
+          "tier": "T5 Elite / T3 Standard",
+          "aliases": ["RN"],
+          "docs_url": "https://reactnative.dev",
+          "notes": "32% market share, enterprise stronghold"
+        },
+        {
+          "name": "Flutter",
+          "version": "3.22.1",
+          "category": "Mobile Framework",
+          "subcategory": "Cross-Platform Native",
+          "purpose": "Cross-platform mobile development with custom rendering engine",
+          "source_files": ["flutter-tech-stack.md", "tier-4-tech-stack.md", "tech-stack-mobile.md"],
+          "tier": "T5 Elite / T4 Production Modern",
+          "aliases": ["Flutter SDK"],
+          "docs_url": "https://flutter.dev",
+          "notes": "46% market adoption, performance leader"
+        },
+        {
+          "name": "Expo",
+          "version": "SDK 50",
+          "category": "Mobile Development Platform",
+          "subcategory": "React Native Toolchain",
+          "purpose": "React Native development platform with managed workflow",
+          "source_files": ["react-native-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T4 Production Modern",
+          "aliases": ["Expo SDK"],
+          "docs_url": "https://docs.expo.dev",
+          "notes": "Rapid mobile development platform"
+        },
+        {
+          "name": "Capacitor",
+          "version": "5.4.1",
+          "category": "Mobile Framework",
+          "subcategory": "Hybrid App Platform",
+          "purpose": "Cross-platform native runtime for web apps",
+          "source_files": ["capacitor-sveltekit-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T5 Elite / T4 Production Modern",
+          "aliases": ["Ionic Capacitor"],
+          "docs_url": "https://capacitorjs.com",
+          "notes": "Web-to-native bridge technology"
+        },
+        {
+          "name": "Ionic",
+          "version": "Latest",
+          "category": "Mobile Framework",
+          "subcategory": "Hybrid Framework",
+          "purpose": "Hybrid mobile app framework with web technologies",
+          "source_files": ["tier-3-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["Ionic Framework"],
+          "docs_url": "https://ionicframework.com",
+          "notes": "Angular-based hybrid development"
+        }
+      ],
+      "backend_frameworks": [
+        {
+          "name": "tRPC",
+          "version": "11.5.1",
+          "category": "Backend Framework",
+          "subcategory": "Type-Safe API Layer",
+          "purpose": "End-to-end typesafe APIs with TypeScript",
+          "source_files": ["nextjs-tech-stack.md", "react-native-tech-stack.md", "microservice-stack.md"],
+          "tier": "T5 Elite",
+          "aliases": ["TypeScript RPC"],
+          "docs_url": "https://trpc.io",
+          "notes": "Type-safe API calls without code generation"
+        },
+        {
+          "name": "Express.js",
+          "version": "Latest",
+          "category": "Backend Framework",
+          "subcategory": "Node.js Framework",
+          "purpose": "Minimal and flexible Node.js web application framework",
+          "source_files": ["tier-3-tech-stack.md", "tech-stack-webapp.md"],
+          "tier": "T2 Reliable / T3 Modern Standard",
+          "aliases": ["Express", "ExpressJS"],
+          "docs_url": "https://expressjs.com",
+          "notes": "Most popular Node.js framework"
+        },
+        {
+          "name": "NestJS",
+          "version": "Latest",
+          "category": "Backend Framework",
+          "subcategory": "Node.js Enterprise Framework",
+          "purpose": "Progressive Node.js framework for building scalable server-side applications",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["Nest"],
+          "docs_url": "https://nestjs.com",
+          "notes": "TypeScript-first enterprise framework"
+        },
+        {
+          "name": "Hono",
+          "version": "3.11.4",
+          "category": "Backend Framework",
+          "subcategory": "Edge-First Web Framework",
+          "purpose": "Small, simple, and ultrafast web framework for the Edges",
+          "source_files": ["lite-microservice-stack.md"],
+          "tier": "T5 Lite",
+          "aliases": ["HonoJS"],
+          "docs_url": "https://hono.dev",
+          "notes": "Edge-optimized minimal framework"
+        },
+        {
+          "name": "Dart Frog",
+          "version": "1.1.1",
+          "category": "Backend Framework",
+          "subcategory": "Dart Backend Framework",
+          "purpose": "Fast, minimalist backend framework for Dart",
+          "source_files": ["flutter-tech-stack.md"],
+          "tier": "T5 Elite",
+          "aliases": ["DartFrog"],
+          "docs_url": "https://dartfrog.vgv.dev",
+          "notes": "Dart ecosystem backend solution"
+        },
+        {
+          "name": "Django",
+          "version": "Latest",
+          "category": "Backend Framework",
+          "subcategory": "Python Web Framework",
+          "purpose": "High-level Python web framework with batteries included",
+          "source_files": ["tech-stack-webapp.md"],
+          "tier": "T2 Reliable",
+          "aliases": ["Django Framework"],
+          "docs_url": "https://djangoproject.com",
+          "notes": "Rapid development with built-in features"
+        },
+        {
+          "name": "Ruby on Rails",
+          "version": "Latest",
+          "category": "Backend Framework",
+          "subcategory": "Ruby Web Framework",
+          "purpose": "Server-side web application framework written in Ruby",
+          "source_files": ["tech-stack-webapp.md"],
+          "tier": "T2 Reliable",
+          "aliases": ["Rails", "RoR"],
+          "docs_url": "https://rubyonrails.org",
+          "notes": "Convention over configuration philosophy"
+        }
+      ],
+      "databases_orm": [
+        {
+          "name": "PostgreSQL",
+          "version": "Latest",
+          "category": "Database",
+          "subcategory": "Relational Database",
+          "purpose": "Advanced open source relational database",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "sveltekit-tech-stack.md"],
+          "tier": "All Tiers",
+          "aliases": ["Postgres", "PostgresQL"],
+          "docs_url": "https://postgresql.org",
+          "notes": "Production-grade relational database"
+        },
+        {
+          "name": "Prisma",
+          "version": "6.16.1",
+          "category": "ORM",
+          "subcategory": "Database Toolkit",
+          "purpose": "Next-generation Node.js and TypeScript ORM",
+          "source_files": ["nextjs-tech-stack.md", "tier-3-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T5",
+          "aliases": ["Prisma ORM"],
+          "docs_url": "https://prisma.io",
+          "notes": "Type-safe database access"
+        },
+        {
+          "name": "Drizzle ORM",
+          "version": "0.44.5",
+          "category": "ORM",
+          "subcategory": "TypeScript ORM",
+          "purpose": "Lightweight TypeScript ORM with SQL-like syntax",
+          "source_files": ["qwik-tech-stack.md", "sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md", "microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Drizzle"],
+          "docs_url": "https://orm.drizzle.team",
+          "notes": "Serverless-friendly ORM"
+        },
+        {
+          "name": "Drizzle Kit",
+          "version": "0.31.4",
+          "category": "Database Tool",
+          "subcategory": "Migration Tool",
+          "purpose": "CLI companion for Drizzle ORM",
+          "source_files": ["sveltekit-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Drizzle-Kit"],
+          "docs_url": "https://orm.drizzle.team/docs/latest-releases",
+          "notes": "Database migration and introspection tool"
+        },
+        {
+          "name": "Supabase",
+          "version": "Latest",
+          "category": "Backend-as-a-Service",
+          "subcategory": "Firebase Alternative",
+          "purpose": "Open source Firebase alternative with PostgreSQL",
+          "source_files": ["flutter-tech-stack.md", "capacitor-sveltekit-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Supabase DB"],
+          "docs_url": "https://supabase.com",
+          "notes": "PostgreSQL-based BaaS with real-time features"
+        },
+        {
+          "name": "Firebase",
+          "version": "Latest",
+          "category": "Backend-as-a-Service",
+          "subcategory": "Google Cloud Service",
+          "purpose": "Google's mobile and web application development platform",
+          "source_files": ["tier-3-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T4",
+          "aliases": ["Firebase DB", "Firestore"],
+          "docs_url": "https://firebase.google.com",
+          "notes": "Google's BaaS with real-time database"
+        },
+        {
+          "name": "MySQL",
+          "version": "Latest",
+          "category": "Database",
+          "subcategory": "Relational Database",
+          "purpose": "Popular open-source relational database management system",
+          "source_files": ["tech-stack-databases.md"],
+          "tier": "T1-T3",
+          "aliases": ["MySQL DB"],
+          "docs_url": "https://mysql.com",
+          "notes": "Widely used relational database"
+        }
+      ],
+      "styling_ui": [
+        {
+          "name": "Tailwind CSS",
+          "version": "4.1.13",
+          "category": "CSS Framework",
+          "subcategory": "Utility-First CSS",
+          "purpose": "Utility-first CSS framework for rapid UI development",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T5",
+          "aliases": ["TailwindCSS", "Tailwind"],
+          "docs_url": "https://tailwindcss.com",
+          "notes": "Most popular utility-first CSS framework"
+        },
+        {
+          "name": "Material UI",
+          "version": "Latest",
+          "category": "UI Component Library",
+          "subcategory": "React Components",
+          "purpose": "React components implementing Google's Material Design",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["MUI", "Material-UI"],
+          "docs_url": "https://mui.com",
+          "notes": "Google Material Design for React"
+        },
+        {
+          "name": "Angular Material",
+          "version": "Latest",
+          "category": "UI Component Library",
+          "subcategory": "Angular Components",
+          "purpose": "Material Design components for Angular",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["ng-material"],
+          "docs_url": "https://material.angular.io",
+          "notes": "Official Material Design for Angular"
+        },
+        {
+          "name": "React Native Paper",
+          "version": "Latest",
+          "category": "UI Component Library",
+          "subcategory": "React Native Components",
+          "purpose": "Material Design components for React Native",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["RN Paper"],
+          "docs_url": "https://reactnativepaper.com",
+          "notes": "Material Design for React Native"
+        },
+        {
+          "name": "NativeBase",
+          "version": "Latest",
+          "category": "UI Component Library",
+          "subcategory": "React Native Components",
+          "purpose": "Mobile-first component library for React Native and React",
+          "source_files": ["tier-3-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T4",
+          "aliases": ["Native Base"],
+          "docs_url": "https://nativebase.io",
+          "notes": "Mobile-first component system"
+        },
+        {
+          "name": "Vuetify",
+          "version": "Latest",
+          "category": "UI Component Library",
+          "subcategory": "Vue Components",
+          "purpose": "Material Design component framework for Vue.js",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["Vuetify.js"],
+          "docs_url": "https://vuetifyjs.com",
+          "notes": "Vue.js Material Design framework"
+        },
+        {
+          "name": "Bootstrap",
+          "version": "Latest",
+          "category": "CSS Framework",
+          "subcategory": "Component Framework",
+          "purpose": "Popular CSS framework for responsive web development",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T2-T3",
+          "aliases": ["Bootstrap CSS"],
+          "docs_url": "https://getbootstrap.com",
+          "notes": "Traditional CSS framework"
+        },
+        {
+          "name": "SCSS",
+          "version": "Latest",
+          "category": "CSS Preprocessor",
+          "subcategory": "Sass Extension",
+          "purpose": "CSS extension language with variables and mixins",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T2-T3",
+          "aliases": ["Sass", "SASS"],
+          "docs_url": "https://sass-lang.com",
+          "notes": "CSS preprocessor with enhanced features"
+        }
+      ],
+      "state_management": [
+        {
+          "name": "Zustand",
+          "version": "4.5.0",
+          "category": "State Management",
+          "subcategory": "React State Library",
+          "purpose": "Small, fast and scalable state-management solution",
+          "source_files": ["nextjs-tech-stack.md", "react-native-tech-stack.md", "tier-3-tech-stack.md"],
+          "tier": "T3-T5",
+          "aliases": ["Zustand Store"],
+          "docs_url": "https://zustand-demo.pmnd.rs",
+          "notes": "Lightweight React state management"
+        },
+        {
+          "name": "Redux",
+          "version": "Latest",
+          "category": "State Management",
+          "subcategory": "Predictable State Container",
+          "purpose": "Predictable state container for JavaScript apps",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T2-T3",
+          "aliases": ["Redux Toolkit", "RTK"],
+          "docs_url": "https://redux.js.org",
+          "notes": "Traditional React state management"
+        },
+        {
+          "name": "Pinia",
+          "version": "Latest",
+          "category": "State Management",
+          "subcategory": "Vue State Library",
+          "purpose": "The Vue Store that you will enjoy using",
+          "source_files": ["tier-3-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T4",
+          "aliases": ["Pinia Store"],
+          "docs_url": "https://pinia.vuejs.org",
+          "notes": "Modern Vue.js state management"
+        },
+        {
+          "name": "NgRx",
+          "version": "Latest",
+          "category": "State Management",
+          "subcategory": "Angular State Library",
+          "purpose": "Reactive State for Angular",
+          "source_files": ["tier-3-tech-stack.md"],
+          "tier": "T3 Modern Standard",
+          "aliases": ["NgRx Store"],
+          "docs_url": "https://ngrx.io",
+          "notes": "Redux-inspired Angular state management"
+        },
+        {
+          "name": "Riverpod",
+          "version": "3.0.0",
+          "category": "State Management",
+          "subcategory": "Flutter State Library",
+          "purpose": "Provider-based state management for Flutter",
+          "source_files": ["flutter-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["River Pod"],
+          "docs_url": "https://riverpod.dev",
+          "notes": "Modern Flutter state management"
+        },
+        {
+          "name": "TanStack Query",
+          "version": "5.34.2",
+          "category": "State Management",
+          "subcategory": "Server State Library",
+          "purpose": "Powerful data synchronization for web applications",
+          "source_files": ["nextjs-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["React Query", "TanStack Query"],
+          "docs_url": "https://tanstack.com/query",
+          "notes": "Server state management and caching"
+        }
+      ],
+      "validation_schema": [
+        {
+          "name": "Zod",
+          "version": "4.1.8",
+          "category": "Validation",
+          "subcategory": "Schema Validation",
+          "purpose": "TypeScript-first schema validation with static type inference",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md", "microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Zod Schema"],
+          "docs_url": "https://zod.dev",
+          "notes": "TypeScript-first validation library"
+        }
+      ],
+      "testing_frameworks": [
+        {
+          "name": "Vitest",
+          "version": "1.6.3",
+          "category": "Testing Framework",
+          "subcategory": "Unit Testing",
+          "purpose": "Blazing Fast Unit Test Framework",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md", "microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Vite Test"],
+          "docs_url": "https://vitest.dev",
+          "notes": "Fast Vite-based testing framework"
+        },
+        {
+          "name": "Playwright",
+          "version": "1.44.0",
+          "category": "Testing Framework",
+          "subcategory": "End-to-End Testing",
+          "purpose": "Fast and reliable end-to-end testing for modern web apps",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "sveltekit-tech-stack.md", "capacitor-sveltekit-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Playwright Test"],
+          "docs_url": "https://playwright.dev",
+          "notes": "Microsoft's E2E testing framework"
+        },
+        {
+          "name": "Testing Library",
+          "version": "14.2.1",
+          "category": "Testing Framework",
+          "subcategory": "UI Testing",
+          "purpose": "Simple and complete testing utilities for React components",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["React Testing Library", "@testing-library"],
+          "docs_url": "https://testing-library.com",
+          "notes": "Component testing utilities"
+        },
+        {
+          "name": "Jest",
+          "version": "Latest",
+          "category": "Testing Framework",
+          "subcategory": "JavaScript Testing",
+          "purpose": "Delightful JavaScript Testing Framework",
+          "source_files": ["react-native-tech-stack.md"],
+          "tier": "T2-T4",
+          "aliases": ["Jest Test"],
+          "docs_url": "https://jestjs.io",
+          "notes": "Popular JavaScript testing framework"
+        },
+        {
+          "name": "Detox",
+          "version": "Latest",
+          "category": "Testing Framework",
+          "subcategory": "Mobile E2E Testing",
+          "purpose": "Gray box end-to-end testing and automation framework for mobile apps",
+          "source_files": ["react-native-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Detox E2E"],
+          "docs_url": "https://wix.github.io/Detox",
+          "notes": "React Native E2E testing"
+        },
+        {
+          "name": "Supertest",
+          "version": "Latest",
+          "category": "Testing Framework",
+          "subcategory": "API Testing",
+          "purpose": "HTTP assertions made easy via superagent",
+          "source_files": ["microservice-stack.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Super Test"],
+          "docs_url": "https://github.com/visionmedia/supertest",
+          "notes": "API endpoint testing library"
+        }
+      ],
+      "runtimes_environments": [
+        {
+          "name": "Node.js",
+          "version": "18+",
+          "category": "Runtime",
+          "subcategory": "JavaScript Runtime",
+          "purpose": "JavaScript runtime built on Chrome's V8 JavaScript engine",
+          "source_files": ["microservice-stack.md", "lite-microservice-stack.md", "tech-stack-webapp.md"],
+          "tier": "All Tiers",
+          "aliases": ["Node", "NodeJS"],
+          "docs_url": "https://nodejs.org",
+          "notes": "Primary JavaScript runtime for backend"
+        },
+        {
+          "name": "Bun",
+          "version": "Latest",
+          "category": "Runtime",
+          "subcategory": "JavaScript Runtime",
+          "purpose": "Incredibly fast JavaScript runtime, bundler, test runner, and package manager",
+          "source_files": ["microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Bun.js"],
+          "docs_url": "https://bun.sh",
+          "notes": "Fast alternative to Node.js"
+        },
+        {
+          "name": "Deno",
+          "version": "Latest",
+          "category": "Runtime",
+          "subcategory": "JavaScript/TypeScript Runtime",
+          "purpose": "Secure runtime for JavaScript and TypeScript",
+          "source_files": ["microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Deno Runtime"],
+          "docs_url": "https://deno.com",
+          "notes": "TypeScript-first runtime with security focus"
+        },
+        {
+          "name": "TypeScript",
+          "version": "5.4.3",
+          "category": "Programming Language",
+          "subcategory": "Type-Safe JavaScript",
+          "purpose": "Typed superset of JavaScript that compiles to plain JavaScript",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "sveltekit-tech-stack.md", "tier-3-tech-stack.md"],
+          "tier": "T3-T5",
+          "aliases": ["TS"],
+          "docs_url": "https://typescriptlang.org",
+          "notes": "Essential for type-safe development"
+        },
+        {
+          "name": "Dart",
+          "version": "3.4.0",
+          "category": "Programming Language",
+          "subcategory": "Object-Oriented Language",
+          "purpose": "Client-optimized language for fast apps on any platform",
+          "source_files": ["flutter-tech-stack.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Dart Lang"],
+          "docs_url": "https://dart.dev",
+          "notes": "Google's language for Flutter development"
+        }
+      ],
+      "build_tools": [
+        {
+          "name": "Vite",
+          "version": "Latest",
+          "category": "Build Tool",
+          "subcategory": "Frontend Tooling",
+          "purpose": "Next generation frontend tooling with instant server start",
+          "source_files": ["tier-3-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T4",
+          "aliases": ["ViteJS"],
+          "docs_url": "https://vitejs.dev",
+          "notes": "Fast development build tool"
+        },
+        {
+          "name": "Turbopack",
+          "version": "Beta",
+          "category": "Build Tool",
+          "subcategory": "Rust-based Bundler",
+          "purpose": "Incremental bundler optimized for JavaScript and TypeScript",
+          "source_files": ["nextjs-updates.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Turbo Pack"],
+          "docs_url": "https://turbo.build/pack",
+          "notes": "2x-5x faster than Webpack, Next.js integration"
+        },
+        {
+          "name": "Docker",
+          "version": "24.0+",
+          "category": "Containerization",
+          "subcategory": "Container Platform",
+          "purpose": "Platform for developing, shipping, and running applications in containers",
+          "source_files": ["nextjs-tech-stack.md", "qwik-tech-stack.md", "tier-3-tech-stack.md"],
+          "tier": "T3-T5",
+          "aliases": ["Docker Container"],
+          "docs_url": "https://docker.com",
+          "notes": "Standard containerization platform"
+        }
+      ],
+      "deployment_platforms": [
+        {
+          "name": "Vercel",
+          "version": "Latest",
+          "category": "Deployment Platform",
+          "subcategory": "Edge Platform",
+          "purpose": "Platform for frontend frameworks and static sites",
+          "source_files": ["nextjs-tech-stack.md", "tier-4-tech-stack.md", "microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Vercel Platform"],
+          "docs_url": "https://vercel.com",
+          "notes": "Next.js creators, edge-first platform"
+        },
+        {
+          "name": "Cloudflare Workers",
+          "version": "Latest",
+          "category": "Deployment Platform",
+          "subcategory": "Edge Computing",
+          "purpose": "Serverless execution environment at the edge",
+          "source_files": ["qwik-tech-stack.md", "microservice-stack.md", "lite-microservice-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["CF Workers", "Cloudflare Edge"],
+          "docs_url": "https://workers.cloudflare.com",
+          "notes": "Edge computing platform"
+        },
+        {
+          "name": "Cloudflare Pages",
+          "version": "Latest",
+          "category": "Deployment Platform",
+          "subcategory": "Static Site Hosting",
+          "purpose": "JAMstack platform for deploying static sites",
+          "source_files": ["qwik-tech-stack.md", "sveltekit-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["CF Pages"],
+          "docs_url": "https://pages.cloudflare.com",
+          "notes": "Static site deployment with edge functions"
+        },
+        {
+          "name": "Netlify",
+          "version": "Latest",
+          "category": "Deployment Platform",
+          "subcategory": "JAMstack Platform",
+          "purpose": "All-in-one platform for automating modern web projects",
+          "source_files": ["sveltekit-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T3-T4",
+          "aliases": ["Netlify Platform"],
+          "docs_url": "https://netlify.com",
+          "notes": "Popular JAMstack deployment platform"
+        },
+        {
+          "name": "EAS Build",
+          "version": "Latest",
+          "category": "Deployment Platform",
+          "subcategory": "Mobile CI/CD",
+          "purpose": "Hosted service for building React Native apps",
+          "source_files": ["react-native-tech-stack.md", "tier-4-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Expo Application Services"],
+          "docs_url": "https://docs.expo.dev/eas",
+          "notes": "Expo's cloud build service"
+        }
+      ],
+      "authentication": [
+        {
+          "name": "Auth.js",
+          "version": "Latest",
+          "category": "Authentication",
+          "subcategory": "Authentication Library",
+          "purpose": "Authentication for the Web",
+          "source_files": ["react-native-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["NextAuth.js", "AuthJS"],
+          "docs_url": "https://authjs.dev",
+          "notes": "Popular authentication solution"
+        },
+        {
+          "name": "Clerk",
+          "version": "Latest",
+          "category": "Authentication",
+          "subcategory": "Authentication Platform",
+          "purpose": "Complete user management platform",
+          "source_files": ["react-native-tech-stack.md", "microservice-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Clerk Auth"],
+          "docs_url": "https://clerk.dev",
+          "notes": "Full-featured authentication platform"
+        },
+        {
+          "name": "Supabase Auth",
+          "version": "Latest",
+          "category": "Authentication",
+          "subcategory": "BaaS Authentication",
+          "purpose": "Authentication service built into Supabase",
+          "source_files": ["flutter-tech-stack.md", "capacitor-sveltekit-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Supabase Authentication"],
+          "docs_url": "https://supabase.com/docs/guides/auth",
+          "notes": "Integrated with Supabase ecosystem"
+        }
+      ],
+      "routing_navigation": [
+        {
+          "name": "Expo Router",
+          "version": "2.4.0",
+          "category": "Navigation",
+          "subcategory": "React Native Navigation",
+          "purpose": "File-based router for React Native and web",
+          "source_files": ["react-native-tech-stack.md"],
+          "tier": "T4-T5",
+          "aliases": ["Expo Router Navigation"],
+          "docs_url": "https://expo.github.io/router",
+          "notes": "Modern React Native navigation"
+        }
+      ],
+      "emerging_technologies": [
+        {
+          "name": "WebAssembly",
+          "version": "Latest",
+          "category": "Technology",
+          "subcategory": "Binary Instruction Format",
+          "purpose": "Binary instruction format for stack-based virtual machine",
+          "source_files": ["revised-tier-plan.md"],
+          "tier": "T5 Elite",
+          "aliases": ["WASM"],
+          "docs_url": "https://webassembly.org",
+          "notes": "High-performance web applications"
+        },
+        {
+          "name": "AI/ML Integration",
+          "version": "Latest",
+          "category": "Technology",
+          "subcategory": "Artificial Intelligence",
+          "purpose": "Machine learning and AI capabilities in applications",
+          "source_files": ["revised-tier-plan.md", "tech-stack-databases.md"],
+          "tier": "T5 Elite",
+          "aliases": ["Artificial Intelligence", "Machine Learning"],
+          "docs_url": "Various",
+          "notes": "Emerging trend in modern applications"
+        }
+      ],
+      "legacy_technologies": [
+        {
+          "name": "jQuery",
+          "version": "Latest",
+          "category": "JavaScript Library",
+          "subcategory": "DOM Manipulation",
+          "purpose": "Fast, small, and feature-rich JavaScript library",
+          "source_files": ["revised-tier-plan.md"],
+          "tier": "T1 Foundation",
+          "aliases": ["jQuery.js"],
+          "docs_url": "https://jquery.com",
+          "notes": "Legacy JavaScript library"
+        },
+        {
+          "name": "WordPress",
+          "version": "Latest",
+          "category": "CMS",
+          "subcategory": "Content Management System",
+          "purpose": "Popular content management system",
+          "source_files": ["revised-tier-plan.md"],
+          "tier": "T1 Foundation",
+          "aliases": ["WP"],
+          "docs_url": "https://wordpress.org",
+          "notes": "Most popular CMS platform"
+        },
+        {
+          "name": "LAMP Stack",
+          "version": "Various",
+          "category": "Technology Stack",
+          "subcategory": "Traditional Web Stack",
+          "purpose": "Linux, Apache, MySQL, PHP stack",
+          "source_files": ["revised-tier-plan.md"],
+          "tier": "T1 Foundation",
+          "aliases": ["Linux Apache MySQL PHP"],
+          "docs_url": "Various",
+          "notes": "Traditional web development stack"
+        }
+      ],
+      "cloud_services": [
+        {
+          "name": "AWS",
+          "version": "Latest",
+          "category": "Cloud Platform",
+          "subcategory": "Infrastructure as a Service",
+          "purpose": "Amazon Web Services cloud computing platform",
+          "source_files": ["tech-stack-databases.md"],
+          "tier": "T2-T5",
+          "aliases": ["Amazon Web Services", "AWS Cloud"],
+          "docs_url": "https://aws.amazon.com",
+          "notes": "Leading cloud platform with comprehensive services"
+        },
+        {
+          "name": "Google Cloud",
+          "version": "Latest",
+          "category": "Cloud Platform",
+          "subcategory": "Infrastructure as a Service",
+          "purpose": "Google Cloud Platform services",
+          "source_files": ["tech-stack-databases.md"],
+          "tier": "T2-T5",
+          "aliases": ["GCP", "Google Cloud Platform"],
+          "docs_url": "https://cloud.google.com",
+          "notes": "Google's cloud computing services"
+        },
+        {
+          "name": "Microsoft Azure",
+          "version": "Latest",
+          "category": "Cloud Platform",
+          "subcategory": "Infrastructure as a Service",
+          "purpose": "Microsoft's cloud computing service",
+          "source_files": ["tech-stack-databases.md"],
+          "tier": "T2-T5",
+          "aliases": ["Azure Cloud"],
+          "docs_url": "https://azure.microsoft.com",
+          "notes": "Microsoft's enterprise cloud platform"
+        }
+      ]
+    },
+    "tier_summary": {
+      "T1_Foundation": {
+        "description": "Time-tested, universally supported, minimal risk",
+        "examples": ["LAMP stack", "WordPress", "jQuery", "Bootstrap"],
+        "risk_profile": "Extremely low",
+        "innovation_level": "Conservative"
+      },
+      "T2_Reliable": {
+        "description": "Industry standard, mature ecosystems, broad adoption",
+        "examples": ["Rails", "Django", "Laravel", "Express.js"],
+        "risk_profile": "Low",
+        "innovation_level": "Incremental"
+      },
+      "T3_Modern_Standard": {
+        "description": "Current best practices, modern tooling, widespread adoption",
+        "examples": ["React + Vite", "Vue 3", "Angular", "Svelte"],
+        "risk_profile": "Low-Medium",
+        "innovation_level": "Evolutionary"
+      },
+      "T4_Production_Modern": {
+        "description": "Cutting-edge but stable, performance-focused, developer experience",
+        "examples": ["Next.js", "Nuxt 3", "SvelteKit", "Remix"],
+        "risk_profile": "Medium",
+        "innovation_level": "Progressive"
+      },
+      "T5_Elite": {
+        "description": "Experimental, performance-critical, early adopter",
+        "examples": ["Qwik", "Fresh", "Solid.js", "Bun runtime"],
+        "risk_profile": "Medium-High",
+        "innovation_level": "Revolutionary"
+      }
+    },
+    "statistics": {
+      "total_components": 95,
+      "by_category": {
+        "frontend_frameworks": 10,
+        "mobile_frameworks": 5,
+        "backend_frameworks": 7,
+        "databases_orm": 6,
+        "styling_ui": 8,
+        "state_management": 6,
+        "validation_schema": 1,
+        "testing_frameworks": 6,
+        "runtimes_environments": 5,
+        "build_tools": 3,
+        "deployment_platforms": 5,
+        "authentication": 3,
+        "routing_navigation": 1,
+        "emerging_technologies": 2,
+        "legacy_technologies": 3,
+        "cloud_services": 3
+      },
+      "by_tier": {
+        "T1_Foundation": 8,
+        "T2_Reliable": 12,
+        "T3_Modern_Standard": 25,
+        "T4_Production_Modern": 28,
+        "T5_Elite": 35,
+        "Multi_Tier": 15
+      }
+    }
+  }
+}

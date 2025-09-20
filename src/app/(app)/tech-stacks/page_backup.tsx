@@ -3,7 +3,6 @@
 import { Settings, Info } from 'lucide-react';
 import { Card, CardHeader, CardTitle } from '@/components/cards/Card';
 import Link from 'next/link';
-
 export default function TechStacksPage() {
   // Internal tools
   const internalTools = [

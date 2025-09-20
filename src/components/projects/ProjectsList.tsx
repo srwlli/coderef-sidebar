@@ -1,7 +1,16 @@
 'use client';
 
 import React from 'react';
-import { Plus, Edit, Eye, Trash2, Calendar, User, Tag } from 'lucide-react';
+import {
+  Plus,
+  Edit,
+  Eye,
+  Trash2,
+  Calendar,
+  User,
+  Tag,
+  FolderOpen,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -68,11 +77,19 @@ export function ProjectsList({
     <div className={cn('flex h-full flex-col', className)}>
       {/* Header */}
       <div className="flex items-center justify-between border-b p-4">
-        <h1 className="text-2xl font-bold">Projects</h1>
-        <Button onClick={onCreateProject} className="flex items-center gap-2">
-          <Plus className="h-4 w-4" />
-          New Project
-        </Button>
+        <div className="flex items-center gap-3">
+          <FolderOpen className="h-6 w-6" />
+          <h1 className="text-2xl font-bold">Projects</h1>
+          <Badge variant="outline" className="text-sm">
+            {projects.length} projects
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button onClick={onCreateProject} className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
+            New Project
+          </Button>
+        </div>
       </div>
 
       {/* Content */}

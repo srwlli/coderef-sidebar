@@ -2,23 +2,53 @@
 
 import { CodeScanChainContainer } from '@/components/collapsibles/CodeScanChainContainer';
 import { appGenerationChainSteps } from './app-generation-chain';
-import { Brain, Rocket } from 'lucide-react';
+import { Brain, Rocket, MessageSquare } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 export default function PromptsPage() {
+  const promptChains = [
+    {
+      title: 'Documentation Prompt Chain (5-Step)',
+      icon: <Brain className="h-5 w-5" />,
+      stepCount: 5,
+    },
+    {
+      title: 'App Generation Prompt Chain (5-Step)',
+      icon: <Rocket className="h-5 w-5" />,
+      stepCount: appGenerationChainSteps.length,
+    },
+  ];
+
   return (
-    <div className="p-8">
-      <main className="mx-auto max-w-7xl">
-        <div className="space-y-6">
-          {/* Documentation Prompt Chain */}
-          <CodeScanChainContainer
-            title="Documentation Prompt Chain (5-Step)"
-            icon={<Brain className="h-5 w-5" />}
-            steps={[
-              {
-                title: 'Step 1: README Generation',
-                description:
-                  'Generate README.md as the discovery entry document with overview, quickstart, and usage examples',
-                content: `framework: POWER
+    <div className="flex h-full flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b p-4">
+        <div className="flex items-center gap-3">
+          <MessageSquare className="h-6 w-6" />
+          <h1 className="text-2xl font-bold">Prompt Chains</h1>
+          <Badge variant="outline" className="text-sm">
+            {promptChains.length} chains
+          </Badge>
+        </div>
+        <div className="flex items-center gap-2">
+          {/* Future: Export All, Add Chain, etc. */}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-y-auto p-8">
+        <main className="mx-auto max-w-7xl">
+          <div className="space-y-6">
+            {/* Documentation Prompt Chain */}
+            <CodeScanChainContainer
+              title="Documentation Prompt Chain (5-Step)"
+              icon={<Brain className="h-5 w-5" />}
+              steps={[
+                {
+                  title: 'Step 1: README Generation',
+                  description:
+                    'Generate README.md as the discovery entry document with overview, quickstart, and usage examples',
+                  content: `framework: POWER
 
 purpose: Generate README.md as the discovery entry document.
 
@@ -34,12 +64,12 @@ requirements: Must include command sequences, decision trees, and AI-focused foo
 
 save_as: README.md
 store_as: readme_summary`,
-              },
-              {
-                title: 'Step 2: Architecture Documentation',
-                description:
-                  'Generate ARCHITECTURE.md as the system design reference with topology and data flow',
-                content: `framework: POWER
+                },
+                {
+                  title: 'Step 2: Architecture Documentation',
+                  description:
+                    'Generate ARCHITECTURE.md as the system design reference with topology and data flow',
+                  content: `framework: POWER
 
 purpose: Generate ARCHITECTURE.md as the system design reference.
 
@@ -55,12 +85,12 @@ requirements: Must include rationale for design choices and AI-focused footer.
 
 save_as: ARCHITECTURE.md
 store_as: architecture_summary`,
-              },
-              {
-                title: 'Step 3: API Documentation',
-                description:
-                  'Generate API.md as the technical interface reference with endpoints and schemas',
-                content: `framework: POWER
+                },
+                {
+                  title: 'Step 3: API Documentation',
+                  description:
+                    'Generate API.md as the technical interface reference with endpoints and schemas',
+                  content: `framework: POWER
 
 purpose: Generate API.md as the technical interface reference.
 
@@ -76,12 +106,12 @@ requirements: Must include pagination, rate limits, and AI-focused footer.
 
 save_as: API.md
 store_as: api_summary`,
-              },
-              {
-                title: 'Step 4: Components Documentation',
-                description:
-                  'Generate COMPONENTS.md as the component library reference with props and usage rules',
-                content: `framework: POWER
+                },
+                {
+                  title: 'Step 4: Components Documentation',
+                  description:
+                    'Generate COMPONENTS.md as the component library reference with props and usage rules',
+                  content: `framework: POWER
 
 purpose: Generate COMPONENTS.md as the component library reference.
 
@@ -97,12 +127,12 @@ requirements: Must include copy-paste ready examples and AI-focused footer.
 
 save_as: COMPONENTS.md
 store_as: components_summary`,
-              },
-              {
-                title: 'Step 5: Schema Documentation',
-                description:
-                  'Generate SCHEMA.md as the data schema reference with database models and validation rules',
-                content: `framework: POWER
+                },
+                {
+                  title: 'Step 5: Schema Documentation',
+                  description:
+                    'Generate SCHEMA.md as the data schema reference with database models and validation rules',
+                  content: `framework: POWER
 
 purpose: Generate SCHEMA.md as the data schema reference.
 
@@ -117,21 +147,22 @@ examples:
 requirements: Must include relationships, constraints, and AI-focused footer.
 
 save_as: SCHEMA.md`,
-              },
-            ]}
-            className=""
-            defaultExpanded={false}
-          />
+                },
+              ]}
+              className=""
+              defaultExpanded={false}
+            />
 
-          {/* App Generation Prompt Chain */}
-          <CodeScanChainContainer
-            title="App Generation Prompt Chain (5-Step)"
-            icon={<Rocket className="h-5 w-5" />}
-            steps={appGenerationChainSteps}
-            defaultExpanded={false}
-          />
-        </div>
-      </main>
+            {/* App Generation Prompt Chain */}
+            <CodeScanChainContainer
+              title="App Generation Prompt Chain (5-Step)"
+              icon={<Rocket className="h-5 w-5" />}
+              steps={appGenerationChainSteps}
+              defaultExpanded={false}
+            />
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
