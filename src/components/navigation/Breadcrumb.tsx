@@ -13,6 +13,7 @@ interface BreadcrumbItem {
 
 interface BreadcrumbProps {
   className?: string;
+  inline?: boolean; // For header integration
 }
 
 // Route mapping for better display names
@@ -77,13 +78,48 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
   return breadcrumbs;
 }
 
-export function Breadcrumb({ className }: BreadcrumbProps) {
+export function Breadcrumb({ className, inline = false }: BreadcrumbProps) {
   const pathname = usePathname();
   const breadcrumbs = generateBreadcrumbs(pathname);
 
   // Don't show breadcrumbs on dashboard/home
   if (pathname === '/' || pathname === '/dashboard') {
     return null;
+  }
+
+  if (inline) {
+    // Inline version for header integration
+    return (
+      <nav
+        aria-label="Breadcrumb"
+        className={cn('flex items-center', className)}
+      >
+        <ol className="flex items-center space-x-1 text-sm">
+          {breadcrumbs.map((item, index) => (
+            <li key={item.href} className="flex items-center">
+              {index > 0 && (
+                <ChevronRight className="text-muted-foreground/50 mx-1 h-3 w-3" />
+              )}
+              {index === 0 && (
+                <Home className="text-muted-foreground/70 mr-2 h-3 w-3" />
+              )}
+              {item.isActive ? (
+                <span className="text-foreground font-medium">
+                  {item.label}
+                </span>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    );
   }
 
   return (

@@ -28,7 +28,6 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/Header';
-import { Breadcrumb } from '@/components/navigation/Breadcrumb';
 
 const menuItems = [
   {
@@ -156,7 +155,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </Sidebar>
         <main className="flex flex-1 flex-col">
           <Header />
-          {pathname !== '/noted' && <Breadcrumb />}
           <div className="flex-1 overflow-x-hidden">
             <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
               {children}

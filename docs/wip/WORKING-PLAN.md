@@ -1,82 +1,105 @@
-# Plan: Move Breadcrumbs to Header (Excluding Noted Module)
+# Project Working Plan
 
-## Scope Definition
+## ✅ COMPLETED: Move Breadcrumbs to Header (Excluding Noted Module)
 
-- **Apply changes**: Main application pages only
-- **Exclude**: `/noted` routes (imported module with own header)
-- **Preserve**: Noted module's existing header implementation
-- **No size changes**: Keep header at 48px height
+### Implementation Summary
 
-## Implementation Approach
+- **Status**: ✅ Complete
+- **Scope**: Main application pages only (excluded `/noted` routes)
+- **Result**: Space-efficient header with integrated breadcrumbs
 
-### Header Layout Changes
+### Changes Made
 
-#### For Main App Pages (All except /noted):
+1. **Header Component** (`src/components/layout/Header.tsx`):
+   - Added conditional breadcrumb integration for non-noted pages
+   - Layout: `[Mobile Trigger] [Breadcrumbs] [flex-grow] [coderef title]`
+   - Preserved noted module's tab functionality
 
+2. **Breadcrumb Component** (`src/components/navigation/Breadcrumb.tsx`):
+   - Added `inline` prop for header integration
+   - Smaller icons (h-3 w-3) and simplified styling for inline usage
+
+3. **Layout Component** (`src/app/(app)/layout.tsx`):
+   - Removed standalone breadcrumb rendering
+   - Simplified main content structure
+
+---
+
+## 🔧 CURRENT ISSUE: Non-Functional Sticky Header
+
+### Problem Analysis
+
+**Issue**: Header has `sticky top-0 z-50` CSS but doesn't stick during scroll.
+
+**Root Cause Found**: Layout structure prevents sticky positioning from working.
+
+### Current Layout Structure (Broken):
+
+```tsx
+<div className="flex min-h-screen w-full">
+  {' '}
+  // No scroll context
+  <Sidebar>...</Sidebar>
+  <main className="flex flex-1 flex-col">
+    {' '}
+    // No scroll context
+    <Header /> // Sticky fails here
+    <div className="flex-1 overflow-x-hidden">
+      {' '}
+      // Scroll happens here (too deep)
+      {content}
+    </div>
+  </main>
+</div>
 ```
-Current: [Mobile Trigger] [coderef title] [gap]
-New:     [Mobile Trigger] [Breadcrumbs] [flex-grow] [coderef title]
+
+### Why Sticky Fails:
+
+1. **Parent containers don't scroll** - `min-h-screen` creates full-height containers
+2. **Scrollable content nested too deep** - Header can't establish proper scroll context
+3. **Flex layout interference** - Multiple flex containers break sticky positioning
+
+### Proper Fix Required:
+
+**Need to restructure layout so header is in same scroll context as content:**
+
+```tsx
+<div className="flex min-h-screen w-full">
+  <Sidebar>...</Sidebar>
+  <main className="flex h-screen flex-1 flex-col overflow-hidden">
+    <Header /> // Sticky works here
+    <div className="flex-1 overflow-y-auto">
+      {' '}
+      // Creates proper scroll context
+      {content}
+    </div>
+  </main>
+</div>
 ```
 
-#### For Noted Module (/noted/\*):
+### Implementation Files Needed:
 
-```
-No changes - preserve module's own header implementation
-```
+- `src/app/(app)/layout.tsx` - Restructure main container scroll context
 
-### Implementation Steps
+---
 
-1. **Modify Header Component**:
-   - Add conditional logic for non-noted pages
-   - Move title to right side using `ml-auto` or similar
-   - Import and render Breadcrumb component inline
+## 🔧 COMPLETED: Sidebar Divider Fix
 
-2. **Update Layout Component**:
-   - Remove standalone Breadcrumb component for non-noted pages
-   - Keep breadcrumb rendering for noted pages (module boundary)
-   - Pass breadcrumb data to Header component
+### Problem
 
-3. **Breadcrumb Integration**:
-   - Modify Breadcrumb component to work inline in header
-   - Remove background/border styling (integrates with header)
-   - Ensure responsive behavior for breadcrumb text
+- Sidebar divider was incomplete, missing ~25% from left side
+- Caused by `mx-2` horizontal margins in `SidebarSeparator`
 
-4. **Conditional Rendering Logic**:
-   - `pathname !== '/noted'` for new header layout
-   - `pathname === '/noted'` preserves current behavior
-   - Module detection and boundary respect
+### Solution Applied
 
-## Key Benefits
+- **File**: `src/components/layout/sidebar.tsx:395`
+- **Change**: `mx-2` → `mr-2` (removed left margin)
+- **Result**: Full-width divider above Settings
 
-- Space efficiency on main app pages
-- Respects noted module boundaries
-- No header size changes
-- Better navigation hierarchy (breadcrumbs prominent)
-- Clean separation between app and module UX
+---
 
-## Technical Considerations
+## 📋 Pending Tasks
 
-### Module Architecture
-
-- **Noted**: External/imported module with its own header logic
-- **Coderef**: Main application with standard navigation
-- **Integration**: Noted module likely has its own header component/behavior
-
-### Space Allocation (Non-Noted Pages)
-
-- **Mobile trigger**: ~32px
-- **Breadcrumbs**: ~200-400px (plenty of space without button competition)
-- **Title "coderef"**: ~80px (right-aligned)
-- **Total available**: ~375px mobile, ~768px+ desktop (fits comfortably)
-
-### Design Impact
-
-- **Brand visibility**: Title moved from prominent left to secondary right
-- **Navigation priority**: Breadcrumbs become primary left element
-- **Hierarchy shift**: Navigation-first vs brand-first approach
-
-## Implementation Files
-
-- `src/components/layout/Header.tsx` - Add breadcrumb integration
-- `src/app/(app)/layout.tsx` - Remove standalone breadcrumb rendering
-- `src/components/navigation/Breadcrumb.tsx` - Modify for inline usage
+1. **Fix sticky header layout structure** (Critical)
+2. **Implement comprehensive git branch commands** (From git-commands-plan.md)
+3. **Test mobile header behavior** (After sticky fix)
