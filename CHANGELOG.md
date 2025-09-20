@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Project Form Edit Silent Failure** - Fixed project edit form failing silently by replacing `useUpdateProject` mutation hook with direct Supabase calls (following NotedForm pattern). The mutation hook was swallowing errors and preventing form submission. Direct Supabase calls provide better error handling and debugging.
+  - Issue: Edit form opened but couldn't save changes - failed silently
+  - Root Cause: `useUpdateProject` mutation hook in `useProjects.ts` was failing silently
+  - Solution: Use direct Supabase calls like `NotedForm.tsx` (which works)
+  - Files: `src/components/forms/ProjectForm.tsx`
+  - **Learning**: Always use direct Supabase calls for forms, avoid mutation hooks for form submissions
 - **Sidebar Navigation Icons** - Fixed duplicate FileText icons between Projects and Forms navigation items
 - **Icon Consistency** - Updated Projects sidebar to use FolderOpen icon matching dashboard card for visual coherence
 
