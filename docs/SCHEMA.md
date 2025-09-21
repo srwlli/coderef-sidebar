@@ -1,6 +1,6 @@
 # Data Schema Reference
 
-**[Date]**: 2025-09-18
+**[Date]**: 2025-09-20
 **[Schema Version]**: 1.0.0
 
 ## Overview
@@ -948,11 +948,60 @@ interface DbNoted {
 
 ---
 
+## User Interface Integration
+
+### Header System Schema
+
+**Purpose**: Consistent header components across application pages with dynamic content badges
+**Implementation**: React functional components with Tailwind CSS and Lucide icons
+
+```typescript
+interface HeaderConfig {
+  icon: LucideIcon; // Icon component from lucide-react
+  title: string; // Page title
+  badge?: {
+    text: string; // Badge content (e.g., "14 tools", "7 sections")
+    variant: 'default' | 'secondary' | 'outline'; // Badge styling
+  };
+  actions?: React.ReactNode; // Action buttons (e.g., "New Project")
+}
+```
+
+**Header Pattern Structure**:
+
+```tsx
+<div className="flex items-center justify-between border-b p-4">
+  {/* Left: Icon + Title + Badge */}
+  <div className="flex items-center gap-3">
+    <Icon className="h-6 w-6" />
+    <h1 className="text-2xl font-bold">{title}</h1>
+    {badge && (
+      <Badge variant={badge.variant} className="text-sm">
+        {badge.text}
+      </Badge>
+    )}
+  </div>
+
+  {/* Right: Action Buttons */}
+  <div className="flex items-center gap-2">{actions}</div>
+</div>
+```
+
+**Page Header Configurations**:
+
+| Page             | Icon          | Title         | Badge                        | Action      |
+| ---------------- | ------------- | ------------- | ---------------------------- | ----------- |
+| Projects         | FolderOpen    | Projects      | `{projects.length} projects` | New Project |
+| AI Tools         | Bot           | AI Tools      | `{tools.length} tools`       | _(future)_  |
+| AI Tools Prompts | MessageSquare | Prompt Chains | `{chains.length} chains`     | _(future)_  |
+| Dashboard        | Home          | Dashboard     | `{sections.length} sections` | _(future)_  |
+| Forms            | FileText      | Forms         | Coming Soon                  | _(future)_  |
+
 ## AI-Focused Footer
 
-This schema documentation was generated using the POWER framework for comprehensive data structure reference. The structure follows modern database design patterns optimized for both human developers and AI system analysis, providing clear entity relationships, validation rules, security policies, and practical examples for efficient data layer understanding and implementation.
+This schema documentation was generated using the POWER framework for comprehensive data structure reference. The structure follows modern database design patterns optimized for both human developers and AI system analysis, providing clear entity relationships, validation rules, security policies, and practical examples for efficient data layer understanding and implementation. Updated to include the consistent header system implemented across all major application pages with standardized layout patterns.
 
 **Framework**: POWER
 **Purpose**: Data schema reference
-**Generated**: 2025-09-18
+**Generated**: 2025-09-20
 **Store As**: schema_summary

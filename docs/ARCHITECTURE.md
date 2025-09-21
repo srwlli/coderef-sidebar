@@ -1,6 +1,6 @@
 # System Architecture
 
-**[Date]**: 2025-09-18
+**[Date]**: 2025-09-20
 **[Version]**: 0.1.0
 
 ## Overview
@@ -28,7 +28,8 @@ The Sidebar App architecture implements a modern, modular design pattern based o
 │                      Component Layer                            │
 │  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐   │
 │  │  Layout System  │ │  Core Features  │ │  Noted Module   │   │
-│  │ Sidebar/Header  │ │ AI/Git/Projects │ │  (Package)      │   │
+│  │ Header/Sidebar  │ │ AI/Git/Projects │ │  (Package)      │   │
+│  │ Badge System    │ │ Count Displays  │ │                 │   │
 │  └─────────────────┘ └─────────────────┘ └─────────────────┘   │
 ├─────────────────────────────────────────────────────────────────┤
 │                       Service Layer                             │
@@ -104,6 +105,8 @@ src/
 ├── components/               # Reusable UI components
 │   ├── auth/                # Authentication forms
 │   ├── layout/              # Layout components (Header, Sidebar)
+│   ├── ui/                  # UI primitives (Badge, Button, Card)
+│   ├── projects/            # Project components with count displays
 │   ├── forms/               # Form utilities
 │   ├── buttons/             # Button variants
 │   ├── cards/               # Card components
@@ -228,6 +231,30 @@ Form Data → Zod Schema → Transform → Supabase → Toast/Redirect
 2. **Sibling Components**: Shared state via nearest common ancestor
 3. **Cross-Feature**: Context providers for global state
 4. **External Modules**: Dependency injection pattern (Noted Module)
+5. **Header System**: Consistent layout pattern with Badge integration for contextual information
+
+### Header Architecture Pattern
+
+```typescript
+// Consistent header structure across all pages
+<div className="flex items-center justify-between border-b p-4">
+  <div className="flex items-center gap-3">
+    <Icon className="h-6 w-6" />
+    <h1 className="text-2xl font-bold">Page Title</h1>
+    <Badge variant="outline">contextual stats</Badge>
+  </div>
+  <div className="flex items-center gap-2">
+    {/* Action buttons and future tools */}
+  </div>
+</div>
+```
+
+**Design Benefits:**
+
+- **Visual Consistency**: Uniform layout across all major pages
+- **Contextual Information**: Dynamic stats provide immediate page context
+- **Extensibility**: Action area reserved for future functionality
+- **Responsive Design**: Flex layouts adapt to different screen sizes
 
 ### Security Architecture
 
@@ -294,5 +321,5 @@ This architecture document was generated using the POWER framework for comprehen
 
 **Framework**: POWER
 **Purpose**: System design reference
-**Generated**: 2025-09-18
+**Generated**: 2025-09-20
 **Store As**: architecture_summary

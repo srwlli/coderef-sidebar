@@ -1,6 +1,6 @@
 # API Reference
 
-**[Date]**: 2025-09-18
+**[Date]**: 2025-09-20
 **[Version]**: 0.1.0
 
 ## Overview
@@ -653,11 +653,66 @@ const mutation = useMutation({
 
 ---
 
+## Frontend Integration
+
+### Header System API
+
+**Purpose**: Standardized header components across application pages with consistent data integration
+**Implementation**: Client-side React components with dynamic content from API responses
+
+#### Header Data Endpoints
+
+**Badge Content Sources**:
+
+| Page             | Badge Data Source | API Query                                                    | Example Response            |
+| ---------------- | ----------------- | ------------------------------------------------------------ | --------------------------- |
+| Projects         | Project count     | `supabase.from('projects').select('id', { count: 'exact' })` | `{ count: 7 }`              |
+| AI Tools         | Tool count        | Static array length calculation                              | `{ count: 14 }`             |
+| AI Tools Prompts | Chain count       | Static array length calculation                              | `{ count: 2 }`              |
+| Dashboard        | Section count     | Static configuration count                                   | `{ count: 7 }`              |
+| Forms            | Status            | Static "Coming Soon" indicator                               | `{ status: "Coming Soon" }` |
+
+#### Header Component API
+
+```typescript
+interface HeaderProps {
+  icon: LucideIcon;
+  title: string;
+  badge?: {
+    content: string | number;
+    variant: 'default' | 'secondary' | 'outline';
+  };
+  actions?: React.ReactNode;
+}
+
+// Usage example
+<PageHeader
+  icon={FolderOpen}
+  title="Projects"
+  badge={{ content: `${projects.length} projects`, variant: "outline" }}
+  actions={<Button onClick={onCreateProject}>New Project</Button>}
+/>
+```
+
+#### Real-time Badge Updates
+
+```typescript
+// Projects page - real-time count updates
+const { data: projects } = useQuery({
+  queryKey: ['projects', user.id],
+  queryFn: () => supabase.from('projects').select('*'),
+  refetchOnWindowFocus: true,
+});
+
+// Badge automatically reflects current count
+const badgeContent = `${projects?.length || 0} projects`;
+```
+
 ## AI-Focused Footer
 
-This API documentation was generated using the POWER framework for comprehensive technical interface reference. The structure follows modern API documentation patterns optimized for both human developers and AI system integration, providing clear schemas, error handling patterns, authentication flows, and practical integration examples for efficient system understanding and implementation.
+This API documentation was generated using the POWER framework for comprehensive technical interface reference. The structure follows modern API documentation patterns optimized for both human developers and AI system integration, providing clear schemas, error handling patterns, authentication flows, and practical integration examples for efficient system understanding and implementation. Updated to include the frontend header system integration patterns and data sources.
 
 **Framework**: POWER
 **Purpose**: Technical interface reference
-**Generated**: 2025-09-18
+**Generated**: 2025-09-20
 **Store As**: api_summary

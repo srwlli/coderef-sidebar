@@ -8,6 +8,7 @@ import {
   StickyNote,
   FolderOpen,
   Home,
+  Package,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
@@ -43,6 +44,11 @@ export default function Dashboard() {
       title: 'Noted',
       href: '/noted',
       icon: StickyNote,
+    },
+    {
+      title: 'Component Library',
+      href: '/component-library',
+      icon: Package,
     },
     {
       title: 'Settings',

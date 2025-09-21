@@ -8,6 +8,7 @@ interface CollapsiblePromptProps {
   title: string;
   description: string;
   content: string;
+  icon?: React.ReactNode;
   docs?: Array<{ label: string; url: string }>;
 }
 
@@ -15,6 +16,7 @@ export default function CollapsiblePrompt({
   title,
   description,
   content,
+  icon,
   docs,
 }: CollapsiblePromptProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -44,6 +46,7 @@ export default function CollapsiblePrompt({
           ) : (
             <ChevronRight className="text-foreground h-5 w-5" />
           )}
+          {icon && <span className="text-foreground">{icon}</span>}
           <h3 className="text-foreground flex-1 font-semibold">{title}</h3>
         </div>
         <div onClick={(e) => e.stopPropagation()}>
