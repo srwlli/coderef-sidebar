@@ -7,14 +7,13 @@
 
 ## Overview
 
-Sidebar App is a modern Next.js 15.5 application built with React 19, featuring a modular architecture for creating dynamic dashboards with authentication, note-taking capabilities, and various productivity tools. The application leverages Supabase for backend services and includes a custom noted-module package for enhanced form management.
+Sidebar App is a modern Next.js 15.5 application built with React 19, featuring a modular architecture for creating dynamic dashboards with authentication support and productivity tooling. The application leverages Supabase for backend services and focuses on unified project and workflow management experiences.
 
 ### Key Features
 
 - **Authentication System**: Secure user authentication with Supabase
 - **Consistent Header System**: Unified header pattern across all pages with contextual stats and action areas
 - **Modular Dashboard**: Extensible dashboard with multiple tool integrations
-- **Noted Module**: Custom form generation and note management system
 - **AI Tools Integration**: Built-in AI tools for productivity with organized navigation
 - **Project Management**: Comprehensive project tracking capabilities with count displays
 - **Git Commands Helper**: Integrated git command assistance
@@ -56,24 +55,7 @@ cp .env.example .env.local
 # Edit .env.local with your Supabase credentials
 ```
 
-3. Build the noted-module package:
-
-```bash
-cd packages/noted-module
-npm install
-npm run build
-cd ../..
-```
-
-**Sample Output:**
-
-```
-[tsup] Build completed in 2.3s
-[tsup] Created dist/index.js (23.4 KB)
-[tsup] Created dist/index.d.ts
-```
-
-4. Start the development server:
+3. Start the development server:
 
 ```bash
 npm run dev
@@ -105,18 +87,6 @@ npm run build
 npm start
 ```
 
-### Working with the Noted Module
-
-The noted-module provides reusable components for form generation:
-
-```typescript
-// Import the module in your component
-import { NotedForm, NotesDashboard } from 'noted-form-module';
-
-// Use in your page
-<NotesDashboard userId={user.id} />
-```
-
 ### Common Commands
 
 | Command           | Description                | Output Example                   |
@@ -138,7 +108,6 @@ sidebar-app/
 │   │   │   │   └── prompts/   # Prompt chains with chain count
 │   │   │   ├── projects/      # Projects with dynamic count display
 │   │   │   ├── forms/         # Forms with status indicators
-│   │   │   ├── noted/         # Notes management
 │   │   │   └── settings/      # User preferences
 │   │   └── auth/        # Authentication pages
 │   ├── components/      # Shared components
@@ -147,7 +116,6 @@ sidebar-app/
 │   │   └── ui/          # UI components including Badge
 │   └── lib/            # Utility functions
 ├── packages/
-│   └── noted-module/    # Custom form module package
 ├── public/             # Static assets
 └── .next/              # Build output
 ```
@@ -155,22 +123,6 @@ sidebar-app/
 ## Troubleshooting
 
 ### Common Issues and Resolutions
-
-**Issue: Build fails with type errors**
-
-```bash
-Error: Type error in FormGenerator.tsx
-```
-
-**Resolution:**
-
-```bash
-cd packages/noted-module
-npm run typecheck
-npm run build
-cd ../..
-npm run build
-```
 
 **Issue: Supabase connection fails**
 
@@ -200,23 +152,6 @@ kill -9 <PID>
 
 # Option 2: Use a different port
 next dev --turbopack -p 3003
-```
-
-**Issue: Module not found errors after fresh clone**
-
-```bash
-Error: Cannot find module 'noted-form-module'
-```
-
-**Resolution:**
-
-```bash
-# Build the local package first
-cd packages/noted-module
-npm install
-npm run build
-cd ../..
-npm install
 ```
 
 ## Dependencies

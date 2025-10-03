@@ -1,11 +1,19 @@
 # Project Working Plan
 
-## ✅ COMPLETED: Projects Migration to Noted UX Pattern
+## ⚠️ DEPRECATED: Forms Module Removed
+
+**Note**: The forms module and all related functionality has been completely removed from the application. Projects are now read-only (view/delete only). See CHANGELOG.md for details.
+
+The sections below are kept for historical reference only.
+
+---
+
+## ✅ COMPLETED: Projects Migration to Unified UX Pattern
 
 ### Implementation Summary
 
 - **Status**: ✅ Complete
-- **Scope**: Full migration of projects module to match noted module's single-page UX
+- **Scope**: Full migration of projects module to a unified single-page UX
 - **Result**: Consistent, linear navigation flow without modals
 
 ### Changes Made
@@ -30,7 +38,7 @@
    - Single dashboard component import
    - No more modal/sheet complexity
 
-### UX Pattern Now Matches Noted:
+### Unified UX Pattern:
 
 - **View Modes**: `'list' | 'create' | 'view' | 'edit'`
 - **Linear Flow**: List → View → Edit → List
@@ -81,20 +89,20 @@ ALTER TABLE public.projects ALTER COLUMN username DROP NOT NULL;
 
 ---
 
-## ✅ COMPLETED: Move Breadcrumbs to Header (Excluding Noted Module)
+## ✅ COMPLETED: Move Breadcrumbs to Header
 
 ### Implementation Summary
 
 - **Status**: ✅ Complete
-- **Scope**: Main application pages only (excluded `/noted` routes)
+- **Scope**: Main application pages
 - **Result**: Space-efficient header with integrated breadcrumbs
 
 ### Changes Made
 
 1. **Header Component** (`src/components/layout/Header.tsx`):
-   - Added conditional breadcrumb integration for non-noted pages
+   - Added breadcrumb integration directly within the header
    - Layout: `[Mobile Trigger] [Breadcrumbs] [flex-grow] [coderef title]`
-   - Preserved noted module's tab functionality
+   - Simplified header actions for consistency across pages
 
 2. **Breadcrumb Component** (`src/components/navigation/Breadcrumb.tsx`):
    - Added `inline` prop for header integration
@@ -141,7 +149,7 @@ ALTER TABLE public.projects ALTER COLUMN username DROP NOT NULL;
 ### Solution Applied
 
 - Replaced mutation hooks with direct Supabase calls
-- Following NotedForm pattern
+- Modeled after proven Supabase form patterns
 - Added comprehensive error logging
 - Forms now save successfully with proper feedback
 

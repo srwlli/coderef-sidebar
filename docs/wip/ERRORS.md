@@ -1,3 +1,7 @@
+**⚠️ OBSOLETE** - Forms module has been removed from the application
+
+---
+
 ## Error Type
 
 Console Error

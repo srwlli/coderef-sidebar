@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ProjectForm } from '../forms/ProjectForm';
 import { ProjectsList } from './ProjectsList';
 import { ProjectView } from './ProjectView';
 import { useProjectsSimple } from '@/hooks/useProjectsSimple';
-import { DbProject } from '@/lib/forms/formTypes';
+import { DbProject } from '@/types/project';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/auth-context';
 import { supabase } from '@/lib/supabase';
@@ -16,7 +15,7 @@ interface ProjectsDashboardProps {
   initialTab?: string;
 }
 
-type ViewMode = 'create' | 'list' | 'view' | 'edit';
+type ViewMode = 'list' | 'view';
 
 export function ProjectsDashboard({
   className,
@@ -30,11 +29,10 @@ export function ProjectsDashboard({
   const { toast } = useToast();
 
   // Always call hooks before any early returns
-  const { projects, loading, error, deleteProject, refreshProjects } =
-    useProjectsSimple({
-      supabaseClient: supabase,
-      user: user,
-    });
+  const { projects, loading, error, deleteProject } = useProjectsSimple({
+    supabaseClient: supabase,
+    user: user,
+  });
 
   // Handle authentication and supabase availability
   if (authLoading) {
@@ -63,30 +61,9 @@ export function ProjectsDashboard({
     );
   }
 
-  const handleProjectSuccess = () => {
-    refreshProjects();
-    setViewMode('list');
-  };
-
   const handleViewProject = (project: DbProject) => {
     setSelectedProject(project);
     setViewMode('view');
-  };
-
-  const handleEditProject = (project: DbProject) => {
-    setSelectedProject(project);
-    setViewMode('edit');
-  };
-
-  const handleEditSuccess = () => {
-    refreshProjects();
-    setViewMode('list');
-    setSelectedProject(null);
-  };
-
-  const handleEditCancel = () => {
-    setViewMode('list');
-    setSelectedProject(null);
   };
 
   const handleDeleteProject = async (id: number) => {
@@ -114,16 +91,6 @@ export function ProjectsDashboard({
 
   const renderContent = () => {
     switch (viewMode) {
-      case 'create':
-        return (
-          <ProjectForm
-            mode="create"
-            onSuccess={handleProjectSuccess}
-            onCancel={() => setViewMode('list')}
-            className="h-full"
-          />
-        );
-
       case 'list':
         return (
           <ProjectsList
@@ -131,9 +98,7 @@ export function ProjectsDashboard({
             loading={loading}
             error={error}
             onViewProject={handleViewProject}
-            onEditProject={handleEditProject}
             onDeleteProject={handleDeleteProject}
-            onCreateProject={() => setViewMode('create')}
             className="h-full overflow-y-auto"
           />
         );
@@ -143,20 +108,8 @@ export function ProjectsDashboard({
           <ProjectView
             project={selectedProject}
             onBack={() => setViewMode('list')}
-            onEdit={handleEditProject}
             onDelete={handleDeleteProject}
             className="h-full overflow-y-auto"
-          />
-        ) : null;
-
-      case 'edit':
-        return selectedProject ? (
-          <ProjectForm
-            mode="edit"
-            initialData={selectedProject}
-            onSuccess={handleEditSuccess}
-            onCancel={handleEditCancel}
-            className="h-full"
           />
         ) : null;
 

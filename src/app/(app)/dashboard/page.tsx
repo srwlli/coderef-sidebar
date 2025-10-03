@@ -1,35 +1,19 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
 import {
-  GitBranch,
   Bot,
   Layers,
-  Settings,
   FileText,
-  StickyNote,
-  FolderOpen,
   Home,
-  Package,
   Github,
   Workflow,
   Database,
   Cloud,
-  ExternalLink,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 
 export default function Dashboard() {
   const dashboardItems = [
-    {
-      title: 'Projects',
-      href: '/projects',
-      icon: FolderOpen,
-    },
-    {
-      title: 'Git Commands',
-      href: '/git-commands',
-      icon: GitBranch,
-    },
     {
       title: 'AI Tools',
       href: '/ai-tools',
@@ -41,29 +25,9 @@ export default function Dashboard() {
       icon: Layers,
     },
     {
-      title: 'Forms',
-      href: '/forms',
-      icon: FileText,
-    },
-    {
-      title: 'Noted',
-      href: '/noted',
-      icon: StickyNote,
-    },
-    {
-      title: 'Component Library',
-      href: '/component-library',
-      icon: Package,
-    },
-    {
       title: 'Workflows',
       href: '/workflows',
       icon: Workflow,
-    },
-    {
-      title: 'Settings',
-      href: '/settings',
-      icon: Settings,
     },
     {
       title: 'Vercel',
@@ -87,12 +51,6 @@ export default function Dashboard() {
       title: 'n8n Workflows',
       href: 'http://localhost:5678/home/workflows',
       icon: Workflow,
-      external: true,
-    },
-    {
-      title: 'Noted App',
-      href: 'https://noted-bay-three.vercel.app/',
-      icon: ExternalLink,
       external: true,
     },
   ];

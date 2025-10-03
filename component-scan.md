@@ -48,7 +48,6 @@ The sidebar application demonstrates **strong component consistency** with well-
 #### **3. Business Logic Components**
 
 - `NotesDashboard` - Notes module integration
-- `ProjectForm` - Form handling
 - `InstallPWA` - PWA installation
 
 #### **4. Utility Components**
@@ -166,35 +165,9 @@ Pattern: ⚠️ Inconsistent wrapper (`p-8` instead of layout padding)
 
 ### **Special Integration Pages**
 
-#### `/noted` (Notes)
+#### `/forms` (Forms) - **REMOVED**
 
-```typescript
-// src/app/(app)/noted/page.tsx
-Imports:
-- NotesDashboard from '../../../../packages/noted-module/src'
-- supabase, isSupabaseConfigured from '@/lib/supabase'
-- useAuth from '@/lib/auth-context'
-- useToast from '@/hooks/use-toast'
-- useSearchParams from 'next/navigation'
-- User as SupabaseUser from '@supabase/supabase-js'
-
-Layout: Full-height wrapper with integrated module
-Pattern: ✅ Module integration (external package)
-```
-
-#### `/forms` (Forms)
-
-```typescript
-// src/app/(app)/forms/page.tsx
-Imports:
-- Plus from 'lucide-react'
-- SimpleCollapsibleContainer from '@/components/collapsibles/SimpleCollapsibleContainer'
-- ProjectForm from '@/components/forms/ProjectForm'
-- ProjectData from '@/lib/forms/formTypes'
-
-Layout: Single collapsible form container
-Pattern: ✅ Standard collapsible pattern
-```
+**Note**: The forms module has been completely removed. This page no longer exists.
 
 ### **Project Landing Pages** (Template Pattern)
 

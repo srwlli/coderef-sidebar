@@ -1,17 +1,12 @@
 'use client';
 
-import { Settings, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { Card, CardHeader, CardTitle } from '@/components/cards/Card';
 import Link from 'next/link';
 
 export default function TechStacksPage() {
   // Internal tools
   const internalTools = [
-    {
-      name: 'Next.js Setup',
-      href: '/tech-stacks/nextjs-setup',
-      icon: Settings,
-    },
     {
       name: 'This Stack',
       href: '/tech-stacks/this-stack',

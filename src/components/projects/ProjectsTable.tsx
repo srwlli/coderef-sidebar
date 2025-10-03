@@ -9,25 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Edit, Search } from 'lucide-react';
-import type { DbProject } from '@/lib/forms/formTypes';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-} from '@/components/ui/sheet';
-import { ProjectForm } from '@/components/forms/ProjectForm';
+import { Search } from 'lucide-react';
+import type { DbProject } from '@/types/project';
 
 interface ProjectsTableProps {
   className?: string;
   projects: DbProject[];
   loading: boolean;
   error: string | null;
-  onRefresh: () => void;
 }
 
 export function ProjectsTable({
@@ -35,11 +25,8 @@ export function ProjectsTable({
   projects,
   loading,
   error,
-  onRefresh,
 }: ProjectsTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingProject, setEditingProject] = useState<DbProject | null>(null);
-  const [isEditSheetOpen, setIsEditSheetOpen] = useState(false);
 
   console.log(
     'ProjectsTable - projects:',
@@ -58,34 +45,6 @@ export function ProjectsTable({
       project.description?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-
-  const handleEditProject = (project: DbProject) => {
-    console.log('Edit button clicked for project:', project);
-
-    // Ensure project has all required fields
-    const safeProject = {
-      ...project,
-      tags: Array.isArray(project.tags) ? project.tags : [],
-      links: Array.isArray(project.links) ? project.links : [],
-      description: project.description || '',
-      notes: project.notes || '',
-    };
-
-    console.log('Safe project for editing:', safeProject);
-    setEditingProject(safeProject);
-    setIsEditSheetOpen(true);
-  };
-
-  const handleEditSuccess = () => {
-    setIsEditSheetOpen(false);
-    setEditingProject(null);
-    onRefresh(); // Refresh data after edit
-  };
-
-  const handleEditCancel = () => {
-    setIsEditSheetOpen(false);
-    setEditingProject(null);
-  };
 
   if (loading) {
     return (
@@ -130,7 +89,6 @@ export function ProjectsTable({
             <TableRow>
               <TableHead>Project Name</TableHead>
               <TableHead>Description</TableHead>
-              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -138,7 +96,7 @@ export function ProjectsTable({
             {filteredProjects.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={3}
+                  colSpan={2}
                   className="text-muted-foreground py-8 text-center"
                 >
                   {projects.length === 0
@@ -158,53 +116,12 @@ export function ProjectsTable({
                       {project.description || 'No description'}
                     </div>
                   </TableCell>
-
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      title="Edit Project"
-                      onClick={() => handleEditProject(project)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
       </div>
-
-      {/* Edit Project Sheet */}
-      <Sheet
-        open={isEditSheetOpen}
-        onOpenChange={(open) => {
-          setIsEditSheetOpen(open);
-          if (!open) {
-            setEditingProject(null);
-          }
-        }}
-      >
-        <SheetContent className="sm:max-w-md">
-          <SheetHeader>
-            <SheetTitle>Edit Project</SheetTitle>
-            <SheetDescription>
-              Update the project information below
-            </SheetDescription>
-          </SheetHeader>
-          <div className="mt-6">
-            {editingProject && (
-              <ProjectForm
-                mode="edit"
-                initialData={editingProject}
-                onSuccess={handleEditSuccess}
-                onCancel={handleEditCancel}
-              />
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
     </div>
   );
 }

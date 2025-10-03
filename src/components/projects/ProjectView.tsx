@@ -3,7 +3,6 @@
 import React from 'react';
 import {
   ArrowLeft,
-  Edit,
   Trash2,
   Calendar,
   User,
@@ -12,13 +11,12 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { DbProject } from '@/lib/forms/formTypes';
+import { DbProject } from '@/types/project';
 import { cn } from '@/lib/utils';
 
 interface ProjectViewProps {
   project: DbProject;
   onBack: () => void;
-  onEdit: (project: DbProject) => void;
   onDelete: (id: number) => void;
   className?: string;
 }
@@ -26,14 +24,9 @@ interface ProjectViewProps {
 export function ProjectView({
   project,
   onBack,
-  onEdit,
   onDelete,
   className,
 }: ProjectViewProps) {
-  const handleEdit = () => {
-    onEdit(project);
-  };
-
   const handleDelete = () => {
     if (confirm('Are you sure you want to delete this project?')) {
       onDelete(project.id);
@@ -59,10 +52,6 @@ export function ProjectView({
           </Button>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handleEdit}>
-            <Edit className="h-4 w-4" />
-            Edit
-          </Button>
           <Button variant="outline" size="sm" onClick={handleDelete}>
             <Trash2 className="h-4 w-4" />
             Delete
@@ -188,13 +177,9 @@ export function ProjectView({
             (!project.tags || project.tags.length === 0) &&
             (!project.links || project.links.length === 0) && (
               <div className="py-12 text-center">
-                <div className="mb-2 text-gray-400">
+                <div className="text-gray-400">
                   This project has no additional details.
                 </div>
-                <Button variant="outline" onClick={handleEdit}>
-                  <Edit className="mr-2 h-4 w-4" />
-                  Add Details
-                </Button>
               </div>
             )}
         </div>

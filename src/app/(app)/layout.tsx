@@ -22,7 +22,6 @@ import {
   MessageSquare,
   Bot,
   FileText,
-  StickyNote,
   FolderOpen,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -41,11 +40,6 @@ const menuItems = [
     icon: FolderOpen,
   },
   {
-    title: 'Noted',
-    href: '/noted',
-    icon: StickyNote,
-  },
-  {
     title: 'Prompts',
     href: '/ai-tools/prompts',
     icon: MessageSquare,
@@ -54,11 +48,6 @@ const menuItems = [
     title: 'AI Tools',
     href: '/ai-tools',
     icon: Bot,
-  },
-  {
-    title: 'Forms',
-    href: '/forms',
-    icon: FileText,
   },
 ];
 

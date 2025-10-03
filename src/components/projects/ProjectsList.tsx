@@ -1,16 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  Plus,
-  Edit,
-  Eye,
-  Trash2,
-  Calendar,
-  User,
-  Tag,
-  FolderOpen,
-} from 'lucide-react';
+import { Eye, Trash2, Calendar, User, Tag, FolderOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -19,7 +10,7 @@ import {
   CardContent,
 } from '@/components/cards/Card';
 import { Badge } from '@/components/ui/badge';
-import { DbProject } from '@/lib/forms/formTypes';
+import { DbProject } from '@/types/project';
 import { cn } from '@/lib/utils';
 
 interface ProjectsListProps {
@@ -27,9 +18,7 @@ interface ProjectsListProps {
   loading: boolean;
   error: string | null;
   onViewProject: (project: DbProject) => void;
-  onEditProject: (project: DbProject) => void;
   onDeleteProject: (id: number) => void;
-  onCreateProject: () => void;
   className?: string;
 }
 
@@ -38,9 +27,7 @@ export function ProjectsList({
   loading,
   error,
   onViewProject,
-  onEditProject,
   onDeleteProject,
-  onCreateProject,
   className,
 }: ProjectsListProps) {
   const formatDate = (dateString: string) => {
@@ -84,12 +71,6 @@ export function ProjectsList({
             {projects.length} projects
           </Badge>
         </div>
-        <div className="flex items-center gap-2">
-          <Button onClick={onCreateProject} className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            New Project
-          </Button>
-        </div>
       </div>
 
       {/* Content */}
@@ -97,22 +78,14 @@ export function ProjectsList({
         {projects.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12">
             <div className="mb-4 text-gray-400">
-              <Plus className="h-12 w-12" />
+              <FolderOpen className="h-12 w-12" />
             </div>
             <h3 className="mb-2 text-lg font-medium text-gray-600">
-              No projects yet
+              No projects found
             </h3>
-            <p className="mb-6 max-w-md text-center text-gray-500">
-              Create your first project to get started organizing your work and
-              ideas.
+            <p className="max-w-md text-center text-gray-500">
+              No projects available to display.
             </p>
-            <Button
-              onClick={onCreateProject}
-              className="flex items-center gap-2"
-            >
-              <Plus className="h-4 w-4" />
-              Create First Project
-            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -128,18 +101,6 @@ export function ProjectsList({
                       {project.project_name}
                     </CardTitle>
                     <div className="ml-2 flex items-center gap-1">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 w-6 p-0"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onEditProject(project);
-                        }}
-                        title="Edit project"
-                      >
-                        <Edit className="h-3 w-3" />
-                      </Button>
                       <Button
                         variant="ghost"
                         size="sm"

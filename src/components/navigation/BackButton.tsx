@@ -12,7 +12,7 @@ interface BackButtonProps {
 
 // Define parent relationships for logical back navigation
 const parentRoutes: Record<string, { parent: string; label: string }> = {
-  '/nextjs-setup': { parent: '/dashboard', label: 'Dashboard' },
+  '/workflows/nextjs-setup': { parent: '/workflows', label: 'Workflows' },
   '/ai-tools': { parent: '/dashboard', label: 'Dashboard' },
   '/tech-stacks': { parent: '/dashboard', label: 'Dashboard' },
   '/prompts': { parent: '/dashboard', label: 'Dashboard' },

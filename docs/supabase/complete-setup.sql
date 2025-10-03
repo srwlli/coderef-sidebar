@@ -55,7 +55,6 @@ INSERT INTO projects (user_id, username, project_name, description, notes, tags)
 ('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Smart Phrases', 'AI-powered writing assistant', 'Contextual phrase suggestions and writing improvement', ARRAY['ai', 'writing', 'assistant']),
 ('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Coderef', 'Code reference management system', 'Intelligent code categorization and search', ARRAY['development', 'reference', 'code']),
 ('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Coderef2', 'Code reference system v2', 'Enhanced version of code reference management', ARRAY['development', 'reference', 'code']),
-('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Noted', 'Note taking and organization app', 'Digital note management system', ARRAY['productivity', 'notes', 'organization']),
 ('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Formed', 'Form builder and management system', 'Create and manage custom forms', ARRAY['forms', 'builder', 'management']),
 ('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Agents', 'AI agent management platform', 'Manage and deploy AI agents', ARRAY['ai', 'agents', 'management']),
 ('ff0c14c3-92f9-4cc6-ac0e-4b47885112cf', 'srwlli', 'Highway Games', 'Gaming platform project', 'Entertainment and gaming application', ARRAY['gaming', 'entertainment', 'platform']),

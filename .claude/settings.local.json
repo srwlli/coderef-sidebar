@@ -25,7 +25,8 @@
       "Bash(npm run build:*)",
       "Bash(npm run lint)",
       "Bash(ls:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(test:*)"
     ],
     "deny": []
   }

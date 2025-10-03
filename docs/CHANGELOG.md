@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- **Forms Module** - Completely removed custom forms abstraction layer
+  - Deleted `src/lib/forms/` directory (formTypes, validation, schemas)
+  - Deleted `src/components/forms/` directory (FormGenerator, ProjectForm, field components)
+  - Deleted `/forms` and `/test-edit` pages
+  - **Projects Now Read-Only** - Projects page is now view-only (list, view, delete) - no create/edit functionality
+  - Migrated types to `src/types/project.ts` for continued use in view components
+  - Cleaned up all forms module references from documentation
+
 ### Added
 
 - **Header System Modernization** - Implemented consistent header pattern across all major pages (Dashboard, AI Tools, AI Tools Prompts, Forms, Projects)
@@ -14,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Dynamic Stats Display** - Added contextual badges showing counts (tools, chains, sections, projects) next to page titles
   - **Action Area Reservation** - Dedicated right-side space for future tools, buttons, and functionality
   - **Page-Specific Enhancements** - Each header includes relevant icons and metrics for immediate context
-- **Projects UX Modernization** - Migrated projects module from modal-based to single-page application pattern matching noted module design
+- **Projects UX Modernization** - Migrated projects module from modal-based to single-page application pattern for consistency across features
   - **ProjectView Component** - Full-page project detail view with inline edit/delete actions
   - **ProjectsList Component** - Grid layout with hover actions and empty states
   - **ProjectsDashboard Component** - Main container with view modes: list, create, view, edit
@@ -27,15 +37,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Projects Header Enhancement** - Added project count badge and FolderOpen icon to match other page patterns
 - **Projects Navigation Pattern** - Replaced modal sheets with in-place view switching for better context retention
 - **Forms Page Simplified** - Removed project form, cleaned up to focus on future form builder features
-- **Data Sync Pattern** - Migrated from complex React Query + realtime to simple useState + manual refresh (matching noted)
+- **Workflow Tools Update** - Relocated the Next.js Setup walkthrough to `/workflows/nextjs-setup` and removed it from the Tech Stacks list
+- **Data Sync Pattern** - Migrated from complex React Query + realtime to simple useState + manual refresh for predictable updates
 - **Code Architecture** - Reduced projects page from ~200 lines to 16 lines through component consolidation
 
 ### Fixed
 
-- **Project Form Edit Silent Failure** - Fixed project edit form failing silently by replacing `useUpdateProject` mutation hook with direct Supabase calls (following NotedForm pattern). The mutation hook was swallowing errors and preventing form submission. Direct Supabase calls provide better error handling and debugging.
+- **Project Form Edit Silent Failure** - Fixed project edit form failing silently by replacing `useUpdateProject` mutation hook with direct Supabase calls. The mutation hook was swallowing errors and preventing form submission. Direct Supabase calls provide better error handling and debugging.
   - Issue: Edit form opened but couldn't save changes - failed silently
   - Root Cause: `useUpdateProject` mutation hook in `useProjects.ts` was failing silently
-  - Solution: Use direct Supabase calls like `NotedForm.tsx` (which works)
+  - Solution: Use direct Supabase calls modeled after other working form implementations
   - Files: `src/components/forms/ProjectForm.tsx`
   - **Learning**: Always use direct Supabase calls for forms, avoid mutation hooks for form submissions
 - **Sidebar Navigation Icons** - Fixed duplicate FileText icons between Projects and Forms navigation items
@@ -46,9 +57,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Header Component Architecture** - Implemented reusable header pattern with consistent flex layouts and responsive design
 - **Badge Integration** - Added Badge component imports and contextual count displays across all major pages
 - **Future-Ready Extensibility** - Header structure designed to accommodate additional tools and actions without layout disruption
-- **UI Pattern Consistency** - Projects now follow noted module's proven UX patterns for maintainability
+- **UI Pattern Consistency** - Projects now follow the unified UX pattern for maintainability
 - **Component Architecture** - Created reusable view components following single responsibility principle
-- **State Management** - Simplified data flow with useProjectsSimple hook matching noted's reliable pattern
+- **State Management** - Simplified data flow with useProjectsSimple hook modeled after stable production patterns
 - **Database Integration** - Removed manual username field assignment, now expects Supabase auto-generation
 - **Icon Management** - Resolved icon.svg conflicts by removing public/icon.svg, keeping app/icon.svg route
 - **UI Patterns** - Implemented SidebarFooter + SidebarSeparator pattern for reusable secondary navigation sections

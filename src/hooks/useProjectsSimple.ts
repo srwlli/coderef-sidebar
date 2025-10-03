@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { DbProject } from '@/lib/forms/formTypes';
+import { DbProject } from '@/types/project';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { User } from '@/types/auth';
 

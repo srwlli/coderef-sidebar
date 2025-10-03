@@ -27,7 +27,7 @@ The Sidebar App architecture implements a modern, modular design pattern based o
 ├─────────────────────────────────────────────────────────────────┤
 │                      Component Layer                            │
 │  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐   │
-│  │  Layout System  │ │  Core Features  │ │  Noted Module   │   │
+│  │  Layout System  │ │  Core Features  │ │  Workflow Tools │   │
 │  │ Header/Sidebar  │ │ AI/Git/Projects │ │  (Package)      │   │
 │  │ Badge System    │ │ Count Displays  │ │                 │   │
 │  └─────────────────┘ └─────────────────┘ └─────────────────┘   │
@@ -55,7 +55,6 @@ src/app/
 └── (app)/                # Protected route group
     ├── layout.tsx        # Authenticated layout with sidebar
     ├── dashboard/        # Main dashboard
-    ├── noted/           # Notes management
     ├── projects/        # Project portfolio
     ├── ai-tools/        # AI utilities
     ├── git-commands/    # Git helpers
@@ -70,35 +69,7 @@ src/app/
 - **Layout Hierarchy**: Root → Auth → Protected layouts provide cascading context
 - **Access Control**: `(app)` group enforces authentication boundary
 
-### 2. Noted Module Package (`packages/noted-module/`)
-
-```
-packages/noted-module/
-├── src/
-│   ├── index.ts              # Public API exports
-│   ├── components/           # React components
-│   │   ├── NotedForm.tsx    # Form creation interface
-│   │   ├── NotesDashboard.tsx # Main dashboard
-│   │   ├── NotesList.tsx    # List view
-│   │   ├── NoteView.tsx     # Detail view
-│   │   └── fields/          # Form field components
-│   ├── hooks/
-│   │   └── useNotes.ts      # Data fetching logic
-│   ├── lib/
-│   │   ├── forms/           # Form schemas & validation
-│   │   ├── types/           # TypeScript definitions
-│   │   └── utils.ts         # Utility functions
-│   └── styles/              # Component styles
-└── package.json              # Module configuration
-```
-
-**Design Rationale:**
-
-- **Reusability**: Packaged as standalone module for potential reuse
-- **Encapsulation**: Complete feature set with minimal external dependencies
-- **Type Safety**: Full TypeScript coverage with exported types
-
-### 3. Shared Infrastructure (`src/`)
+### 2. Shared Infrastructure (`src/`)
 
 ```
 src/
@@ -190,26 +161,6 @@ Login Form → signIn() → JWT Token → useAuth Hook → Layout Guard
 4. **Session State**: User state stored in React context
 5. **Route Protection**: Layout components check auth state before rendering
 
-### Noted Module Data Flow
-
-```
-Component → Hook → Supabase → State → UI Update
-    ↓        ↓        ↓        ↓        ↓
-NotesList → useNotes → Database → TanStack → Re-render
-```
-
-**Integration Pattern:**
-
-```typescript
-// Main app provides dependencies to module
-<NotesDashboard
-  supabaseClient={supabase}      // Database client
-  user={user}                    // Authentication context
-  toast={toast}                  // Notification system
-  initialTab={currentTab}        // URL state integration
-/>
-```
-
 ### Form Processing Pipeline
 
 ```
@@ -230,7 +181,7 @@ Form Data → Zod Schema → Transform → Supabase → Toast/Redirect
 1. **Parent-Child**: Props and callbacks for direct relationships
 2. **Sibling Components**: Shared state via nearest common ancestor
 3. **Cross-Feature**: Context providers for global state
-4. **External Modules**: Dependency injection pattern (Noted Module)
+4. **External Integrations**: Dependency injection pattern for optional feature packages
 5. **Header System**: Consistent layout pattern with Badge integration for contextual information
 
 ### Header Architecture Pattern

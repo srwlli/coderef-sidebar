@@ -1,0 +1,320 @@
+{
+  "removalPlan": {
+    "summary": "Complete removal of forms module and create/edit functionality",
+    "approach": "Delete forms module entirely + convert project components to READ-ONLY (list/view only)",
+    "totalFiles": 26,
+    "totalReferences": 66,
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Prepare Type Extraction",
+        "description": "Extract DbProject type before deleting forms module",
+        "tasks": [
+          "Create new file: src/types/project.ts",
+          "Copy DbProject type from src/lib/forms/formTypes.ts",
+          "Export type from new location"
+        ],
+        "reasoning": "ProjectsList, ProjectView, ProjectsTable, useProjectsSimple all need DbProject type"
+      },
+      {
+        "phase": 2,
+        "name": "Update Components - Remove Create/Edit",
+        "description": "Convert project components to read-only",
+        "tasks": [
+          "ProjectsDashboard.tsx - Remove create/edit modes, keep list/view only",
+          "ProjectsTable.tsx - Remove ProjectForm import and edit functionality",
+          "ProjectsList.tsx - Remove onCreateProject, onEditProject handlers, keep view/delete",
+          "ProjectView.tsx - Remove edit button/handler, keep view and delete",
+          "useProjectsSimple.ts - Update DbProject import to @/types/project"
+        ]
+      },
+      {
+        "phase": 3,
+        "name": "Delete Forms Module",
+        "description": "Remove all forms module files",
+        "tasks": [
+          "Delete src/lib/forms/ directory (3 files)",
+          "Delete src/components/forms/ directory (10 files total)",
+          "Delete src/app/(app)/forms/page.tsx (demo page)",
+          "Delete src/app/(app)/test-edit/page.tsx (test page)"
+        ]
+      },
+      {
+        "phase": 4,
+        "name": "Clean Documentation",
+        "description": "Remove forms-related documentation",
+        "tasks": [
+          "Delete docs/formed-app/ directory (entire folder)",
+          "Update docs/wip/WORKING-PLAN.md (remove forms sections)",
+          "Update docs/CHANGELOG.md (remove/archive forms entries)",
+          "Update docs/wip/ERRORS.md (remove forms errors)",
+          "Update component-scan.md (remove forms references)"
+        ]
+      },
+      {
+        "phase": 5,
+        "name": "Clean Backup Files",
+        "tasks": [
+          "Delete src/hooks/useProjects.ts.backup (if still references forms)",
+          "Review noted-removal.json for forms references"
+        ]
+      },
+      {
+        "phase": 6,
+        "name": "Verification",
+        "tasks": [
+          "Run: npx tsc --noEmit",
+          "Run: npm run build",
+          "Search: grep -r '@/lib/forms' src/",
+          "Search: grep -r 'components/forms' src/",
+          "Verify pages work: /dashboard, /projects (view/list only)",
+          "Confirm no TypeScript errors",
+          "Git status check"
+        ]
+      }
+    ],
+    "filesToDelete": [
+      {
+        "path": "src/lib/forms/",
+        "type": "directory",
+        "count": 3,
+        "files": [
+          "src/lib/forms/formTypes.ts",
+          "src/lib/forms/projectSchema.ts",
+          "src/lib/forms/validation.ts"
+        ]
+      },
+      {
+        "path": "src/components/forms/",
+        "type": "directory",
+        "count": 10,
+        "files": [
+          "src/components/forms/FormGenerator.tsx",
+          "src/components/forms/ProjectForm.tsx",
+          "src/components/forms/TestEditForm.tsx",
+          "src/components/forms/fields/BaseField.tsx",
+          "src/components/forms/fields/TextField.tsx",
+          "src/components/forms/fields/TextAreaField.tsx",
+          "src/components/forms/fields/TagField.tsx",
+          "src/components/forms/fields/LinksField.tsx",
+          "src/components/forms/fields/ImagesField.tsx",
+          "src/components/forms/fields/ProjectSelectField.tsx"
+        ]
+      },
+      {
+        "path": "src/app/(app)/forms/page.tsx",
+        "type": "file",
+        "reason": "Demo page for forms module"
+      },
+      {
+        "path": "src/app/(app)/test-edit/page.tsx",
+        "type": "file",
+        "reason": "Test page using TestEditForm"
+      },
+      {
+        "path": "docs/formed-app/",
+        "type": "directory",
+        "count": 5,
+        "files": [
+          "docs/formed-app/formed-context/forms-report.md",
+          "docs/formed-app/formed-context/form-standards.md",
+          "docs/formed-app/formed-context/form-standards-optimized.md",
+          "docs/formed-app/formed-app/implementation-guide.md",
+          "docs/formed-app/formed-app/standalone-development-guide.md"
+        ]
+      },
+      {
+        "path": "src/hooks/useProjects.ts.backup",
+        "type": "file",
+        "reason": "Backup file, check if still needed"
+      }
+    ],
+    "filesToCreate": [
+      {
+        "path": "src/types/project.ts",
+        "purpose": "New home for DbProject type (extracted from formTypes.ts)",
+        "exports": [
+          "DbProject",
+          "ProjectLink (if used)",
+          "Other project-related types"
+        ]
+      }
+    ],
+    "filesToUpdate": [
+      {
+        "path": "src/components/projects/ProjectsDashboard.tsx",
+        "changes": [
+          "Remove import: ProjectForm from @/components/forms/ProjectForm",
+          "Update import: DbProject from @/types/project",
+          "Remove ViewMode types: 'create' and 'edit'",
+          "Remove create/edit case handlers in renderContent()",
+          "Keep only 'list' and 'view' modes",
+          "Remove onCreateProject, onEditProject handlers"
+        ],
+        "result": "Read-only dashboard (list + view only)"
+      },
+      {
+        "path": "src/components/projects/ProjectsTable.tsx",
+        "changes": [
+          "Remove import: ProjectForm from @/components/forms/ProjectForm",
+          "Update import: DbProject from @/types/project",
+          "Remove edit Sheet modal and state",
+          "Remove Edit button from table actions",
+          "Keep search/filter functionality"
+        ],
+        "result": "Read-only table (no edit button)"
+      },
+      {
+        "path": "src/components/projects/ProjectsList.tsx",
+        "changes": [
+          "Update import: DbProject from @/types/project",
+          "Remove onCreateProject prop and handler",
+          "Remove onEditProject prop and handler",
+          "Remove 'New Project' button from header",
+          "Remove 'Create First Project' button from empty state",
+          "Remove Edit button from card actions",
+          "Keep View and Delete buttons"
+        ],
+        "result": "Read-only list (view + delete only)"
+      },
+      {
+        "path": "src/components/projects/ProjectView.tsx",
+        "changes": [
+          "Update import: DbProject from @/types/project",
+          "Remove onEdit prop",
+          "Remove Edit button from header",
+          "Remove Edit button from empty state",
+          "Keep Back and Delete buttons"
+        ],
+        "result": "Read-only view (no edit option)"
+      },
+      {
+        "path": "src/hooks/useProjectsSimple.ts",
+        "changes": [
+          "Update import: DbProject from @/types/project"
+        ],
+        "result": "Uses new type location"
+      },
+      {
+        "path": "docs/wip/WORKING-PLAN.md",
+        "action": "Remove forms-related planning sections"
+      },
+      {
+        "path": "docs/CHANGELOG.md",
+        "action": "Remove or archive forms-related changelog entries"
+      },
+      {
+        "path": "docs/wip/ERRORS.md",
+        "action": "Remove forms-related error documentation"
+      },
+      {
+        "path": "component-scan.md",
+        "action": "Remove forms component references"
+      }
+    ],
+    "functionalityChanges": {
+      "removed": [
+        "Create new projects",
+        "Edit existing projects",
+        "FormGenerator abstraction",
+        "Custom field components (TagField, LinksField, ImagesField, etc.)",
+        "Form validation from validation.ts",
+        "Project schemas"
+      ],
+      "preserved": [
+        "View projects list",
+        "View individual project details",
+        "Delete projects",
+        "Search/filter projects (in ProjectsTable)",
+        "Project data types"
+      ]
+    },
+    "typeExtraction": {
+      "source": "src/lib/forms/formTypes.ts",
+      "destination": "src/types/project.ts",
+      "typesToExtract": [
+        "DbProject - main project type with all fields",
+        "ProjectLink - link structure for projects.links array",
+        "Any other project-related types"
+      ],
+      "reasoning": "These types are needed by view/list components even without forms"
+    },
+    "verificationChecks": [
+      {
+        "command": "npx tsc --noEmit",
+        "purpose": "TypeScript compilation check",
+        "expectation": "No errors related to missing forms imports"
+      },
+      {
+        "command": "npm run build",
+        "purpose": "Production build verification",
+        "expectation": "Build succeeds without errors"
+      },
+      {
+        "command": "grep -r '@/lib/forms' src/",
+        "purpose": "Search for remaining forms imports",
+        "expectation": "No results (all references removed)"
+      },
+      {
+        "command": "grep -r 'components/forms' src/",
+        "purpose": "Search for remaining forms component imports",
+        "expectation": "No results (all references removed)"
+      },
+      {
+        "test": "Manual - Visit /dashboard",
+        "purpose": "Verify projects page works",
+        "expectation": "Can view list, view details, delete - NO create/edit options"
+      },
+      {
+        "test": "Manual - Check navigation",
+        "purpose": "Ensure no broken links to /forms or /test-edit",
+        "expectation": "Navigation works, deleted pages return 404"
+      }
+    ],
+    "rollbackPlan": {
+      "method": "Git-based rollback",
+      "steps": [
+        "All changes will be in git working directory",
+        "Before deletion: git status to see current state",
+        "If needed: git checkout . to restore all files",
+        "Forms module can be recovered from git history"
+      ],
+      "recommendation": "Commit changes incrementally by phase for easier rollback"
+    },
+    "risks": [
+      {
+        "risk": "Loss of create/edit functionality for projects",
+        "severity": "high",
+        "acceptance": "Intentional - this is the desired outcome",
+        "note": "Projects become read-only"
+      },
+      {
+        "risk": "Missing type definitions after deletion",
+        "severity": "medium",
+        "mitigation": "Extract DbProject type FIRST (Phase 1) before deleting forms module"
+      },
+      {
+        "risk": "Other components may use forms module",
+        "severity": "low",
+        "mitigation": "Grep search shows only project-related components use it"
+      }
+    ],
+    "estimatedEffort": {
+      "phase1": "15 min - Type extraction",
+      "phase2": "30 min - Update components to read-only",
+      "phase3": "10 min - Delete forms files",
+      "phase4": "10 min - Clean docs",
+      "phase5": "5 min - Clean backups",
+      "phase6": "20 min - Verification",
+      "total": "90 minutes (1.5 hours)"
+    }
+  },
+  "metadata": {
+    "created": "2025-10-02",
+    "updated": "2025-10-02",
+    "purpose": "Complete removal of forms module - convert projects to read-only",
+    "approach": "Option 2: Delete everything, make projects read-only (list/view/delete only)",
+    "status": "planned",
+    "executionDate": null
+  }
+}

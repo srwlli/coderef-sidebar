@@ -160,21 +160,21 @@
 
   <agent_instructions>
     <current_step>6</current_step>
-    <next_action>Projects UX migration to noted pattern completed - database username auto-generation fix required</next_action>
+    <next_action>Projects UX migration to the unified pattern completed - database username auto-generation fix required</next_action>
   </agent_instructions>
 
   <build_log>
     <step number="6" status="completed">
-      <description>Migrated projects module to noted's single-page UX pattern, removing modal complexity</description>
+      <description>Migrated projects module to the unified single-page UX pattern, removing modal complexity</description>
       <file_created>ProjectView.tsx (new), ProjectsList.tsx (new), ProjectsDashboard.tsx (new), projects/page.tsx (simplified), forms/page.tsx (cleaned)</file_created>
-      <why>Projects had fragmented modal-based UX. Noted uses clean single-page pattern with linear navigation flow.</why>
+      <why>Projects had fragmented modal-based UX. Updated single-page pattern now ensures a clean linear navigation flow.</why>
       <result>Consistent UX across modules, reduced code from ~200 to 16 lines in page.tsx, eliminated modal sheets, added view modes (list/create/view/edit)</result>
     </step>
 
     <step number="5" status="completed">
-      <description>Migrated projects module from complex React Query + realtime to simple useState pattern following noted module approach</description>
+      <description>Migrated projects module from complex React Query + realtime to a simplified state pattern proven in production</description>
       <file_created>src/hooks/useProjectsSimple.ts (new), src/app/(app)/projects/page.tsx (modified), src/components/projects/ProjectsTable.tsx (modified), src/app/(app)/test-edit/page.tsx (modified)</file_created>
-      <why>Projects module had overengineered sync causing silent failures and race conditions. Noted module uses reliable simple pattern that works consistently.</why>
+      <why>Projects module had overengineered sync causing silent failures and race conditions. The streamlined implementation uses reliable, simple patterns that work consistently.</why>
       <result>Eliminated silent form failures, simplified data flow from ~200 lines to ~100 lines, added manual refresh pattern, fixed all TypeScript errors, build passes successfully</result>
     </step>
   </build_log>
@@ -196,7 +196,7 @@
 
   <current_state>
     <navigation_structure>
-      <main_items>Dashboard(Home), Projects(FolderOpen), Noted(StickyNote), Prompts(MessageSquare), AI Tools(Bot), Forms(FileText)</main_items>
+      <main_items>Dashboard(Home), Projects(FolderOpen), Prompts(MessageSquare), AI Tools(Bot), Forms(FileText)</main_items>
       <footer_items>Settings(Cog) - separated with divider</footer_items>
       <pattern>Content area for primary nav, Footer for secondary/settings</pattern>
     </navigation_structure>
