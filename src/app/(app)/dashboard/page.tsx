@@ -154,7 +154,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <>
+    <div className="pt-2 sm:pt-0">
       {view === 'grid' ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {dashboardItems.map((item, index) => {
@@ -193,6 +193,6 @@ export default function Dashboard() {
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 }

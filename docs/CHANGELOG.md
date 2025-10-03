@@ -54,6 +54,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Dashboard List View Layout** - Changed list view to use vertical card layout for consistency
+  - List view now displays vertical cards (icon above title, centered) in single column
+  - Matches grid card styling: h-24 height, centered content, responsive icon/text sizing
+  - Provides unified card design across both view modes
+
 - **Mobile Card Layout** - Optimized Dashboard cards for mobile viewing
   - Changed from 1-column to 2-column grid on mobile
   - Reduced card height: 128px → 96px for more compact display
@@ -73,6 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Dashboard Mobile Spacing** - Fixed content being hidden behind sticky header on mobile by adding top padding (`pt-2`) on mobile screens
 - **PWA Safe Area Handling** - Fixed header and sidebar alignment issues on iOS devices
   - Header positioned below safe area (`top-[env(safe-area-inset-top)]`) to prevent status bar overlap
   - Desktop sidebar adjusted with safe area calculations for proper height and positioning

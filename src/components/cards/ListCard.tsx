@@ -10,8 +10,8 @@ interface ListCardProps {
 }
 
 /**
- * Reusable list view card component with consistent sizing.
- * Uses 12px gaps and border radius, 16px padding to match mobile UI.
+ * Reusable list view card component with vertical layout.
+ * Matches grid card style but displayed in single column.
  */
 export function ListCard({ title, href, icon: Icon, external }: ListCardProps) {
   return (
@@ -20,10 +20,12 @@ export function ListCard({ title, href, icon: Icon, external }: ListCardProps) {
       className="block"
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     >
-      <Card className="cursor-pointer rounded-xl transition-shadow duration-200 hover:shadow-lg">
-        <CardHeader className="flex flex-row items-center gap-3 p-4">
-          <Icon className="h-6 w-6 flex-shrink-0" />
-          <CardTitle className="text-sm sm:text-base">{title}</CardTitle>
+      <Card className="h-24 cursor-pointer py-0 transition-shadow duration-200 hover:shadow-lg">
+        <CardHeader className="flex h-full flex-col items-center justify-center p-3 text-center">
+          <Icon className="mb-1.5 h-6 w-6 flex-shrink-0 sm:mb-2 sm:h-8 sm:w-8" />
+          <CardTitle className="text-xs leading-tight sm:text-sm">
+            {title}
+          </CardTitle>
         </CardHeader>
       </Card>
     </Link>
