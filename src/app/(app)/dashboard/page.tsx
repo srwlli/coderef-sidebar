@@ -11,6 +11,7 @@ import {
   MessageSquare,
   GitBranch,
   Settings,
+  Workflow,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useViewPreference } from '@/hooks/use-view-preference';
