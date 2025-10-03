@@ -22,11 +22,8 @@ const routeLabels: Record<string, string> = {
   '/dashboard': 'Dashboard',
   '/ai-tools': 'AI Tools',
   '/ai-tools/prompts': 'Prompts',
-  '/ai-tools/spec-kit': 'Spec Kit',
-  '/tech-stacks': 'Tech Stacks',
   '/workflows': 'Workflows',
   '/workflows/nextjs-setup': 'Next.js Setup',
-  '/tech-stacks/this-stack': 'This Stack',
   '/git-commands': 'Git Commands',
   '/settings': 'Settings',
 };

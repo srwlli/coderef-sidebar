@@ -6,34 +6,6 @@ import { appGenerationChainSteps } from './app-generation-chain';
 import { Brain, Rocket, Settings, FileText, Users } from 'lucide-react';
 
 export default function PromptsPage() {
-  const promptChains = [
-    {
-      title: 'Prompt Engineer Instructions',
-      icon: <Settings className="h-5 w-5" />,
-      stepCount: 1,
-    },
-    {
-      title: 'Documentation Prompt Chain (5-Step)',
-      icon: <Brain className="h-5 w-5" />,
-      stepCount: 5,
-    },
-    {
-      title: 'Create App Working Plan',
-      icon: <FileText className="h-5 w-5" />,
-      stepCount: 1,
-    },
-    {
-      title: 'Multi-Agent Code Review',
-      icon: <Users className="h-5 w-5" />,
-      stepCount: 1,
-    },
-    {
-      title: 'App Generation Prompt Chain (5-Step)',
-      icon: <Rocket className="h-5 w-5" />,
-      stepCount: appGenerationChainSteps.length,
-    },
-  ];
-
   return (
     <div className="flex-1 overflow-y-auto p-8">
       <main className="mx-auto max-w-7xl">

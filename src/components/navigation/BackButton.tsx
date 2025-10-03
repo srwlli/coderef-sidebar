@@ -14,9 +14,7 @@ interface BackButtonProps {
 const parentRoutes: Record<string, { parent: string; label: string }> = {
   '/workflows/nextjs-setup': { parent: '/workflows', label: 'Workflows' },
   '/ai-tools': { parent: '/dashboard', label: 'Dashboard' },
-  '/tech-stacks': { parent: '/dashboard', label: 'Dashboard' },
   '/prompts': { parent: '/dashboard', label: 'Dashboard' },
-  '/spec-kit': { parent: '/dashboard', label: 'Dashboard' },
   '/settings': { parent: '/dashboard', label: 'Dashboard' },
 };
 

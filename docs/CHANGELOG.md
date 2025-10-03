@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Deleted `src/components/forms/` directory (FormGenerator, ProjectForm, field components)
   - Deleted `/forms` and `/test-edit` pages
   - Cleaned up all forms module references from documentation
+- **Tech Stacks Pages** - Removed `/tech-stacks` and `/tech-stacks/this-stack` routes and cleaned navigation breadcrumbs/back button entries
 
 ### Added
 
@@ -112,8 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **TypeScript API Integration** - Type-safe Google Forms API client with proper error handling
 - Comprehensive AI Tools directory with 147 unique tools organized by category
 - AI Tools page with interactive cards linking to external AI platforms
-- Tech Stacks page with detailed comparisons and real-world examples
-- Spec Kit page with comprehensive workflow documentation and agent instructions
+- Spec Kit page with comprehensive workflow documentation and agent instructions (removed)
 - Settings page with dark mode toggle functionality
 - Prompts page with collapsible prompt templates for development workflows
 - Git Commands page with interactive command blocks
@@ -160,11 +160,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Navigation restructure: Moved Next.js Setup and This Stack pages under Tech Stacks section
 - Dashboard simplified: Removed nested pages to show only main section cards
 - AI Tools page: Added internal tool cards (Prompts, Spec Kit) alongside external AI services
-- Tech Stacks page: Added internal tool cards (Next.js Setup, This Stack) at the top
+- Tech Stacks page: Added internal tool cards (Next.js Setup, This Stack) at the top (legacy, removed)
 - Sidebar behavior: Menu items now auto-close sidebar on mobile devices
 - State persistence: Migrated from cookie-based to localStorage-based sidebar state
 - Security: Added baseline security headers via Next.js headers() configuration
-- Removed PageHeader components from AI Tools, Settings, and Tech Stacks pages for consistent layout
+- Removed PageHeader components from AI Tools, Settings, and Tech Stacks pages for consistent layout (historical entry)
 - Updated CollapsiblePrompt component to use design tokens instead of hardcoded colors
 - Improved dark mode color palette consistency across all collapsible components
 - Enhanced sidebar navigation with proper active state management
@@ -178,7 +178,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed JSX structure issues in Tech Stacks page after PageHeader removal
+- Fixed JSX structure issues in Tech Stacks page after PageHeader removal (historical entry)
 - Resolved build errors related to unterminated components
 - **Vercel Deployment Issues** - Fixed SSR/SSG errors with Supabase client initialization
 - **ESLint Warnings** - Cleaned up all unused imports and React hooks warnings
@@ -274,21 +274,12 @@ src/
 ### Core Pages
 
 1. **Authentication** - Login page with Supabase integration for secure access
-2. **Dashboard** - Protected navigation hub with cards for main sections
-3. **Projects** - Real project showcases with 13 active projects including:
-   - CodeRef2 (Semantic Code Intelligence)
-   - Smart Phrases (Clinical Documentation)
-   - My Sports Rank (Fantasy Football)
-   - UDS (Documentation Framework)
-4. **Forms** - Coming Soon placeholder for future Supabase forms integration (previously Links section)
-5. **AI Tools** - Curated directory with internal tools (Prompts, Spec Kit) and external AI services
-   - **Prompts** - Comprehensive 72-prompt library across 6 sections with 4 framework methodologies each
-   - **Spec Kit** - Complete workflow documentation for specification-driven development
-6. **Tech Stacks** - Technology guides with internal tools and comparisons
-   - **Next.js Setup** - Step-by-step setup guides and configurations
-   - **This Stack** - Current project technology profile
-7. **Git Commands** - Interactive git command reference
-8. **Settings** - Application preferences including dark mode toggle
+2. **Dashboard** - Protected navigation hub with cards for AI Tools, Workflows, and key external resources
+3. **AI Tools** - Curated directory with internal tools (Prompts) and external AI services
+   - **Prompts** - Comprehensive prompt library with collapsible templates and frameworks
+4. **Workflows** - Quick links to Git Commands and the Next.js setup guide
+5. **Git Commands** - Interactive command reference blocks with copy helpers
+6. **Settings** - Application preferences including dark mode toggle and PWA install card
 
 ### Key Components
 

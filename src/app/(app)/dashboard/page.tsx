@@ -1,13 +1,5 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import {
-  Bot,
-  Layers,
-  FileText,
-  Github,
-  Workflow,
-  Database,
-  Cloud,
-} from 'lucide-react';
+import { Bot, Github, Workflow, Database, Cloud, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -18,11 +10,6 @@ export default function Dashboard() {
       icon: Bot,
     },
     {
-      title: 'Tech Stacks',
-      href: '/tech-stacks',
-      icon: Layers,
-    },
-    {
       title: 'Workflows',
       href: '/workflows',
       icon: Workflow,
@@ -31,6 +18,12 @@ export default function Dashboard() {
       title: 'Vercel',
       href: 'https://vercel.com/teamhart',
       icon: Cloud,
+      external: true,
+    },
+    {
+      title: 'Anthropic Console',
+      href: 'https://console.anthropic.com/dashboard',
+      icon: Globe,
       external: true,
     },
     {

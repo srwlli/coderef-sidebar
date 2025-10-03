@@ -1,6 +1,6 @@
 'use client';
 
-import { Bot, MessageSquare, Wrench } from 'lucide-react';
+import { Bot, MessageSquare } from 'lucide-react';
 import { Card, CardHeader, CardTitle } from '@/components/cards/Card';
 import Link from 'next/link';
 export default function AIToolsPage() {
@@ -10,12 +10,6 @@ export default function AIToolsPage() {
       name: 'Prompts',
       href: '/ai-tools/prompts',
       icon: MessageSquare,
-      isInternal: true,
-    },
-    {
-      name: 'Spec Kit',
-      href: '/ai-tools/spec-kit',
-      icon: Wrench,
       isInternal: true,
     },
   ];

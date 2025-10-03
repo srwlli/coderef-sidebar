@@ -38,7 +38,7 @@ Success in 4-8 weeks should yield: 40-60% bundle reduction for heavy routes, 0 h
 - Component patterns: shadcn-inspired UI in `src/components/ui/*` and a comprehensive custom `Sidebar` implementation (`src/components/layout/sidebar.tsx`).
 - State: Local component state/hooks only; no global store usage detected in runtime (Zustand dependency present but not used). No data fetching hooks (React Query present but unused).
 - Rendering:
-  - Many pages/components are marked `'use client'` (notably the (app) layout and `tech-stacks` page), forcing CSR where Server Components would be sufficient.
+  - Many pages/components are marked `'use client'` (notably the (app) layout and the former `tech-stacks` page), forcing CSR where Server Components would be sufficient.
   - Heavy static content embedded as JSX/TSX strings creates very large client bundles.
 - Cross-cutting concerns: No logging, no error boundaries, no feature flags, no runtime configuration management.
 
@@ -110,7 +110,7 @@ Dependency relationships and organization
 - Control-flow density (heuristic proxy for cyclomatic complexity)
   - Control-flow tokens across `src/**/*.{ts,tsx}`: 54 occurrences (~1.3 per file) — overall low algorithmic complexity.
 - Maintainability hotspots
-  - Single-file outlier: `src/app/(app)/tech-stacks/page.tsx` at 3,545 LOC; `src/components/layout/sidebar.tsx` at 672 LOC.
+  - Single-file outlier: `src/app/(app)/tech-stacks/page.tsx` at 3,545 LOC (this route has since been removed); `src/components/layout/sidebar.tsx` at 672 LOC.
 - Lint/build feedback (from captured log in `errors.md`)
   - Warnings: multiple unused imports/vars in pages and components.
   - Error: Rules-of-hooks violation reported in `src/components/navigation/BackButton.tsx:43:3` during a prior build; current file organization mitigates conditional call, but encoding issues remain (see below). Track in CI to prevent regressions.
@@ -148,15 +148,15 @@ Specific findings with file paths and line numbers
 
 - Client boundary inflating CSR
   - `src/app/(app)/layout.tsx:1` — `'use client'` turns the route layout into a Client Component; move client-only providers into a child `ClientProviders` component and keep the layout server-rendered.
-  - `src/app/(app)/tech-stacks/page.tsx:1` — `'use client'` on a 3,545 LOC page; extremely heavy CSR payload.
+  - `src/app/(app)/tech-stacks/page.tsx:1` — `'use client'` on a 3,545 LOC page; extremely heavy CSR payload (page removed in latest cleanup).
 - Excessive file size/bundle risk
-  - `src/app/(app)/tech-stacks/page.tsx` — 3,545 LOC single component; should be split into MD/MDX content and smaller components; consider SSR-only for static content.
+  - `src/app/(app)/tech-stacks/page.tsx` — 3,545 LOC single component; should be split into MD/MDX content and smaller components; consider SSR-only for static content (page removed in latest cleanup).
 - Cookie without attributes
   - `src/components/layout/sidebar.tsx:86` — sets an unscoped cookie; add `; SameSite=Lax; Secure` or switch to `localStorage`.
 - Build log issues (captured in `errors.md`)
   - `src/components/navigation/BackButton.tsx:43:3` — React Hooks conditional call (historical log; ensure fixed in code and enforced in CI).
   - `src/components/navigation/BackButton.tsx:53:6` — `react-hooks/exhaustive-deps` warning (historical log; ensure corrected).
-  - Multiple unused imports/vars warnings, e.g., `src/app/(app)/ai-tools/page.tsx:3,8,9,10`, `src/app/(app)/spec-kit/page.tsx:5,7`, `src/app/(app)/tech-stacks/page.tsx:7`.
+  - Multiple unused imports/vars warnings, e.g., `src/app/(app)/ai-tools/page.tsx:3,8,9,10`, `src/app/(app)/spec-kit/page.tsx:5,7`, `src/app/(app)/tech-stacks/page.tsx:7` (noting spec-kit and tech-stacks routes have since been removed).
 - Encoding/UI text issues
   - `src/components/navigation/BackButton.tsx:66` — title string includes garbled characters: `(Alt + ?+?)`. Replace with a readable shortcut hint or remove.
 
@@ -172,7 +172,7 @@ Remediation guidance (high level)
 ## Performance & Scalability Evaluation
 
 - Current
-  - Heavy client bundles expected on routes with massive TSX (e.g., `tech-stacks`), and because `(app)/layout.tsx` is a Client Component.
+  - Heavy client bundles expected on routes with massive TSX (e.g., the former `tech-stacks` page), and because `(app)/layout.tsx` is a Client Component.
   - Minimal interactivity; no data fetching; runtime costs are mostly render/hydration and icon libs.
 - Bottlenecks
   - Large text content in Client Components instead of SSR/MDX or static files.
@@ -186,7 +186,7 @@ Remediation guidance (high level)
 
 Projected impact
 
-- Converting `tech-stacks` to Server Component + MD/MDX and removing `'use client'` in `(app)/layout.tsx` can reduce bundle size on that route by 40-70% and first render CPU by 20-40% on mid-tier devices.
+- Converting `tech-stacks` to Server Component + MD/MDX and removing `'use client'` in `(app)/layout.tsx` can reduce bundle size on that route by 40-70% and first render CPU by 20-40% on mid-tier devices (no longer applicable after page removal).
 
 ## Testing & Quality Controls
 
@@ -200,7 +200,7 @@ Projected impact
 ## Technical Debt Assessment
 
 - Hotspots
-  - Oversized files: `tech-stacks/page.tsx` (3,545 LOC), `layout/sidebar.tsx` (672 LOC).
+  - Oversized files: `tech-stacks/page.tsx` (3,545 LOC, removed), `layout/sidebar.tsx` (672 LOC).
   - Client boundary overuse: `'use client'` at layout and content pages.
   - Unused dependencies: react-query, RHF, zod, zustand.
   - Missing headers/CSP and environment pinning.
@@ -223,7 +223,7 @@ Projected impact
   - Add `helmet`-equivalent header policy docs and a security.md with threat model summary.
 - Phase 2: Performance & Maintainability (1-2 weeks)
   - Convert `(app)/layout.tsx` to Server Component and move client providers into a child client module.
-  - Migrate `tech-stacks/page.tsx` to MD/MDX + smaller presentational components; remove `'use client'` unless strictly needed.
+  - Migrate `tech-stacks/page.tsx` to MD/MDX + smaller presentational components; remove `'use client'` unless strictly needed (superseded by route removal).
   - Add `@next/bundle-analyzer` and route budgets in CI.
 - Phase 3: Quality Gates & Tests (1-2 weeks)
   - Add Vitest + RTL; Playwright smoke tests for navigation/sidebar.
@@ -263,7 +263,7 @@ Business value projections
   - Pages count under `src/app/**/page.tsx`: 9.
 - Specific lines (verified)
   - `src/app/(app)/layout.tsx:1` — `'use client'` present.
-  - `src/app/(app)/tech-stacks/page.tsx:1` — `'use client'` present; file length 3,545 LOC.
+  - `src/app/(app)/tech-stacks/page.tsx:1` — `'use client'` present; file length 3,545 LOC (route removed).
   - `src/components/layout/sidebar.tsx:86` — cookie write without attributes.
   - `src/components/navigation/BackButton.tsx:66` — garbled shortcut text.
 - Build log (errors.md) excerpts

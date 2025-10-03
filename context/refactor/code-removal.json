@@ -1,0 +1,280 @@
+{
+  "analysis_date": "2025-10-03",
+  "summary": {
+    "total_unused_files": 28,
+    "total_lines": "~1,500",
+    "high_priority": 8,
+    "medium_priority": 6,
+    "low_priority": 6,
+    "other": 8
+  },
+  "categories": {
+    "high_priority": {
+      "description": "Legacy backups, duplicates, and completely unused files - safe to delete immediately",
+      "files": [
+        {
+          "path": "src/lib/auth-context-old.tsx",
+          "reason": "Legacy backup file from auth migration",
+          "size": "~100 lines",
+          "recommendation": "DELETE - No references found"
+        },
+        {
+          "path": "src/lib/auth-context-backup.tsx",
+          "reason": "Another auth context backup",
+          "size": "~100 lines",
+          "recommendation": "DELETE - No references found"
+        },
+        {
+          "path": "src/app/auth/page-old.tsx",
+          "reason": "Old authentication page backup",
+          "size": "~50 lines",
+          "recommendation": "DELETE - Replaced by current auth/page.tsx"
+        },
+        {
+          "path": "src/components/buttons/Button.tsx",
+          "reason": "Duplicate of ui/button.tsx from shadcn",
+          "size": "~80 lines",
+          "recommendation": "DELETE - Use ui/button.tsx instead"
+        },
+        {
+          "path": "src/components/ui/skeleton.tsx (one of duplicates)",
+          "reason": "Duplicate skeleton component",
+          "size": "~20 lines",
+          "recommendation": "DELETE - Keep one version only"
+        },
+        {
+          "path": "src/lib/supabase/client.ts",
+          "reason": "Alternative Supabase client implementation",
+          "size": "~30 lines",
+          "recommendation": "DELETE - Use lib/supabase.ts instead"
+        },
+        {
+          "path": "src/lib/iconUtils.ts",
+          "reason": "Icon utility functions - no imports found",
+          "size": "~40 lines",
+          "recommendation": "DELETE - Completely unused"
+        },
+        {
+          "path": "src/hooks/use-toast.ts",
+          "reason": "Toast hook - no imports found (using Sonner instead)",
+          "size": "~80 lines",
+          "recommendation": "DELETE - App uses Sonner for toasts"
+        }
+      ]
+    },
+    "medium_priority": {
+      "description": "Unused UI components - verify before deletion",
+      "files": [
+        {
+          "path": "src/components/ui/separator.tsx",
+          "reason": "Shadcn separator component - no current usage",
+          "size": "~30 lines",
+          "recommendation": "VERIFY then DELETE - Check if needed for future features"
+        },
+        {
+          "path": "src/components/ui/checkbox.tsx",
+          "reason": "Shadcn checkbox component - no current usage",
+          "size": "~50 lines",
+          "recommendation": "VERIFY then DELETE - Was used in deleted forms module"
+        },
+        {
+          "path": "src/components/ui/select.tsx",
+          "reason": "Shadcn select component - no current usage",
+          "size": "~150 lines",
+          "recommendation": "VERIFY then DELETE - Was used in deleted forms module"
+        },
+        {
+          "path": "src/components/ui/table.tsx",
+          "reason": "Shadcn table component - no current usage",
+          "size": "~100 lines",
+          "recommendation": "VERIFY then DELETE - Was used in deleted ProjectsTable"
+        },
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "reason": "Shadcn dialog component - no current usage",
+          "size": "~120 lines",
+          "recommendation": "VERIFY then DELETE - Check if needed for modals"
+        },
+        {
+          "path": "src/components/ui/scroll-area.tsx",
+          "reason": "Shadcn scroll-area component - no current usage",
+          "size": "~50 lines",
+          "recommendation": "VERIFY then DELETE - Check if needed"
+        }
+      ]
+    },
+    "low_priority": {
+      "description": "Potentially planned features or utilities - review carefully",
+      "files": [
+        {
+          "path": "src/components/cards/StatsCard.tsx",
+          "reason": "Stats card component - no current usage",
+          "size": "~40 lines",
+          "recommendation": "KEEP OR DELETE - Might be for planned dashboard features"
+        },
+        {
+          "path": "src/lib/utils/date.ts",
+          "reason": "Date utility functions - no current usage",
+          "size": "~30 lines",
+          "recommendation": "KEEP OR DELETE - Useful utilities but unused"
+        },
+        {
+          "path": "src/lib/utils/string.ts",
+          "reason": "String utility functions - no current usage",
+          "size": "~40 lines",
+          "recommendation": "KEEP OR DELETE - Useful utilities but unused"
+        },
+        {
+          "path": "src/components/ui/avatar.tsx",
+          "reason": "Shadcn avatar component - no current usage",
+          "size": "~60 lines",
+          "recommendation": "KEEP - Likely needed for user profiles"
+        },
+        {
+          "path": "src/components/ui/popover.tsx",
+          "reason": "Shadcn popover component - no current usage",
+          "size": "~40 lines",
+          "recommendation": "KEEP - Used by other shadcn components"
+        },
+        {
+          "path": "src/types/api.ts",
+          "reason": "API type definitions - no current usage",
+          "size": "~50 lines",
+          "recommendation": "KEEP OR DELETE - Might be for planned API features"
+        }
+      ]
+    },
+    "other_unused": {
+      "description": "Additional unused files found",
+      "files": [
+        {
+          "path": "src/components/layout/PageHeader.tsx",
+          "reason": "Legacy page header component - replaced by Header.tsx",
+          "size": "~60 lines",
+          "recommendation": "DELETE - No longer used after header modernization"
+        },
+        {
+          "path": "src/components/navigation/MobileHeader.tsx",
+          "reason": "Mobile header component - functionality merged into Header.tsx",
+          "size": "~80 lines",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        },
+        {
+          "path": "src/components/modals/AddNoteModal.tsx",
+          "reason": "Modal for noted module - module removed",
+          "size": "~100 lines",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        },
+        {
+          "path": "src/lib/forms/notedSchema.ts",
+          "reason": "Schema for noted forms - module removed",
+          "size": "~50 lines",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        },
+        {
+          "path": "packages/noted-module/**",
+          "reason": "Entire noted-module package - not in use",
+          "size": "~1000+ lines across multiple files",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        },
+        {
+          "path": "src/app/(app)/noted/page.tsx",
+          "reason": "Noted page - feature removed",
+          "size": "~40 lines",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        },
+        {
+          "path": "src/app/(app)/projects/noted/page.tsx",
+          "reason": "Noted project page - feature removed",
+          "size": "~40 lines",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        },
+        {
+          "path": "src/components/forms/NotedForm.tsx",
+          "reason": "Noted form component - feature removed",
+          "size": "~100 lines",
+          "recommendation": "DELETE - Confirmed deleted in git status"
+        }
+      ]
+    }
+  },
+  "recommendations": {
+    "immediate_action": {
+      "description": "Files safe to delete immediately with no risk",
+      "count": 8,
+      "estimated_time": "10 minutes",
+      "files": [
+        "src/lib/auth-context-old.tsx",
+        "src/lib/auth-context-backup.tsx",
+        "src/app/auth/page-old.tsx",
+        "src/components/buttons/Button.tsx",
+        "src/lib/supabase/client.ts",
+        "src/lib/iconUtils.ts",
+        "src/hooks/use-toast.ts",
+        "src/components/layout/PageHeader.tsx"
+      ]
+    },
+    "verify_then_delete": {
+      "description": "Unused shadcn components from deleted features - verify no future plans",
+      "count": 6,
+      "estimated_time": "15 minutes",
+      "files": [
+        "src/components/ui/separator.tsx",
+        "src/components/ui/checkbox.tsx",
+        "src/components/ui/select.tsx",
+        "src/components/ui/table.tsx",
+        "src/components/ui/dialog.tsx",
+        "src/components/ui/scroll-area.tsx"
+      ]
+    },
+    "review_carefully": {
+      "description": "Utilities and components that might be needed for future features",
+      "count": 6,
+      "estimated_time": "20 minutes review",
+      "files": [
+        "src/components/cards/StatsCard.tsx",
+        "src/lib/utils/date.ts",
+        "src/lib/utils/string.ts",
+        "src/components/ui/avatar.tsx",
+        "src/components/ui/popover.tsx",
+        "src/types/api.ts"
+      ]
+    },
+    "already_staged": {
+      "description": "Files already deleted and in git staging area",
+      "count": 8,
+      "note": "These appear in git status as deleted - just need to commit",
+      "files": [
+        "src/components/navigation/MobileHeader.tsx",
+        "src/components/modals/AddNoteModal.tsx",
+        "src/lib/forms/notedSchema.ts",
+        "packages/noted-module/**",
+        "src/app/(app)/noted/page.tsx",
+        "src/app/(app)/projects/noted/page.tsx",
+        "src/components/forms/NotedForm.tsx"
+      ]
+    }
+  },
+  "verification_steps": [
+    "Run grep search for each file to confirm no imports",
+    "Check git status for already deleted files",
+    "Run npm run build after deletions to verify no breakage",
+    "Check TypeScript compilation for type errors",
+    "Review shadcn component dependencies (some depend on others)",
+    "Verify no planned features need these components"
+  ],
+  "estimated_impact": {
+    "total_lines_removed": "~1,500",
+    "build_size_reduction": "Minimal (~10-20KB)",
+    "maintenance_benefit": "High - cleaner codebase, less confusion",
+    "risk_level": "Low - most are legacy backups or unused shadcn components",
+    "rollback_difficulty": "Easy - all tracked in git history"
+  },
+  "notes": [
+    "Many files are from deleted features (forms module, projects section, noted module)",
+    "Several shadcn UI components were installed but never used",
+    "Legacy backup files should have been deleted during original migrations",
+    "Git status shows 8 files already deleted but not committed",
+    "Some utility files might be useful in future but currently have zero usage"
+  ]
+}
