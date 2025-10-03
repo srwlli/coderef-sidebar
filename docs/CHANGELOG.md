@@ -86,7 +86,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Resolved issue where separate hook instances had independent state
 
 - **Page Layout Consistency** - Fixed inconsistent spacing and padding across all pages
-  - Increased layout top padding from `pt-12` to `pt-16` (64px) for proper header clearance
+  - Added responsive top padding: `pt-16` (64px mobile) / `sm:pt-12` (48px desktop)
+  - Mobile maintains optimal spacing for header clearance
+  - Desktop reduces spacing to match header height exactly, eliminating excessive gap
   - Removed redundant wrapper padding from Git Commands, Next.js Setup, and Prompts pages
   - Removed conflicting `overflow-y-auto` from Prompts page (layout handles scrolling)
   - All pages now use consistent horizontal padding: `px-4 sm:px-6 lg:px-8`
