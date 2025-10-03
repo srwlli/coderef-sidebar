@@ -1,5 +1,13 @@
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import { Bot, Github, Workflow, Database, Cloud, Globe } from 'lucide-react';
+import {
+  Bot,
+  Github,
+  Workflow,
+  Database,
+  Cloud,
+  Globe,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 
 export default function Dashboard() {
@@ -36,6 +44,12 @@ export default function Dashboard() {
       title: 'Supabase',
       href: 'https://supabase.com/dashboard/org/wskblpimfkjbkgayzxqj',
       icon: Database,
+      external: true,
+    },
+    {
+      title: 'Google Stitch',
+      href: 'https://stitch.withgoogle.com/?pli=1',
+      icon: Sparkles,
       external: true,
     },
     {
