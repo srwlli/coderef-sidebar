@@ -123,7 +123,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <main className="flex h-[100dvh] flex-1 flex-col overflow-hidden">
           <Header />
           <div className="flex-1 overflow-y-auto pb-[env(safe-area-inset-bottom)]">
-            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 pt-12 pb-6 sm:px-6 lg:px-8">
               {children}
             </div>
           </div>
