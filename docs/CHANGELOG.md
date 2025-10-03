@@ -85,7 +85,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - View changes are instant without requiring page navigation or refresh
   - Resolved issue where separate hook instances had independent state
 
-- **Dashboard Mobile Spacing** - Fixed content being hidden behind sticky header on mobile by adding top padding (`pt-2`) on mobile screens
+- **Page Layout Consistency** - Fixed inconsistent spacing and padding across all pages
+  - Increased layout top padding from `pt-12` to `pt-16` (64px) for proper header clearance
+  - Removed redundant wrapper padding from Git Commands, Next.js Setup, and Prompts pages
+  - Removed conflicting `overflow-y-auto` from Prompts page (layout handles scrolling)
+  - All pages now use consistent horizontal padding: `px-4 sm:px-6 lg:px-8`
+  - Eliminated double padding issues that caused uneven left/right margins
+
 - **PWA Safe Area Handling** - Fixed header and sidebar alignment issues on iOS devices
   - Header positioned below safe area (`top-[env(safe-area-inset-top)]`) to prevent status bar overlap
   - Desktop sidebar adjusted with safe area calculations for proper height and positioning
