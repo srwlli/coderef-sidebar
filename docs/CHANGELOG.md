@@ -54,10 +54,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **Dashboard List View Layout** - Changed list view to use vertical card layout for consistency
-  - List view now displays vertical cards (icon above title, centered) in single column
-  - Matches grid card styling: h-24 height, centered content, responsive icon/text sizing
-  - Provides unified card design across both view modes
+- **Dashboard List View Layout** - Updated list view to use compact horizontal card layout
+  - List view displays horizontal cards (icon beside title) in single column
+  - Matches reference card sizing: 16px padding, 12px gap, 20px icons
+  - Auto-height cards for more efficient space usage vs fixed-height grid cards
+  - Clear visual distinction between list and grid view modes
 
 - **Mobile Card Layout** - Optimized Dashboard cards for mobile viewing
   - Changed from 1-column to 2-column grid on mobile
@@ -77,6 +78,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Code Architecture** - Reduced projects page from ~200 lines to 16 lines through component consolidation
 
 ### Fixed
+
+- **Dashboard View Toggle** - Fixed view switching not updating immediately when toggling between grid and list
+  - Implemented event-based state synchronization in useViewPreference hook
+  - ViewToggle component now dispatches custom events that Dashboard listens for
+  - View changes are instant without requiring page navigation or refresh
+  - Resolved issue where separate hook instances had independent state
 
 - **Dashboard Mobile Spacing** - Fixed content being hidden behind sticky header on mobile by adding top padding (`pt-2`) on mobile screens
 - **PWA Safe Area Handling** - Fixed header and sidebar alignment issues on iOS devices
