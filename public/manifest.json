@@ -1,15 +1,21 @@
 {
   "name": "Coderef - Developer Toolkit",
   "short_name": "Coderef",
-  "description": "Complete developer productivity suite with projects, notes, AI tools, git commands, and more",
+  "description": "Complete developer productivity suite with projects, AI tools, git commands, and more",
   "start_url": "/",
   "display": "fullscreen",
   "display_override": ["fullscreen", "standalone"],
-  "background_color": "#ffffff",
+  "background_color": "#000000",
   "theme_color": "#000000",
   "orientation": "portrait-primary",
   "scope": "/",
   "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
     {
       "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
@@ -19,18 +25,32 @@
   "categories": ["productivity", "utilities"],
   "shortcuts": [
     {
-      "name": "Create Note",
-      "short_name": "New Note",
-      "description": "Quickly create a new note",
-      "url": "/?tab=create",
-      "icons": [{ "src": "/favicon.ico", "sizes": "64x64" }]
+      "name": "AI Tools",
+      "short_name": "AI Tools",
+      "description": "Access AI tools and prompts",
+      "url": "/ai-tools",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any" }]
     },
     {
-      "name": "My Notes",
-      "short_name": "Notes",
-      "description": "View all your notes",
-      "url": "/?tab=list",
-      "icons": [{ "src": "/favicon.ico", "sizes": "64x64" }]
+      "name": "Git Commands",
+      "short_name": "Git",
+      "description": "Quick access to git commands",
+      "url": "/git-commands",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Workflows",
+      "short_name": "Workflows",
+      "description": "View workflows and setup guides",
+      "url": "/workflows",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Manage app settings",
+      "url": "/settings",
+      "icons": [{ "src": "/icons/icon.svg", "sizes": "any" }]
     }
   ]
 }
