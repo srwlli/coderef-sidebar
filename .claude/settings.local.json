@@ -26,7 +26,10 @@
       "Bash(npm run lint)",
       "Bash(ls:*)",
       "Bash(curl:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(while read f)",
+      "Bash(do ls -lh --time-style=long-iso \"$f\")",
+      "Bash(done)"
     ],
     "deny": []
   }
