@@ -168,7 +168,7 @@ export default function Dashboard() {
                   ? { target: '_blank', rel: 'noopener noreferrer' }
                   : {})}
               >
-                <Card className="h-24 cursor-pointer transition-shadow duration-200 hover:shadow-lg">
+                <Card className="h-24 cursor-pointer py-0 transition-shadow duration-200 hover:shadow-lg">
                   <CardHeader className="flex h-full flex-col items-center justify-center p-3 text-center">
                     <IconComponent className="mb-1.5 h-6 w-6 flex-shrink-0 sm:mb-2 sm:h-8 sm:w-8" />
                     <CardTitle className="text-xs leading-tight sm:text-sm">
