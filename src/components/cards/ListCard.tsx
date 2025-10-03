@@ -20,7 +20,7 @@ export function ListCard({ title, href, icon: Icon, external }: ListCardProps) {
       className="block"
       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
     >
-      <Card className="cursor-pointer rounded-xl transition-shadow duration-200 hover:shadow-lg">
+      <Card className="cursor-pointer gap-0 py-0 transition-shadow duration-200 hover:shadow-lg">
         <CardHeader className="flex flex-row items-center gap-3 p-4">
           <Icon className="h-5 w-5 flex-shrink-0" />
           <CardTitle className="text-sm">{title}</CardTitle>
