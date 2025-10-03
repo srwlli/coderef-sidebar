@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- **AI Tools Page** - Consolidated AI tools into Dashboard for streamlined navigation
+  - Deleted `/ai-tools/page.tsx`
+  - Removed "AI Tools" from sidebar navigation
+  - All AI tool cards now accessible directly from Dashboard
+
 - **Projects Section** - Completely removed entire projects feature
   - Deleted `/projects` page and all project landing pages (coderef, smart-phrases, etc.)
   - Deleted `src/components/projects/` (ProjectsDashboard, ProjectsList, ProjectView, ProjectsTable)
@@ -25,11 +30,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Dashboard View Toggle** - Added list/grid view switcher for Dashboard cards
+  - Grid view: 2x2 mobile layout, responsive for larger screens
+  - List view: Full-width rows with icons
+  - Toggle buttons in dashboard sub-header
+
+- **Dashboard Consolidation** - Merged all AI tools into main Dashboard (21 total cards)
+  - 2 internal tools (Workflows, Prompts)
+  - 7 platform services (Vercel, GitHub, Anthropic, Supabase, Google Stitch, n8n, Noted)
+  - 12 AI tools (ChatGPT, Claude, Gemini, DeepSeek, Grok, Le Chat, Perplexity, Lovable, Replit, GitHub Copilot, Cursor, V0)
+
 - **Header System Modernization** - Implemented consistent header pattern across all major pages (Dashboard, AI Tools, AI Tools Prompts, Forms, Projects)
   - **Unified Layout Structure** - Standardized header format: `[Icon + Title + Badge] | [Actions]` for visual consistency
   - **Dynamic Stats Display** - Added contextual badges showing counts (tools, chains, sections, projects) next to page titles
   - **Action Area Reservation** - Dedicated right-side space for future tools, buttons, and functionality
   - **Page-Specific Enhancements** - Each header includes relevant icons and metrics for immediate context
+
 - **Projects UX Modernization** - Migrated projects module from modal-based to single-page application pattern for consistency across features
   - **ProjectView Component** - Full-page project detail view with inline edit/delete actions
   - **ProjectsList Component** - Grid layout with hover actions and empty states
@@ -37,6 +53,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Linear Navigation Flow** - Create → List → View → Edit → List pattern for intuitive user journey
 
 ### Changed
+
+- **Mobile Card Layout** - Optimized Dashboard cards for mobile viewing
+  - Changed from 1-column to 2-column grid on mobile
+  - Reduced card height: 128px → 96px for more compact display
+  - Smaller icons on mobile: 24px (scales to 32px on larger screens)
+  - Tighter spacing: 12px gap for better mobile density
+
+- **Header Appearance** - Removed transparency for solid, opaque header background
 
 - **Header Layout Consistency** - Moved stats/badges from right side to title area for uniform visual hierarchy across all pages
 - **Navigation UX Enhancement** - Reserved top-right header space exclusively for action buttons and future functionality
@@ -48,6 +72,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Code Architecture** - Reduced projects page from ~200 lines to 16 lines through component consolidation
 
 ### Fixed
+
+- **PWA Safe Area Handling** - Fixed header and sidebar alignment issues on iOS devices
+  - Header positioned below safe area (`top-[env(safe-area-inset-top)]`) to prevent status bar overlap
+  - Desktop sidebar adjusted with safe area calculations for proper height and positioning
+  - Mobile sidebar sheet includes top padding for notch/status bar clearance
+  - App layout uses dynamic viewport units (dvh) and bottom safe area insets
 
 - **Project Form Edit Silent Failure** - Fixed project edit form failing silently by replacing `useUpdateProject` mutation hook with direct Supabase calls. The mutation hook was swallowing errors and preventing form submission. Direct Supabase calls provide better error handling and debugging.
   - Issue: Edit form opened but couldn't save changes - failed silently

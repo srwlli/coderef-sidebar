@@ -1,0 +1,49 @@
+{
+  "task": "Migrate AI Tools cards to dashboard",
+  "summary": {
+    "source_file": "src/app/(app)/ai-tools/page.tsx",
+    "destination_file": "src/app/(app)/dashboard/page.tsx",
+    "current_cards": {
+      "internal": [
+        {
+          "title": "Prompts",
+          "href": "/ai-tools/prompts",
+          "icon": "MessageSquare",
+          "external": false
+        }
+      ],
+      "external": [
+        "https://chat.openai.com",
+        "https://claude.ai",
+        "https://gemini.google.com",
+        "https://chat.deepseek.com",
+        "https://grok.x.ai",
+        "https://chat.mistral.ai",
+        "https://perplexity.ai",
+        "https://lovable.dev/",
+        "https://replit.com",
+        "https://github.com/features/copilot",
+        "https://cursor.sh",
+        "https://v0.dev"
+      ]
+    }
+  },
+  "required_changes": [
+    "Copy internal and external tool definitions to dashboardItems array",
+    "Import MessageSquare/Bot icons into dashboard page",
+    "Ensure external links render with target blank and rel noopener noreferrer",
+    "Decide on future of /ai-tools route (remove, or repurpose to overview)",
+    "Update breadcrumbs/back-button mappings if /ai-tools is removed",
+    "Refresh documentation/changelog to note dashboard now hosts AI tool links"
+  ],
+  "side_effects": [
+    "Dashboard grid grows; consider grouping cards if it becomes cluttered",
+    "AI Tools navigation entry may be redundant without the page",
+    "Tests/docs referencing AI Tools page need updates"
+  ],
+  "verification": [
+    "npm run lint",
+    "Manual check of dashboard card layout",
+    "Ensure navigation to Prompts still works"
+  ]
+}
