@@ -1,18 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 type ViewType = 'grid' | 'list';
 
 export function useViewPreference() {
-  const [view, setView] = useState<ViewType>('grid');
-
-  useEffect(() => {
+  const [view, setView] = useState<ViewType>(() => {
+    if (typeof window === 'undefined') return 'grid';
     const stored = localStorage.getItem('dashboard-view');
-    if (stored === 'grid' || stored === 'list') {
-      setView(stored);
-    }
-  }, []);
+    return stored === 'grid' || stored === 'list' ? stored : 'grid';
+  });
 
   const updateView = (newView: ViewType) => {
     setView(newView);

@@ -1,15 +1,16 @@
 'use client';
 
-import { Card, CardHeader, CardTitle } from '@/components/cards';
+import { Card, CardHeader, CardTitle, ListCard } from '@/components/cards';
 import {
   Bot,
   Github,
-  Workflow,
   Database,
   Cloud,
   Globe,
   Sparkles,
   MessageSquare,
+  GitBranch,
+  Settings,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useViewPreference } from '@/hooks/use-view-preference';
@@ -19,14 +20,19 @@ export default function Dashboard() {
   const dashboardItems = [
     // Internal Tools
     {
-      title: 'Workflows',
-      href: '/workflows',
-      icon: Workflow,
-    },
-    {
       title: 'Prompts',
       href: '/ai-tools/prompts',
       icon: MessageSquare,
+    },
+    {
+      title: 'Git Commands',
+      href: '/git-commands',
+      icon: GitBranch,
+    },
+    {
+      title: 'Next.js Setup',
+      href: '/workflows/nextjs-setup',
+      icon: Settings,
     },
     // Platforms & Services
     {
@@ -174,29 +180,16 @@ export default function Dashboard() {
           })}
         </div>
       ) : (
-        <div className="space-y-2">
-          {dashboardItems.map((item, index) => {
-            const IconComponent = item.icon;
-            return (
-              <Link
-                key={index}
-                href={item.href}
-                className="block"
-                {...(item.external
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-              >
-                <Card className="cursor-pointer transition-shadow duration-200 hover:shadow-lg">
-                  <CardHeader className="flex flex-row items-center gap-4 p-4">
-                    <IconComponent className="h-6 w-6 flex-shrink-0" />
-                    <CardTitle className="text-sm sm:text-base">
-                      {item.title}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-              </Link>
-            );
-          })}
+        <div className="space-y-3">
+          {dashboardItems.map((item, index) => (
+            <ListCard
+              key={index}
+              title={item.title}
+              href={item.href}
+              icon={item.icon}
+              external={item.external}
+            />
+          ))}
         </div>
       )}
     </>
