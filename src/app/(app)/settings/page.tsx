@@ -81,9 +81,9 @@ function SettingsPageContent() {
       >
         <CardHeader className="flex flex-col items-center justify-center p-6 text-center">
           {isDarkMode ? (
-            <Sun className="mb-4 h-12 w-12 text-yellow-500" />
+            <Sun className="mb-4 h-12 w-12" />
           ) : (
-            <Moon className="mb-4 h-12 w-12 text-blue-500" />
+            <Moon className="mb-4 h-12 w-12" />
           )}
           <CardTitle className="text-lg">Dark Mode</CardTitle>
           <CardDescription className="text-center">
@@ -91,17 +91,11 @@ function SettingsPageContent() {
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-6 text-center">
-          <button
-            className={`rounded-full p-3 transition-all duration-200 hover:scale-110 ${
-              isDarkMode
-                ? 'bg-yellow-100 hover:bg-yellow-200 dark:bg-yellow-900 dark:hover:bg-yellow-800'
-                : 'bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800'
-            }`}
-          >
+          <button className="bg-muted hover:bg-accent rounded-full p-3 transition-all duration-200 hover:scale-110">
             {isDarkMode ? (
-              <Sun className="h-8 w-8 text-yellow-600 dark:text-yellow-400" />
+              <Sun className="h-8 w-8" />
             ) : (
-              <Moon className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              <Moon className="h-8 w-8" />
             )}
           </button>
         </CardContent>
@@ -112,15 +106,15 @@ function SettingsPageContent() {
         onClick={handleSignOut}
       >
         <CardHeader className="flex flex-col items-center justify-center p-6 text-center">
-          <LogOut className="mb-4 h-12 w-12 text-red-500" />
+          <LogOut className="mb-4 h-12 w-12" />
           <CardTitle className="text-lg">Sign Out</CardTitle>
           <CardDescription className="text-center">
             Sign out of your account
           </CardDescription>
         </CardHeader>
         <CardContent className="pb-6 text-center">
-          <button className="rounded-full bg-red-100 p-3 transition-all duration-200 hover:scale-110 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800">
-            <LogOut className="h-8 w-8 text-red-600 dark:text-red-400" />
+          <button className="bg-muted hover:bg-accent rounded-full p-3 transition-all duration-200 hover:scale-110">
+            <LogOut className="h-8 w-8" />
           </button>
         </CardContent>
       </Card>
