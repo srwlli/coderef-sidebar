@@ -1,0 +1,143 @@
+{
+  "impact_analysis": {
+    "still_works": [
+      "Everything else in the app (projects, forms, tech stacks, etc.)",
+      "No npm dependencies to remove (uses direct imports from packages folder)",
+      "No breaking changes to other features"
+    ],
+    "gets_removed": [
+      "Notes creation/management functionality",
+      "2 pages: /noted and /projects/noted",
+      "AddNoteModal component",
+      "Dashboard link to Noted"
+    ],
+    "database": {
+      "noted_table": "Will remain in Supabase (unused but harmless)"
+    }
+  },
+  "cleanup_plan": {
+    "steps": [
+      {
+        "step": 1,
+        "action": "Delete entire noted module",
+        "path": "packages/noted-module/",
+        "type": "directory"
+      },
+      {
+        "step": 2,
+        "action": "Delete pages",
+        "files": [
+          "src/app/(app)/noted/page.tsx",
+          "src/app/(app)/projects/noted/page.tsx",
+          "src/app/(app)/projects/noted/working-plan.md"
+        ]
+      },
+      {
+        "step": 3,
+        "action": "Delete components",
+        "files": [
+          "src/components/modals/AddNoteModal.tsx",
+          "src/components/forms/NotedForm.tsx",
+          "src/lib/forms/notedSchema.ts"
+        ]
+      },
+      {
+        "step": 4,
+        "action": "Update dashboard",
+        "file": "src/app/(app)/dashboard/page.tsx",
+        "change": "Remove 'Noted' card from dashboardItems array"
+      },
+      {
+        "step": 5,
+        "action": "Clean docs",
+        "description": "Remove noted references from architecture/schema docs if any critical ones exist",
+        "files": [
+          "docs/ARCHITECTURE.md",
+          "docs/SCHEMA.md",
+          "docs/API.md",
+          "docs/README.md",
+          "docs/wip/WORKING-PLAN.md",
+          "component-scan.md",
+          "COMPONENTS.md"
+        ]
+      }
+    ]
+  },
+  "files_found": {
+    "total": 53,
+    "core_package": [
+      "packages/noted-module/src/components/NotedForm.tsx",
+      "packages/noted-module/src/components/NotesDashboard.tsx",
+      "packages/noted-module/src/components/NotesList.tsx",
+      "packages/noted-module/src/components/NoteView.tsx",
+      "packages/noted-module/src/components/FormGenerator.tsx",
+      "packages/noted-module/src/components/index.ts",
+      "packages/noted-module/src/lib/forms/notedSchema.ts",
+      "packages/noted-module/src/lib/forms/index.ts",
+      "packages/noted-module/src/lib/types/index.ts",
+      "packages/noted-module/src/hooks/useNotes.ts",
+      "packages/noted-module/src/index.ts",
+      "packages/noted-module/README.md",
+      "packages/noted-module/NOTED.md",
+      "packages/noted-module/NOTED1.md",
+      "packages/noted-module/NOTED-PAGE-SUMMARY.md",
+      "packages/noted-module/NOTED-MODULE-COMPONENTS.md",
+      "packages/noted-module/package.json",
+      "packages/noted-module/package-lock.json",
+      "packages/noted-module/example.tsx",
+      "packages/noted-module/database-schema.sql"
+    ],
+    "app_integration": [
+      "src/app/(app)/noted/page.tsx",
+      "src/app/(app)/projects/noted/page.tsx",
+      "src/app/(app)/projects/noted/working-plan.md",
+      "src/components/forms/NotedForm.tsx",
+      "src/components/modals/AddNoteModal.tsx",
+      "src/lib/forms/notedSchema.ts"
+    ],
+    "docs_references": [
+      "docs/SCHEMA.md",
+      "docs/ARCHITECTURE.md",
+      "docs/API.md",
+      "docs/README.md",
+      "docs/CHANGELOG.md",
+      "docs/wip/WORKING-PLAN.md",
+      "docs/wip/CURRENT_CONTEXT.md",
+      "docs/prompts/PROMPT-TO-GENERATE-APP-PLAN.md",
+      "docs/supabase/complete-setup.sql",
+      "component-scan.md",
+      "COMPONENTS.md"
+    ],
+    "other_references": [
+      "src/app/(app)/dashboard/page.tsx",
+      "src/components/navigation/Breadcrumb.tsx",
+      "src/components/layout/Header.tsx",
+      "src/components/layout/header-summary.md",
+      "src/components/navigation/MobileHeader.tsx",
+      "src/app/(app)/layout.tsx",
+      "src/lib/forms/formTypes.ts"
+    ],
+    "dist_files": [
+      "packages/noted-module/dist/"
+    ]
+  },
+  "imports_to_remove": [
+    {
+      "file": "src/app/(app)/noted/page.tsx",
+      "import": "import { NotesDashboard } from '../../../../packages/noted-module/src'"
+    },
+    {
+      "file": "src/components/modals/AddNoteModal.tsx",
+      "import": "import { NotedForm } from '../../../packages/noted-module/src'"
+    }
+  ],
+  "dashboard_changes": {
+    "file": "src/app/(app)/dashboard/page.tsx",
+    "remove_item": {
+      "title": "Noted",
+      "href": "/noted",
+      "icon": "StickyNote"
+    },
+    "remove_import": "StickyNote"
+  }
+}

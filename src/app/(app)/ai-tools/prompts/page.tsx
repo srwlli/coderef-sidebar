@@ -3,7 +3,14 @@
 import { CodeScanChainContainer } from '@/components/collapsibles/CodeScanChainContainer';
 import CollapsiblePrompt from '@/components/collapsibles/CollapsiblePrompt';
 import { appGenerationChainSteps } from './app-generation-chain';
-import { Brain, Rocket, MessageSquare, Settings, FileText } from 'lucide-react';
+import {
+  Brain,
+  Rocket,
+  MessageSquare,
+  Settings,
+  FileText,
+  Users,
+} from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function PromptsPage() {
@@ -21,6 +28,11 @@ export default function PromptsPage() {
     {
       title: 'Create App Working Plan',
       icon: <FileText className="h-5 w-5" />,
+      stepCount: 1,
+    },
+    {
+      title: 'Multi-Agent Code Review',
+      icon: <Users className="h-5 w-5" />,
       stepCount: 1,
     },
     {
@@ -302,6 +314,29 @@ save_as: SCHEMA.md`,
   </response>
   <constraint>PLAN ONLY, execute nothing</constraint>
 </costar>`}
+            />
+
+            {/* Multi-Agent Code Review */}
+            <CollapsiblePrompt
+              title="Multi-Agent Code Review"
+              icon={<Users className="h-5 w-5" />}
+              description="POWER framework prompt for consolidating code reviews from multiple AI agents (Windsurf, VS Code, Cursor, Claude, Codex, Gemini)"
+              content={`<power>
+  <purpose>Review the provided codebase and generate a concise unified report containing quality, correctness, and best practice findings.</purpose>
+  <o>A single markdown document with six primary headings: Windsurf, VS Code, Cursor, Claude, Codex, Gemini. Each agent writes under its own heading with 3–5 bullet points.</o>
+  <work>Comments must be brief, well-structured, and limited to observations—no code modifications.</work>
+  <examples>
+    ## Windsurf
+    - Function naming inconsistent
+    - Add missing test cases
+
+    ## VS Code
+    - Dependency duplication
+    - Improve error handling
+  </examples>
+  <requirements>Each agent must contribute under its heading, keep notes concise and clear, and ensure the final result is one unified report.</requirements>
+  <constraint>SCAN ONLY, no code changes</constraint>
+</power>`}
             />
 
             {/* App Generation Prompt Chain */}

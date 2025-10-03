@@ -1,0 +1,6 @@
+{
+  "framework": "POWER",
+  "length": "100 words",
+  "task": "Multi-agent code review consolidation",
+  "prompt": "<power>\n    <purpose>Review the provided codebase and generate a concise unified report containing quality, correctness, and best practice findings.</purpose>\n    <o>A single markdown document with six primary headings: Windsurf, VS Code, Cursor, Claude, Codex, Gemini. Each agent writes under its own heading with 3–5 bullet points.</o>\n    <work>Comments must be brief, well-structured, and limited to observations—no code modifications.</work>\n    <examples>\n      ## Windsurf\n      - Function naming inconsistent\n      - Add missing test cases\n\n      ## VS Code\n      - Dependency duplication\n      - Improve error handling\n    </examples>\n    <requirements>Each agent must contribute under its heading, keep notes concise and clear, and ensure the final result is one unified report.</requirements>\n  </power>"
+}
