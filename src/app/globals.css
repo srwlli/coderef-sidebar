@@ -51,7 +51,7 @@ body {
   .ios-pwa-fix {
     /* Prevent pull-to-refresh */
     overscroll-behavior-y: none;
-    /* Prevent zoom on input focus */
+    /* Allow text size adjustment */
     -webkit-text-size-adjust: 100%;
   }
 
