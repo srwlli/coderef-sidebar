@@ -141,19 +141,21 @@ export function AuthForm() {
 
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <div className="relative">
+          <div className="flex gap-2">
             <Input
               id="password"
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter your password"
+              className="flex-1"
               {...register('password')}
             />
             <Button
               type="button"
-              variant="ghost"
-              size="sm"
-              className="absolute top-0 right-0 h-full px-3 py-2 hover:bg-transparent"
+              variant="outline"
+              size="icon"
+              className="min-h-[44px] min-w-[44px] shrink-0"
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
                 <EyeOff className="h-4 w-4" />

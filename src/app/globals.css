@@ -18,14 +18,7 @@ body {
 }
 
 /* PWA Safe Area Support */
-html,
-body {
-  /* Handle iOS safe areas */
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-}
+/* Safe area padding moved to individual containers to prevent blocking inputs */
 
 /* PWA standalone mode styles */
 @media (display-mode: standalone) {
@@ -59,8 +52,6 @@ body {
   @media (display-mode: standalone) {
     body {
       -webkit-appearance: none;
-      padding-top: constant(safe-area-inset-top);
-      padding-top: env(safe-area-inset-top);
     }
   }
 }

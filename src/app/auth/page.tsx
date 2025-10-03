@@ -41,7 +41,7 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-8">
+    <div className="flex min-h-[100dvh] items-center justify-center p-8 pb-[env(safe-area-inset-bottom)]">
       <main className="w-full max-w-md">
         <Card>
           <CardHeader className="text-center">
