@@ -115,6 +115,8 @@ export function AuthForm() {
             id="email"
             type="email"
             placeholder="Enter your email"
+            autoComplete="email"
+            inputMode="email"
             {...register('email')}
           />
           {errors.email && (
@@ -129,6 +131,7 @@ export function AuthForm() {
               id="username"
               type="text"
               placeholder="Choose a username"
+              autoComplete="username"
               {...register('username')}
             />
             {errors.username && (
@@ -147,6 +150,7 @@ export function AuthForm() {
               type={showPassword ? 'text' : 'password'}
               placeholder="Enter your password"
               className="flex-1"
+              autoComplete={isSignup ? 'new-password' : 'current-password'}
               {...register('password')}
             />
             <Button
