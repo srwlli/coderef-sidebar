@@ -16,14 +16,7 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from '@/components/layout/sidebar';
-import {
-  Home,
-  Cog,
-  MessageSquare,
-  Bot,
-  FileText,
-  FolderOpen,
-} from 'lucide-react';
+import { Home, Cog, MessageSquare, Bot } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/Header';
@@ -33,11 +26,6 @@ const menuItems = [
     title: 'Dashboard',
     href: '/dashboard',
     icon: Home,
-  },
-  {
-    title: 'Projects',
-    href: '/projects',
-    icon: FolderOpen,
   },
   {
     title: 'Prompts',

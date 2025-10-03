@@ -3,15 +3,7 @@
 import { CodeScanChainContainer } from '@/components/collapsibles/CodeScanChainContainer';
 import CollapsiblePrompt from '@/components/collapsibles/CollapsiblePrompt';
 import { appGenerationChainSteps } from './app-generation-chain';
-import {
-  Brain,
-  Rocket,
-  MessageSquare,
-  Settings,
-  FileText,
-  Users,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Brain, Rocket, Settings, FileText, Users } from 'lucide-react';
 
 export default function PromptsPage() {
   const promptChains = [
@@ -43,31 +35,15 @@ export default function PromptsPage() {
   ];
 
   return (
-    <div className="flex h-full flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b p-4">
-        <div className="flex items-center gap-3">
-          <MessageSquare className="h-6 w-6" />
-          <h1 className="text-2xl font-bold">Prompt Chains</h1>
-          <Badge variant="outline" className="text-sm">
-            {promptChains.length} chains
-          </Badge>
-        </div>
-        <div className="flex items-center gap-2">
-          {/* Future: Export All, Add Chain, etc. */}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto p-8">
-        <main className="mx-auto max-w-7xl">
-          <div className="space-y-6">
-            {/* Prompt Engineer Instructions */}
-            <CollapsiblePrompt
-              title="Prompt Engineer Instructions"
-              icon={<Settings className="h-5 w-5" />}
-              description="Complete operating instructions for structured prompt engineering using COSTAR, POWER, Five S, and CRISPE frameworks with XML standards and controlled vocabulary."
-              content={`<operating_instructions>
+    <div className="flex-1 overflow-y-auto p-8">
+      <main className="mx-auto max-w-7xl">
+        <div className="space-y-6">
+          {/* Prompt Engineer Instructions */}
+          <CollapsiblePrompt
+            title="Prompt Engineer Instructions"
+            icon={<Settings className="h-5 w-5" />}
+            description="Complete operating instructions for structured prompt engineering using COSTAR, POWER, Five S, and CRISPE frameworks with XML standards and controlled vocabulary."
+            content={`<operating_instructions>
   <sources>
     <file>prompt-engineer-guide.md</file>
     <file>prompt-engineer-framework.md</file>
@@ -128,18 +104,18 @@ export default function PromptsPage() {
     and word count rules. Produce only requested output types and maintain deterministic compliance.
   </summary>
 </operating_instructions>`}
-            />
+          />
 
-            {/* Documentation Prompt Chain */}
-            <CodeScanChainContainer
-              title="Documentation Prompt Chain (5-Step)"
-              icon={<Brain className="h-5 w-5" />}
-              steps={[
-                {
-                  title: 'Step 1: README Generation',
-                  description:
-                    'Generate README.md as the discovery entry document with overview, quickstart, and usage examples',
-                  content: `framework: POWER
+          {/* Documentation Prompt Chain */}
+          <CodeScanChainContainer
+            title="Documentation Prompt Chain (5-Step)"
+            icon={<Brain className="h-5 w-5" />}
+            steps={[
+              {
+                title: 'Step 1: README Generation',
+                description:
+                  'Generate README.md as the discovery entry document with overview, quickstart, and usage examples',
+                content: `framework: POWER
 
 purpose: Generate README.md as the discovery entry document.
 
@@ -155,12 +131,12 @@ requirements: Must include command sequences, decision trees, and AI-focused foo
 
 save_as: README.md
 store_as: readme_summary`,
-                },
-                {
-                  title: 'Step 2: Architecture Documentation',
-                  description:
-                    'Generate ARCHITECTURE.md as the system design reference with topology and data flow',
-                  content: `framework: POWER
+              },
+              {
+                title: 'Step 2: Architecture Documentation',
+                description:
+                  'Generate ARCHITECTURE.md as the system design reference with topology and data flow',
+                content: `framework: POWER
 
 purpose: Generate ARCHITECTURE.md as the system design reference.
 
@@ -176,12 +152,12 @@ requirements: Must include rationale for design choices and AI-focused footer.
 
 save_as: ARCHITECTURE.md
 store_as: architecture_summary`,
-                },
-                {
-                  title: 'Step 3: API Documentation',
-                  description:
-                    'Generate API.md as the technical interface reference with endpoints and schemas',
-                  content: `framework: POWER
+              },
+              {
+                title: 'Step 3: API Documentation',
+                description:
+                  'Generate API.md as the technical interface reference with endpoints and schemas',
+                content: `framework: POWER
 
 purpose: Generate API.md as the technical interface reference.
 
@@ -197,12 +173,12 @@ requirements: Must include pagination, rate limits, and AI-focused footer.
 
 save_as: API.md
 store_as: api_summary`,
-                },
-                {
-                  title: 'Step 4: Components Documentation',
-                  description:
-                    'Generate COMPONENTS.md as the component library reference with props and usage rules',
-                  content: `framework: POWER
+              },
+              {
+                title: 'Step 4: Components Documentation',
+                description:
+                  'Generate COMPONENTS.md as the component library reference with props and usage rules',
+                content: `framework: POWER
 
 purpose: Generate COMPONENTS.md as the component library reference.
 
@@ -218,12 +194,12 @@ requirements: Must include copy-paste ready examples and AI-focused footer.
 
 save_as: COMPONENTS.md
 store_as: components_summary`,
-                },
-                {
-                  title: 'Step 5: Schema Documentation',
-                  description:
-                    'Generate SCHEMA.md as the data schema reference with database models and validation rules',
-                  content: `framework: POWER
+              },
+              {
+                title: 'Step 5: Schema Documentation',
+                description:
+                  'Generate SCHEMA.md as the data schema reference with database models and validation rules',
+                content: `framework: POWER
 
 purpose: Generate SCHEMA.md as the data schema reference.
 
@@ -238,18 +214,18 @@ examples:
 requirements: Must include relationships, constraints, and AI-focused footer.
 
 save_as: SCHEMA.md`,
-                },
-              ]}
-              className=""
-              defaultExpanded={false}
-            />
+              },
+            ]}
+            className=""
+            defaultExpanded={false}
+          />
 
-            {/* Create App Working Plan */}
-            <CollapsiblePrompt
-              title="Create App Working Plan"
-              icon={<FileText className="h-5 w-5" />}
-              description="Structured COSTAR prompt for generating implementation plans based on stack requirements and documentation review."
-              content={`<costar>
+          {/* Create App Working Plan */}
+          <CollapsiblePrompt
+            title="Create App Working Plan"
+            icon={<FileText className="h-5 w-5" />}
+            description="Structured COSTAR prompt for generating implementation plans based on stack requirements and documentation review."
+            content={`<costar>
   <context>
     User has requested an application defined by <stack> and <ui layout>.
     Documentation available in @docs: README.md, API-REFERENCE.md, DATA-SCHEMAS.md, ARCHITECTURE.md, COMPONENTS.md.
@@ -314,14 +290,14 @@ save_as: SCHEMA.md`,
   </response>
   <constraint>PLAN ONLY, execute nothing</constraint>
 </costar>`}
-            />
+          />
 
-            {/* Multi-Agent Code Review */}
-            <CollapsiblePrompt
-              title="Multi-Agent Code Review"
-              icon={<Users className="h-5 w-5" />}
-              description="POWER framework prompt for consolidating code reviews from multiple AI agents (Windsurf, VS Code, Cursor, Claude, Codex, Gemini)"
-              content={`<power>
+          {/* Multi-Agent Code Review */}
+          <CollapsiblePrompt
+            title="Multi-Agent Code Review"
+            icon={<Users className="h-5 w-5" />}
+            description="POWER framework prompt for consolidating code reviews from multiple AI agents (Windsurf, VS Code, Cursor, Claude, Codex, Gemini)"
+            content={`<power>
   <purpose>Review the provided codebase and generate a concise unified report containing quality, correctness, and best practice findings.</purpose>
   <o>A single markdown document with six primary headings: Windsurf, VS Code, Cursor, Claude, Codex, Gemini. Each agent writes under its own heading with 3–5 bullet points.</o>
   <work>Comments must be brief, well-structured, and limited to observations—no code modifications.</work>
@@ -337,18 +313,17 @@ save_as: SCHEMA.md`,
   <requirements>Each agent must contribute under its heading, keep notes concise and clear, and ensure the final result is one unified report.</requirements>
   <constraint>SCAN ONLY, no code changes</constraint>
 </power>`}
-            />
+          />
 
-            {/* App Generation Prompt Chain */}
-            <CodeScanChainContainer
-              title="App Generation Prompt Chain (5-Step)"
-              icon={<Rocket className="h-5 w-5" />}
-              steps={appGenerationChainSteps}
-              defaultExpanded={false}
-            />
-          </div>
-        </main>
-      </div>
+          {/* App Generation Prompt Chain */}
+          <CodeScanChainContainer
+            title="App Generation Prompt Chain (5-Step)"
+            icon={<Rocket className="h-5 w-5" />}
+            steps={appGenerationChainSteps}
+            defaultExpanded={false}
+          />
+        </div>
+      </main>
     </div>
   );
 }

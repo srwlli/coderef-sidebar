@@ -287,38 +287,21 @@ export default function ComponentLibraryPreview() {
   ];
 
   return (
-    <div className="flex h-full flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b p-4">
-        <div className="flex items-center gap-3">
-          <Package className="h-6 w-6" />
-          <h1 className="text-2xl font-bold">Component Library</h1>
-          <Badge variant="outline" className="text-sm">
-            {components.length} components
-          </Badge>
+    <div className="flex-1 overflow-y-auto p-8">
+      <main className="mx-auto max-w-7xl">
+        <div className="mb-6">
+          <p className="text-muted-foreground">
+            Professional component library with interactive documentation and
+            live examples.
+          </p>
         </div>
-        <div className="flex items-center gap-2">
-          {/* Future: Search, filters */}
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {components.map((component, index) => (
+            <ComponentCard key={index} {...component} />
+          ))}
         </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto p-8">
-        <main className="mx-auto max-w-7xl">
-          <div className="mb-6">
-            <p className="text-muted-foreground">
-              Professional component library with interactive documentation and
-              live examples.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {components.map((component, index) => (
-              <ComponentCard key={index} {...component} />
-            ))}
-          </div>
-        </main>
-      </div>
+      </main>
     </div>
   );
 }

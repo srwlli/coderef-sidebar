@@ -9,12 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- **Projects Section** - Completely removed entire projects feature
+  - Deleted `/projects` page and all project landing pages (coderef, smart-phrases, etc.)
+  - Deleted `src/components/projects/` (ProjectsDashboard, ProjectsList, ProjectView, ProjectsTable)
+  - Deleted `src/types/project.ts` and `src/hooks/useProjectsSimple.ts`
+  - Removed Projects from sidebar navigation
+  - Removed all project breadcrumb entries
+
 - **Forms Module** - Completely removed custom forms abstraction layer
   - Deleted `src/lib/forms/` directory (formTypes, validation, schemas)
   - Deleted `src/components/forms/` directory (FormGenerator, ProjectForm, field components)
   - Deleted `/forms` and `/test-edit` pages
-  - **Projects Now Read-Only** - Projects page is now view-only (list, view, delete) - no create/edit functionality
-  - Migrated types to `src/types/project.ts` for continued use in view components
   - Cleaned up all forms module references from documentation
 
 ### Added

@@ -20,24 +20,11 @@ interface BreadcrumbProps {
 const routeLabels: Record<string, string> = {
   '/': 'Dashboard',
   '/dashboard': 'Dashboard',
-  '/projects': 'Projects',
-  '/projects/coderef': 'coderef',
-  '/projects/coderef2': 'coderef2',
-  '/projects/mystudyapp': 'MyStudyApp',
-  '/projects/smart-phrases': 'Smart Phrases',
-  '/projects/my-sports-rank': 'My Sports Rank',
-  '/projects/icaughta': "iCaughta'",
-  '/projects/agents': 'Agents',
-  '/projects/highway-games': 'Highway Games',
-  '/projects/my-dash': 'My Dash',
-  '/projects/paper-trail': 'Paper trail',
-  '/projects/uds': 'UDS',
-  '/projects/workflows': 'Workflows',
-  '/projects/project-landing': 'Coming Soon',
   '/ai-tools': 'AI Tools',
   '/ai-tools/prompts': 'Prompts',
   '/ai-tools/spec-kit': 'Spec Kit',
   '/tech-stacks': 'Tech Stacks',
+  '/workflows': 'Workflows',
   '/workflows/nextjs-setup': 'Next.js Setup',
   '/tech-stacks/this-stack': 'This Stack',
   '/git-commands': 'Git Commands',
@@ -78,11 +65,6 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
 export function Breadcrumb({ className, inline = false }: BreadcrumbProps) {
   const pathname = usePathname();
   const breadcrumbs = generateBreadcrumbs(pathname);
-
-  // Don't show breadcrumbs on dashboard/home
-  if (pathname === '/' || pathname === '/dashboard') {
-    return null;
-  }
 
   if (inline) {
     // Inline version for header integration
