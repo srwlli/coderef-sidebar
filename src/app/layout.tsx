@@ -63,8 +63,7 @@ export default function RootLayout({
         />
         <meta name="apple-mobile-web-app-title" content="Coderef" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <link rel="apple-touch-icon" href="/icon.svg" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ios-pwa-fix antialiased`}
