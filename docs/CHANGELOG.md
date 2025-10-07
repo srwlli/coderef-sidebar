@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **Dashboard Hydration Errors** - Fixed React key instability and rendering issues
+  - Changed list view to use stable keys (`item.href` instead of `index`)
+  - Removed unused `index` parameters from map functions
+  - Prevents hydration mismatches between SSR and CSR
+  - Ensures stable component identity across renders
+  - Files: `src/app/(app)/dashboard/page.tsx`
+
+- **Long-Press Hook Optimization** - Improved performance and reduced re-renders
+  - Memoized style object to prevent unnecessary object recreation
+  - Marked intentionally unused event parameters with underscore prefix
+  - Files: `src/hooks/use-long-press.ts`
+
+- **Code Cleanup** - Removed unused imports and variables
+  - Cleaned up 16 unused icon imports from `card-actions.ts`
+  - Removed unused `Link` import from dashboard
+  - Removed unused `ViewType` from view preference hook
+  - Marked unused props with underscore prefix for ESLint compliance
+  - Files: `src/lib/card-actions.ts`, `src/components/cards/Card.tsx`, `src/hooks/use-view-preference.ts`
+
 ### Added
 
 - **Figma Dashboard Card** - Added Figma link to dashboard with contextual quick actions

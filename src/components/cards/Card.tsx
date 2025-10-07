@@ -6,7 +6,7 @@ interface CardProps extends React.ComponentProps<'div'> {
   onLongPress?: () => void;
 }
 
-function Card({ className, onLongPress, ...props }: CardProps) {
+function Card({ className, onLongPress: _onLongPress, ...props }: CardProps) {
   return (
     <div
       data-slot="card"

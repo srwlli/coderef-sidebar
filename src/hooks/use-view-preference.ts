@@ -2,8 +2,6 @@
 
 import { useAppStore } from '@/stores/use-app-store';
 
-type ViewType = 'grid' | 'list';
-
 /**
  * Hook for dashboard view preference (grid vs list)
  * Now powered by Zustand with automatic localStorage persistence

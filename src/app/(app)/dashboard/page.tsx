@@ -15,7 +15,6 @@ import {
   Workflow,
   Figma,
 } from 'lucide-react';
-import Link from 'next/link';
 import { useViewPreference } from '@/hooks/use-view-preference';
 import { ActionModal } from '@/components/modals/action-modal';
 import { getCardActions } from '@/lib/card-actions';
@@ -213,7 +212,6 @@ export default function Dashboard() {
   const [view] = useViewPreference();
   const [showModal, setShowModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState<SelectedCard | null>(null);
-  const router = useRouter();
 
   const handleLongPress = (item: DashboardItem) => {
     setSelectedCard({
@@ -227,7 +225,7 @@ export default function Dashboard() {
     <>
       {view === 'grid' ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {dashboardItems.map((item, index) => {
+          {dashboardItems.map((item) => {
             const IconComponent = item.icon;
 
             return (
@@ -242,9 +240,9 @@ export default function Dashboard() {
         </div>
       ) : (
         <div className="space-y-3">
-          {dashboardItems.map((item, index) => (
+          {dashboardItems.map((item) => (
             <ListCard
-              key={index}
+              key={item.href}
               title={item.title}
               href={item.href}
               icon={item.icon}

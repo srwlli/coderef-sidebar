@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useMemo } from 'react';
 
 export interface UseLongPressOptions {
   onLongPress: () => void;
@@ -59,7 +59,7 @@ export function useLongPress({
   );
 
   const onPointerUp = useCallback(
-    (e: React.PointerEvent) => {
+    (_e: React.PointerEvent) => {
       // If not a long-press and onClick is provided, trigger it
       if (!isLongPressRef.current && onClick) {
         onClick();
@@ -99,16 +99,21 @@ export function useLongPress({
     e.preventDefault();
   }, []);
 
+  const style = useMemo<React.CSSProperties>(
+    () => ({
+      userSelect: 'none',
+      WebkitUserSelect: 'none',
+      WebkitTouchCallout: 'none',
+    }),
+    []
+  );
+
   return {
     onPointerDown,
     onPointerUp,
     onPointerMove,
     onPointerCancel,
     onContextMenu,
-    style: {
-      userSelect: 'none',
-      WebkitUserSelect: 'none',
-      WebkitTouchCallout: 'none',
-    },
+    style,
   };
 }
