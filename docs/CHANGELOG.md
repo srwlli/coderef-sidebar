@@ -7,7 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Action Modal System** - Long-press activated bottom sheet modals for all dashboard cards
+  - **Long-press detection** - 500ms threshold triggers action modal instead of navigation
+  - **Bottom sheet animation** - Smooth slide-up/down with Framer Motion (300ms)
+  - **Contextual actions** - Card-specific quick actions (4 per card average)
+  - **Grid & List support** - Works in both dashboard view modes
+  - **Keyboard accessible** - Escape key to close, focus management
+  - **Dark mode ready** - Full theming support with backdrop blur
+  - Components: `ActionModal`, `ActionButton`, `use-long-press` hook, `card-actions` config
+
+- **Zustand State Management** - Consolidated global state with automatic persistence
+  - **Unified store** - Single `use-app-store` replacing 3 different state patterns
+  - **Copy button tracking** - Migrated from module-level variables to Zustand
+  - **View preference** - Replaced custom event bus with Zustand selector
+  - **Sidebar state** - Migrated localStorage helpers to persist middleware
+  - **Auto-persistence** - localStorage sync via Zustand persist middleware
+  - **DevTools support** - React DevTools integration for debugging
+  - **SSR-safe** - Proper hydration handling for Next.js
+
 ### Removed
+
+- **Custom State Management** - Eliminated fragmented state patterns in favor of Zustand
+  - Deleted `src/utils/buttonState.ts` - module-level state with manual pub/sub
+  - Removed custom event bus from `use-view-preference` hook
+  - Removed inline localStorage helpers from sidebar component
+  - **Result**: -117 lines, +85 lines = Net -32 lines with better architecture
 
 - **AI Tools Page** - Consolidated AI tools into Dashboard for streamlined navigation
   - Deleted `/ai-tools/page.tsx`
