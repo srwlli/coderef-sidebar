@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardHeader, CardTitle, ListCard } from '@/components/cards';
 import {
   Bot,
@@ -15,9 +16,22 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useViewPreference } from '@/hooks/use-view-preference';
+import { ActionModal } from '@/components/modals/action-modal';
+import { getCardActions } from '@/lib/card-actions';
+import { LucideIcon } from 'lucide-react';
+import { useLongPress } from '@/hooks/use-long-press';
+import { useRouter } from 'next/navigation';
+
+interface SelectedCard {
+  title: string;
+  icon: LucideIcon;
+}
 
 export default function Dashboard() {
   const [view] = useViewPreference();
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCard, setSelectedCard] = useState<SelectedCard | null>(null);
+  const router = useRouter();
   const dashboardItems = [
     // Internal Tools
     {
@@ -153,31 +167,48 @@ export default function Dashboard() {
     },
   ];
 
+  const handleLongPress = (item: (typeof dashboardItems)[0]) => {
+    setSelectedCard({
+      title: item.title,
+      icon: item.icon,
+    });
+    setShowModal(true);
+  };
+
   return (
     <>
       {view === 'grid' ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {dashboardItems.map((item, index) => {
             const IconComponent = item.icon;
-            return (
-              <Link
-                key={index}
-                href={item.href}
-                className="block"
-                {...(item.external
-                  ? { target: '_blank', rel: 'noopener noreferrer' }
-                  : {})}
-              >
-                <Card className="h-24 cursor-pointer py-0 transition-shadow duration-200 hover:shadow-lg">
-                  <CardHeader className="flex h-full flex-col items-center justify-center p-3 text-center">
-                    <IconComponent className="mb-1.5 h-6 w-6 flex-shrink-0 sm:mb-2 sm:h-8 sm:w-8" />
-                    <CardTitle className="text-xs leading-tight sm:text-sm">
-                      {item.title}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-              </Link>
-            );
+
+            const GridCard = () => {
+              const longPressHandlers = useLongPress({
+                onLongPress: () => handleLongPress(item),
+                onClick: () => {
+                  if (item.external) {
+                    window.open(item.href, '_blank', 'noopener,noreferrer');
+                  } else {
+                    router.push(item.href);
+                  }
+                },
+              });
+
+              return (
+                <div key={index} className="block" {...longPressHandlers}>
+                  <Card className="h-24 cursor-pointer py-0 transition-shadow duration-200 hover:shadow-lg">
+                    <CardHeader className="flex h-full flex-col items-center justify-center p-3 text-center">
+                      <IconComponent className="mb-1.5 h-6 w-6 flex-shrink-0 sm:mb-2 sm:h-8 sm:w-8" />
+                      <CardTitle className="text-xs leading-tight sm:text-sm">
+                        {item.title}
+                      </CardTitle>
+                    </CardHeader>
+                  </Card>
+                </div>
+              );
+            };
+
+            return <GridCard key={index} />;
           })}
         </div>
       ) : (
@@ -189,9 +220,21 @@ export default function Dashboard() {
               href={item.href}
               icon={item.icon}
               external={item.external}
+              onLongPress={() => handleLongPress(item)}
             />
           ))}
         </div>
+      )}
+
+      {/* Action Modal */}
+      {selectedCard && (
+        <ActionModal
+          visible={showModal}
+          onClose={() => setShowModal(false)}
+          cardTitle={selectedCard.title}
+          cardIcon={selectedCard.icon}
+          actions={getCardActions(selectedCard.title)}
+        />
       )}
     </>
   );
