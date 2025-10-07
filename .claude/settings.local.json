@@ -29,7 +29,9 @@
       "Bash(test:*)",
       "Bash(while read f)",
       "Bash(do ls -lh --time-style=long-iso \"$f\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git push:*)",
+      "Bash(git diff:*)"
     ],
     "deny": []
   }

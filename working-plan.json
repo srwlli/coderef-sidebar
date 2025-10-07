@@ -1,0 +1,358 @@
+{
+  "title": "Action Modal Integration for Sidebar-App Dashboard",
+  "date": "2025-10-06",
+  "status": "in-progress",
+  "version": "1.0.0",
+  "sourceReference": "action-modal.json",
+  "targetApp": "sidebar-app (Next.js)",
+
+  "overview": {
+    "goal": "Add long-press action modals to dashboard cards for quick access to contextual actions",
+    "trigger": "Long-press (500ms) on any dashboard card",
+    "behavior": "Bottom sheet modal slides up with card-specific quick actions and information",
+    "userExperience": "Mobile-like interaction pattern for web dashboard"
+  },
+
+  "useCases": [
+    {
+      "card": "GitHub",
+      "actions": ["View Repositories", "New Repo", "View Issues", "Pull Requests", "Settings"]
+    },
+    {
+      "card": "ChatGPT",
+      "actions": ["Open Chat", "View History", "New Conversation", "Settings"]
+    },
+    {
+      "card": "Prompts",
+      "actions": ["Recent Prompts", "Create New", "Favorites", "Browse All"]
+    },
+    {
+      "card": "Vercel",
+      "actions": ["View Projects", "Deploy", "Analytics", "Settings"]
+    }
+  ],
+
+  "dependencies": {
+    "alreadyInstalled": [
+      {
+        "name": "framer-motion",
+        "version": "12.23.12",
+        "purpose": "Bottom sheet slide animations"
+      },
+      {
+        "name": "sonner",
+        "version": "2.0.7",
+        "purpose": "Toast notifications for coming soon features"
+      },
+      {
+        "name": "lucide-react",
+        "version": "0.542.0",
+        "purpose": "Icons (replacing react-icons from original plan)"
+      }
+    ],
+    "required": []
+  },
+
+  "architecture": {
+    "components": {
+      "ActionModal": {
+        "location": "src/components/modals/action-modal.tsx",
+        "responsibility": "Renders bottom sheet modal with animations and backdrop",
+        "props": ["visible", "onClose", "cardTitle", "actions", "cardIcon"]
+      },
+      "ActionButton": {
+        "location": "src/components/ui/action-button.tsx",
+        "responsibility": "Renders individual action buttons with icons and labels",
+        "props": ["icon", "label", "onClick", "destructive", "disabled"]
+      }
+    },
+    "hooks": {
+      "useLongPress": {
+        "location": "src/hooks/use-long-press.ts",
+        "responsibility": "Detects long-press gestures (500ms threshold)",
+        "returns": "Event handlers for pointerdown, pointerup, pointermove, pointercancel"
+      }
+    },
+    "configuration": {
+      "cardActions": {
+        "location": "src/lib/card-actions.ts",
+        "responsibility": "Maps card titles to their action sets",
+        "exports": "cardActionsMap object"
+      }
+    }
+  },
+
+  "fileStructure": {
+    "newFiles": [
+      {
+        "path": "working-plan.json",
+        "description": "This planning document",
+        "status": "created"
+      },
+      {
+        "path": "src/components/modals/action-modal.tsx",
+        "description": "Main modal component with Framer Motion animations"
+      },
+      {
+        "path": "src/components/ui/action-button.tsx",
+        "description": "Reusable action button with icon and label"
+      },
+      {
+        "path": "src/hooks/use-long-press.ts",
+        "description": "Long-press detection hook"
+      },
+      {
+        "path": "src/lib/card-actions.ts",
+        "description": "Action definitions for all dashboard cards"
+      }
+    ],
+    "modifiedFiles": [
+      {
+        "path": "src/components/cards/Card.tsx",
+        "changes": ["Add onLongPress prop support", "Prevent navigation on long-press"]
+      },
+      {
+        "path": "src/components/cards/ListCard.tsx",
+        "changes": ["Add onLongPress prop support", "Prevent navigation on long-press"]
+      },
+      {
+        "path": "src/app/(app)/dashboard/page.tsx",
+        "changes": ["Add modal state", "Add action handlers", "Import ActionModal", "Pass long-press handler to cards"]
+      }
+    ]
+  },
+
+  "coreFeatures": {
+    "longPressDetection": {
+      "threshold": "500ms",
+      "behavior": "Prevents click/navigation if press exceeds threshold",
+      "cancellation": "Pointer move > 10px cancels long-press",
+      "feedback": "Optional haptic feedback on trigger (future enhancement)"
+    },
+    "animation": {
+      "slideIn": {
+        "duration": "300ms",
+        "easing": "[0.4, 0.0, 0.2, 1]",
+        "transform": "translateY(100%) → translateY(0)"
+      },
+      "slideOut": {
+        "duration": "250ms",
+        "easing": "[0.4, 0.0, 0.2, 1]",
+        "transform": "translateY(0) → translateY(100%)"
+      },
+      "backdrop": {
+        "duration": "200ms",
+        "opacity": "0 → 1 (0.5 black)"
+      }
+    },
+    "dragHandle": {
+      "dimensions": "40px × 4px",
+      "position": "Top center, 12px from top",
+      "color": "gray-300 / gray-600 (dark mode)",
+      "purpose": "Visual affordance for future swipe-to-dismiss"
+    },
+    "actionButtons": {
+      "layout": "Rows of equal-width buttons",
+      "spacing": "12px gap between buttons",
+      "styling": "Border, icon, label, hover states",
+      "destructive": "Red color for destructive actions (if any)"
+    },
+    "backdropDismissal": {
+      "behavior": "Click backdrop to close modal",
+      "implementation": "stopPropagation on modal panel"
+    }
+  },
+
+  "implementationSteps": [
+    {
+      "step": 1,
+      "title": "Create Long-Press Hook",
+      "file": "src/hooks/use-long-press.ts",
+      "tasks": [
+        "Implement pointer event handlers",
+        "Add 500ms timer for long-press threshold",
+        "Handle pointer movement cancellation (>10px)",
+        "Return event handler object"
+      ],
+      "dependencies": []
+    },
+    {
+      "step": 2,
+      "title": "Create ActionButton Component",
+      "file": "src/components/ui/action-button.tsx",
+      "tasks": [
+        "Accept icon, label, onClick props",
+        "Style with Tailwind classes",
+        "Add hover and focus states",
+        "Support destructive variant",
+        "Handle disabled state"
+      ],
+      "dependencies": ["lucide-react"]
+    },
+    {
+      "step": 3,
+      "title": "Create ActionModal Component",
+      "file": "src/components/modals/action-modal.tsx",
+      "tasks": [
+        "Set up Framer Motion AnimatePresence",
+        "Implement portal rendering",
+        "Add backdrop with blur",
+        "Create bottom sheet with drag handle",
+        "Display card title and icon",
+        "Render action buttons in rows",
+        "Handle Escape key to close"
+      ],
+      "dependencies": ["framer-motion", "react-dom", "ActionButton"]
+    },
+    {
+      "step": 4,
+      "title": "Define Card Actions",
+      "file": "src/lib/card-actions.ts",
+      "tasks": [
+        "Create action type definition",
+        "Map each dashboard card to action set",
+        "Include icon, label, href, external flag",
+        "Add placeholder actions for 'Coming Soon'"
+      ],
+      "dependencies": ["lucide-react"]
+    },
+    {
+      "step": 5,
+      "title": "Update Card Component",
+      "file": "src/components/cards/Card.tsx",
+      "tasks": [
+        "Add optional onLongPress prop",
+        "Integrate useLongPress hook",
+        "Prevent default click on long-press"
+      ],
+      "dependencies": ["useLongPress"]
+    },
+    {
+      "step": 6,
+      "title": "Update ListCard Component",
+      "file": "src/components/cards/ListCard.tsx",
+      "tasks": [
+        "Add optional onLongPress prop",
+        "Pass to Card component",
+        "Handle navigation prevention on long-press"
+      ],
+      "dependencies": ["useLongPress", "Card"]
+    },
+    {
+      "step": 7,
+      "title": "Integrate into Dashboard",
+      "file": "src/app/(app)/dashboard/page.tsx",
+      "tasks": [
+        "Import ActionModal and cardActionsMap",
+        "Add modal visibility state",
+        "Add selected card state",
+        "Create handleLongPress function",
+        "Pass onLongPress to cards",
+        "Render ActionModal with props"
+      ],
+      "dependencies": ["ActionModal", "cardActions"]
+    },
+    {
+      "step": 8,
+      "title": "Test and Refine",
+      "tasks": [
+        "Test long-press on all cards (grid and list views)",
+        "Verify animations run smoothly",
+        "Test backdrop dismissal",
+        "Test Escape key",
+        "Verify actions trigger correctly",
+        "Check dark mode styling",
+        "Test on mobile devices",
+        "Verify accessibility (keyboard, screen readers)"
+      ]
+    }
+  ],
+
+  "accessibilityFeatures": {
+    "keyboard": {
+      "escape": "Close modal",
+      "tab": "Navigate through action buttons",
+      "enter": "Activate focused button"
+    },
+    "aria": {
+      "modal": "role=\"dialog\" aria-modal=\"true\"",
+      "backdrop": "aria-label=\"Close modal\"",
+      "buttons": "Descriptive aria-labels on all actions"
+    },
+    "focusManagement": {
+      "onOpen": "Focus first action button",
+      "onClose": "Return focus to trigger card",
+      "trap": "Focus stays within modal when open"
+    }
+  },
+
+  "performanceOptimizations": {
+    "lazyLoading": "Consider dynamic import for ActionModal",
+    "bodyScrollLock": "Prevent background scroll when modal open",
+    "memoization": "Memoize action arrays to prevent re-renders",
+    "portalOptimization": "Only render when visible"
+  },
+
+  "testingChecklist": [
+    "✓ Long-press triggers modal (500ms)",
+    "✓ Normal click still navigates",
+    "✓ Modal slides up smoothly",
+    "✓ Backdrop click closes modal",
+    "✓ Escape key closes modal",
+    "✓ Actions display correctly per card",
+    "✓ Buttons are clickable",
+    "✓ Hover states work",
+    "✓ Dark mode renders correctly",
+    "✓ Mobile touch works",
+    "✓ Grid view cards work",
+    "✓ List view cards work",
+    "✓ Focus management works",
+    "✓ No navigation on long-press"
+  ],
+
+  "futureEnhancements": [
+    {
+      "feature": "Swipe to dismiss",
+      "implementation": "Framer Motion drag controls on modal",
+      "priority": "Medium"
+    },
+    {
+      "feature": "Haptic feedback",
+      "implementation": "navigator.vibrate() on long-press trigger",
+      "priority": "Low"
+    },
+    {
+      "feature": "Custom action sets",
+      "implementation": "User configurable actions per card",
+      "priority": "Low"
+    },
+    {
+      "feature": "Action search",
+      "implementation": "Search filter for action lists",
+      "priority": "Low"
+    },
+    {
+      "feature": "Recent actions",
+      "implementation": "Track and show recently used actions",
+      "priority": "Low"
+    }
+  ],
+
+  "estimatedEffort": {
+    "longPressHook": "30 minutes",
+    "actionButton": "20 minutes",
+    "actionModal": "1.5 hours",
+    "cardActions": "30 minutes",
+    "cardUpdates": "30 minutes",
+    "dashboardIntegration": "30 minutes",
+    "testing": "1 hour",
+    "total": "4-5 hours"
+  },
+
+  "resourceLinks": {
+    "framerMotion": "https://www.framer.com/motion/",
+    "lucideReact": "https://lucide.dev/",
+    "sonner": "https://sonner.emilkowal.ski/",
+    "pointerEvents": "https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events"
+  }
+}

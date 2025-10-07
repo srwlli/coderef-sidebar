@@ -1,0 +1,541 @@
+{
+  "title": "Next.js Action Modal Implementation Plan",
+  "date": "2025-10-06",
+  "status": "ready-to-implement",
+  "version": "1.0.0",
+  "sourceApp": "noted (React Native)",
+  "targetApp": "sidebar-app (Next.js)",
+
+  "overview": {
+    "goal": "Convert React Native NoteActionsModal to Next.js with identical UX and behavior",
+    "motivation": "Port bottom-sheet action modal pattern to web while maintaining mobile-like user experience",
+    "reactNativeSource": "components/note-actions-modal.tsx",
+    "nextJsTarget": "components/note-actions-modal-web.tsx",
+    "keyChallenge": "Replace React Native APIs (Modal, Animated, TouchableOpacity) with web equivalents"
+  },
+
+  "featureComparison": {
+    "reactNative": {
+      "modal": "React Native Modal component",
+      "animation": "animationType='slide' (bottom-to-top)",
+      "backdrop": "TouchableOpacity with rgba(0,0,0,0.5)",
+      "interactions": "TouchableOpacity for all buttons",
+      "styling": "StyleSheet API",
+      "portal": "Built-in Modal portal behavior",
+      "accessibility": "onRequestClose prop"
+    },
+    "nextJs": {
+      "modal": "Headless UI Dialog or Framer Motion",
+      "animation": "Framer Motion or CSS Transition",
+      "backdrop": "Fixed div with backdrop-blur",
+      "interactions": "Button elements with hover states",
+      "styling": "Tailwind CSS or CSS Modules",
+      "portal": "createPortal from react-dom",
+      "accessibility": "Dialog ARIA, focus trap, Escape key"
+    }
+  },
+
+  "dependencies": {
+    "required": [
+      {
+        "name": "framer-motion",
+        "version": "^11.0.0",
+        "purpose": "Bottom-sheet slide animation",
+        "install": "npm install framer-motion",
+        "alternative": "@headlessui/react (lighter, less animation control)"
+      },
+      {
+        "name": "sonner",
+        "version": "^1.0.0",
+        "purpose": "Toast notifications (web version of sonner-native)",
+        "install": "npm install sonner"
+      },
+      {
+        "name": "react-icons",
+        "version": "^5.0.0",
+        "purpose": "Material Icons equivalent for web",
+        "install": "npm install react-icons",
+        "alternative": "lucide-react or heroicons"
+      }
+    ],
+    "optional": [
+      {
+        "name": "@headlessui/react",
+        "version": "^2.0.0",
+        "purpose": "Alternative to Framer Motion (lighter weight)",
+        "install": "npm install @headlessui/react"
+      }
+    ]
+  },
+
+  "fileStructure": {
+    "newFiles": [
+      {
+        "path": "components/note-actions-modal-web.tsx",
+        "description": "Main modal component with bottom-sheet animation"
+      },
+      {
+        "path": "components/ui/action-button.tsx",
+        "description": "Reusable action button (icon + label)"
+      },
+      {
+        "path": "components/ui/primary-action-row.tsx",
+        "description": "Horizontal row of action buttons"
+      },
+      {
+        "path": "hooks/use-toast.ts",
+        "description": "Toast notification hook (wrapper for sonner)",
+        "optional": true,
+        "note": "Only if not using sonner directly"
+      }
+    ],
+    "modifiedFiles": [
+      {
+        "path": "app/notes/page.tsx",
+        "changes": ["Import NoteActionsModalWeb", "Add modal state", "Pass note props to modal"]
+      },
+      {
+        "path": "components/note-item-web.tsx",
+        "changes": ["Add (...) button", "Trigger modal on click", "Pass note data to parent"]
+      }
+    ]
+  },
+
+  "coreFeatures": {
+    "animation": {
+      "name": "Bottom-sheet slide animation",
+      "direction": "Slide up from bottom",
+      "timing": {
+        "slideIn": "300ms ease-out",
+        "slideOut": "250ms ease-in",
+        "backdropFade": "200ms"
+      },
+      "implementation": "Framer Motion with translateY transform",
+      "performance": "GPU-accelerated transforms"
+    },
+    "dragHandle": {
+      "name": "Visual drag indicator",
+      "dimensions": "40px × 4px",
+      "color": "border color (theme-aware)",
+      "position": "Top center, 12px from top",
+      "purpose": "Visual affordance for swipe-to-dismiss (future enhancement)"
+    },
+    "editableTitle": {
+      "name": "Inline title editing",
+      "behavior": "Input field in modal header",
+      "validation": "Max 200 characters",
+      "persistence": "onTitleChange callback to parent",
+      "styling": "Border on focus, theme-aware colors"
+    },
+    "actionGrid": {
+      "layout": "3 rows of action buttons",
+      "row1": ["Edit", "Favorite/Unfavorite", "Share", "Duplicate"],
+      "row2": ["AI Actions", "Export", "Organization"],
+      "row3": ["Copy", "Delete (destructive)", "Download"],
+      "responsive": "Equal-width buttons with flex-grow"
+    },
+    "favoriteToggle": {
+      "behavior": "Toggle between star and star-outline icons",
+      "label": "Dynamic - 'Favorite' or 'Unfavorite'",
+      "callback": "onToggleFavorite prop"
+    },
+    "destructiveActions": {
+      "example": "Delete button",
+      "color": "Red (#dc2626)",
+      "icon": "Red trash icon",
+      "label": "Red text",
+      "hover": "Darker red background"
+    },
+    "backdropDismissal": {
+      "behavior": "Click outside modal to close",
+      "implementation": "onClick on backdrop div with stopPropagation on panel",
+      "animation": "Slide down + fade out backdrop"
+    }
+  },
+
+  "codeImplementation": {
+    "noteActionsModalWeb": {
+      "file": "components/note-actions-modal-web.tsx",
+      "code": "import { motion, AnimatePresence } from 'framer-motion'\nimport { createPortal } from 'react-dom'\nimport { useState, useEffect } from 'react'\nimport { MdEdit, MdStar, MdStarBorder, MdShare, MdContentCopy, MdAutoAwesome, MdFileDownload, MdFolderOpen, MdDelete, MdDownload } from 'react-icons/md'\nimport { toast } from 'sonner'\nimport { PrimaryActionRowWeb } from './ui/primary-action-row'\n\ninterface NoteActionsModalWebProps {\n  visible: boolean\n  onClose: () => void\n  noteId: string\n  noteTitle: string\n  noteContent: string\n  isFavorite: boolean\n  onToggleFavorite: () => void\n  onTitleChange?: (newTitle: string) => void\n}\n\nexport function NoteActionsModalWeb({\n  visible,\n  onClose,\n  noteId,\n  noteTitle,\n  noteContent,\n  isFavorite,\n  onToggleFavorite,\n  onTitleChange\n}: NoteActionsModalWebProps) {\n  const [title, setTitle] = useState(noteTitle)\n  const [mounted, setMounted] = useState(false)\n\n  useEffect(() => {\n    setMounted(true)\n    return () => setMounted(false)\n  }, [])\n\n  // Sync title with prop changes\n  useEffect(() => {\n    setTitle(noteTitle)\n  }, [noteTitle])\n\n  // Handle title change with debounce or on blur\n  const handleTitleBlur = () => {\n    if (title !== noteTitle && onTitleChange) {\n      onTitleChange(title)\n    }\n  }\n\n  const showComingSoon = () => {\n    toast.info('Coming Soon', { position: 'top-center' })\n  }\n\n  const handleEdit = () => {\n    // Navigate to editor or open edit modal\n    window.location.href = `/note-editor/${noteId}`\n  }\n\n  // Action configurations\n  const favoriteIcon = isFavorite ? MdStar : MdStarBorder\n  const primaryActions = [\n    { icon: MdEdit, label: 'Edit', onPress: handleEdit, disabled: false },\n    { icon: favoriteIcon, label: isFavorite ? 'Unfavorite' : 'Favorite', onPress: onToggleFavorite, disabled: false },\n    { icon: MdShare, label: 'Share', onPress: showComingSoon, disabled: false },\n    { icon: MdContentCopy, label: 'Duplicate', onPress: showComingSoon, disabled: false },\n  ]\n\n  const secondaryActions = [\n    { icon: MdAutoAwesome, label: 'AI Actions', onPress: showComingSoon, disabled: false },\n    { icon: MdFileDownload, label: 'Export', onPress: showComingSoon, disabled: false },\n    { icon: MdFolderOpen, label: 'Organization', onPress: showComingSoon, disabled: false },\n  ]\n\n  const tertiaryActions = [\n    { icon: MdContentCopy, label: 'Copy', onPress: showComingSoon, disabled: false },\n    { icon: MdDelete, label: 'Delete', onPress: showComingSoon, disabled: false, destructive: true },\n    { icon: MdDownload, label: 'Download', onPress: showComingSoon, disabled: false },\n  ]\n\n  if (!mounted) return null\n\n  return createPortal(\n    <AnimatePresence>\n      {visible && (\n        <>\n          {/* Backdrop */}\n          <motion.div\n            initial={{ opacity: 0 }}\n            animate={{ opacity: 1 }}\n            exit={{ opacity: 0 }}\n            transition={{ duration: 0.2 }}\n            onClick={onClose}\n            className=\"fixed inset-0 bg-black/50 z-50\"\n          />\n\n          {/* Bottom Sheet */}\n          <motion.div\n            initial={{ y: '100%' }}\n            animate={{ y: 0 }}\n            exit={{ y: '100%' }}\n            transition={{ \n              duration: 0.3, \n              ease: [0.4, 0.0, 0.2, 1]\n            }}\n            onClick={(e) => e.stopPropagation()}\n            className=\"fixed bottom-0 left-0 right-0 z-50\n                       bg-white dark:bg-gray-800\n                       rounded-t-[20px] pb-8 max-h-[80vh]\n                       shadow-2xl\"\n          >\n            {/* Drag Handle */}\n            <div className=\"flex justify-center pt-3 pb-2\">\n              <div className=\"w-10 h-1 bg-gray-300 dark:bg-gray-600 rounded-full\" />\n            </div>\n\n            {/* Header with Title Input */}\n            <div className=\"px-4 py-3 border-b border-transparent\">\n              <input\n                type=\"text\"\n                value={title}\n                onChange={(e) => setTitle(e.target.value)}\n                onBlur={handleTitleBlur}\n                placeholder=\"Note title\"\n                maxLength={200}\n                className=\"w-full text-xl font-semibold px-3 py-2\n                           border border-gray-300 dark:border-gray-600 rounded-lg\n                           bg-transparent text-gray-900 dark:text-white\n                           focus:outline-none focus:ring-2 focus:ring-blue-500\"\n              />\n            </div>\n\n            {/* Content */}\n            <div className=\"max-h-[600px] overflow-y-auto\">\n              <div className=\"px-4 pb-4 space-y-3\">\n                <PrimaryActionRowWeb actions={primaryActions} />\n                <PrimaryActionRowWeb actions={secondaryActions} />\n                <PrimaryActionRowWeb actions={tertiaryActions} />\n              </div>\n            </div>\n          </motion.div>\n        </>\n      )}\n    </AnimatePresence>,\n    document.body\n  )\n}"
+    },
+    "primaryActionRowWeb": {
+      "file": "components/ui/primary-action-row.tsx",
+      "code": "import { IconType } from 'react-icons'\n\ninterface Action {\n  icon: IconType\n  label: string\n  onPress: () => void\n  disabled?: boolean\n  destructive?: boolean\n}\n\ninterface PrimaryActionRowWebProps {\n  actions: Action[]\n  title?: string\n}\n\nexport function PrimaryActionRowWeb({ actions, title }: PrimaryActionRowWebProps) {\n  return (\n    <div className=\"space-y-2\">\n      {title && (\n        <h3 className=\"text-lg font-semibold text-gray-900 dark:text-white px-1\">\n          {title}\n        </h3>\n      )}\n      <div className=\"flex gap-3\">\n        {actions.map((action, index) => {\n          const Icon = action.icon\n          const iconColor = action.destructive ? 'text-red-600' : 'text-gray-700 dark:text-gray-200'\n          const textColor = action.destructive ? 'text-red-600' : 'text-gray-700 dark:text-gray-200'\n          const hoverBg = action.destructive ? 'hover:bg-red-50 dark:hover:bg-red-900/20' : 'hover:bg-gray-100 dark:hover:bg-gray-700'\n\n          return (\n            <button\n              key={index}\n              onClick={action.onPress}\n              disabled={action.disabled}\n              className={`flex-1 flex flex-col items-center justify-center gap-2\n                         py-4 px-3 rounded-xl border\n                         bg-white dark:bg-gray-800\n                         border-gray-200 dark:border-gray-700\n                         ${hoverBg}\n                         disabled:opacity-50 disabled:cursor-not-allowed\n                         transition-colors duration-150\n                         focus:outline-none focus:ring-2 focus:ring-blue-500`}\n            >\n              <Icon className={`text-[28px] ${iconColor}`} />\n              <span className={`text-sm font-medium ${textColor}`}>\n                {action.label}\n              </span>\n            </button>\n          )\n        })}\n      </div>\n    </div>\n  )\n}"
+    },
+    "usageExample": {
+      "file": "app/notes/page.tsx",
+      "code": "'use client'\nimport { useState } from 'react'\nimport { NoteActionsModalWeb } from '@/components/note-actions-modal-web'\nimport { Toaster } from 'sonner'\n\nexport default function NotesPage() {\n  const [showModal, setShowModal] = useState(false)\n  const [selectedNote, setSelectedNote] = useState<Note | null>(null)\n\n  const handleNoteOptions = (note: Note) => {\n    setSelectedNote(note)\n    setShowModal(true)\n  }\n\n  const handleToggleFavorite = async () => {\n    if (!selectedNote) return\n    // API call to toggle favorite\n    await fetch(`/api/notes/${selectedNote.id}/favorite`, { method: 'PATCH' })\n    // Update local state\n  }\n\n  const handleTitleChange = async (newTitle: string) => {\n    if (!selectedNote) return\n    // API call to update title\n    await fetch(`/api/notes/${selectedNote.id}`, {\n      method: 'PATCH',\n      body: JSON.stringify({ title: newTitle })\n    })\n  }\n\n  return (\n    <div>\n      <Toaster />\n      \n      {/* Note list with options button */}\n      {notes.map((note) => (\n        <div key={note.id}>\n          <NoteItem note={note} />\n          <button onClick={() => handleNoteOptions(note)}>\n            (...)\n          </button>\n        </div>\n      ))}\n\n      {/* Action Modal */}\n      {selectedNote && (\n        <NoteActionsModalWeb\n          visible={showModal}\n          onClose={() => setShowModal(false)}\n          noteId={selectedNote.id}\n          noteTitle={selectedNote.title}\n          noteContent={selectedNote.content}\n          isFavorite={selectedNote.isFavorite}\n          onToggleFavorite={handleToggleFavorite}\n          onTitleChange={handleTitleChange}\n        />\n      )}\n    </div>\n  )\n}"
+    }
+  },
+
+  "stylingApproach": {
+    "option1_tailwind": {
+      "name": "Tailwind CSS (Recommended)",
+      "pros": ["Matches RN StyleSheet pattern", "Theme support via dark: prefix", "Responsive utilities", "No CSS file needed"],
+      "cons": ["Requires Tailwind setup", "Longer class strings"],
+      "setup": "npx tailwindcss init -p",
+      "config": "tailwind.config.js must include darkMode: 'class'"
+    },
+    "option2_cssModules": {
+      "name": "CSS Modules",
+      "pros": ["Scoped styles", "Better IDE support", "More readable JSX"],
+      "cons": ["Separate .module.css files", "Manual theme switching"],
+      "example": "import styles from './note-actions-modal.module.css'"
+    },
+    "option3_styledComponents": {
+      "name": "Styled Components",
+      "pros": ["CSS-in-JS like RN", "Dynamic theming", "No className needed"],
+      "cons": ["Extra dependency", "SSR setup required for Next.js"],
+      "note": "Not recommended for this use case"
+    }
+  },
+
+  "implementationSteps": [
+    {
+      "step": 1,
+      "title": "Install Dependencies",
+      "commands": [
+        "npm install framer-motion",
+        "npm install react-icons",
+        "npm install sonner"
+      ],
+      "verification": "Check package.json for new dependencies"
+    },
+    {
+      "step": 2,
+      "title": "Create PrimaryActionRowWeb Component",
+      "file": "components/ui/primary-action-row.tsx",
+      "tasks": [
+        "Copy code from codeImplementation.primaryActionRowWeb",
+        "Create IconType interface for react-icons",
+        "Implement flex layout with gap",
+        "Add destructive variant styling",
+        "Add hover states and focus rings",
+        "Test with sample actions"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Create NoteActionsModalWeb Component",
+      "file": "components/note-actions-modal-web.tsx",
+      "tasks": [
+        "Copy code from codeImplementation.noteActionsModalWeb",
+        "Import Framer Motion and react-dom",
+        "Set up animation variants",
+        "Implement portal rendering",
+        "Add title state management",
+        "Wire up all action handlers",
+        "Add onTitleChange callback",
+        "Test modal open/close animations"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Integrate into Notes Page",
+      "file": "app/notes/page.tsx",
+      "tasks": [
+        "Import NoteActionsModalWeb",
+        "Add showModal and selectedNote state",
+        "Create handleNoteOptions function",
+        "Add (...) button to note items",
+        "Implement onToggleFavorite handler",
+        "Implement onTitleChange handler",
+        "Add Toaster component from sonner"
+      ]
+    },
+    {
+      "step": 5,
+      "title": "Add Accessibility Features",
+      "tasks": [
+        "Add ARIA labels to all buttons",
+        "Implement Escape key to close",
+        "Add focus trap within modal",
+        "Test keyboard navigation",
+        "Add screen reader announcements",
+        "Verify focus returns to trigger button on close"
+      ]
+    },
+    {
+      "step": 6,
+      "title": "Performance Optimization",
+      "tasks": [
+        "Lazy load modal component",
+        "Add body scroll lock when modal open",
+        "Implement reduce motion preference check",
+        "Optimize re-renders with React.memo",
+        "Test on mobile devices"
+      ]
+    },
+    {
+      "step": 7,
+      "title": "Testing",
+      "tasks": [
+        "Test all action buttons",
+        "Verify title editing and persistence",
+        "Test favorite toggle with icon change",
+        "Verify backdrop dismissal",
+        "Test animations on different browsers",
+        "Mobile responsiveness check",
+        "Accessibility audit with Lighthouse"
+      ]
+    }
+  ],
+
+  "accessibilityEnhancements": {
+    "keyboardSupport": {
+      "escape": "Close modal on Escape key press",
+      "tab": "Focus trap - tab cycles through modal elements only",
+      "enter": "Activate focused action button",
+      "implementation": "useEffect(() => {\n  const handleEscape = (e: KeyboardEvent) => {\n    if (e.key === 'Escape') onClose()\n  }\n  if (visible) {\n    document.addEventListener('keydown', handleEscape)\n    return () => document.removeEventListener('keydown', handleEscape)\n  }\n}, [visible, onClose])"
+    },
+    "ariaLabels": {
+      "modal": "aria-label=\"Note actions\"",
+      "titleInput": "aria-label=\"Edit note title\"",
+      "dragHandle": "aria-hidden=\"true\"",
+      "closeBackdrop": "aria-label=\"Close modal\""
+    },
+    "focusManagement": {
+      "onOpen": "Focus first action button or title input",
+      "onClose": "Return focus to trigger button (... button)",
+      "implementation": "Use react-focus-lock or manual focus management"
+    },
+    "reducedMotion": {
+      "check": "const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+      "behavior": "Disable slide animations, use instant show/hide",
+      "implementation": "Conditional transition durations based on preference"
+    }
+  },
+
+  "performanceOptimizations": {
+    "lazyLoading": {
+      "component": "const NoteActionsModalWeb = dynamic(() => import('@/components/note-actions-modal-web'), { ssr: false })",
+      "benefit": "Reduce initial bundle size by ~20KB"
+    },
+    "bodyScrollLock": {
+      "implementation": "useEffect(() => {\n  if (visible) {\n    document.body.style.overflow = 'hidden'\n    return () => { document.body.style.overflow = 'auto' }\n  }\n}, [visible])",
+      "benefit": "Prevent background scroll on mobile"
+    },
+    "memoization": {
+      "actions": "useMemo(() => [primaryActions, secondaryActions, tertiaryActions], [isFavorite])",
+      "component": "React.memo(PrimaryActionRowWeb)",
+      "benefit": "Prevent unnecessary re-renders"
+    },
+    "portalOptimization": {
+      "condition": "Only render portal when visible",
+      "benefit": "Reduce DOM nodes when modal closed"
+    }
+  },
+
+  "testingChecklist": [
+    {
+      "category": "Functionality",
+      "tests": [
+        "Modal opens with slide-up animation",
+        "Modal closes with slide-down animation",
+        "Backdrop click dismisses modal",
+        "Title input accepts text and persists on blur",
+        "Favorite button toggles icon (star ” star-outline)",
+        "Edit button navigates to /note-editor/[id]",
+        "Delete button shows red destructive styling",
+        "All 'Coming Soon' actions show toast",
+        "Title syncs with prop changes"
+      ]
+    },
+    {
+      "category": "Accessibility",
+      "tests": [
+        "Escape key closes modal",
+        "Tab key cycles through interactive elements",
+        "Focus trapped within modal when open",
+        "Focus returns to trigger button on close",
+        "All buttons have visible focus indicators",
+        "Screen reader announces modal state",
+        "ARIA labels present on all interactive elements",
+        "Reduced motion preference disables animations"
+      ]
+    },
+    {
+      "category": "Visual/UX",
+      "tests": [
+        "Drag handle visible at top center",
+        "Border radius matches design (20px top corners)",
+        "Max height constraint (80vh) works",
+        "Backdrop opacity matches design (50%)",
+        "Destructive action (Delete) uses red color",
+        "Hover states work on all buttons",
+        "Dark mode colors apply correctly",
+        "Mobile responsive layout"
+      ]
+    },
+    {
+      "category": "Performance",
+      "tests": [
+        "Animation runs at 60fps",
+        "No layout shift when modal opens",
+        "Portal renders outside main DOM tree",
+        "Component lazy loads (check Network tab)",
+        "Body scroll locked when modal open",
+        "Re-renders minimized (React DevTools Profiler)"
+      ]
+    },
+    {
+      "category": "Cross-browser",
+      "tests": [
+        "Chrome/Edge (latest)",
+        "Firefox (latest)",
+        "Safari (desktop and iOS)",
+        "Mobile browsers (Chrome Android, Safari iOS)"
+      ]
+    }
+  ],
+
+  "migrationNotes": {
+    "differences": [
+      "React Native Modal ’ createPortal + Framer Motion",
+      "TouchableOpacity ’ button with CSS hover",
+      "MaterialIcons ’ react-icons/md",
+      "sonner-native ’ sonner (web)",
+      "colors.elevatedSurface ’ bg-white dark:bg-gray-800",
+      "StyleSheet.create ’ Tailwind classes",
+      "stopPropagation ’ onClick={(e) => e.stopPropagation()}"
+    ],
+    "breakingChanges": [
+      "onTitleChange callback required for title persistence",
+      "Icon imports change from @expo/vector-icons to react-icons",
+      "Toast import changes from sonner-native to sonner"
+    ],
+    "newCapabilities": [
+      "Hover states on buttons (web-only)",
+      "Focus visible indicators (web accessibility)",
+      "Keyboard shortcuts (Escape to close)",
+      "Reduced motion support"
+    ]
+  },
+
+  "futureEnhancements": [
+    {
+      "feature": "Swipe to dismiss",
+      "implementation": "Framer Motion drag controls",
+      "priority": "Medium"
+    },
+    {
+      "feature": "Customizable action sets",
+      "implementation": "Accept actions array as prop",
+      "priority": "Low"
+    },
+    {
+      "feature": "Action search",
+      "implementation": "Command palette style search",
+      "priority": "Low"
+    },
+    {
+      "feature": "Undo/redo for title edits",
+      "implementation": "History stack with Ctrl+Z",
+      "priority": "Low"
+    },
+    {
+      "feature": "Multi-select actions",
+      "implementation": "Checkbox mode for batch operations",
+      "priority": "Medium"
+    }
+  ],
+
+  "quickStartGuide": {
+    "prerequisites": [
+      "Next.js 13+ with App Router",
+      "Tailwind CSS configured",
+      "TypeScript enabled"
+    ],
+    "installationSteps": [
+      "1. npm install framer-motion react-icons sonner",
+      "2. Create components/ui/primary-action-row.tsx",
+      "3. Create components/note-actions-modal-web.tsx",
+      "4. Import and use in app/notes/page.tsx",
+      "5. Add <Toaster /> to root layout"
+    ],
+    "verificationSteps": [
+      "1. Click (...) button on any note",
+      "2. Modal should slide up from bottom",
+      "3. Edit title and click outside input",
+      "4. Title should persist via onTitleChange",
+      "5. Click favorite - icon should toggle",
+      "6. Click backdrop - modal should slide down and close"
+    ]
+  },
+
+  "troubleshooting": {
+    "commonIssues": [
+      {
+        "issue": "Modal doesn't animate",
+        "cause": "Framer Motion not installed or AnimatePresence missing",
+        "fix": "npm install framer-motion && wrap modal in <AnimatePresence>"
+      },
+      {
+        "issue": "Portal renders in wrong location",
+        "cause": "document.body not available during SSR",
+        "fix": "Add mounted state check before rendering portal"
+      },
+      {
+        "issue": "Title changes don't persist",
+        "cause": "Missing onTitleChange callback",
+        "fix": "Implement handleTitleChange in parent component"
+      },
+      {
+        "issue": "Backdrop doesn't dismiss",
+        "cause": "Event bubbling not stopped on panel",
+        "fix": "Add onClick={(e) => e.stopPropagation()} to modal panel"
+      },
+      {
+        "issue": "Icons don't show",
+        "cause": "react-icons not installed or wrong import",
+        "fix": "npm install react-icons && import from react-icons/md"
+      },
+      {
+        "issue": "Dark mode doesn't work",
+        "cause": "Tailwind darkMode not configured",
+        "fix": "Add darkMode: 'class' to tailwind.config.js"
+      }
+    ]
+  },
+
+  "completionCriteria": {
+    "must_have": [
+      " Modal slides up from bottom (300ms)",
+      " Modal slides down on close (250ms)",
+      " Backdrop dismissal works",
+      " Title editing persists via callback",
+      " Favorite toggle updates icon",
+      " Edit action navigates correctly",
+      " Delete button shows red styling",
+      " Accessibility: Escape closes modal",
+      " Accessibility: Focus management",
+      " Mobile responsive",
+      " Dark mode support"
+    ],
+    "nice_to_have": [
+      "P Swipe to dismiss",
+      "P Reduced motion support",
+      "P Lazy loading optimization",
+      "P Unit tests for actions",
+      "P Storybook stories"
+    ]
+  },
+
+  "estimatedEffort": {
+    "setup": "30 minutes (install deps, create files)",
+    "coreImplementation": "2-3 hours (modal + action row components)",
+    "integration": "1 hour (wire up in notes page)",
+    "accessibility": "1-2 hours (keyboard, ARIA, focus)",
+    "testing": "1-2 hours (manual + automated)",
+    "total": "5-8 hours for complete implementation"
+  },
+
+  "resourceLinks": {
+    "framerMotion": "https://www.framer.com/motion/",
+    "reactIcons": "https://react-icons.github.io/react-icons/",
+    "sonner": "https://sonner.emilkowal.ski/",
+    "headlessUI": "https://headlessui.com/",
+    "tailwindDarkMode": "https://tailwindcss.com/docs/dark-mode",
+    "reactPortal": "https://react.dev/reference/react-dom/createPortal"
+  }
+}
