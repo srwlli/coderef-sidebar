@@ -28,7 +28,7 @@ export function ListCard({
 }: ListCardProps) {
   const router = useRouter();
 
-  const longPressHandlers = useLongPress({
+  const { style, ...handlers } = useLongPress({
     onLongPress: () => {
       if (onLongPress) onLongPress();
     },
@@ -61,7 +61,7 @@ export function ListCard({
 
   // With long-press support
   return (
-    <div className="block" {...longPressHandlers}>
+    <div className="block" style={style} {...handlers}>
       <Card className="cursor-pointer gap-0 py-0 transition-shadow duration-200 hover:shadow-lg">
         <CardHeader className="flex flex-row items-center gap-3 p-4">
           <Icon className="h-5 w-5 flex-shrink-0" />

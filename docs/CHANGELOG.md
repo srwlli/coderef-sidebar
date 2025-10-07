@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Uses Figma icon from lucide-react
   - Positioned between Google Stitch and n8n Workflows
 
+- **Modular Sidebar Package** - Extracted sidebar component into reusable build-library package
+  - Created `@noted/sidebar` package at `build-library/sidebar/`
+  - **Zero vendor lock-in** - Removed Zustand dependency, added configurable storage adapters
+  - **localStorage helper** - Built-in `createLocalStorageAdapter()` for quick setup
+  - **Zustand compatible** - Easy integration with existing stores via props
+  - **20+ components** - Complete sidebar system (Provider, Trigger, Menu, Groups, etc.)
+  - **Web-only package** - Optimized for React/Next.js with Radix UI primitives
+  - **Comprehensive docs** - Full API reference in README.md with usage examples
+  - **Working examples** - Complete Next.js example with navigation, submenus, icons
+  - **Production ready** - Extracted and refined from working sidebar-app implementation
+  - Files: `build-library/sidebar/src/`, comprehensive TypeScript types, hooks, components
+
 - **Action Modal System** - Long-press activated bottom sheet modals for all dashboard cards
   - **Long-press detection** - 500ms threshold triggers action modal instead of navigation
   - **Bottom sheet animation** - Smooth slide-up/down with Framer Motion (300ms)
@@ -117,6 +129,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Applied CSS `userSelect: 'none'` and webkit variants via style prop
   - Eliminates "copy/paste/select all" popup during card long-press
   - Files: `src/hooks/use-long-press.ts`
+
+- **Long-Press Style Property** - Fixed cards not rendering due to style prop spreading
+  - Destructured `style` from `useLongPress` return value separately from event handlers
+  - Applied style explicitly before spreading handlers to prevent prop conflicts
+  - Fixed dashboard grid cards and ListCard component
+  - Files: `src/app/(app)/dashboard/page.tsx`, `src/components/cards/ListCard.tsx`
+
+- **Dashboard Hydration Error** - Fixed React Error #185 infinite render loop
+  - Moved `GridCardItem` component definition outside `.map()` function
+  - Prevented component recreation on every render that caused hydration mismatch
+  - Changed keys from `index` to `item.href` for stable component identity
+  - Created proper `DashboardItem` TypeScript type
+  - Files: `src/app/(app)/dashboard/page.tsx`
 
 - **Dashboard View Toggle** - Fixed view switching not updating immediately when toggling between grid and list
   - Implemented event-based state synchronization in useViewPreference hook

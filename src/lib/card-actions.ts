@@ -19,8 +19,8 @@ import {
   BookOpen,
   Zap,
   Search,
+  Rocket,
 } from 'lucide-react';
-import { toast } from 'sonner';
 import { LucideIcon } from 'lucide-react';
 
 export interface CardAction {
@@ -30,13 +30,6 @@ export interface CardAction {
   disabled?: boolean;
   destructive?: boolean;
 }
-
-/**
- * Show "Coming Soon" toast notification
- */
-const showComingSoon = () => {
-  toast.info('Coming Soon', { position: 'top-center' });
-};
 
 /**
  * Open external URL in new tab
@@ -59,13 +52,11 @@ const navigate = (path: string) => () => {
 export const cardActionsMap: Record<string, CardAction[]> = {
   // Internal Tools
   Prompts: [
-    { icon: Star, label: 'Favorites', onClick: showComingSoon },
     {
       icon: PlusCircle,
       label: 'Create New',
       onClick: navigate('/ai-tools/prompts'),
     },
-    { icon: History, label: 'Recent', onClick: showComingSoon },
     {
       icon: FolderOpen,
       label: 'Browse All',
@@ -79,9 +70,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'View Commands',
       onClick: navigate('/git-commands'),
     },
-    { icon: Code, label: 'Quick Reference', onClick: showComingSoon },
-    { icon: BookOpen, label: 'Git Guide', onClick: showComingSoon },
-    { icon: Settings, label: 'Preferences', onClick: showComingSoon },
   ],
 
   'Next.js Setup': [
@@ -90,9 +78,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'View Workflow',
       onClick: navigate('/workflows/nextjs-setup'),
     },
-    { icon: FileText, label: 'Documentation', onClick: showComingSoon },
-    { icon: Zap, label: 'Quick Start', onClick: showComingSoon },
-    { icon: Settings, label: 'Configure', onClick: showComingSoon },
   ],
 
   // External Platforms
@@ -102,9 +87,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open App',
       onClick: openExternal('https://noted-bay-three.vercel.app/'),
     },
-    { icon: PlusCircle, label: 'New Note', onClick: showComingSoon },
-    { icon: Search, label: 'Search Notes', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Vercel: [
@@ -113,9 +95,11 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Dashboard',
       onClick: openExternal('https://vercel.com/teamhart'),
     },
-    { icon: Package, label: 'Projects', onClick: showComingSoon },
-    { icon: Zap, label: 'Deploy', onClick: showComingSoon },
-    { icon: BarChart3, label: 'Analytics', onClick: showComingSoon },
+    {
+      icon: Rocket,
+      label: 'Deployments',
+      onClick: openExternal('https://vercel.com/teamhart/~/deployments'),
+    },
   ],
 
   'Anthropic Console': [
@@ -124,9 +108,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Console',
       onClick: openExternal('https://console.anthropic.com/dashboard'),
     },
-    { icon: MessageSquare, label: 'API Keys', onClick: showComingSoon },
-    { icon: BarChart3, label: 'Usage', onClick: showComingSoon },
-    { icon: FileText, label: 'Docs', onClick: showComingSoon },
   ],
 
   GitHub: [
@@ -135,9 +116,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open GitHub',
       onClick: openExternal('https://github.com/dashboard'),
     },
-    { icon: GitBranch, label: 'Repositories', onClick: showComingSoon },
-    { icon: PlusCircle, label: 'New Repo', onClick: showComingSoon },
-    { icon: Star, label: 'Stars', onClick: showComingSoon },
   ],
 
   Supabase: [
@@ -148,9 +126,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
         'https://supabase.com/dashboard/org/wskblpimfkjbkgayzxqj'
       ),
     },
-    { icon: Database, label: 'Database', onClick: showComingSoon },
-    { icon: Settings, label: 'Project Settings', onClick: showComingSoon },
-    { icon: FileText, label: 'Docs', onClick: showComingSoon },
   ],
 
   'Google Stitch': [
@@ -159,9 +134,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Stitch',
       onClick: openExternal('https://stitch.withgoogle.com/?pli=1'),
     },
-    { icon: Sparkles, label: 'New Project', onClick: showComingSoon },
-    { icon: FolderOpen, label: 'My Projects', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Figma: [
@@ -172,9 +144,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
         'https://www.figma.com/files/team/1500256681417245761/recents-and-sharing?fuid=1500256678774338537'
       ),
     },
-    { icon: PlusCircle, label: 'New Design', onClick: showComingSoon },
-    { icon: FolderOpen, label: 'My Files', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   'n8n Workflows': [
@@ -183,9 +152,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open n8n',
       onClick: openExternal('http://localhost:5678/home/workflows'),
     },
-    { icon: Workflow, label: 'My Workflows', onClick: showComingSoon },
-    { icon: PlusCircle, label: 'New Workflow', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   // AI Tools
@@ -195,9 +161,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open ChatGPT',
       onClick: openExternal('https://chat.openai.com'),
     },
-    { icon: MessageSquare, label: 'New Chat', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Claude: [
@@ -206,9 +169,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Claude',
       onClick: openExternal('https://claude.ai'),
     },
-    { icon: MessageSquare, label: 'New Chat', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Gemini: [
@@ -217,9 +177,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Gemini',
       onClick: openExternal('https://gemini.google.com'),
     },
-    { icon: MessageSquare, label: 'New Chat', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   DeepSeek: [
@@ -228,9 +185,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open DeepSeek',
       onClick: openExternal('https://chat.deepseek.com'),
     },
-    { icon: MessageSquare, label: 'New Chat', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Grok: [
@@ -239,9 +193,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Grok',
       onClick: openExternal('https://grok.x.ai'),
     },
-    { icon: MessageSquare, label: 'New Chat', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   'Le Chat': [
@@ -250,9 +201,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Le Chat',
       onClick: openExternal('https://chat.mistral.ai'),
     },
-    { icon: MessageSquare, label: 'New Chat', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Perplexity: [
@@ -261,9 +209,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Perplexity',
       onClick: openExternal('https://perplexity.ai'),
     },
-    { icon: Search, label: 'New Search', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Lovable: [
@@ -272,9 +217,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Lovable',
       onClick: openExternal('https://lovable.dev/'),
     },
-    { icon: PlusCircle, label: 'New Project', onClick: showComingSoon },
-    { icon: FolderOpen, label: 'My Projects', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   Replit: [
@@ -283,9 +225,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Replit',
       onClick: openExternal('https://replit.com'),
     },
-    { icon: PlusCircle, label: 'New Repl', onClick: showComingSoon },
-    { icon: FolderOpen, label: 'My Repls', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
   'GitHub Copilot': [
@@ -294,9 +233,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Copilot',
       onClick: openExternal('https://github.com/features/copilot'),
     },
-    { icon: FileText, label: 'Documentation', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
-    { icon: Sparkles, label: 'Features', onClick: showComingSoon },
   ],
 
   Cursor: [
@@ -305,9 +241,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open Cursor',
       onClick: openExternal('https://cursor.sh'),
     },
-    { icon: FileText, label: 'Documentation', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
-    { icon: Zap, label: 'Get Started', onClick: showComingSoon },
   ],
 
   V0: [
@@ -316,9 +249,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
       label: 'Open V0',
       onClick: openExternal('https://v0.dev'),
     },
-    { icon: PlusCircle, label: 'New Component', onClick: showComingSoon },
-    { icon: History, label: 'History', onClick: showComingSoon },
-    { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 };
 
