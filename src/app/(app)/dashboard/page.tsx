@@ -88,6 +88,12 @@ export default function Dashboard() {
       external: true,
     },
     {
+      title: 'Figma',
+      href: 'https://www.figma.com/files/team/1500256681417245761/recents-and-sharing?fuid=1500256678774338537',
+      icon: Figma,
+      external: true,
+    },
+    {
       title: 'n8n Workflows',
       href: 'http://localhost:5678/home/workflows',
       icon: Workflow,

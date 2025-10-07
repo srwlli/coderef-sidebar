@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Figma Dashboard Card** - Added Figma link to dashboard with contextual quick actions
+  - Card links to team files: recents and sharing view
+  - Action modal includes: Open Figma, New Design, My Files, Settings
+  - Uses Figma icon from lucide-react
+  - Positioned between Google Stitch and n8n Workflows
+
 - **Action Modal System** - Long-press activated bottom sheet modals for all dashboard cards
   - **Long-press detection** - 500ms threshold triggers action modal instead of navigation
   - **Bottom sheet animation** - Smooth slide-up/down with Framer Motion (300ms)
@@ -104,6 +110,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Code Architecture** - Reduced projects page from ~200 lines to 16 lines through component consolidation
 
 ### Fixed
+
+- **Long-Press Text Selection** - Fixed unwanted text selection and context menu during long-press gestures
+  - Added `e.preventDefault()` in `onPointerDown` to block selection initiation
+  - Added `onContextMenu` handler to prevent right-click/long-press context menu
+  - Applied CSS `userSelect: 'none'` and webkit variants via style prop
+  - Eliminates "copy/paste/select all" popup during card long-press
+  - Files: `src/hooks/use-long-press.ts`
 
 - **Dashboard View Toggle** - Fixed view switching not updating immediately when toggling between grid and list
   - Implemented event-based state synchronization in useViewPreference hook

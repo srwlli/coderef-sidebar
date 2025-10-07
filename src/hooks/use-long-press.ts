@@ -12,6 +12,8 @@ export interface LongPressHandlers {
   onPointerUp: (e: React.PointerEvent) => void;
   onPointerMove: (e: React.PointerEvent) => void;
   onPointerCancel: () => void;
+  onContextMenu: (e: React.MouseEvent) => void;
+  style: React.CSSProperties;
 }
 
 /**
@@ -39,6 +41,9 @@ export function useLongPress({
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
+      // Prevent text selection during long-press
+      e.preventDefault();
+
       // Record starting position
       startPosRef.current = { x: e.clientX, y: e.clientY };
       isLongPressRef.current = false;
@@ -89,10 +94,21 @@ export function useLongPress({
     isLongPressRef.current = false;
   }, [clear]);
 
+  const onContextMenu = useCallback((e: React.MouseEvent) => {
+    // Prevent context menu during long-press
+    e.preventDefault();
+  }, []);
+
   return {
     onPointerDown,
     onPointerUp,
     onPointerMove,
     onPointerCancel,
+    onContextMenu,
+    style: {
+      userSelect: 'none',
+      WebkitUserSelect: 'none',
+      WebkitTouchCallout: 'none',
+    },
   };
 }

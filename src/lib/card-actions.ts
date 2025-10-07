@@ -164,6 +164,19 @@ export const cardActionsMap: Record<string, CardAction[]> = {
     { icon: Settings, label: 'Settings', onClick: showComingSoon },
   ],
 
+  Figma: [
+    {
+      icon: ExternalLink,
+      label: 'Open Figma',
+      onClick: openExternal(
+        'https://www.figma.com/files/team/1500256681417245761/recents-and-sharing?fuid=1500256678774338537'
+      ),
+    },
+    { icon: PlusCircle, label: 'New Design', onClick: showComingSoon },
+    { icon: FolderOpen, label: 'My Files', onClick: showComingSoon },
+    { icon: Settings, label: 'Settings', onClick: showComingSoon },
+  ],
+
   'n8n Workflows': [
     {
       icon: ExternalLink,
