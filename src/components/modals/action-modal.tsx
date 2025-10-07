@@ -97,23 +97,23 @@ export function ActionModal({
             role="dialog"
             aria-modal="true"
             aria-labelledby="action-modal-title"
-            className="fixed right-0 bottom-0 left-0 z-50 max-h-[80vh] overflow-y-auto rounded-t-[20px] bg-white pb-8 shadow-2xl dark:bg-gray-800"
+            className="bg-card fixed right-0 bottom-0 left-0 z-50 max-h-[80vh] overflow-y-auto rounded-t-xl pb-8 shadow-2xl"
           >
             {/* Drag Handle */}
             <div className="flex justify-center pt-3 pb-2">
               <div
-                className="h-1 w-10 rounded-full bg-gray-300 dark:bg-gray-600"
+                className="bg-muted-foreground/30 h-1 w-10 rounded-full"
                 aria-hidden="true"
               />
             </div>
 
             {/* Header with Card Icon and Title */}
-            <div className="border-b border-gray-200 px-4 py-3 dark:border-gray-700">
+            <div className="border-border border-b px-4 py-3">
               <div className="flex items-center gap-3">
-                <CardIcon className="h-6 w-6 flex-shrink-0 text-gray-700 dark:text-gray-200" />
+                <CardIcon className="text-foreground h-6 w-6 flex-shrink-0" />
                 <h2
                   id="action-modal-title"
-                  className="text-xl font-semibold text-gray-900 dark:text-white"
+                  className="text-foreground text-xl font-semibold"
                 >
                   {cardTitle}
                 </h2>

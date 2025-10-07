@@ -22,15 +22,9 @@ export function ActionButton({
   destructive = false,
   className,
 }: ActionButtonProps) {
-  const iconColor = destructive
-    ? 'text-red-600'
-    : 'text-gray-700 dark:text-gray-200';
-  const textColor = destructive
-    ? 'text-red-600'
-    : 'text-gray-700 dark:text-gray-200';
-  const hoverBg = destructive
-    ? 'hover:bg-red-50 dark:hover:bg-red-900/20'
-    : 'hover:bg-gray-100 dark:hover:bg-gray-700';
+  const iconColor = destructive ? 'text-destructive' : 'text-foreground';
+  const textColor = destructive ? 'text-destructive' : 'text-foreground';
+  const hoverBg = destructive ? 'hover:bg-destructive/10' : 'hover:bg-muted';
 
   return (
     <button
@@ -39,12 +33,12 @@ export function ActionButton({
       className={cn(
         'flex flex-1 flex-col items-center justify-center gap-2',
         'rounded-xl border px-3 py-4',
-        'bg-white dark:bg-gray-800',
-        'border-gray-200 dark:border-gray-700',
+        'bg-card',
+        'border-border',
         hoverBg,
         'transition-colors duration-150',
         'disabled:cursor-not-allowed disabled:opacity-50',
-        'focus:ring-2 focus:ring-blue-500 focus:outline-none',
+        'focus:ring-ring focus:ring-2 focus:outline-none',
         className
       )}
       aria-label={label}
