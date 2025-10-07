@@ -24,35 +24,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useAppStore } from '@/stores/use-app-store';
 
-const SIDEBAR_STORAGE_KEY = 'sidebar_state';
 const SIDEBAR_WIDTH = '16rem';
 const SIDEBAR_WIDTH_MOBILE = '18rem';
 const SIDEBAR_WIDTH_ICON = '3rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
-
-// localStorage helpers for sidebar state persistence
-const setSidebarState = (open: boolean) => {
-  if (typeof window !== 'undefined') {
-    try {
-      localStorage.setItem(SIDEBAR_STORAGE_KEY, JSON.stringify(open));
-    } catch (error) {
-      console.warn('Failed to save sidebar state:', error);
-    }
-  }
-};
-
-const getSidebarState = (): boolean => {
-  if (typeof window !== 'undefined') {
-    try {
-      const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY);
-      return stored ? JSON.parse(stored) : true; // default open
-    } catch (error) {
-      console.warn('Failed to read sidebar state:', error);
-    }
-  }
-  return true; // SSR default
-};
 
 type SidebarContextProps = {
   state: 'expanded' | 'collapsed';
@@ -91,17 +68,21 @@ function SidebarProvider({
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = React.useState(false);
 
+  // Get sidebar state from Zustand store
+  const sidebarOpen = useAppStore((state) => state.sidebarOpen);
+  const setSidebarOpen = useAppStore((state) => state.setSidebarOpen);
+
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
   const [_open, _setOpen] = React.useState(defaultOpen);
 
-  // Initialize from localStorage after component mounts (SSR-safe)
+  // Initialize from Zustand store after component mounts (SSR-safe)
   React.useEffect(() => {
-    const storedState = getSidebarState();
-    if (storedState !== _open && !openProp) {
-      _setOpen(storedState);
+    if (sidebarOpen !== _open && !openProp) {
+      _setOpen(sidebarOpen);
     }
-  }, [_open, openProp]);
+  }, [sidebarOpen, _open, openProp]);
+
   const open = openProp ?? _open;
   const setOpen = React.useCallback(
     (value: boolean | ((value: boolean) => boolean)) => {
@@ -112,10 +93,10 @@ function SidebarProvider({
         _setOpen(openState);
       }
 
-      // Save sidebar state to localStorage
-      setSidebarState(openState);
+      // Save sidebar state to Zustand (automatically persists to localStorage)
+      setSidebarOpen(openState);
     },
-    [setOpenProp, open]
+    [setOpenProp, open, setSidebarOpen]
   );
 
   // Helper to toggle the sidebar.

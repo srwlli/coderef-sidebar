@@ -1,11 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useId } from 'react';
-import {
-  getLastCopiedButton,
-  setLastCopiedButton,
-  subscribeToButtonState,
-} from '@/utils/buttonState';
+import React, { useState, useId } from 'react';
+import { useAppStore } from '@/stores/use-app-store';
 
 interface ActiveCopyButtonProps {
   content?: string;
@@ -19,23 +15,15 @@ export function ActiveCopyButton({
   className = '',
 }: ActiveCopyButtonProps) {
   const [copying, setCopying] = useState(false);
-  const [isLastClicked, setIsLastClicked] = useState(false);
   const buttonId = useId();
 
-  // Subscribe to global button state changes
-  useEffect(() => {
-    const updateLastClicked = () => {
-      setIsLastClicked(getLastCopiedButton() === buttonId);
-    };
+  // Use Zustand store for global "last copied" tracking
+  const { lastCopiedId, setLastCopied } = useAppStore((state) => ({
+    lastCopiedId: state.lastCopiedId,
+    setLastCopied: state.setLastCopied,
+  }));
 
-    // Check initial state
-    updateLastClicked();
-
-    // Subscribe to changes
-    const unsubscribe = subscribeToButtonState(updateLastClicked);
-
-    return unsubscribe;
-  }, [buttonId]);
+  const isLastClicked = lastCopiedId === buttonId;
 
   const handleCopy = async () => {
     if (!content) return;
@@ -63,7 +51,7 @@ export function ActiveCopyButton({
       setCopying(false);
 
       // Set this button as the last clicked one globally
-      setLastCopiedButton(buttonId);
+      setLastCopied(buttonId);
 
       onCopy?.();
     } catch (error) {
