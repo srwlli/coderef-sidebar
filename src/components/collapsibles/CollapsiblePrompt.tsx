@@ -75,9 +75,9 @@ export default function CollapsiblePrompt({
 
           {docs && docs.length > 0 && (
             <div className="border-border mt-3 border-b pb-3">
-              {docs.map((doc, index) => (
+              {docs.map((doc) => (
                 <a
-                  key={index}
+                  key={doc.url}
                   href={doc.url}
                   target="_blank"
                   rel="noopener noreferrer"

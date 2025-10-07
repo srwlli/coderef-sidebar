@@ -106,9 +106,9 @@ export function CodeScanChainContainer({
       {isExpanded && (
         <div className="bg-background border-t px-4 pb-4">
           <div className="space-y-4 pt-6">
-            {steps.map((step, index) => (
+            {steps.map((step) => (
               <CodeScanStep
-                key={index}
+                key={step.title}
                 title={step.title}
                 description={step.description}
                 content={step.content}

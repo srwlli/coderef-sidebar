@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Ensures stable component identity across renders
   - Files: `src/app/(app)/dashboard/page.tsx`
 
+- **Prompts Page Hydration Errors** - Fixed Internal Server Error on prompts, git commands, and nextjs setup pages
+  - Changed `CodeScanChainContainer` to use stable keys (`step.title` instead of `index`)
+  - Changed `CollapsiblePrompt` to use stable keys (`doc.url` instead of `index`)
+  - Removed unused `index` parameters from all map functions
+  - Fixes affected all pages using these collapsible components
+  - Files: `src/components/collapsibles/CodeScanChainContainer.tsx`, `src/components/collapsibles/CollapsiblePrompt.tsx`
+
 - **Long-Press Hook Optimization** - Improved performance and reduced re-renders
   - Memoized style object to prevent unnecessary object recreation
   - Marked intentionally unused event parameters with underscore prefix
