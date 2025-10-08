@@ -21,10 +21,17 @@ import { getCardActions } from '@/lib/card-actions';
 import { LucideIcon } from 'lucide-react';
 import { useLongPress } from '@/hooks/use-long-press';
 import { useRouter } from 'next/navigation';
+import { useAppStore, CustomCard } from '@/stores/use-app-store';
+import { getIconComponent } from '@/lib/icon-utils';
+import { CustomCardItem } from '@/components/dashboard/CustomCardItem';
+import { AddCardButton } from '@/components/dashboard/AddCardButton';
+import { CardFormModal } from '@/components/dashboard/CardFormModal';
+import { toast } from 'sonner';
 
 interface SelectedCard {
   title: string;
   icon: LucideIcon;
+  customCard?: CustomCard | null;
 }
 
 type DashboardItem = {
@@ -212,19 +219,92 @@ export default function Dashboard() {
   const [view] = useViewPreference();
   const [showModal, setShowModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState<SelectedCard | null>(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingCard, setEditingCard] = useState<CustomCard | null>(null);
+
+  // Get custom cards from store
+  const customCards = useAppStore((state) => state.customCards);
+  const addCustomCard = useAppStore((state) => state.addCustomCard);
+  const updateCustomCard = useAppStore((state) => state.updateCustomCard);
+  const deleteCustomCard = useAppStore((state) => state.deleteCustomCard);
 
   const handleLongPress = (item: DashboardItem) => {
     setSelectedCard({
       title: item.title,
       icon: item.icon,
+      customCard: null,
     });
     setShowModal(true);
+  };
+
+  const handleCustomCardLongPress = (card: CustomCard) => {
+    const Icon = getIconComponent(card.iconName);
+    setSelectedCard({
+      title: card.title,
+      icon: Icon,
+      customCard: card,
+    });
+    setShowModal(true);
+  };
+
+  const handleFormSubmit = (data: {
+    title: string;
+    href: string;
+    iconName: string;
+  }) => {
+    if (editingCard) {
+      // Update existing card
+      updateCustomCard(editingCard.id, data);
+      toast.success('Card updated!');
+    } else {
+      // Add new card
+      addCustomCard(data);
+      toast.success('Card added!');
+    }
+    setEditingCard(null);
+  };
+
+  const handleAddCardClick = () => {
+    setEditingCard(null);
+    setFormOpen(true);
+  };
+
+  const handleEditCard = (card: CustomCard) => {
+    setEditingCard(card);
+    setFormOpen(true);
+    setShowModal(false);
+  };
+
+  const handleDeleteCard = (card: CustomCard) => {
+    const confirmed = window.confirm(
+      `Delete "${card.title}"? This cannot be undone.`
+    );
+    if (confirmed) {
+      deleteCustomCard(card.id);
+      toast.success('Card deleted');
+      setShowModal(false);
+    }
   };
 
   return (
     <>
       {view === 'grid' ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {/* Custom cards first */}
+          {customCards.map((card) => {
+            const Icon = getIconComponent(card.iconName);
+            return (
+              <CustomCardItem
+                key={card.id}
+                card={card}
+                icon={Icon}
+                view="grid"
+                onLongPress={() => handleCustomCardLongPress(card)}
+              />
+            );
+          })}
+
+          {/* Then default cards */}
           {dashboardItems.map((item) => {
             const IconComponent = item.icon;
 
@@ -237,9 +317,27 @@ export default function Dashboard() {
               />
             );
           })}
+
+          {/* Add card button at the end */}
+          <AddCardButton onClick={handleAddCardClick} />
         </div>
       ) : (
         <div className="space-y-3">
+          {/* Custom cards first */}
+          {customCards.map((card) => {
+            const Icon = getIconComponent(card.iconName);
+            return (
+              <CustomCardItem
+                key={card.id}
+                card={card}
+                icon={Icon}
+                view="list"
+                onLongPress={() => handleCustomCardLongPress(card)}
+              />
+            );
+          })}
+
+          {/* Then default cards */}
           {dashboardItems.map((item) => (
             <ListCard
               key={item.href}
@@ -250,6 +348,9 @@ export default function Dashboard() {
               onLongPress={() => handleLongPress(item)}
             />
           ))}
+
+          {/* Add card button in list view */}
+          <AddCardButton onClick={handleAddCardClick} />
         </div>
       )}
 
@@ -260,9 +361,29 @@ export default function Dashboard() {
           onClose={() => setShowModal(false)}
           cardTitle={selectedCard.title}
           cardIcon={selectedCard.icon}
-          actions={getCardActions(selectedCard.title)}
+          actions={getCardActions({
+            cardTitle: selectedCard.title,
+            customCard: selectedCard.customCard,
+            onEdit: selectedCard.customCard
+              ? () => handleEditCard(selectedCard.customCard!)
+              : undefined,
+            onDelete: selectedCard.customCard
+              ? () => handleDeleteCard(selectedCard.customCard!)
+              : undefined,
+          })}
         />
       )}
+
+      {/* Card Form Modal */}
+      <CardFormModal
+        open={formOpen}
+        onClose={() => {
+          setFormOpen(false);
+          setEditingCard(null);
+        }}
+        onSubmit={handleFormSubmit}
+        initialData={editingCard}
+      />
     </>
   );
 }

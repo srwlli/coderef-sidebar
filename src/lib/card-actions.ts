@@ -5,8 +5,12 @@ import {
   PlusCircle,
   Workflow,
   Rocket,
+  Edit,
+  Trash,
+  Globe,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
+import { CustomCard } from '@/stores/use-app-store';
 
 export interface CardAction {
   icon: LucideIcon;
@@ -237,10 +241,58 @@ export const cardActionsMap: Record<string, CardAction[]> = {
   ],
 };
 
+interface GetCardActionsOptions {
+  cardTitle: string;
+  customCard?: CustomCard | null;
+  onEdit?: () => void;
+  onDelete?: () => void;
+}
+
 /**
  * Get actions for a specific card
- * Returns empty array if card not found
+ * - For custom cards: returns Open, Edit, Delete actions
+ * - For default cards: returns card-specific actions from cardActionsMap
  */
-export function getCardActions(cardTitle: string): CardAction[] {
+export function getCardActions(
+  options: GetCardActionsOptions | string
+): CardAction[] {
+  // Support legacy string signature for backward compatibility
+  if (typeof options === 'string') {
+    return cardActionsMap[options] || [];
+  }
+
+  const { cardTitle, customCard, onEdit, onDelete } = options;
+
+  // Custom card actions (check for id property)
+  if (customCard?.id) {
+    const isExternal = customCard.href.startsWith('http');
+
+    return [
+      {
+        icon: isExternal ? ExternalLink : Globe,
+        label: 'Open',
+        onClick: () => {
+          if (isExternal) {
+            window.open(customCard.href, '_blank', 'noopener,noreferrer');
+          } else {
+            window.location.href = customCard.href;
+          }
+        },
+      },
+      {
+        icon: Edit,
+        label: 'Edit',
+        onClick: () => onEdit?.(),
+      },
+      {
+        icon: Trash,
+        label: 'Delete',
+        onClick: () => onDelete?.(),
+        destructive: true,
+      },
+    ];
+  }
+
+  // Default card actions
   return cardActionsMap[cardTitle] || [];
 }
