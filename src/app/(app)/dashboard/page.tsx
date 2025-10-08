@@ -319,7 +319,7 @@ export default function Dashboard() {
           })}
 
           {/* Add card button at the end */}
-          <AddCardButton onClick={handleAddCardClick} />
+          <AddCardButton onClick={handleAddCardClick} view="grid" />
         </div>
       ) : (
         <div className="space-y-3">
@@ -350,7 +350,7 @@ export default function Dashboard() {
           ))}
 
           {/* Add card button in list view */}
-          <AddCardButton onClick={handleAddCardClick} />
+          <AddCardButton onClick={handleAddCardClick} view="list" />
         </div>
       )}
 
