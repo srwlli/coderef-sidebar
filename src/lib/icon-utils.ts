@@ -69,6 +69,7 @@ export type CuratedIconName = (typeof CURATED_ICONS)[number];
  * Falls back to Link icon if iconName is invalid
  */
 export function getIconComponent(iconName: string): LucideIcon {
-  const Icon = (Icons as Record<string, LucideIcon>)[iconName];
+  const IconsMap = Icons as Record<string, unknown>;
+  const Icon = IconsMap[iconName] as LucideIcon | undefined;
   return Icon || Icons.Link;
 }
