@@ -431,16 +431,55 @@
 
   "migrationPath": {
     "toSupabase": {
-      "when": "User feedback indicates need for multi-device sync",
-      "steps": [
-        "Create custom_cards table in Supabase with RLS policies",
-        "Add useCustomCards hook with Supabase CRUD operations",
-        "Migrate localStorage data to Supabase on first auth",
-        "Update components to use Supabase hook instead of Zustand",
-        "Add loading states and error handling for network operations",
-        "Keep localStorage as fallback for offline mode"
+      "title": "Migrate Custom Cards to Supabase Storage (Phase 2)",
+      "approach": "JSON file per user in Supabase Storage bucket",
+      "when": "User needs multi-device sync or cloud backup",
+      "status": "READY - Supabase integration already configured",
+      "benefits": [
+        "Multi-device sync - cards available on all devices",
+        "Cloud backup - won't lose cards if localStorage clears",
+        "No storage limits - localStorage has ~5-10MB cap",
+        "Easy export/import - just download JSON file",
+        "Works with existing auth - no additional setup needed"
       ],
-      "effort": "2-3 hours"
+      "steps": [
+        "1. Create 'user-data' storage bucket in Supabase dashboard",
+        "2. Configure bucket RLS policies (users can only access their own files)",
+        "3. Create useCustomCards hook to replace Zustand store operations",
+        "4. Implement loadCards() - download JSON from storage",
+        "5. Implement saveCards() - upload JSON to storage with upsert",
+        "6. Auto-migrate existing localStorage cards on first auth",
+        "7. Update Dashboard to use new hook instead of direct Zustand calls",
+        "8. Keep localStorage as fallback for offline mode",
+        "9. Add loading states and error handling for network operations",
+        "10. Test multi-device sync"
+      ],
+      "implementation": {
+        "storageOperations": {
+          "save": "await supabase.storage.from('user-data').upload(`custom-cards/${userId}.json`, JSON.stringify(cards), { upsert: true })",
+          "load": "const { data } = await supabase.storage.from('user-data').download(`custom-cards/${userId}.json`); const cards = JSON.parse(await data.text());",
+          "delete": "await supabase.storage.from('user-data').remove([`custom-cards/${userId}.json`])"
+        },
+        "migration": {
+          "trigger": "On first load when user is authenticated",
+          "logic": "Check if Supabase file exists. If not, upload localStorage cards. Then delete from localStorage.",
+          "fallback": "If network fails, continue using localStorage"
+        },
+        "files": {
+          "new": ["src/hooks/use-custom-cards.ts"],
+          "modified": [
+            "src/app/(app)/dashboard/page.tsx",
+            "src/stores/use-app-store.ts (remove customCards state)"
+          ]
+        }
+      },
+      "effort": "20 minutes",
+      "alternative": {
+        "approach": "Database table instead of Storage",
+        "effort": "30 minutes",
+        "when": "If need advanced features (search, filters, card sharing)",
+        "sql": "CREATE TABLE custom_cards (id uuid, user_id uuid, title text, href text, icon_name text, created_at timestamptz);"
+      }
     },
     "toFullUserManagement": {
       "when": "MVP validated, ready for complete customization",
@@ -570,5 +609,18 @@
       "toasts": "10 min",
       "testing": "30 min"
     }
-  }
+  },
+  "feedback": [
+    {
+      "id": 1,
+      "summary": "Phase 2 review feedback",
+      "details": [
+        "Success criteria still contain the garbled text 'long-press �+' Edit'; clarify this requirement with plain ASCII wording.",
+        "Add a visible action trigger (e.g., overflow/menu button) and keyboard shortcut so edit/delete can be discovered without long-press.",
+        "Reference the 150-card benchmark in Decision 9's rationale to back up the performance claim.",
+        "Clarify how keyboard users open the ActionModal now that right-click remains default.",
+        "Decide whether card-count performance warnings should surface via UI in addition to console logs."
+      ]
+    }
+  ]
 }
