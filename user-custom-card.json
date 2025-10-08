@@ -57,14 +57,14 @@
       "iconConversion": "Dashboard converts iconName string to LucideIcon component before passing to CustomCardItem (Decision 1)",
       "customCardDetection": "Check for card.id property - custom cards have id, defaults don't (Decision 2)",
       "editModalState": "Dashboard page useState manages editingCard and formOpen (Decision 3)",
-      "desktopAccess": "Long-click on desktop works as long-press, no additional UI needed (Decision 8)",
-      "performance": "Load all cards at once, no lazy loading needed for MVP (Decision 9)"
+      "desktopAccess": "Long LEFT-click (hold left mouse button) opens ActionModal on desktop, right-click remains browser default (Decision 8)",
+      "performance": "Load all cards at once, no lazy loading needed - benchmarked 150 cards <100ms render (Decision 9)"
     }
   },
 
   "overview": {
-    "description": "Enable users to create personalized dashboard cards linking to any URL with custom icons from a curated lucide-react library",
-    "userBenefit": "Users can add their own frequently-used tools, apps, or internal links directly to the dashboard without code changes. First step toward fully customizable dashboard.",
+    "description": "Enable developer to create personalized dashboard cards linking to any URL with custom icons from a curated lucide-react library",
+    "developerBenefit": "Developer can add frequently-used tools, apps, or internal links directly to the dashboard without code changes. First step toward fully customizable dashboard.",
     "coreFeatures": [
       "Add custom card via + button and modal form",
       "Choose from 50 curated lucide-react icons (expandable to 1000+)",
@@ -476,8 +476,8 @@
 
   "technicalConsiderations": {
     "accessibility": {
-      "longPress": "Long-press works on mobile touch and desktop long-click (mouse button held)",
-      "desktopAlternative": "Right-click context menu also triggers ActionModal on desktop for discoverability",
+      "longPress": "Long-press works on mobile touch. Long LEFT-click (hold left mouse button) works on desktop.",
+      "rightClick": "Right-click maintains browser default context menu (Inspect, Open link, etc.)",
       "keyboard": {
         "modalNavigation": "Tab cycles through form fields, Escape closes modal",
         "focusTrapping": "Focus trapped within modal when open, returns to trigger element on close",
@@ -492,16 +492,12 @@
     },
     "localStorage": {
       "sizeLimit": "~5-10MB depending on browser",
-      "monitoring": {
-        "estimate": "0.5KB per card, 10000 cards would be ~5MB (unrealistic user load)",
-        "strategy": "Log warning to console if customCards array exceeds 100 items",
-        "benchmark": "Tested 150 card renders - initial load <100ms, no jank on scroll/interaction"
-      },
-      "noLimit": "No artificial limit imposed for MVP",
+      "estimate": "0.5KB per card, 1000 cards = ~500KB (unlikely for single developer)",
+      "noLimit": "No artificial limit imposed",
       "performance": {
-        "rationale": "React virtualizes DOM efficiently, 100-150 cards render without perceptible lag",
-        "measurement": "Monitor via React DevTools Profiler if performance concerns arise",
-        "threshold": "If user reports lag, add react-window virtualization (+30 min)"
+        "benchmark": "150 cards tested - initial render <100ms, no jank on scroll/interaction",
+        "monitoring": "Monitor via React DevTools Profiler if performance degrades",
+        "optimization": "Add react-window virtualization if needed (+30 min)"
       }
     },
     "iconValidation": {
