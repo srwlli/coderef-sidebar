@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **ActiveCopyButton Infinite Loop** - Fixed infinite re-render loop in copy button component
+  - Root cause: Zustand selector returning new object on every render causing referential inequality
+  - Solution: Replaced object selector with primitive selector + `getState()` for actions
+  - Changed from `useAppStore((state) => ({ lastCopiedId, setLastCopied }))` to single primitive selector
+  - Used `useAppStore.getState().setLastCopied()` to avoid subscribing to action functions
+  - Eliminates "getSnapshot should be cached" and "Maximum update depth exceeded" errors
+  - Optimizes performance - component only re-renders on `lastCopiedId` state changes
+  - Added inline documentation explaining the pattern for future developers
+  - Files: `src/components/buttons/ActiveCopyButton.tsx`
+
 - **Dashboard Hydration Errors** - Fixed React key instability and rendering issues
   - Changed list view to use stable keys (`item.href` instead of `index`)
   - Removed unused `index` parameters from map functions

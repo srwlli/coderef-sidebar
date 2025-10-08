@@ -17,11 +17,8 @@ export function ActiveCopyButton({
   const [copying, setCopying] = useState(false);
   const buttonId = useId();
 
-  // Use Zustand store for global "last copied" tracking
-  const { lastCopiedId, setLastCopied } = useAppStore((state) => ({
-    lastCopiedId: state.lastCopiedId,
-    setLastCopied: state.setLastCopied,
-  }));
+  // Subscribe to state; use getState() for actions to avoid unnecessary re-renders
+  const lastCopiedId = useAppStore((state) => state.lastCopiedId);
 
   const isLastClicked = lastCopiedId === buttonId;
 
@@ -51,7 +48,7 @@ export function ActiveCopyButton({
       setCopying(false);
 
       // Set this button as the last clicked one globally
-      setLastCopied(buttonId);
+      useAppStore.getState().setLastCopied(buttonId);
 
       onCopy?.();
     } catch (error) {
