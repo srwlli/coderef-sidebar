@@ -1,0 +1,167 @@
+{
+  "title": "Fix Infinite Loop in ActiveCopyButton Component",
+  "priority": "critical",
+  "type": "bug_fix",
+  "created": "2025-10-08",
+  "estimatedTime": "15 minutes",
+
+  "problem": {
+    "summary": "ActiveCopyButton triggers infinite re-render loop causing Maximum update depth exceeded error",
+    "severity": "critical",
+    "impact": "Blocks PromptsPage from rendering, creates poor UX with console errors",
+    "affectedFiles": [
+      "src/components/buttons/ActiveCopyButton.tsx",
+      "src/components/collapsibles/CollapsiblePrompt.tsx"
+    ],
+    "errorLocation": "ActiveCopyButton.tsx:21-24"
+  },
+
+  "rootCause": {
+    "description": "Zustand selector returns new object instance on every render, causing referential inequality",
+    "technicalDetails": "The selector `(state) => ({ lastCopiedId: state.lastCopiedId, setLastCopied: state.setLastCopied })` creates a new object each time, triggering getSnapshot warnings and infinite re-renders in React 18+ with Next.js 15",
+    "zustandVersion": "^5.0.8"
+  },
+
+  "solution": {
+    "approach": "Use single primitive selector for state, getState() for actions",
+    "rationale": [
+      "Optimal performance - only subscribe to state changes, not actions",
+      "Zustand best practice: getState() for one-time action access",
+      "Eliminates referential inequality issues",
+      "Zero overhead for setter function",
+      "Enterprise-grade pattern for production apps"
+    ],
+    "pattern": {
+      "state": "const lastCopiedId = useAppStore((state) => state.lastCopiedId);",
+      "action": "useAppStore.getState().setLastCopied(buttonId);"
+    },
+    "alternatives": {
+      "useShallow": "Considered but rejected - adds unnecessary overhead for simple property access",
+      "separateSelectors": "Good but subscribes to setter unnecessarily - getState() is more optimal"
+    }
+  },
+
+  "implementation": {
+    "steps": [
+      {
+        "step": 1,
+        "action": "Confirm diagnosis against errors.md",
+        "details": "Verify the console errors match our analysis of the selector pattern issue"
+      },
+      {
+        "step": 2,
+        "action": "Update ActiveCopyButton.tsx selector pattern",
+        "details": "Replace lines 21-24 with optimized pattern using getState() for action",
+        "changes": {
+          "remove": "const { lastCopiedId, setLastCopied } = useAppStore((state) => ({\n  lastCopiedId: state.lastCopiedId,\n  setLastCopied: state.setLastCopied,\n}));",
+          "add": "// Subscribe to state; use getState() for actions to avoid unnecessary re-renders\n  const lastCopiedId = useAppStore((state) => state.lastCopiedId);",
+          "updateHandler": "Change setLastCopied(buttonId) to useAppStore.getState().setLastCopied(buttonId) in handleCopy function"
+        }
+      },
+      {
+        "step": 3,
+        "action": "Proactively find and fix all similar selector anti-patterns",
+        "details": "Search entire codebase for useAppStore with object return patterns and fix them immediately"
+      },
+      {
+        "step": 4,
+        "action": "Run dev server and validate fix",
+        "details": "Execute npm run dev, navigate to /ai-tools/prompts, confirm getSnapshot warning disappears from console"
+      },
+      {
+        "step": 5,
+        "action": "Test copy functionality",
+        "details": "Click multiple copy buttons, verify lastCopiedId tracking works correctly and visual feedback displays properly"
+      }
+    ]
+  },
+
+  "testing": {
+    "unit": [
+      "ActiveCopyButton renders without errors",
+      "Copy functionality works correctly",
+      "lastCopiedId state updates properly"
+    ],
+    "integration": [
+      "CollapsiblePrompt uses ActiveCopyButton without errors",
+      "PromptsPage renders all prompts successfully",
+      "Multiple buttons track last-copied state correctly"
+    ],
+    "manual": [
+      "Open /ai-tools/prompts page",
+      "Verify no console errors",
+      "Click copy buttons on multiple prompts",
+      "Verify visual feedback (Copied! state) works",
+      "Verify only last clicked button shows Copied! state"
+    ]
+  },
+
+  "rollback": {
+    "strategy": "Simple git revert if issues arise",
+    "risk": "Low - isolated change to single component"
+  },
+
+  "success_criteria": [
+    "No console errors on PromptsPage",
+    "No 'getSnapshot should be cached' warnings",
+    "No 'Maximum update depth exceeded' errors",
+    "Copy buttons function correctly",
+    "Visual feedback (Copied! state) works as expected",
+    "Performance remains optimal",
+    "Component only re-renders on lastCopiedId changes, not on unrelated store updates (sidebarOpen, view)"
+  ],
+  "feedback": [
+    {
+      "id": 2,
+      "summary": "Review feedback",
+      "details": [
+        "Confirm the diagnosis against console errors captured in errors.md.",
+        "Retrieve setLastCopied via useAppStore.getState() to avoid extra subscriptions.",
+        "Actively fix any other selectors that return new objects instead of only searching for them.",
+        "Add an explicit dev validation step ensuring the warning disappears while running npm run dev on /ai-tools/prompts."
+      ]
+    },
+    {
+      "id": 3,
+      "summary": "Code review - execution ready with minor enhancements",
+      "status": "approved",
+      "timeEstimate": "10-15 minutes - accurate",
+      "strengths": [
+        "Root cause analysis is precise and technically accurate",
+        "getState() pattern is optimal - eliminates subscription overhead for actions",
+        "Implementation steps now include diagnosis confirmation and proactive codebase-wide fixes",
+        "Testing strategy is comprehensive and well-structured"
+      ],
+      "verificationComplete": {
+        "objectSelectors": "Searched codebase - no other instances of useAppStore((state) => ({ found",
+        "result": "ActiveCopyButton.tsx is the only file requiring this fix"
+      },
+      "optionalEnhancements": [
+        {
+          "category": "documentation",
+          "priority": "low",
+          "suggestion": "Add inline comment in fixed code: // Subscribe to state; use getState() for actions to avoid unnecessary re-renders"
+        },
+        {
+          "category": "success_criteria",
+          "priority": "minor",
+          "suggestion": "Add criterion: 'Component only re-renders on lastCopiedId changes, not on unrelated store updates (sidebarOpen, view)'"
+        },
+        {
+          "category": "prevention",
+          "priority": "low",
+          "suggestion": [
+            "Document pattern in CONTRIBUTING.md: 'Zustand: use primitive selectors + getState() for actions'",
+            "Future: Consider ESLint rule to catch object-returning selectors"
+          ]
+        },
+        {
+          "category": "alternatives",
+          "priority": "info",
+          "note": "useShallow from 'zustand/react/shallow' would also fix this bug, though getState() is more performant",
+          "example": "const { lastCopiedId, setLastCopied } = useAppStore(useShallow((state) => ({ ... })));"
+        }
+      ]
+    }
+  ]
+}
