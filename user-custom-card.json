@@ -4,8 +4,7 @@
   "priority": "high",
   "type": "feature_enhancement",
   "created": "2025-10-08",
-  "updated": "2025-10-08",
-  "estimatedTime": "3-4 hours for MVP",
+  "updated": "2025-10-08 (decisions finalized)",
   "strategicVision": "Foundation for fully user-managed dashboard where current hardcoded cards become 'defaults' that users can eventually edit, hide, or delete. This is the first step toward complete dashboard customization.",
 
   "decisionsLog": {
@@ -48,6 +47,13 @@
       "question": "Limit on number of custom cards?",
       "choice": "Option A - No limit",
       "rationale": "Trust the user. Maximum flexibility. Monitor if issues arise"
+    },
+    "implementationDecisions": {
+      "iconConversion": "Dashboard converts iconName string to LucideIcon component before passing to CustomCardItem (Decision 1)",
+      "customCardDetection": "Check for card.id property - custom cards have id, defaults don't (Decision 2)",
+      "editModalState": "Dashboard page useState manages editingCard and formOpen (Decision 3)",
+      "desktopAccess": "Long-click on desktop works as long-press, no additional UI needed (Decision 8)",
+      "performance": "Load all cards at once, no lazy loading needed for MVP (Decision 9)"
     }
   },
 
@@ -296,16 +302,26 @@
     {
       "step": 8,
       "task": "Update Dashboard page to integrate custom cards",
-      "details": "Read from store, render custom cards FIRST then defaults, add AddCardButton at end, handle routing",
+      "details": "Read from store, render custom cards FIRST then defaults, add AddCardButton at end, handle routing. IMPORTANT: Convert iconName to LucideIcon using getIconComponent() before passing to CustomCardItem. Add state: editingCard, formOpen for edit modal management.",
       "files": ["src/app/(app)/dashboard/page.tsx"],
-      "estimated": "30 min"
+      "estimated": "30 min",
+      "keyImplementation": {
+        "iconConversion": "const Icon = getIconComponent(card.iconName);",
+        "editState": "const [editingCard, setEditingCard] = useState(null); const [formOpen, setFormOpen] = useState(false);",
+        "editHandler": "onEdit={(card) => { setEditingCard(card); setFormOpen(true); }}"
+      }
     },
     {
       "step": 9,
       "task": "Extend getCardActions for custom cards",
-      "details": "Detect custom cards (check for id), return Open/Edit/Delete actions, wire up handlers, add confirmation dialog for delete",
+      "details": "Detect custom cards (check for id), return Open/Edit/Delete actions, wire up handlers, add confirmation dialog for delete. IMPORTANT: Check if card.id exists to distinguish custom from default cards.",
       "files": ["src/lib/card-actions.ts"],
-      "estimated": "25 min"
+      "estimated": "25 min",
+      "keyImplementation": {
+        "detection": "if (card.id) { return [{ label: 'Open', action: 'open' }, { label: 'Edit', action: 'edit' }, { label: 'Delete', action: 'delete' }]; }",
+        "editAction": "Pass onEdit handler that receives card data and opens CardFormModal with initialData",
+        "deleteAction": "Show confirmation dialog before calling deleteCustomCard(card.id)"
+      }
     },
     {
       "step": 10,
@@ -454,10 +470,16 @@
   ],
 
   "technicalConsiderations": {
+    "accessibility": {
+      "longPress": "Long-press works on mobile touch and desktop long-click (mouse button held)",
+      "keyboard": "Modal forms are keyboard navigable via Tab, Enter, Escape",
+      "screenReader": "IconPicker includes aria-labels, form fields have proper labels"
+    },
     "localStorage": {
       "sizeLimit": "~5-10MB depending on browser",
       "monitoring": "Estimate 0.5KB per card, 10000 cards would be ~5MB (unrealistic user load)",
-      "noLimit": "No artificial limit imposed for MVP"
+      "noLimit": "No artificial limit imposed for MVP",
+      "performance": "React handles 100+ cards without lag, no lazy loading needed"
     },
     "iconValidation": {
       "approach": "Validate icon name exists in CURATED_ICONS array at form submission",
