@@ -1,0 +1,147 @@
+{
+  "feature": "MyDash - User-Customizable Dashboard",
+  "vision": "Allow users to create their own personalized developer dashboard with custom links, tools, and quick navigation shortcuts",
+  "goal": "Users can add/edit/remove cards on the dashboard to build a productivity hub tailored to their workflow",
+  "date": "2025-10-07",
+
+  "key_questions": [
+    {
+      "question": "Where should card data be stored?",
+      "options": [
+        "Supabase (user_dashboard_cards table) - Best for multi-device sync",
+        "localStorage - Simplest, no backend needed",
+        "Hybrid - Default cards in code, user cards in Supabase"
+      ],
+      "recommendation": "Start with localStorage for MVP, migrate to Supabase for v2"
+    },
+    {
+      "question": "Should default cards be removable?",
+      "options": [
+        "Yes - Full customization, users can remove anything",
+        "No - Keep core cards, only add custom ones",
+        "Restore defaults option - Allow removal with easy reset"
+      ],
+      "recommendation": "Yes with restore defaults option - best of both worlds"
+    },
+    {
+      "question": "What level of customization for cards?",
+      "options": [
+        "Basic - Just title, URL, icon selection from predefined set",
+        "Intermediate - Add colors, tags, categories",
+        "Advanced - Custom icons (upload), card sizes, reordering"
+      ],
+      "recommendation": "Start with Basic, iterate based on feedback"
+    },
+    {
+      "question": "Where should card management UI live?",
+      "options": [
+        "Dedicated /settings/dashboard page",
+        "Modal overlay on dashboard page",
+        "Inline editing (click 'Edit' button, cards become editable)",
+        "Right-click context menu on cards"
+      ],
+      "recommendation": "Modal + long-press action (consistent with existing pattern)"
+    },
+    {
+      "question": "How should users select icons?",
+      "options": [
+        "Icon picker modal with lucide-react icons",
+        "Emoji picker (simple, no icon library needed)",
+        "URL to icon image",
+        "Auto-detect from URL (favicon)",
+        "All of the above"
+      ],
+      "recommendation": "Start with emoji picker + lucide-react, add favicon auto-detect later"
+    }
+  ],
+
+  "proposed_implementation": {
+    "phase_1_mvp": {
+      "features": [
+        "Add custom card button ('+' card in grid/list)",
+        "Simple form modal (title, URL, icon emoji/lucide)",
+        "localStorage persistence",
+        "Edit existing cards (via long-press action menu)",
+        "Delete custom cards",
+        "Keep all default cards (non-removable for now)"
+      ],
+      "estimated_effort": "4-6 hours"
+    },
+    "phase_2_enhanced": {
+      "features": [
+        "Supabase integration (user_dashboard_cards table)",
+        "Drag-and-drop reordering",
+        "Remove default cards",
+        "Restore defaults button",
+        "Categories/groups for organization",
+        "Favicon auto-detection"
+      ],
+      "estimated_effort": "8-12 hours"
+    },
+    "phase_3_advanced": {
+      "features": [
+        "Card templates (pre-configured card sets)",
+        "Import/export dashboard configs",
+        "Shared dashboards (team/community)",
+        "Custom card sizes (1x1, 2x1, 1x2)",
+        "Advanced actions per card (multiple quick actions)"
+      ],
+      "estimated_effort": "16-20 hours"
+    }
+  },
+
+  "technical_considerations": {
+    "data_model": {
+      "card_schema": {
+        "id": "string (uuid)",
+        "title": "string",
+        "href": "string (URL)",
+        "icon": "string (emoji or lucide icon name)",
+        "iconType": "'emoji' | 'lucide' | 'url'",
+        "external": "boolean",
+        "category": "string (optional)",
+        "order": "number",
+        "isCustom": "boolean (true for user-created)",
+        "isDefault": "boolean (true for built-in cards)",
+        "visible": "boolean (for hiding default cards)"
+      }
+    },
+    "state_management": {
+      "approach": "Zustand store (consistent with existing pattern)",
+      "store_name": "useDashboardStore",
+      "persisted_fields": ["customCards", "cardOrder", "hiddenDefaultCards"]
+    },
+    "components_needed": [
+      "AddCardModal.tsx - Form for creating/editing cards",
+      "IconPicker.tsx - Icon selection component",
+      "DashboardSettings.tsx - Management UI",
+      "useCardManagement.ts - Hook for CRUD operations"
+    ]
+  },
+
+  "user_stories": [
+    "As a developer, I want to add my Jira board link so I can quickly access my tasks",
+    "As a developer, I want to add my staging environment URL so I can test deployments",
+    "As a developer, I want to organize cards by project so I can find tools faster",
+    "As a developer, I want to remove cards I don't use so my dashboard is cleaner",
+    "As a developer, I want to reorder cards so my most-used tools are at the top"
+  ],
+
+  "notes": [
+    "Consider adding card usage analytics (most clicked) to suggest reordering",
+    "Think about mobile experience - adding cards on mobile should be easy",
+    "Look at Notion, Raycast, and similar tools for inspiration",
+    "Card actions (long-press menu) could include 'Edit', 'Delete', 'Duplicate', 'Move to category'",
+    "Consider 'Quick Add' flow: Just paste a URL and auto-populate title/icon"
+  ],
+
+  "next_steps": [
+    "User feedback: Show mockups, ask which features are most important",
+    "Design icon picker component",
+    "Create data model in Zustand",
+    "Build AddCardModal component",
+    "Implement localStorage persistence",
+    "Add 'Add Card' button to dashboard",
+    "Test with various URL types (internal, external, localhost)"
+  ]
+}
