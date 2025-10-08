@@ -1,0 +1,532 @@
+{
+  "title": "User Custom Dashboard Cards - MVP",
+  "feature": "Allow users to add custom cards to dashboard with URL, title, and curated icon picker",
+  "priority": "high",
+  "type": "feature_enhancement",
+  "created": "2025-10-08",
+  "updated": "2025-10-08",
+  "estimatedTime": "3-4 hours for MVP",
+  "strategicVision": "Foundation for fully user-managed dashboard where current hardcoded cards become 'defaults' that users can eventually edit, hide, or delete. This is the first step toward complete dashboard customization.",
+
+  "decisionsLog": {
+    "decision1": {
+      "question": "Reuse existing components or create new CustomCardItem?",
+      "choice": "Option B - Create separate CustomCardItem component",
+      "rationale": "Exact match to existing design for both grid and list views, optimized for custom card user experience"
+    },
+    "decision2": {
+      "question": "How many icons to offer?",
+      "choice": "50 curated lucide-react icons",
+      "rationale": "Simple grid picker, faster implementation, easier UX. Code includes comments for future expansion to all 1000+ icons"
+    },
+    "decision3": {
+      "question": "Extend DashboardItem or create CustomCard type?",
+      "choice": "Option B - Separate CustomCard type",
+      "rationale": "Becomes primary data model for future. Hardcoded cards are seed data. Supports vision of fully user-managed dashboard"
+    },
+    "decision4": {
+      "question": "Card ordering on dashboard?",
+      "choice": "Custom cards first, then defaults",
+      "rationale": "Highlights user content. Drag-and-drop deferred to Phase 2"
+    },
+    "decision5": {
+      "question": "Include export/import in MVP?",
+      "choice": "Option B - Defer to Phase 2",
+      "rationale": "Focus on core add/edit/delete first. Add when Supabase migration happens"
+    },
+    "decision6": {
+      "question": "Description field usage?",
+      "choice": "Option D - Remove from MVP entirely",
+      "rationale": "Keep form minimal. Can add later if needed"
+    },
+    "decision7": {
+      "question": "Visual distinction between custom and default cards?",
+      "choice": "Option D - No visual distinction",
+      "rationale": "Single user will know which are custom. Cleaner appearance. Actions in modal reveal card type"
+    },
+    "decision8": {
+      "question": "Limit on number of custom cards?",
+      "choice": "Option A - No limit",
+      "rationale": "Trust the user. Maximum flexibility. Monitor if issues arise"
+    }
+  },
+
+  "overview": {
+    "description": "Enable users to create personalized dashboard cards linking to any URL with custom icons from a curated lucide-react library",
+    "userBenefit": "Users can add their own frequently-used tools, apps, or internal links directly to the dashboard without code changes. First step toward fully customizable dashboard.",
+    "coreFeatures": [
+      "Add custom card via + button and modal form",
+      "Choose from 50 curated lucide-react icons (expandable to 1000+)",
+      "Edit/delete custom cards via long-press action modal",
+      "Persist cards in localStorage (per device)",
+      "Custom cards display first, then default cards",
+      "Form validation for URLs and required fields",
+      "Both grid and list view support"
+    ]
+  },
+
+  "implementation": {
+    "approach": "Zustand + localStorage (MVP)",
+    "rationale": [
+      "Fastest path to MVP - no backend changes required",
+      "Leverage existing useAppStore with persist middleware",
+      "Instant sync - already using localStorage",
+      "Works offline",
+      "Easy migration path to Supabase when multi-device sync needed",
+      "Foundation for fully user-managed dashboard"
+    ],
+    "alternatives": {
+      "supabase": {
+        "pros": ["Multi-device sync", "Cloud backup", "Shareable cards"],
+        "cons": ["Requires schema migration", "Network dependency", "More complex"],
+        "recommendation": "Phase 2 enhancement after validating user adoption"
+      }
+    }
+  },
+
+  "technicalArchitecture": {
+    "stateManagement": {
+      "location": "src/stores/use-app-store.ts",
+      "newState": {
+        "customCards": "CustomCard[]",
+        "addCustomCard": "(card: Omit<CustomCard, 'id' | 'createdAt'>) => void",
+        "updateCustomCard": "(id: string, updates: Partial<CustomCard>) => void",
+        "deleteCustomCard": "(id: string) => void"
+      },
+      "persistence": "Automatically persisted via existing Zustand persist middleware"
+    },
+
+    "dataModel": {
+      "CustomCard": {
+        "id": "string (uuid)",
+        "title": "string (required, max 50 chars)",
+        "href": "string (required, valid URL or path)",
+        "iconName": "string (lucide-react icon name from curated list)",
+        "createdAt": "string (ISO timestamp)"
+      },
+      "note": "Description field removed from MVP. Can add later if needed. Order field deferred to drag-drop feature."
+    },
+
+    "components": {
+      "new": [
+        {
+          "name": "AddCardButton",
+          "path": "src/components/dashboard/AddCardButton.tsx",
+          "purpose": "Dashed border card tile to trigger modal",
+          "props": "onClick handler",
+          "position": "Last position after all cards (custom + default)"
+        },
+        {
+          "name": "CardFormModal",
+          "path": "src/components/dashboard/CardFormModal.tsx",
+          "purpose": "Sheet form for creating/editing custom cards",
+          "props": "open, onClose, initialData (for edit mode), onSubmit",
+          "fields": ["title (text)", "href (text with validation)", "iconName (picker)"]
+        },
+        {
+          "name": "IconPicker",
+          "path": "src/components/dashboard/IconPicker.tsx",
+          "purpose": "Simple grid showing 50 curated lucide-react icons",
+          "props": "value, onChange",
+          "note": "Includes code comments on how to expand to all 1000+ icons"
+        },
+        {
+          "name": "CustomCardItem",
+          "path": "src/components/dashboard/CustomCardItem.tsx",
+          "purpose": "Render custom card EXACTLY like GridCardItem and ListCard but optimized for user-created content",
+          "variants": ["Grid view version", "List view version"],
+          "integration": "Works with existing long-press ActionModal"
+        }
+      ],
+      "modified": [
+        {
+          "name": "Dashboard Page",
+          "path": "src/app/(app)/dashboard/page.tsx",
+          "changes": [
+            "Import custom cards from store",
+            "Render custom cards FIRST, then default cards",
+            "Add AddCardButton at end of grid",
+            "Handle card click routing for custom cards"
+          ]
+        },
+        {
+          "name": "ActionModal / getCardActions",
+          "path": "src/lib/card-actions.ts",
+          "changes": [
+            "Detect if card is custom (check for id property)",
+            "For custom cards: return Open, Edit, Delete actions",
+            "For default cards: return existing predefined actions",
+            "Pass card data to edit modal when Edit clicked"
+          ]
+        }
+      ]
+    },
+
+    "iconHandling": {
+      "library": "lucide-react (already installed)",
+      "curatedIcons": [
+        "Github", "Chrome", "Globe", "Mail", "Calendar", "Database",
+        "Folder", "File", "Code", "Terminal", "Settings", "User",
+        "Users", "Home", "Search", "Bell", "Heart", "Star",
+        "Bookmark", "Link", "ExternalLink", "Download", "Upload", "Share",
+        "Copy", "Trash", "Edit", "Plus", "Minus", "Check",
+        "X", "ChevronRight", "ArrowRight", "Zap", "Sparkles", "Rocket",
+        "Package", "Box", "ShoppingCart", "CreditCard", "DollarSign", "TrendingUp",
+        "BarChart", "PieChart", "Activity", "Cpu", "HardDrive", "Cloud",
+        "Server", "Smartphone"
+      ],
+      "total": "50 curated icons for MVP",
+      "storage": "Store icon name as string (e.g., 'Github', 'Chrome')",
+      "rendering": "Dynamic import with fallback: const Icon = Icons[iconName as keyof typeof Icons] || Icons.Link",
+      "expansion": "Code includes comments: // TO EXPAND TO ALL 1000+ ICONS: Import all icon names, add search filter",
+      "fallback": "Default to 'Link' icon if iconName invalid"
+    },
+
+    "formValidation": {
+      "library": "zod (already used in project)",
+      "schema": {
+        "title": "z.string().min(1, 'Title required').max(50, 'Title too long')",
+        "href": "z.string().refine((val) => { if (val.startsWith('/')) return true; try { const url = new URL(val); return ['http:', 'https:'].includes(url.protocol); } catch { return false; } }, 'Must be valid http/https URL or path starting with /')",
+        "iconName": "z.string().min(1, 'Icon required')"
+      },
+      "security": "URL validation blocks javascript:, data:, and other dangerous protocols",
+      "integration": "react-hook-form with zodResolver"
+    }
+  },
+
+  "uiUxFlow": {
+    "addCard": [
+      "1. User clicks + Add Card button on dashboard",
+      "2. Sheet slides up from bottom with form",
+      "3. Form fields: Title (text input), URL (text with validation), Icon (grid picker)",
+      "4. Icon picker: 50 icons in grid, click to select",
+      "5. Click Save → validates → adds to store → closes modal → shows toast 'Card added!'",
+      "6. New card appears at START of dashboard (custom cards first)"
+    ],
+    "editCard": [
+      "1. User long-presses custom card",
+      "2. ActionModal opens with: Open, Edit, Delete actions",
+      "3. Click Edit → opens CardFormModal pre-filled with card data",
+      "4. User modifies fields → Save → updates in store → toast 'Card updated!'",
+      "5. Modal closes, dashboard shows updated card"
+    ],
+    "deleteCard": [
+      "1. User long-presses custom card → ActionModal → Delete",
+      "2. Confirmation dialog: 'Delete [title]? This cannot be undone.'",
+      "3. Confirm → removes from store → toast 'Card deleted'",
+      "4. Card removed from dashboard"
+    ]
+  },
+
+  "visualDesign": {
+    "addCardButton": {
+      "style": "Dashed border card matching grid layout",
+      "icon": "Plus icon centered",
+      "text": "'Add Card'",
+      "position": "Last position in grid (after all custom and default cards)"
+    },
+    "customCardStyling": {
+      "badge": "None - no visual distinction from default cards",
+      "rationale": "Single user knows which are custom. Cleaner appearance. Actions in modal reveal card type."
+    },
+    "formModal": {
+      "component": "Sheet (from shadcn/ui)",
+      "animation": "Slide up from bottom",
+      "width": "Full on mobile, 500px on desktop",
+      "sections": ["Form fields (title, href, icon)", "Action buttons (Save, Cancel)"]
+    },
+    "iconPicker": {
+      "layout": "Grid 6 columns on desktop, 4 on mobile",
+      "iconSize": "32px in picker",
+      "display": "Icon only (name on hover tooltip)",
+      "selection": "Highlight selected icon with border"
+    }
+  },
+
+  "implementationSteps": [
+    {
+      "step": 1,
+      "task": "Create CustomCard TypeScript type",
+      "details": "Define CustomCard type with id, title, href, iconName, createdAt",
+      "files": ["src/types/dashboard.ts or inline in store"],
+      "estimated": "5 min"
+    },
+    {
+      "step": 2,
+      "task": "Extend Zustand store with custom cards state",
+      "details": "Add customCards array, addCustomCard, updateCustomCard, deleteCustomCard to use-app-store.ts, include in persist config",
+      "files": ["src/stores/use-app-store.ts"],
+      "estimated": "20 min"
+    },
+    {
+      "step": 3,
+      "task": "Create icon utility and curated list",
+      "details": "Create getIconComponent utility function, define CURATED_ICONS array (50 icons), add expansion comments",
+      "files": ["src/lib/icon-utils.ts"],
+      "estimated": "15 min"
+    },
+    {
+      "step": 4,
+      "task": "Build IconPicker component",
+      "details": "Simple grid layout, 50 curated icons, click to select, includes expansion comments",
+      "files": ["src/components/dashboard/IconPicker.tsx"],
+      "estimated": "25 min"
+    },
+    {
+      "step": 5,
+      "task": "Build CardFormModal component",
+      "details": "Form with title, href, icon picker, validation with Zod + react-hook-form, save/cancel buttons",
+      "files": ["src/components/dashboard/CardFormModal.tsx"],
+      "estimated": "45 min"
+    },
+    {
+      "step": 6,
+      "task": "Build AddCardButton component",
+      "details": "Dashed border card tile, triggers modal open",
+      "files": ["src/components/dashboard/AddCardButton.tsx"],
+      "estimated": "10 min"
+    },
+    {
+      "step": 7,
+      "task": "Create CustomCardItem component",
+      "details": "Grid and list variants matching existing card design exactly, dynamic icon rendering, long-press integration",
+      "files": ["src/components/dashboard/CustomCardItem.tsx"],
+      "estimated": "40 min"
+    },
+    {
+      "step": 8,
+      "task": "Update Dashboard page to integrate custom cards",
+      "details": "Read from store, render custom cards FIRST then defaults, add AddCardButton at end, handle routing",
+      "files": ["src/app/(app)/dashboard/page.tsx"],
+      "estimated": "30 min"
+    },
+    {
+      "step": 9,
+      "task": "Extend getCardActions for custom cards",
+      "details": "Detect custom cards (check for id), return Open/Edit/Delete actions, wire up handlers, add confirmation dialog for delete",
+      "files": ["src/lib/card-actions.ts"],
+      "estimated": "25 min"
+    },
+    {
+      "step": 10,
+      "task": "Add toast notifications for all operations",
+      "details": "Success/error toasts for add, edit, delete operations",
+      "files": ["Various component files"],
+      "estimated": "10 min"
+    },
+    {
+      "step": 11,
+      "task": "Test all flows and edge cases",
+      "details": "Add, edit, delete, validation errors, icon picker, persistence, mobile responsive, both grid and list views",
+      "files": ["Manual testing"],
+      "estimated": "30 min"
+    }
+  ],
+
+  "testingStrategy": {
+    "manual": [
+      "Add card with valid data → verify appears FIRST in dashboard",
+      "Add card with URL validation errors → verify error messages",
+      "Edit existing custom card → verify updates persist",
+      "Delete custom card with confirmation → verify removed from dashboard and store",
+      "Icon picker selection → verify icon displays in card",
+      "Refresh page → verify custom cards persist via localStorage",
+      "Test on mobile → verify responsive layout, sheet animation, touch interactions",
+      "Test in grid view → verify custom cards render correctly",
+      "Test in list view → verify custom cards render correctly",
+      "Long-press custom card → verify Open/Edit/Delete actions appear",
+      "Long-press default card → verify standard actions appear (no Edit/Delete)",
+      "Add 20+ custom cards → verify grid layout handles many cards",
+      "Invalid icon name edge case → verify fallback Link icon displays",
+      "XSS attempt with javascript: URL → verify blocked by validation",
+      "Add card button → verify appears at end after all cards"
+    ],
+    "integration": [
+      "Custom cards render first, then default cards in correct order",
+      "Long-press actions work on both default and custom cards",
+      "Card navigation works for external URLs (new tab) and internal routes (router.push)",
+      "Store persistence doesn't break existing sidebar/view preferences",
+      "CustomCardItem matches GridCardItem and ListCard appearance exactly"
+    ],
+    "edgeCases": [
+      "Empty customCards array on first load",
+      "Malformed localStorage data → fallback to empty array",
+      "Very long titles → verify truncation or wrapping",
+      "Invalid URLs → form validation catches before submission",
+      "Deleted icon from lucide-react → fallback renders",
+      "Rapid add/delete operations → verify state consistency"
+    ]
+  },
+
+  "futureEnhancements": {
+    "phase2": [
+      {
+        "feature": "Supabase Database Storage",
+        "benefit": "Multi-device sync, cloud backup",
+        "effort": "Medium - requires schema migration and auth integration"
+      },
+      {
+        "feature": "Drag and Drop Reordering",
+        "benefit": "User controls exact card order on dashboard",
+        "effort": "Medium - use dnd-kit library, add order field to CustomCard"
+      },
+      {
+        "feature": "Export/Import Card Collections",
+        "benefit": "Backup and share card configurations as JSON",
+        "effort": "Low - JSON export/import via download/upload (+20 min)"
+      },
+      {
+        "feature": "Edit/Hide/Delete Default Cards",
+        "benefit": "Complete dashboard customization - user can modify all cards",
+        "effort": "Medium - convert default cards to stored cards with isDefault flag"
+      },
+      {
+        "feature": "Icon Search and Full Icon Library",
+        "benefit": "Access all 1000+ lucide-react icons with search",
+        "effort": "Medium - add search filter, virtualization for performance"
+      },
+      {
+        "feature": "Description Field",
+        "benefit": "Add optional description to cards (display in modal or tooltip)",
+        "effort": "Low - add field to type, form, and display logic"
+      },
+      {
+        "feature": "Icon Color Customization",
+        "benefit": "Visual personalization with custom icon colors",
+        "effort": "Low - add color picker, store hex value"
+      },
+      {
+        "feature": "Card Categories/Folders",
+        "benefit": "Organize many custom cards into groups",
+        "effort": "High - new UI paradigm, state management"
+      },
+      {
+        "feature": "Fetch Favicon/OpenGraph Data",
+        "benefit": "Auto-populate icon and title from URL",
+        "effort": "Medium - API call, handle CORS, fallbacks"
+      }
+    ]
+  },
+
+  "migrationPath": {
+    "toSupabase": {
+      "when": "User feedback indicates need for multi-device sync",
+      "steps": [
+        "Create custom_cards table in Supabase with RLS policies",
+        "Add useCustomCards hook with Supabase CRUD operations",
+        "Migrate localStorage data to Supabase on first auth",
+        "Update components to use Supabase hook instead of Zustand",
+        "Add loading states and error handling for network operations",
+        "Keep localStorage as fallback for offline mode"
+      ],
+      "effort": "2-3 hours"
+    },
+    "toFullUserManagement": {
+      "when": "MVP validated, ready for complete customization",
+      "steps": [
+        "Convert hardcoded default cards array to stored cards in database",
+        "Add isDefault: boolean flag to distinguish seed data from user-created",
+        "Add visibility toggle - user can hide/show default cards",
+        "Add edit capability for default cards (creates user override)",
+        "Add reset to defaults feature"
+      ],
+      "effort": "3-4 hours"
+    }
+  },
+
+  "successCriteria": [
+    "User can add custom card via + button",
+    "Form validates all fields (title required, valid URL, icon selected)",
+    "Icon picker shows 50 curated icons in simple grid",
+    "Custom cards persist after page refresh",
+    "Custom cards render FIRST, then default cards",
+    "User can edit custom card via long-press → Edit",
+    "User can delete custom card with confirmation dialog",
+    "Custom cards display correctly in both grid and list view",
+    "CustomCardItem matches existing card design exactly",
+    "Custom cards work with existing long-press ActionModal system",
+    "Mobile responsive - sheet animation, touch friendly",
+    "Error handling - toast notifications for all actions",
+    "URL validation blocks dangerous protocols (XSS protection)",
+    "No performance degradation with 50+ custom cards",
+    "localStorage doesn't exceed reasonable size limits",
+    "Code includes expansion comments for future icon library growth"
+  ],
+
+  "technicalConsiderations": {
+    "localStorage": {
+      "sizeLimit": "~5-10MB depending on browser",
+      "monitoring": "Estimate 0.5KB per card, 10000 cards would be ~5MB (unrealistic user load)",
+      "noLimit": "No artificial limit imposed for MVP"
+    },
+    "iconValidation": {
+      "approach": "Validate icon name exists in CURATED_ICONS array at form submission",
+      "fallback": "Use 'Link' icon if invalid name",
+      "typeScript": "Type iconName for compile-time safety"
+    },
+    "urlRouting": {
+      "external": "URLs starting with http/https open in new tab (target='_blank')",
+      "internal": "Paths starting with / use Next.js router.push",
+      "detection": "href.startsWith('http') ? window.open : router.push"
+    },
+    "cardOrdering": {
+      "mvp": "Custom cards render first, then default cards",
+      "rationale": "Highlights user content",
+      "future": "Add order field and drag-drop for manual positioning"
+    },
+    "security": {
+      "urlXss": "Zod validation blocks javascript:, data:, file:, and other dangerous protocols",
+      "onlyHttpHttps": "Only http:, https:, and internal paths (/) allowed",
+      "cspHeaders": "Content Security Policy prevents inline script execution"
+    }
+  },
+
+  "risks": {
+    "low": [
+      {
+        "risk": "localStorage size limits with many cards",
+        "mitigation": "Monitor usage, no artificial limit, cards are small (~0.5KB each)"
+      },
+      {
+        "risk": "Invalid icon names after lucide-react update",
+        "mitigation": "Fallback to Link icon, getIconComponent utility handles gracefully"
+      }
+    ],
+    "mitigated": [
+      {
+        "risk": "XSS via malicious URLs",
+        "mitigation": "Strict Zod validation blocks all protocols except http/https/internal paths"
+      }
+    ]
+  },
+
+  "dependencies": {
+    "existing": [
+      "lucide-react (icons)",
+      "zustand (state management)",
+      "zod (validation)",
+      "react-hook-form (form handling)",
+      "shadcn/ui Sheet component (modal)",
+      "sonner (toast notifications)",
+      "uuid (for generating card IDs)"
+    ],
+    "new": []
+  },
+
+  "estimatedTime": {
+    "total": "~3.5 hours",
+    "breakdown": {
+      "types": "5 min",
+      "store": "20 min",
+      "iconUtils": "15 min",
+      "iconPicker": "25 min",
+      "formModal": "45 min",
+      "addButton": "10 min",
+      "customCardItem": "40 min",
+      "dashboardIntegration": "30 min",
+      "cardActions": "25 min",
+      "toasts": "10 min",
+      "testing": "30 min"
+    }
+  }
+}
