@@ -58,7 +58,7 @@ interface CustomCard {
 
 ## Implementation Steps
 
-### 1. Update Types & Add Zustand Migration (15 min)
+### 1. Update Types & Add Zustand Migration (25 min)
 
 **File:** `src/stores/use-app-store.ts`
 
@@ -106,7 +106,7 @@ persist(
   }),
   {
     name: 'app-storage', // Keep existing key
-    version: 1, // Bump from 0 to 1
+    version: 1, // Bump from 0 to 1 (Zustand defaults to version 0 when not specified)
     migrate: (persistedState: any, version: number) => {
       // Migrate from v0 (single href) to v1 (links array)
       if (version === 0) {
@@ -154,7 +154,7 @@ persist(
 - Error handling prevents data loss if migration fails
 - No manual localStorage reads needed
 
-### 2. Update Zod Validation Schema (10 min)
+### 2. Update Zod Validation Schema (20 min)
 
 **File:** `src/components/dashboard/CardFormModal.tsx`
 
@@ -373,26 +373,53 @@ if (customCard?.id) {
 
 **File:** `src/components/dashboard/CustomCardItem.tsx`
 
-When clicking a card (not long-press), open first link by default:
+**Step 5a: Update isExternal logic** (replace line 27):
 
 ```tsx
-onClick: () => {
-  if (card.links.length > 0) {
-    const firstLink = card.links[0];
-    if (firstLink.href.startsWith('http')) {
-      window.open(firstLink.href, '_blank', 'noopener,noreferrer');
-    } else {
-      router.push(firstLink.href);
-    }
-  }
-},
+// OLD: const isExternal = card.href.startsWith('http');
+// NEW:
+const isExternal =
+  card.links.length > 0 && card.links[0].href.startsWith('http');
 ```
+
+**Step 5b: Replace onClick inside useLongPress** (replace lines 33-39):
+
+```tsx
+const { style, ...handlers } = useLongPress({
+  onLongPress: () => {
+    if (onLongPress) onLongPress();
+  },
+  onClick: () => {
+    // Open first link by default
+    if (card.links.length > 0) {
+      const firstLink = card.links[0];
+      if (firstLink.href.startsWith('http')) {
+        window.open(firstLink.href, '_blank', 'noopener,noreferrer');
+      } else {
+        router.push(firstLink.href);
+      }
+    }
+  },
+});
+```
+
+**Why this approach:**
+
+- Replaces existing onClick in useLongPress hook (lines 33-39 in current file)
+- Opens first link on single click (matches current UX)
+- Long-press still shows all links in ActionModal
 
 ### 6. Update Dashboard (5 min)
 
 **File:** `src/app/(app)/dashboard/page.tsx`
 
-Update form submit handler to use links instead of href:
+**Step 6a: Add CustomLink import** (update existing import from line 24):
+
+```tsx
+import { useAppStore, CustomCard, CustomLink } from '@/stores/use-app-store';
+```
+
+**Step 6b: Update handleFormSubmit type** (replace lines 250-265):
 
 ```tsx
 const handleFormSubmit = (data: {
@@ -529,14 +556,21 @@ Validation is handled by **Zod schema** (defined in Step 2):
 
 | File                                          | Changes                                                   | Effort |
 | --------------------------------------------- | --------------------------------------------------------- | ------ |
-| `src/stores/use-app-store.ts`                 | Add CustomLink type, update CustomCard, Zustand migration | 15 min |
-| `src/components/dashboard/CardFormModal.tsx`  | Zod schema + useFieldArray multi-link form                | 45 min |
+| `src/stores/use-app-store.ts`                 | Add CustomLink type, update CustomCard, Zustand migration | 25 min |
+| `src/components/dashboard/CardFormModal.tsx`  | Zod schema + useFieldArray multi-link form                | 55 min |
 | `src/lib/card-actions.ts`                     | Generate actions from links array                         | 15 min |
 | `src/components/dashboard/CustomCardItem.tsx` | Update click handler for first link                       | 10 min |
 | `src/app/(app)/dashboard/page.tsx`            | Update form submit handler type                           | 5 min  |
 | **Testing & Verification**                    | Migration testing, form validation, all flows             | 15 min |
 
-**Total:** ~2 hours 5 minutes
+**Total:** ~2 hours 5 minutes (125 minutes)
+
+**Breakdown:**
+
+- Step 1 (25 min): Types (10 min) + Zustand migration (15 min)
+- Steps 2+3 (55 min): Zod schema (20 min) + useFieldArray (35 min)
+- Steps 4-6 (30 min): Card actions (15 min) + CustomCardItem (10 min) + Dashboard (5 min)
+- Testing (15 min): Migration, validation, user flows
 
 ---
 
@@ -712,11 +746,19 @@ No additional migration needed - the links array structure works identically in 
 - 50 custom cards × 5 links = 250 actions to generate
 - Negligible performance impact with current implementation
 
+**Link ID Usage:**
+
+- Each CustomLink has an `id` field (UUID) currently only used for React keys in the form
+- **Alternative:** Could use array index as key to save bytes in localStorage
+- **Current approach rationale:** UUID IDs support future drag-to-reorder feature without index shifts
+- **Storage impact:** ~36 bytes per link (UUID length), negligible for 5 links × 50 cards = 9KB total
+
 **Future Optimization (if needed):**
 
 - Memoize `getCardActions` result per card
 - Virtualize card list if users create 100+ cards
 - Debounce link form inputs to reduce re-renders
+- Consider array indices as keys if drag-reorder not planned
 
 ### Version History
 
