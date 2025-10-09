@@ -66,47 +66,7 @@ export const useAppStore = create<AppStore>()(
       toggleSidebar: () => set({ sidebarOpen: !get().sidebarOpen }),
 
       // Custom cards state
-      customCards: [
-        {
-          id: 'default-claude-card',
-          title: 'Claude',
-          iconName: 'Bot',
-          createdAt: new Date().toISOString(),
-          links: [
-            { id: uuidv4(), label: 'Chat', href: 'https://claude.ai' },
-            {
-              id: uuidv4(),
-              label: 'Console',
-              href: 'https://console.anthropic.com',
-            },
-            {
-              id: uuidv4(),
-              label: 'Docs',
-              href: 'https://docs.anthropic.com',
-            },
-            {
-              id: uuidv4(),
-              label: 'API Reference',
-              href: 'https://docs.anthropic.com/en/api',
-            },
-            {
-              id: uuidv4(),
-              label: 'Pricing',
-              href: 'https://www.anthropic.com/pricing',
-            },
-            {
-              id: uuidv4(),
-              label: 'Release Notes',
-              href: 'https://docs.anthropic.com/en/release-notes',
-            },
-            {
-              id: uuidv4(),
-              label: 'Claude Code',
-              href: 'https://docs.claude.com/en/docs/claude-code',
-            },
-          ],
-        },
-      ],
+      customCards: [],
       addCustomCard: (card) => {
         const newCard: CustomCard = {
           ...card,
@@ -130,25 +90,24 @@ export const useAppStore = create<AppStore>()(
     }),
     {
       name: 'app-storage', // localStorage key
-      version: 2, // Bump from 1 to 2 to add default Claude custom card
+      version: 1, // Bump from 0 to 1 (Zustand defaults to version 0 when not specified)
       migrate: (
         persistedState: unknown,
         version: number
       ): AppStore | undefined => {
-        if (!persistedState || typeof persistedState !== 'object') {
-          return persistedState as AppStore | undefined;
-        }
-
-        let state = persistedState as Record<string, unknown>;
-
-        try {
-          // Migrate from v0 (single href) to v1 (links array)
-          if (version < 1) {
+        // Migrate from v0 (single href) to v1 (links array)
+        if (
+          version === 0 &&
+          persistedState &&
+          typeof persistedState === 'object'
+        ) {
+          try {
+            const state = persistedState as Record<string, unknown>;
             const cards = Array.isArray(state.customCards)
               ? state.customCards
               : [];
 
-            state = {
+            return {
               ...state,
               customCards: cards.map((card: unknown) => {
                 if (card && typeof card === 'object') {
@@ -169,85 +128,17 @@ export const useAppStore = create<AppStore>()(
                 }
                 return card;
               }),
+            } as AppStore;
+          } catch (error) {
+            console.error('Custom card migration failed:', error);
+            // Fallback: preserve other state, reset custom cards
+            return {
+              ...(persistedState as unknown as AppStore),
+              customCards: [],
             };
           }
-
-          // Migrate from v1 to v2 (add default Claude card)
-          if (version < 2) {
-            const cards = Array.isArray(state.customCards)
-              ? state.customCards
-              : [];
-
-            // Only add if default Claude card doesn't exist
-            const hasClaudeCard = cards.some(
-              (card: unknown) =>
-                card &&
-                typeof card === 'object' &&
-                (card as Record<string, unknown>).id === 'default-claude-card'
-            );
-
-            if (!hasClaudeCard) {
-              state = {
-                ...state,
-                customCards: [
-                  {
-                    id: 'default-claude-card',
-                    title: 'Claude',
-                    iconName: 'Bot',
-                    createdAt: new Date().toISOString(),
-                    links: [
-                      {
-                        id: uuidv4(),
-                        label: 'Chat',
-                        href: 'https://claude.ai',
-                      },
-                      {
-                        id: uuidv4(),
-                        label: 'Console',
-                        href: 'https://console.anthropic.com',
-                      },
-                      {
-                        id: uuidv4(),
-                        label: 'Docs',
-                        href: 'https://docs.anthropic.com',
-                      },
-                      {
-                        id: uuidv4(),
-                        label: 'API Reference',
-                        href: 'https://docs.anthropic.com/en/api',
-                      },
-                      {
-                        id: uuidv4(),
-                        label: 'Pricing',
-                        href: 'https://www.anthropic.com/pricing',
-                      },
-                      {
-                        id: uuidv4(),
-                        label: 'Release Notes',
-                        href: 'https://docs.anthropic.com/en/release-notes',
-                      },
-                      {
-                        id: uuidv4(),
-                        label: 'Claude Code',
-                        href: 'https://docs.claude.com/en/docs/claude-code',
-                      },
-                    ],
-                  },
-                  ...cards,
-                ],
-              };
-            }
-          }
-
-          return state as AppStore;
-        } catch (error) {
-          console.error('Custom card migration failed:', error);
-          // Fallback: preserve other state, reset custom cards
-          return {
-            ...(persistedState as unknown as AppStore),
-            customCards: [],
-          };
         }
+        return persistedState as AppStore | undefined;
       },
       partialize: (state) => ({
         // Only persist these values
