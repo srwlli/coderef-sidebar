@@ -14,12 +14,12 @@ interface WorkflowTool {
 const workflowTools: WorkflowTool[] = [
   {
     title: 'Prompts',
-    href: '/ai-tools/prompts',
+    href: '/workflows/prompts',
     icon: MessageSquare,
   },
   {
     title: 'Git Commands',
-    href: '/git-commands',
+    href: '/workflows/git-commands',
     icon: GitBranch,
   },
   {
