@@ -31,7 +31,11 @@
       "Bash(do ls -lh --time-style=long-iso \"$f\")",
       "Bash(done)",
       "Bash(git push:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "Read(//c/Users/willh/Desktop/projects - current-location/build-library/**)",
+      "Bash(cat:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)"
     ],
     "deny": []
   }
