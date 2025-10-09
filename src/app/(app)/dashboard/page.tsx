@@ -21,7 +21,7 @@ import { getCardActions } from '@/lib/card-actions';
 import { LucideIcon } from 'lucide-react';
 import { useLongPress } from '@/hooks/use-long-press';
 import { useRouter } from 'next/navigation';
-import { useAppStore, CustomCard } from '@/stores/use-app-store';
+import { useAppStore, CustomCard, CustomLink } from '@/stores/use-app-store';
 import { getIconComponent } from '@/lib/icon-utils';
 import { CustomCardItem } from '@/components/dashboard/CustomCardItem';
 import { AddCardButton } from '@/components/dashboard/AddCardButton';
@@ -249,7 +249,7 @@ export default function Dashboard() {
 
   const handleFormSubmit = (data: {
     title: string;
-    href: string;
+    links: CustomLink[];
     iconName: string;
   }) => {
     if (editingCard) {

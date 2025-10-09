@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { v4 as uuidv4 } from 'uuid';
+import { Trash, Plus } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -18,8 +20,9 @@ import { Button } from '@/components/ui/button';
 import { IconPicker } from './IconPicker';
 import { CustomCard } from '@/stores/use-app-store';
 
-const cardFormSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(50, 'Title too long'),
+const customLinkSchema = z.object({
+  id: z.string(),
+  label: z.string().min(1, 'Label required').max(30, 'Max 30 characters'),
   href: z.string().refine(
     (val) => {
       // Allow internal paths starting with /
@@ -36,6 +39,14 @@ const cardFormSchema = z.object({
       message: 'Must be valid http/https URL or path starting with /',
     }
   ),
+});
+
+const cardFormSchema = z.object({
+  title: z.string().min(1, 'Title is required').max(50, 'Title too long'),
+  links: z
+    .array(customLinkSchema)
+    .min(1, 'At least 1 link required')
+    .max(5, 'Maximum 5 links allowed'),
   iconName: z.string().min(1, 'Icon is required'),
 });
 
@@ -60,14 +71,20 @@ export function CardFormModal({
     watch,
     setValue,
     reset,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<CardFormData>({
     resolver: zodResolver(cardFormSchema),
     defaultValues: {
       title: initialData?.title || '',
-      href: initialData?.href || '',
+      links: initialData?.links || [{ id: uuidv4(), label: '', href: '' }],
       iconName: initialData?.iconName || 'Link',
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'links',
   });
 
   // Reset form when modal opens/closes or initialData changes
@@ -75,7 +92,7 @@ export function CardFormModal({
     if (open) {
       reset({
         title: initialData?.title || '',
-        href: initialData?.href || '',
+        links: initialData?.links || [{ id: uuidv4(), label: '', href: '' }],
         iconName: initialData?.iconName || 'Link',
       });
     }
@@ -129,20 +146,67 @@ export function CardFormModal({
             )}
           </div>
 
-          {/* URL Field */}
-          <div className="space-y-2">
-            <Label htmlFor="href">URL or Path</Label>
-            <Input
-              id="href"
-              placeholder="https://example.com or /internal-path"
-              {...register('href')}
-              aria-invalid={errors.href ? 'true' : 'false'}
-              aria-describedby={errors.href ? 'href-error' : undefined}
-            />
-            {errors.href && (
-              <p id="href-error" className="text-sm text-red-500">
-                {errors.href.message}
-              </p>
+          {/* Links Section - replaces single href field */}
+          <div className="space-y-4">
+            <Label>Quick Actions (1-5 links)</Label>
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex items-start gap-2">
+                <div className="flex-1 space-y-2">
+                  <Input
+                    placeholder="Label (e.g., Dashboard)"
+                    {...register(`links.${index}.label`)}
+                    aria-invalid={
+                      errors.links?.[index]?.label ? 'true' : 'false'
+                    }
+                    aria-label={`Link ${index + 1} label`}
+                  />
+                  {errors.links?.[index]?.label && (
+                    <p className="text-sm text-red-500">
+                      {errors.links[index]?.label?.message}
+                    </p>
+                  )}
+                  <Input
+                    placeholder="https://example.com or /path"
+                    {...register(`links.${index}.href`)}
+                    aria-invalid={
+                      errors.links?.[index]?.href ? 'true' : 'false'
+                    }
+                    aria-label={`Link ${index + 1} URL`}
+                  />
+                  {errors.links?.[index]?.href && (
+                    <p className="text-sm text-red-500">
+                      {errors.links[index]?.href?.message}
+                    </p>
+                  )}
+                </div>
+                {fields.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => remove(index)}
+                    className="mt-1"
+                    aria-label={`Remove link ${index + 1}`}
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                )}
+              </div>
+            ))}
+            {errors.links && typeof errors.links.message === 'string' && (
+              <p className="text-sm text-red-500">{errors.links.message}</p>
+            )}
+            {fields.length < 5 && (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => append({ id: uuidv4(), label: '', href: '' })}
+                aria-label="Add another link"
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Add Link
+              </Button>
             )}
           </div>
 

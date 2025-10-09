@@ -265,20 +265,24 @@ export function getCardActions(
 
   // Custom card actions (check for id property)
   if (customCard?.id) {
-    const isExternal = customCard.href.startsWith('http');
-
-    return [
-      {
+    // Generate actions from links array
+    const linkActions = customCard.links.map((link) => {
+      const isExternal = link.href.startsWith('http');
+      return {
         icon: isExternal ? ExternalLink : Globe,
-        label: 'Open',
+        label: link.label,
         onClick: () => {
           if (isExternal) {
-            window.open(customCard.href, '_blank', 'noopener,noreferrer');
+            window.open(link.href, '_blank', 'noopener,noreferrer');
           } else {
-            window.location.href = customCard.href;
+            window.location.href = link.href;
           }
         },
-      },
+      };
+    });
+
+    return [
+      ...linkActions,
       {
         icon: Edit,
         label: 'Edit',

@@ -24,17 +24,20 @@ export function CustomCardItem({
   onLongPress,
 }: CustomCardItemProps) {
   const router = useRouter();
-  const isExternal = card.href.startsWith('http');
 
   const { style, ...handlers } = useLongPress({
     onLongPress: () => {
       if (onLongPress) onLongPress();
     },
     onClick: () => {
-      if (isExternal) {
-        window.open(card.href, '_blank', 'noopener,noreferrer');
-      } else {
-        router.push(card.href);
+      // Open first link by default
+      if (card.links.length > 0) {
+        const firstLink = card.links[0];
+        if (firstLink.href.startsWith('http')) {
+          window.open(firstLink.href, '_blank', 'noopener,noreferrer');
+        } else {
+          router.push(firstLink.href);
+        }
       }
     },
   });

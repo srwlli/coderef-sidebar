@@ -2,10 +2,16 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
+export interface CustomLink {
+  id: string;
+  label: string;
+  href: string;
+}
+
 export interface CustomCard {
   id: string;
   title: string;
-  href: string;
+  links: CustomLink[];
   iconName: string;
   createdAt: string;
 }
@@ -84,6 +90,56 @@ export const useAppStore = create<AppStore>()(
     }),
     {
       name: 'app-storage', // localStorage key
+      version: 1, // Bump from 0 to 1 (Zustand defaults to version 0 when not specified)
+      migrate: (
+        persistedState: unknown,
+        version: number
+      ): AppStore | undefined => {
+        // Migrate from v0 (single href) to v1 (links array)
+        if (
+          version === 0 &&
+          persistedState &&
+          typeof persistedState === 'object'
+        ) {
+          try {
+            const state = persistedState as Record<string, unknown>;
+            const cards = Array.isArray(state.customCards)
+              ? state.customCards
+              : [];
+
+            return {
+              ...state,
+              customCards: cards.map((card: unknown) => {
+                if (card && typeof card === 'object') {
+                  const cardObj = card as Record<string, unknown>;
+                  // Convert old format to new format
+                  if ('href' in cardObj && !('links' in cardObj)) {
+                    return {
+                      ...cardObj,
+                      links: [
+                        {
+                          id: uuidv4(),
+                          label: 'Open',
+                          href: cardObj.href,
+                        },
+                      ],
+                    };
+                  }
+                }
+                return card;
+              }),
+            } as AppStore;
+          } catch (error) {
+            console.error('Custom card migration failed:', error);
+            // Fallback: preserve other state, reset custom cards
+            return {
+              ...(persistedState as Record<string, unknown>),
+              customCards: [],
+            } as AppStore;
+          }
+        }
+        return persistedState as AppStore | undefined;
+      },
       partialize: (state) => ({
         // Only persist these values
         view: state.view,
