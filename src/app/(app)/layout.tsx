@@ -16,7 +16,7 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from '@/components/layout/sidebar';
-import { Home, Cog } from 'lucide-react';
+import { Home, Cog, Hammer, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/Header';
@@ -26,6 +26,16 @@ const menuItems = [
     title: 'Dashboard',
     href: '/dashboard',
     icon: Home,
+  },
+  {
+    title: 'AI Chat',
+    href: '/ai-chat',
+    icon: MessageSquare,
+  },
+  {
+    title: 'AI Builders',
+    href: '/ai-builders',
+    icon: Hammer,
   },
 ];
 
