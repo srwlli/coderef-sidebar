@@ -133,9 +133,9 @@ export const useAppStore = create<AppStore>()(
             console.error('Custom card migration failed:', error);
             // Fallback: preserve other state, reset custom cards
             return {
-              ...(persistedState as Record<string, unknown>),
+              ...(persistedState as unknown as AppStore),
               customCards: [],
-            } as AppStore;
+            };
           }
         }
         return persistedState as AppStore | undefined;
