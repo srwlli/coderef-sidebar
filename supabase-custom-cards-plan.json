@@ -1,0 +1,310 @@
+{
+  "title": "Supabase Per-User Custom Cards Implementation Plan",
+  "version": "1.0.0",
+  "status": "pending",
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Create Supabase Database Schema",
+      "description": "Create custom_cards table with user_id foreign key",
+      "files": ["supabase/migrations/create_custom_cards_table.sql"],
+      "implementation": {
+        "sql": "create table if not exists public.custom_cards (\n  id uuid primary key default gen_random_uuid(),\n  user_id uuid references auth.users(id) on delete cascade not null,\n  title text not null check (char_length(title) <= 50),\n  icon_name text not null,\n  links jsonb not null,\n  created_at timestamp with time zone default now() not null,\n  updated_at timestamp with time zone default now() not null\n);\n\n-- Create index for faster user queries\ncreate index custom_cards_user_id_idx on public.custom_cards(user_id);\n\n-- Create index for ordering by created_at\ncreate index custom_cards_created_at_idx on public.custom_cards(created_at);"
+      },
+      "notes": [
+        "Use gen_random_uuid() instead of uuid_generate_v4() (Postgres 13+)",
+        "Add check constraint for title length",
+        "links stored as JSONB for query flexibility",
+        "Indexes for performance on user_id and created_at"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Add Row Level Security Policies",
+      "description": "Enable RLS so users can only access their own cards",
+      "files": ["supabase/migrations/create_custom_cards_table.sql"],
+      "implementation": {
+        "sql": "-- Enable RLS\nalter table public.custom_cards enable row level security;\n\n-- Policy: Users can view their own cards\ncreate policy \"Users can view own custom cards\"\n  on public.custom_cards\n  for select\n  using (auth.uid() = user_id);\n\n-- Policy: Users can insert their own cards\ncreate policy \"Users can insert own custom cards\"\n  on public.custom_cards\n  for insert\n  with check (auth.uid() = user_id);\n\n-- Policy: Users can update their own cards\ncreate policy \"Users can update own custom cards\"\n  on public.custom_cards\n  for update\n  using (auth.uid() = user_id)\n  with check (auth.uid() = user_id);\n\n-- Policy: Users can delete their own cards\ncreate policy \"Users can delete own custom cards\"\n  on public.custom_cards\n  for delete\n  using (auth.uid() = user_id);"
+      },
+      "notes": [
+        "RLS ensures data isolation per user",
+        "auth.uid() returns current authenticated user's ID",
+        "All CRUD operations protected by RLS"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Add Updated Timestamp Trigger",
+      "description": "Auto-update updated_at timestamp on row changes",
+      "files": ["supabase/migrations/create_custom_cards_table.sql"],
+      "implementation": {
+        "sql": "-- Function to update updated_at timestamp\ncreate or replace function public.update_updated_at_column()\nreturns trigger as $$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$$ language plpgsql;\n\n-- Trigger to auto-update updated_at\ncreate trigger update_custom_cards_updated_at\n  before update on public.custom_cards\n  for each row\n  execute function public.update_updated_at_column();"
+      },
+      "notes": [
+        "Automatically tracks when cards are modified",
+        "Useful for sync and conflict resolution"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Create TypeScript Types for Database",
+      "description": "Add Supabase database types",
+      "files": ["src/types/database.ts"],
+      "implementation": {
+        "typescript": "export interface CustomCardRow {\n  id: string;\n  user_id: string;\n  title: string;\n  icon_name: string;\n  links: {\n    id: string;\n    label: string;\n    href: string;\n  }[];\n  created_at: string;\n  updated_at: string;\n}\n\nexport interface CustomCardInsert {\n  user_id: string;\n  title: string;\n  icon_name: string;\n  links: {\n    id: string;\n    label: string;\n    href: string;\n  }[];\n}\n\nexport interface CustomCardUpdate {\n  title?: string;\n  icon_name?: string;\n  links?: {\n    id: string;\n    label: string;\n    href: string;\n  }[];\n}"
+      },
+      "notes": [
+        "Separate types for Row, Insert, Update operations",
+        "links array type matches CustomLink from store"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Create Custom Cards API Service",
+      "description": "CRUD functions for custom cards in Supabase",
+      "files": ["src/lib/api/custom-cards.ts"],
+      "implementation": {
+        "functions": [
+          "fetchCustomCards(userId: string): Promise<CustomCardRow[]>",
+          "createCustomCard(data: CustomCardInsert): Promise<CustomCardRow>",
+          "updateCustomCard(id: string, data: CustomCardUpdate): Promise<CustomCardRow>",
+          "deleteCustomCard(id: string): Promise<void>"
+        ]
+      },
+      "notes": [
+        "All functions use Supabase client",
+        "Error handling for network failures",
+        "RLS automatically filters by user_id"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Update Zustand Store with Supabase Integration",
+      "description": "Replace localStorage with Supabase for auth users, keep localStorage fallback",
+      "files": ["src/stores/use-app-store.ts"],
+      "changes": [
+        "Add loading states for async operations",
+        "Add error states for failed operations",
+        "Update addCustomCard to call Supabase insert",
+        "Update updateCustomCard to call Supabase update",
+        "Update deleteCustomCard to call Supabase delete",
+        "Add fetchCustomCards action to load from Supabase",
+        "Keep localStorage as fallback for non-auth users"
+      ],
+      "implementation": {
+        "newActions": [
+          "fetchCustomCards: () => Promise<void>",
+          "isLoading: boolean",
+          "error: string | null",
+          "clearError: () => void"
+        ]
+      },
+      "notes": [
+        "Hybrid approach: Supabase for auth users, localStorage for guests",
+        "Optimistic updates for better UX",
+        "Error handling with user feedback"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Create useCustomCards Hook",
+      "description": "React hook to manage custom cards with auth integration",
+      "files": ["src/hooks/use-custom-cards.ts"],
+      "implementation": {
+        "hook": "export function useCustomCards() {\n  const { user } = useAuth();\n  const { customCards, fetchCustomCards, addCustomCard, updateCustomCard, deleteCustomCard, isLoading, error } = useAppStore();\n\n  // Fetch cards on mount if authenticated\n  useEffect(() => {\n    if (user) {\n      fetchCustomCards();\n    }\n  }, [user?.id]);\n\n  return {\n    cards: customCards,\n    isLoading,\n    error,\n    addCard: addCustomCard,\n    updateCard: updateCustomCard,\n    deleteCard: deleteCustomCard,\n  };\n}"
+      },
+      "notes": [
+        "Abstracts store complexity",
+        "Auto-fetches on auth state change",
+        "Provides clean API for components"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Update Dashboard to Use New Hook",
+      "description": "Replace direct store usage with useCustomCards hook",
+      "files": ["src/app/(app)/dashboard/page.tsx"],
+      "changes": [
+        "Replace useAppStore with useCustomCards",
+        "Add loading spinner while fetching",
+        "Add error toast on failures",
+        "Handle auth vs non-auth states"
+      ],
+      "notes": [
+        "Show skeleton loaders while isLoading",
+        "Display error messages with retry button",
+        "Graceful fallback for non-auth users"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Add Data Migration Utility",
+      "description": "Migrate existing localStorage cards to Supabase on first auth",
+      "files": ["src/lib/migrate-cards-to-supabase.ts"],
+      "implementation": {
+        "function": "export async function migrateLocalStorageCardsToSupabase(userId: string) {\n  const localCards = getLocalStorageCards();\n  if (!localCards || localCards.length === 0) return;\n\n  // Batch insert to Supabase\n  await Promise.all(\n    localCards.map(card => createCustomCard({ ...card, user_id: userId }))\n  );\n\n  // Clear localStorage after successful migration\n  clearLocalStorageCards();\n}"
+      },
+      "notes": [
+        "One-time migration on first sign-in",
+        "Preserves user's existing cards",
+        "Clears localStorage after successful migration"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Update Auth Provider to Trigger Migration",
+      "description": "Auto-migrate cards when user signs in for first time",
+      "files": ["src/lib/auth-context.tsx"],
+      "changes": [
+        "Check for localStorage cards on auth state change",
+        "Call migration if cards exist",
+        "Track migration status in separate localStorage key"
+      ],
+      "notes": [
+        "Non-blocking migration (runs in background)",
+        "Error handling with toast notification",
+        "Migration flag prevents duplicate migrations"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Add Optimistic Updates",
+      "description": "Update UI immediately, rollback on server error",
+      "files": ["src/stores/use-app-store.ts"],
+      "implementation": {
+        "pattern": "1. Add card to state immediately\n2. Call Supabase API\n3. On success: update with server ID\n4. On failure: remove from state + show error"
+      },
+      "notes": [
+        "Better UX with instant feedback",
+        "Graceful error handling",
+        "State consistency with server"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Add Realtime Sync (Optional)",
+      "description": "Sync cards across devices in realtime",
+      "files": ["src/hooks/use-custom-cards.ts"],
+      "implementation": {
+        "code": "// Subscribe to changes\nconst subscription = supabase\n  .channel('custom_cards_changes')\n  .on('postgres_changes', {\n    event: '*',\n    schema: 'public',\n    table: 'custom_cards',\n    filter: `user_id=eq.${userId}`\n  }, (payload) => {\n    // Update local state\n  })\n  .subscribe();"
+      },
+      "notes": [
+        "Optional enhancement",
+        "Useful for multi-device users",
+        "Requires Realtime enabled in Supabase"
+      ]
+    }
+  ],
+  "implementation_order": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "testing_checklist": [
+    {
+      "category": "Database",
+      "tests": [
+        "✓ Table created with correct schema",
+        "✓ RLS policies prevent cross-user access",
+        "✓ Indexes improve query performance",
+        "✓ Triggers update timestamps correctly"
+      ]
+    },
+    {
+      "category": "API",
+      "tests": [
+        "✓ fetchCustomCards returns only user's cards",
+        "✓ createCustomCard adds card to database",
+        "✓ updateCustomCard modifies existing card",
+        "✓ deleteCustomCard removes card",
+        "✓ Error handling for network failures",
+        "✓ RLS blocks unauthorized access attempts"
+      ]
+    },
+    {
+      "category": "Store",
+      "tests": [
+        "✓ Auth users use Supabase",
+        "✓ Non-auth users use localStorage",
+        "✓ Loading states update correctly",
+        "✓ Error states clear on success",
+        "✓ Optimistic updates rollback on error"
+      ]
+    },
+    {
+      "category": "Migration",
+      "tests": [
+        "✓ localStorage cards migrate to Supabase on first sign-in",
+        "✓ Migration doesn't run twice",
+        "✓ localStorage cleared after successful migration",
+        "✓ Migration errors handled gracefully"
+      ]
+    },
+    {
+      "category": "UI/UX",
+      "tests": [
+        "✓ Loading spinner shows while fetching",
+        "✓ Error messages display with retry option",
+        "✓ Cards update across devices (if realtime enabled)",
+        "✓ Optimistic updates feel instant",
+        "✓ Guest mode still works with localStorage"
+      ]
+    }
+  ],
+  "rollback_plan": {
+    "description": "If Supabase integration fails, app should fall back to localStorage",
+    "steps": [
+      "Check if supabase.auth.getUser() succeeds",
+      "On error, use localStorage mode",
+      "Show toast: 'Offline mode - changes saved locally'",
+      "Provide 'Retry Sync' button in settings"
+    ]
+  },
+  "security_considerations": [
+    "RLS policies enforce user data isolation",
+    "JSONB validation prevents malicious data",
+    "Rate limiting on Supabase prevents abuse",
+    "Auth tokens stored securely via Supabase SDK"
+  ],
+  "performance_considerations": [
+    "Index on user_id for fast queries",
+    "JSONB for flexible link storage without joins",
+    "Optimistic updates reduce perceived latency",
+    "Realtime subscriptions use WebSockets (efficient)"
+  ],
+  "edge_cases": [
+    {
+      "case": "User signs out",
+      "handling": "Clear Supabase cards from state, don't save to localStorage"
+    },
+    {
+      "case": "User deletes account",
+      "handling": "ON DELETE CASCADE removes all cards automatically"
+    },
+    {
+      "case": "Network offline",
+      "handling": "Show error, allow retry, or fall back to localStorage"
+    },
+    {
+      "case": "Conflicting updates",
+      "handling": "Last write wins (or implement CRDT for conflict-free sync)"
+    }
+  ],
+  "next_steps_after_implementation": [
+    "Add card sharing (share custom cards with other users)",
+    "Add card templates (pre-built cards users can clone)",
+    "Add card categories/tags for organization",
+    "Add card search/filter functionality",
+    "Add card export/import (JSON)",
+    "Add card analytics (most used actions)"
+  ]
+}
