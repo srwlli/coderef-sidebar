@@ -196,18 +196,49 @@
     {
       "id": 10,
       "name": "Update Auth Provider to Trigger Migration",
-      "description": "Auto-migrate cards when user signs in for first time",
+      "description": "Enhance existing AuthProvider to trigger migration and clear cards on auth events",
       "files": ["src/lib/auth-context.tsx"],
-      "changes": [
-        "Check for localStorage cards on auth state change",
-        "Call migration if cards exist",
-        "Track migration status in separate localStorage key"
+      "existing_implementation": {
+        "status": "Already exists - needs enhancement",
+        "current_features": [
+          "AuthProvider component wraps app",
+          "useAuth hook provides user, loading, signIn, signUp, signOut, resetPassword",
+          "onAuthStateChange listener updates user state",
+          "Session persistence via Supabase SDK",
+          "Automatic token refresh"
+        ],
+        "user_object": {
+          "id": "string - Supabase user UUID (use for DB queries)",
+          "email": "string - User email",
+          "full_name": "string | undefined - Display name from user_metadata",
+          "avatar_url": "string | undefined - Avatar URL from user_metadata"
+        }
+      },
+      "required_changes": [
+        "Import migrateLocalStorageCardsToSupabase from Task 9",
+        "Import useAppStore to clear cards on sign-out",
+        "Add migration trigger in onAuthStateChange SIGNED_IN event",
+        "Add card clearing in onAuthStateChange SIGNED_OUT event",
+        "Add error handling for migration failures (non-blocking)"
       ],
+      "implementation": {
+        "code": "supabase.auth.onAuthStateChange(async (event, session) => {\n  setUser(session?.user ?? null);\n  setLoading(false);\n\n  // Trigger migration on sign-in\n  if (event === 'SIGNED_IN' && session?.user) {\n    try {\n      await migrateLocalStorageCardsToSupabase(session.user.id);\n      // Migration will call fetchCustomCards internally\n    } catch (error) {\n      console.error('Card migration failed:', error);\n      toast.error('Failed to sync cards. Retrying on next sign-in.');\n    }\n  }\n\n  // Clear Supabase cards on sign-out\n  if (event === 'SIGNED_OUT') {\n    useAppStore.setState({ customCards: [] });\n  }\n});"
+      },
+      "auth_events": {
+        "SIGNED_IN": "Trigger migration + fetch cards from Supabase",
+        "SIGNED_OUT": "Clear customCards from Zustand state",
+        "TOKEN_REFRESHED": "No action needed (automatic)",
+        "USER_UPDATED": "No action needed (user state updates automatically)",
+        "PASSWORD_RECOVERY": "No action needed for custom cards"
+      },
       "notes": [
-        "Non-blocking migration (runs in background)",
+        "useAuth hook already exists - see docs/auth-integration.md",
+        "Non-blocking migration (errors logged, user can continue)",
         "Error handling with toast notification",
-        "Migration flag prevents duplicate migrations"
-      ]
+        "Migration flag (in Task 9) prevents duplicate migrations",
+        "Cards cleared on sign-out to prevent stale data"
+      ],
+      "documentation": "docs/auth-integration.md"
     },
     {
       "id": 11,
