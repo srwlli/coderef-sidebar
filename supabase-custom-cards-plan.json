@@ -80,29 +80,63 @@
     {
       "id": 6,
       "name": "Update Zustand Store with Supabase Integration",
-      "description": "Replace localStorage with Supabase for auth users, keep localStorage fallback",
+      "description": "Hybrid store: Supabase for auth users, localStorage for guests, with optimistic updates",
       "files": ["src/stores/use-app-store.ts"],
-      "changes": [
-        "Add loading states for async operations",
-        "Add error states for failed operations",
-        "Update addCustomCard to call Supabase insert",
-        "Update updateCustomCard to call Supabase update",
-        "Update deleteCustomCard to call Supabase delete",
-        "Add fetchCustomCards action to load from Supabase",
-        "Keep localStorage as fallback for non-auth users"
-      ],
       "implementation": {
-        "newActions": [
-          "fetchCustomCards: () => Promise<void>",
-          "isLoading: boolean",
-          "error: string | null",
-          "clearError: () => void"
-        ]
+        "interface": {
+          "new_state": [
+            "isLoadingCards: boolean - Loading state for async operations",
+            "cardsError: string | null - Error message from failed operations"
+          ],
+          "async_actions": [
+            "fetchCustomCards: () => Promise<void> - Fetch from Supabase",
+            "addCustomCard: (card) => Promise<void> - Add with optimistic update",
+            "updateCustomCard: (id, updates) => Promise<void> - Update with optimistic update",
+            "deleteCustomCard: (id) => Promise<void> - Delete with optimistic update"
+          ],
+          "sync_actions": [
+            "addCustomCardLocal: (card) => void - localStorage add for guests",
+            "updateCustomCardLocal: (id, updates) => void - localStorage update for guests",
+            "deleteCustomCardLocal: (id) => void - localStorage delete for guests"
+          ],
+          "utility": [
+            "clearCardsError: () => void - Clear error state"
+          ]
+        },
+        "optimistic_update_pattern": {
+          "add": "1. Generate temp ID\n2. Add temp card to state\n3. Insert to Supabase\n4. On success: replace temp with server card\n5. On failure: remove temp card + set error",
+          "update": "1. Store original card\n2. Apply update to state\n3. Update in Supabase\n4. On failure: rollback to original + set error",
+          "delete": "1. Store original card\n2. Remove from state\n3. Delete from Supabase\n4. On failure: re-add original + set error"
+        },
+        "auth_detection": "async function isAuthenticated(): Promise<boolean> {\n  if (!supabase) return false;\n  const { data: { user } } = await supabase.auth.getUser();\n  return !!user;\n}",
+        "persistence_strategy": "partialize: (state) => ({\n  view: state.view,\n  sidebarOpen: state.sidebarOpen,\n  customCards: state.customCards, // Always persist, auth users override on fetch\n})"
       },
+      "key_features": [
+        "Dual API: Async methods for auth, sync methods for guests",
+        "Optimistic updates with automatic rollback on error",
+        "Loading and error states for UI feedback",
+        "Auth detection via supabase.auth.getUser()",
+        "Temp ID pattern (temp-${uuid}) for optimistic creates",
+        "Original card backup for update/delete rollback",
+        "Conditional persistence (always save, fetch overrides for auth)"
+      ],
+      "usage_examples": {
+        "auth_user": "const { fetchCustomCards, addCustomCard } = useAppStore();\nuseEffect(() => { if (user) fetchCustomCards(); }, [user?.id]);\nawait addCustomCard(data); // Optimistic",
+        "guest_user": "const { addCustomCardLocal } = useAppStore();\naddCustomCardLocal(data); // Sync, auto-persisted",
+        "unified_hook": "// Use useCustomCards() hook for automatic auth/guest detection"
+      },
+      "error_handling": [
+        "Network errors: Rollback optimistic update, set cardsError",
+        "Auth errors: Warn in console, don't execute async actions",
+        "Validation errors: Thrown to caller for UI handling",
+        "All errors re-thrown after rollback for toast notifications"
+      ],
       "notes": [
+        "Complete implementation in docs/zustand-supabase-store-implementation.md",
         "Hybrid approach: Supabase for auth users, localStorage for guests",
-        "Optimistic updates for better UX",
-        "Error handling with user feedback"
+        "Optimistic updates provide instant UI feedback",
+        "Rollback mechanism ensures data consistency",
+        "Separate sync/async methods prevent auth confusion"
       ]
     },
     {
