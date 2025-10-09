@@ -8,6 +8,54 @@
     "rationale": "Dashboard is auth-protected route. No localStorage, no migration, simpler implementation.",
     "see": "docs/ARCHITECTURE-DECISION.md"
   },
+  "documentation": {
+    "start_here": "docs/IMPLEMENTATION-READINESS.md",
+    "architecture": "docs/ARCHITECTURE-DECISION.md",
+    "security": "docs/api-security-patterns.md",
+    "zustand_store": "docs/zustand-supabase-store-implementation.md",
+    "auth_integration": "docs/auth-integration.md",
+    "auth_and_offline": "docs/auth-and-offline-strategy.md",
+    "field_mapping": "docs/field-name-mapping.md",
+    "migration_flow": "docs/custom-cards-migration-flow.md",
+    "type_generation": "docs/supabase-type-generation.md",
+    "retry_patterns": "docs/retry-logic-patterns.md",
+    "conflict_resolution": "docs/conflict-resolution.md"
+  },
+  "auth_token_handling": {
+    "token_management": "Supabase SDK automatically manages access tokens and refresh tokens",
+    "token_refresh": {
+      "mechanism": "SDK auto-refreshes access token before expiration using refresh token",
+      "frequency": "Access tokens expire after 1 hour (default), SDK refreshes ~5 minutes before expiry",
+      "storage": "Tokens stored in localStorage by Supabase SDK (encrypted in memory during use)"
+    },
+    "auth_state_monitoring": {
+      "implementation": "supabase.auth.onAuthStateChange((event, session) => { ... })",
+      "events": {
+        "SIGNED_IN": "User authenticated successfully",
+        "SIGNED_OUT": "User signed out or session invalidated",
+        "TOKEN_REFRESHED": "Access token refreshed successfully (automatic)",
+        "USER_UPDATED": "User metadata updated",
+        "PASSWORD_RECOVERY": "Password reset flow initiated"
+      }
+    },
+    "expired_session_handling": {
+      "scenario": "Refresh token expired or invalid",
+      "detection": "onAuthStateChange fires SIGNED_OUT event when refresh fails",
+      "action": "AuthProvider sets user to null, useEffect in dashboard redirects to /login",
+      "user_message": "Your session has expired. Please sign in again."
+    },
+    "api_calls_with_auth": {
+      "how_it_works": "Supabase client automatically attaches access token to all API calls",
+      "user_context": "supabase.auth.getUser() retrieves current user from session (cached, no API call)",
+      "rls_enforcement": "Database RLS policies use auth.uid() from JWT token to filter data",
+      "no_token_scenario": "If no valid token, supabase.auth.getUser() returns { user: null }, API throws 'Not authenticated' error"
+    },
+    "store_integration": {
+      "on_auth_required": "All Zustand store actions call supabase.auth.getUser() before API operations",
+      "error_handling": "If getUser() returns null, throw 'Not authenticated' error, caught by UI for redirect",
+      "no_manual_token_management": "Store does NOT manually handle tokens - SDK does this automatically"
+    }
+  },
   "tasks": [
     {
       "id": 1,
@@ -167,17 +215,26 @@
         "All errors propagate to caller (store) for handling"
       ],
       "security": [
-        "user_id from auth.getUser(), never from caller",
-        "RLS policies enforce user isolation",
-        "UPDATE/DELETE include user_id check for safety"
+        "CRITICAL: user_id MUST be retrieved from supabase.auth.getUser() inside each API function",
+        "NEVER accept user_id as a parameter from caller - prevents data forgery",
+        "Each function signature does NOT include userId parameter - it's internally retrieved",
+        "RLS policies enforce user isolation at database level (defense in depth)",
+        "UPDATE/DELETE include explicit user_id check for extra safety",
+        "If auth.getUser() returns null, throw 'Not authenticated' immediately"
       ],
+      "user_id_injection_pattern": {
+        "correct": "const { data: { user } } = await supabase.auth.getUser();\nif (!user) throw new Error('Not authenticated');\nconst { data } = await supabase.from('custom_cards').insert({ user_id: user.id, ...payload });",
+        "incorrect_never_do_this": "export async function createCard(card, userId) { // WRONG - userId from caller can be forged\n  await supabase.from('custom_cards').insert({ user_id: userId, ...payload });\n}"
+      },
       "notes": [
         "Uses field mapping from Task 4",
         "All functions async (return Promises)",
         "Error handling delegates to caller",
         "RLS automatically filters by user_id",
-        "Complete implementation in docs/field-name-mapping.md"
-      ]
+        "Complete implementation in docs/field-name-mapping.md",
+        "CRITICAL: Read docs/api-security-patterns.md before implementing"
+      ],
+      "documentation": "docs/api-security-patterns.md"
     },
     {
       "id": 6,
@@ -484,50 +541,50 @@
     {
       "category": "Database",
       "tests": [
-        "✓ Table created with correct schema",
-        "✓ RLS policies prevent cross-user access",
-        "✓ Indexes improve query performance",
-        "✓ Triggers update timestamps correctly"
+        "Table created with correct schema",
+        "RLS policies prevent cross-user access",
+        "Indexes improve query performance",
+        "Triggers update timestamps correctly"
       ]
     },
     {
       "category": "API",
       "tests": [
-        "✓ fetchCustomCards returns only user's cards",
-        "✓ createCustomCard adds card to database",
-        "✓ updateCustomCard modifies existing card",
-        "✓ deleteCustomCard removes card",
-        "✓ Error handling for network failures",
-        "✓ RLS blocks unauthorized access attempts"
+        "fetchCustomCards returns only user's cards",
+        "createCustomCard adds card to database",
+        "updateCustomCard modifies existing card",
+        "deleteCustomCard removes card",
+        "Error handling for network failures",
+        "RLS blocks unauthorized access attempts"
       ]
     },
     {
       "category": "Store",
       "tests": [
-        "✓ fetchCustomCards loads from Supabase",
-        "✓ Loading states update correctly",
-        "✓ Error states clear on success",
-        "✓ Optimistic updates rollback on error",
-        "✓ Cards cleared on sign-out"
+        "fetchCustomCards loads from Supabase",
+        "Loading states update correctly",
+        "Error states clear on success",
+        "Optimistic updates rollback on error",
+        "Cards cleared on sign-out"
       ]
     },
     {
       "category": "Route Protection",
       "tests": [
-        "✓ Dashboard redirects to /login when not authenticated",
-        "✓ Dashboard shows loading spinner during auth check",
-        "✓ Dashboard renders only when authenticated",
-        "✓ Custom cards fetch on mount (authenticated users)"
+        "Dashboard redirects to /login when not authenticated",
+        "Dashboard shows loading spinner during auth check",
+        "Dashboard renders only when authenticated",
+        "Custom cards fetch on mount (authenticated users)"
       ]
     },
     {
       "category": "UI/UX",
       "tests": [
-        "✓ Loading spinner shows while fetching",
-        "✓ Error messages display with retry option",
-        "✓ Cards update across devices (if realtime enabled)",
-        "✓ Optimistic updates feel instant",
-        "✓ Sign-out clears cards from state"
+        "Loading spinner shows while fetching",
+        "Error messages display with retry option",
+        "Cards update across devices (if realtime enabled)",
+        "Optimistic updates feel instant",
+        "Sign-out clears cards from state"
       ]
     }
   ],
@@ -564,11 +621,22 @@
     },
     {
       "case": "Network offline",
-      "handling": "Show error, allow retry, or fall back to localStorage"
+      "handling": "Auth-only mode - show error message with retry button. Block CRUD actions until connection restored. No localStorage fallback.",
+      "offline_strategy": "Display: 'You are offline. Custom cards require an internet connection.' with retry option",
+      "future_enhancement": "Optional: Implement offline queue with retry on reconnect (see docs/retry-logic-patterns.md)"
+    },
+    {
+      "case": "Session expired / Auth token invalid",
+      "handling": "Supabase SDK auto-refreshes tokens. If refresh fails, redirect to /login with session expired message",
+      "implementation": "supabase.auth.onAuthStateChange listens for TOKEN_REFRESHED and SIGNED_OUT events",
+      "user_experience": "Seamless for valid sessions, explicit re-login prompt if session cannot be refreshed"
     },
     {
       "case": "Conflicting updates",
-      "handling": "Last write wins (or implement CRDT for conflict-free sync)"
+      "handling": "Last write wins (or implement CRDT for conflict-free sync)",
+      "documentation": "docs/conflict-resolution.md",
+      "recommended_strategy": "Last-Write-Wins for MVP (Strategy 1)",
+      "future_options": ["Optimistic Locking (Strategy 2)", "Field-Level Merging (Strategy 3)", "CRDTs (Strategy 4)"]
     }
   ],
   "next_steps_after_implementation": [
