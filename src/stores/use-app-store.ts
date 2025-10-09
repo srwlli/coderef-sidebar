@@ -17,7 +17,8 @@ export interface CustomLink {
 export interface CustomCard {
   id: string;
   title: string;
-  links: CustomLink[];
+  href: string; // Main card link
+  links: CustomLink[]; // Additional quick actions (0-16)
   iconName: string;
   createdAt: string;
 }

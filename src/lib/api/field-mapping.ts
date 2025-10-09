@@ -7,6 +7,7 @@ export interface CustomCardRow {
   id: string;
   user_id: string;
   title: string;
+  href: string;
   icon_name: string;
   links: {
     id: string;
@@ -23,6 +24,7 @@ export interface CustomCardRow {
 export interface CustomCardInsert {
   user_id: string;
   title: string;
+  href: string;
   icon_name: string;
   links: {
     id: string;
@@ -36,6 +38,7 @@ export interface CustomCardInsert {
  */
 export interface CustomCardUpdate {
   title?: string;
+  href?: string;
   icon_name?: string;
   links?: {
     id: string;
@@ -52,6 +55,7 @@ export function dbToApp(row: CustomCardRow): CustomCard {
     id: row.id,
     // user_id is NOT included in CustomCard (only used in DB queries)
     title: row.title,
+    href: row.href,
     iconName: row.icon_name,
     links: row.links, // Already correct format
     createdAt: row.created_at,
@@ -70,6 +74,7 @@ export function appToInsert(
   return {
     user_id: userId,
     title: card.title,
+    href: card.href,
     icon_name: card.iconName,
     links: card.links, // Already correct format
   };
@@ -85,6 +90,10 @@ export function appToUpdate(
 
   if (updates.title !== undefined) {
     payload.title = updates.title;
+  }
+
+  if (updates.href !== undefined) {
+    payload.href = updates.href;
   }
 
   if (updates.iconName !== undefined) {
@@ -109,6 +118,7 @@ export function isCustomCardRow(obj: unknown): obj is CustomCardRow {
     typeof row.id === 'string' &&
     typeof row.user_id === 'string' &&
     typeof row.title === 'string' &&
+    typeof row.href === 'string' &&
     typeof row.icon_name === 'string' &&
     Array.isArray(row.links) &&
     typeof row.created_at === 'string' &&

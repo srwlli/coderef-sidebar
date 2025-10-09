@@ -30,14 +30,11 @@ export function CustomCardItem({
       if (onLongPress) onLongPress();
     },
     onClick: () => {
-      // Open first link by default
-      if (card.links.length > 0) {
-        const firstLink = card.links[0];
-        if (firstLink.href.startsWith('http')) {
-          window.open(firstLink.href, '_blank', 'noopener,noreferrer');
-        } else {
-          router.push(firstLink.href);
-        }
+      // Navigate to main href
+      if (card.href.startsWith('http')) {
+        window.open(card.href, '_blank', 'noopener,noreferrer');
+      } else {
+        router.push(card.href);
       }
     },
   });

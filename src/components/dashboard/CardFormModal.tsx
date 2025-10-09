@@ -42,9 +42,25 @@ const customLinkSchema = z.object({
 
 const cardFormSchema = z.object({
   title: z.string().min(1, 'Title is required').max(50, 'Title too long'),
+  href: z.string().refine(
+    (val) => {
+      // Allow internal paths starting with /
+      if (val.startsWith('/')) return true;
+      // For external URLs, validate http/https only
+      try {
+        const url = new URL(val);
+        return ['http:', 'https:'].includes(url.protocol);
+      } catch {
+        return false;
+      }
+    },
+    {
+      message: 'Must be valid http/https URL or path starting with /',
+    }
+  ),
   links: z
     .array(customLinkSchema)
-    .min(1, 'At least 1 link required')
+    .min(0, 'Links are optional')
     .max(16, 'Maximum 16 links allowed'),
   iconName: z.string().min(1, 'Icon is required'),
 });
@@ -76,7 +92,8 @@ export function CardFormModal({
     resolver: zodResolver(cardFormSchema),
     defaultValues: {
       title: initialData?.title || '',
-      links: initialData?.links || [{ id: uuidv4(), label: '', href: '' }],
+      href: initialData?.href || '',
+      links: initialData?.links || [],
       iconName: initialData?.iconName || 'Link',
     },
   });
@@ -91,7 +108,8 @@ export function CardFormModal({
     if (open) {
       reset({
         title: initialData?.title || '',
-        links: initialData?.links || [{ id: uuidv4(), label: '', href: '' }],
+        href: initialData?.href || '',
+        links: initialData?.links || [],
         iconName: initialData?.iconName || 'Link',
       });
     }
@@ -153,9 +171,26 @@ export function CardFormModal({
             )}
           </div>
 
-          {/* Links Section - replaces single href field */}
+          {/* Main URL Field */}
+          <div className="space-y-2">
+            <Label htmlFor="href">Main URL</Label>
+            <Input
+              id="href"
+              placeholder="https://example.com or /path"
+              {...register('href')}
+              aria-invalid={errors.href ? 'true' : 'false'}
+              aria-describedby={errors.href ? 'href-error' : undefined}
+            />
+            {errors.href && (
+              <p id="href-error" className="text-sm text-red-500">
+                {errors.href.message}
+              </p>
+            )}
+          </div>
+
+          {/* Links Section - optional quick actions */}
           <div className="space-y-4">
-            <Label>Quick Actions (1-16 links)</Label>
+            <Label>Quick Actions (0-16 links, optional)</Label>
             {fields.map((field, index) => (
               <div key={field.id} className="flex items-start gap-2">
                 <div className="flex-1 space-y-2">
@@ -186,18 +221,16 @@ export function CardFormModal({
                     </p>
                   )}
                 </div>
-                {fields.length > 1 && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => remove(index)}
-                    className="mt-1"
-                    aria-label={`Remove link ${index + 1}`}
-                  >
-                    <Trash className="h-4 w-4" />
-                  </Button>
-                )}
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => remove(index)}
+                  className="mt-1"
+                  aria-label={`Remove link ${index + 1}`}
+                >
+                  <Trash className="h-4 w-4" />
+                </Button>
               </div>
             ))}
             {errors.links && typeof errors.links.message === 'string' && (
