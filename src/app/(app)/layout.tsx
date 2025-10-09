@@ -16,7 +16,7 @@ import {
   SidebarSeparator,
   SidebarTrigger,
 } from '@/components/layout/sidebar';
-import { Home, Cog, Hammer, MessageSquare } from 'lucide-react';
+import { Home, Cog, Hammer, MessageSquare, Workflow } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Header from '@/components/layout/Header';
@@ -36,6 +36,11 @@ const menuItems = [
     title: 'AI Builders',
     href: '/ai-builders',
     icon: Hammer,
+  },
+  {
+    title: 'Workflows',
+    href: '/workflows',
+    icon: Workflow,
   },
 ];
 

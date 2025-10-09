@@ -76,23 +76,6 @@ function GridCardItem({ item, IconComponent, onLongPress }: GridCardItemProps) {
 }
 
 const dashboardItems: DashboardItem[] = [
-  // Internal Tools
-  {
-    title: 'Prompts',
-    href: '/ai-tools/prompts',
-    icon: MessageSquare,
-  },
-  {
-    title: 'Git Commands',
-    href: '/git-commands',
-    icon: GitBranch,
-  },
-  {
-    title: 'Next.js Setup',
-    href: '/workflows/nextjs-setup',
-    icon: Settings,
-  },
-  // Platforms & Services
   {
     title: 'Noted',
     href: 'https://noted-bay-three.vercel.app/',
