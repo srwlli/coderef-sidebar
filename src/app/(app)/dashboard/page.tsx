@@ -148,12 +148,6 @@ const dashboardItems: DashboardItem[] = [
     external: true,
   },
   {
-    title: 'Claude',
-    href: 'https://claude.ai',
-    icon: Bot,
-    external: true,
-  },
-  {
     title: 'Gemini',
     href: 'https://gemini.google.com',
     icon: Bot,

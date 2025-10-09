@@ -155,38 +155,8 @@ export const cardActionsMap: Record<string, CardAction[]> = {
   Claude: [
     {
       icon: ExternalLink,
-      label: 'Chat',
+      label: 'Open Claude',
       onClick: openExternal('https://claude.ai'),
-    },
-    {
-      icon: ExternalLink,
-      label: 'Console',
-      onClick: openExternal('https://console.anthropic.com'),
-    },
-    {
-      icon: ExternalLink,
-      label: 'Docs',
-      onClick: openExternal('https://docs.anthropic.com'),
-    },
-    {
-      icon: ExternalLink,
-      label: 'API Reference',
-      onClick: openExternal('https://docs.anthropic.com/en/api'),
-    },
-    {
-      icon: ExternalLink,
-      label: 'Pricing',
-      onClick: openExternal('https://www.anthropic.com/pricing'),
-    },
-    {
-      icon: ExternalLink,
-      label: 'Release Notes',
-      onClick: openExternal('https://docs.anthropic.com/en/release-notes'),
-    },
-    {
-      icon: ExternalLink,
-      label: 'Claude Code',
-      onClick: openExternal('https://docs.claude.com/en/docs/claude-code'),
     },
   ],
 
