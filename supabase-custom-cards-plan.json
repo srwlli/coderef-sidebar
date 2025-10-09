@@ -15,12 +15,14 @@
       "description": "Create custom_cards table with user_id foreign key",
       "files": ["supabase/migrations/create_custom_cards_table.sql"],
       "implementation": {
-        "sql": "create table if not exists public.custom_cards (\n  id uuid primary key default gen_random_uuid(),\n  user_id uuid references auth.users(id) on delete cascade not null,\n  title text not null check (char_length(title) <= 50),\n  icon_name text not null,\n  links jsonb not null,\n  created_at timestamp with time zone default now() not null,\n  updated_at timestamp with time zone default now() not null\n);\n\n-- Create index for faster user queries\ncreate index custom_cards_user_id_idx on public.custom_cards(user_id);\n\n-- Create index for ordering by created_at\ncreate index custom_cards_created_at_idx on public.custom_cards(created_at);"
+        "sql": "create table if not exists public.custom_cards (\n  id uuid primary key default gen_random_uuid(),\n  user_id uuid references auth.users(id) on delete cascade not null,\n  title text not null check (char_length(title) <= 50),\n  icon_name text not null,\n  links jsonb not null,\n  created_at timestamp with time zone default now() not null,\n  updated_at timestamp with time zone default now() not null,\n  \n  -- JSONB validation for links array structure\n  constraint valid_links_structure check (\n    jsonb_typeof(links) = 'array' and\n    jsonb_array_length(links) >= 1 and\n    jsonb_array_length(links) <= 16\n  )\n);\n\n-- Create index for faster user queries\ncreate index custom_cards_user_id_idx on public.custom_cards(user_id);\n\n-- Create index for ordering by created_at\ncreate index custom_cards_created_at_idx on public.custom_cards(created_at);\n\n-- Create function to validate each link object\ncreate or replace function validate_link_object(link jsonb)\nreturns boolean as $$\nbegin\n  return (\n    link ? 'id' and\n    link ? 'label' and\n    link ? 'href' and\n    jsonb_typeof(link->'id') = 'string' and\n    jsonb_typeof(link->'label') = 'string' and\n    jsonb_typeof(link->'href') = 'string' and\n    char_length(link->>'label') > 0 and\n    char_length(link->>'label') <= 30 and\n    char_length(link->>'href') > 0\n  );\nend;\n$$ language plpgsql immutable;\n\n-- Add constraint to validate all links in array\nalter table public.custom_cards add constraint valid_links_content check (\n  (select bool_and(validate_link_object(link))\n   from jsonb_array_elements(links) as link)\n);"
       },
       "notes": [
         "Use gen_random_uuid() instead of uuid_generate_v4() (Postgres 13+)",
-        "Add check constraint for title length",
-        "links stored as JSONB for query flexibility",
+        "Add check constraint for title length (max 50 chars)",
+        "JSONB validation ensures 1-16 links with proper structure",
+        "Each link validated: must have id, label (max 30 chars), href",
+        "Prevents malicious/malformed data at database level",
         "Indexes for performance on user_id and created_at"
       ]
     },
@@ -338,16 +340,122 @@
     {
       "id": 12,
       "name": "Add Realtime Sync (Optional)",
-      "description": "Sync cards across devices in realtime",
+      "description": "Sync cards across devices in realtime with proper cleanup",
       "files": ["src/hooks/use-custom-cards.ts"],
       "implementation": {
-        "code": "// Subscribe to changes\nconst subscription = supabase\n  .channel('custom_cards_changes')\n  .on('postgres_changes', {\n    event: '*',\n    schema: 'public',\n    table: 'custom_cards',\n    filter: `user_id=eq.${userId}`\n  }, (payload) => {\n    // Update local state\n  })\n  .subscribe();"
+        "code": "// src/hooks/use-custom-cards.ts\nimport { useEffect } from 'react';\nimport { supabase } from '@/lib/supabase';\nimport { useAuth } from '@/lib/auth-context';\nimport { useAppStore } from '@/stores/use-app-store';\n\nexport function useCustomCards() {\n  const { user } = useAuth();\n  const { customCards, fetchCustomCards, addCustomCard, updateCustomCard, deleteCustomCard } = useAppStore();\n\n  // Subscribe to realtime changes\n  useEffect(() => {\n    if (!user || !supabase) return;\n\n    // Create channel\n    const channel = supabase\n      .channel(`custom_cards:${user.id}`)\n      .on(\n        'postgres_changes',\n        {\n          event: '*', // INSERT, UPDATE, DELETE\n          schema: 'public',\n          table: 'custom_cards',\n          filter: `user_id=eq.${user.id}`,\n        },\n        (payload) => {\n          console.log('Realtime change:', payload);\n\n          // Handle different events\n          if (payload.eventType === 'INSERT') {\n            // Another device created a card\n            const newCard = dbToApp(payload.new);\n            useAppStore.setState({\n              customCards: [...useAppStore.getState().customCards, newCard],\n            });\n          } else if (payload.eventType === 'UPDATE') {\n            // Another device updated a card\n            const updatedCard = dbToApp(payload.new);\n            useAppStore.setState({\n              customCards: useAppStore.getState().customCards.map((c) =>\n                c.id === updatedCard.id ? updatedCard : c\n              ),\n            });\n          } else if (payload.eventType === 'DELETE') {\n            // Another device deleted a card\n            useAppStore.setState({\n              customCards: useAppStore.getState().customCards.filter(\n                (c) => c.id !== payload.old.id\n              ),\n            });\n          }\n        }\n      )\n      .subscribe();\n\n    // Cleanup function: unsubscribe when component unmounts or user changes\n    return () => {\n      console.log('Unsubscribing from realtime channel');\n      supabase.removeChannel(channel);\n    };\n  }, [user?.id]); // Re-subscribe if user changes\n\n  return {\n    cards: customCards,\n    addCard: addCustomCard,\n    updateCard: updateCustomCard,\n    deleteCard: deleteCustomCard,\n  };\n}",
+        "cleanup_pattern": "useEffect cleanup function calls supabase.removeChannel(channel) to prevent memory leaks"
       },
+      "important_notes": [
+        "MUST call removeChannel() in cleanup to prevent memory leaks",
+        "Re-subscribe when user.id changes",
+        "Handle INSERT, UPDATE, DELETE events separately",
+        "Use dbToApp() to convert realtime payloads to app format",
+        "Cleanup runs on component unmount and user change"
+      ],
+      "edge_cases": [
+        "User signs out: useEffect cleanup unsubscribes automatically",
+        "Component unmounts: cleanup prevents orphaned subscriptions",
+        "User switches accounts: Old channel cleaned up, new one created",
+        "Multiple browser tabs: Each tab has own subscription (Supabase handles)"
+      ],
       "notes": [
-        "Optional enhancement",
+        "Optional enhancement - app works without this",
         "Useful for multi-device users",
-        "Requires Realtime enabled in Supabase"
+        "Requires Realtime enabled in Supabase dashboard",
+        "Cleanup pattern prevents memory leaks",
+        "See Supabase Realtime docs for configuration"
       ]
+    },
+    {
+      "id": 13,
+      "name": "Configure Rate Limiting in Supabase Dashboard",
+      "description": "Set up rate limiting to prevent API abuse",
+      "category": "Configuration (Supabase Dashboard)",
+      "implementation": {
+        "location": "Supabase Dashboard > Settings > API",
+        "settings": {
+          "auth_rate_limits": {
+            "sign_in": "10 requests per hour per IP (default: 30)",
+            "sign_up": "5 requests per hour per IP (default: 30)",
+            "password_reset": "5 requests per hour per email (default: 30)"
+          },
+          "database_rate_limits": {
+            "read_operations": "1000 requests per minute per user (default: unlimited)",
+            "write_operations": "100 requests per minute per user (default: unlimited)",
+            "realtime_connections": "100 concurrent connections per user (default: 500)"
+          },
+          "custom_rate_limits_via_edge_functions": {
+            "description": "Use Supabase Edge Functions for custom rate limiting",
+            "example": "Limit custom_cards operations to 50 creates/updates/deletes per hour per user"
+          }
+        }
+      },
+      "recommended_limits": [
+        "custom_cards INSERT: 20 per hour per user (prevent spam)",
+        "custom_cards UPDATE: 50 per hour per user (allow editing)",
+        "custom_cards DELETE: 20 per hour per user (prevent accidents)",
+        "custom_cards SELECT: 1000 per hour per user (allow browsing)"
+      ],
+      "implementation_methods": {
+        "method_1_rls_with_counter": {
+          "description": "Use PostgreSQL table to track request counts",
+          "steps": [
+            "1. Create rate_limit_tracker table (user_id, action, count, window_start)",
+            "2. Add trigger on custom_cards INSERT/UPDATE/DELETE",
+            "3. Check count in trigger, reject if over limit",
+            "4. Reset count every hour via cron job"
+          ],
+          "pros": ["Database-enforced", "Works with any client"],
+          "cons": ["Complex to implement", "Adds DB overhead"]
+        },
+        "method_2_edge_functions": {
+          "description": "Use Supabase Edge Functions as middleware",
+          "steps": [
+            "1. Create Edge Function to intercept requests",
+            "2. Track requests in Redis or Upstash",
+            "3. Return 429 Too Many Requests if over limit",
+            "4. Call actual Supabase function if under limit"
+          ],
+          "pros": ["Flexible", "Low DB overhead"],
+          "cons": ["Requires Edge Functions (Pro plan)"]
+        },
+        "method_3_client_side": {
+          "description": "Implement rate limiting in app code",
+          "steps": [
+            "1. Track operations in zustand store",
+            "2. Show warning if user exceeds soft limit",
+            "3. Disable buttons temporarily if over limit"
+          ],
+          "pros": ["Easy to implement", "Good UX"],
+          "cons": ["Not enforceable (user can bypass)"]
+        }
+      },
+      "recommended_approach": "Method 3 (Client-side) for MVP, upgrade to Method 2 (Edge Functions) if abuse detected",
+      "client_side_implementation": {
+        "zustand_store_addition": "rateLimitTracker: { creates: [], updates: [], deletes: [] } - Track timestamps",
+        "before_operation_check": "const recentCreates = rateLimitTracker.creates.filter(t => t > Date.now() - 3600000);\nif (recentCreates.length >= 20) {\n  throw new Error('Rate limit exceeded. Please wait before creating more cards.');\n}",
+        "after_operation": "rateLimitTracker.creates.push(Date.now());"
+      },
+      "dashboard_configuration_steps": [
+        "1. Go to Supabase Dashboard > Project Settings > API",
+        "2. Enable 'Rate Limiting' toggle",
+        "3. Set custom limits for Auth endpoints",
+        "4. Monitor usage in Dashboard > Database > Logs",
+        "5. Adjust limits based on actual usage patterns"
+      ],
+      "notes": [
+        "Built-in Supabase rate limiting is IP-based (not user-based)",
+        "For user-based limits, implement custom solution",
+        "Start with client-side limits (easy), add server-side if needed",
+        "Monitor Supabase logs for abuse patterns",
+        "Consider implementing per-user quotas in future"
+      ],
+      "monitoring": {
+        "supabase_dashboard": "Dashboard > Database > Logs - Filter by table custom_cards",
+        "client_side_tracking": "Log rate limit violations to analytics (e.g., Posthog, Mixpanel)",
+        "alerts": "Set up email alerts if >100 failed operations per hour"
+      }
     }
   ],
   "implementation_order": [
@@ -362,7 +470,8 @@
     9,
     10,
     11,
-    12
+    12,
+    13
   ],
   "removed_tasks": [
     {
