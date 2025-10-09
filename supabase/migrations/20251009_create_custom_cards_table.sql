@@ -40,11 +40,26 @@ begin
 end;
 $$ language plpgsql immutable;
 
--- Add constraint to validate all links in array
-alter table public.custom_cards add constraint valid_links_content check (
-  (select bool_and(validate_link_object(link))
-   from jsonb_array_elements(links) as link)
-);
+-- Create trigger function to validate links array content
+create or replace function validate_custom_card_links()
+returns trigger as $$
+begin
+  -- Check that all links are valid
+  if not (
+    select bool_and(validate_link_object(link))
+    from jsonb_array_elements(new.links) as link
+  ) then
+    raise exception 'Invalid link object in links array';
+  end if;
+  return new;
+end;
+$$ language plpgsql;
+
+-- Add trigger to validate links on insert/update
+create trigger validate_custom_cards_links_trigger
+  before insert or update on public.custom_cards
+  for each row
+  execute function validate_custom_card_links();
 
 -- Enable RLS
 alter table public.custom_cards enable row level security;
