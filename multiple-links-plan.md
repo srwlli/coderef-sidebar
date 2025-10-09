@@ -6,7 +6,7 @@ Allow custom dashboard cards to have multiple quick action links, similar to def
 
 **Current State:** Custom cards have a single `href` field
 **Goal:** Custom cards can have 1-5 action links
-**Effort:** ~1.5 hours
+**Effort:** ~2 hours 5 minutes
 **Priority:** ⭐⭐⭐ (High impact, medium effort)
 
 ---
@@ -32,7 +32,7 @@ interface CustomCard {
   title: string;
   href: string; // Single link only
   iconName: string;
-  createdAt: number;
+  createdAt: string; // ISO timestamp
 }
 ```
 
@@ -50,7 +50,7 @@ interface CustomCard {
   title: string;
   links: CustomLink[]; // Array of 1-5 links
   iconName: string;
-  createdAt: number;
+  createdAt: string; // ISO timestamp - unchanged
 }
 ```
 
@@ -58,9 +58,11 @@ interface CustomCard {
 
 ## Implementation Steps
 
-### 1. Update CustomCard Type (5 min)
+### 1. Update Types & Add Zustand Migration (15 min)
 
 **File:** `src/stores/use-app-store.ts`
+
+**Step 1a: Add CustomLink interface** (after imports, before CustomCard):
 
 ```tsx
 export interface CustomLink {
@@ -68,147 +70,266 @@ export interface CustomLink {
   label: string;
   href: string;
 }
+```
 
+**Step 1b: Update CustomCard interface**:
+
+```tsx
 export interface CustomCard {
   id: string;
   title: string;
-  links: CustomLink[];  // Changed from href: string
+  links: CustomLink[]; // Changed from href: string
   iconName: string;
-  createdAt: number;
+  createdAt: string; // Keep as ISO string (unchanged)
 }
+```
 
-// Update store methods
-addCustomCard: (card: Omit<CustomCard, 'id' | 'createdAt'>) => {
+**Step 1c: Update addCustomCard method** (preserve existing patterns):
+
+```tsx
+addCustomCard: (card) => {
   const newCard: CustomCard = {
-    id: crypto.randomUUID(),
-    createdAt: Date.now(),
     ...card,
+    id: uuidv4(),  // Use existing uuidv4 import
+    createdAt: new Date().toISOString(),  // Keep ISO format
   };
-  set((state) => ({
-    customCards: [newCard, ...state.customCards],
-  }));
+  set({ customCards: [...get().customCards, newCard] });  // Append (don't prepend)
 },
 ```
 
-### 2. Migration Strategy (10 min)
-
-**File:** `src/stores/use-app-store.ts`
-
-Add migration logic to convert existing cards with single `href` to new format:
+**Step 1d: Add Zustand persist migration** (update persist config):
 
 ```tsx
-const migrateCustomCards = (cards: any[]): CustomCard[] => {
-  return cards.map((card) => {
-    // If card has old format (single href), migrate to links array
-    if ('href' in card && !('links' in card)) {
-      return {
-        ...card,
-        links: [
-          {
-            id: crypto.randomUUID(),
-            label: 'Open',
-            href: card.href,
-          },
-        ],
-      };
-    }
-    return card;
-  });
-};
-
-// Apply migration when loading from localStorage
-const storedCards = JSON.parse(localStorage.getItem('custom-cards') || '[]');
-const migratedCards = migrateCustomCards(storedCards);
+persist(
+  (set, get) => ({
+    /* existing store implementation */
+  }),
+  {
+    name: 'app-storage', // Keep existing key
+    version: 1, // Bump from 0 to 1
+    migrate: (persistedState: any, version: number) => {
+      // Migrate from v0 (single href) to v1 (links array)
+      if (version === 0) {
+        try {
+          return {
+            ...persistedState,
+            customCards: (persistedState.customCards || []).map((card: any) => {
+              // Convert old format to new format
+              if ('href' in card && !('links' in card)) {
+                return {
+                  ...card,
+                  links: [
+                    {
+                      id: uuidv4(),
+                      label: 'Open',
+                      href: card.href,
+                    },
+                  ],
+                };
+              }
+              return card;
+            }),
+          };
+        } catch (error) {
+          console.error('Custom card migration failed:', error);
+          // Fallback: preserve other state, reset custom cards
+          return { ...persistedState, customCards: [] };
+        }
+      }
+      return persistedState;
+    },
+    partialize: (state) => ({
+      view: state.view,
+      sidebarOpen: state.sidebarOpen,
+      customCards: state.customCards,
+    }),
+  }
+);
 ```
 
-### 3. Update CardFormModal (30 min)
+**Why this approach:**
+
+- Uses Zustand's built-in `migrate` function (runs automatically on load)
+- Preserves existing patterns: `uuidv4()`, ISO timestamps, append order
+- Error handling prevents data loss if migration fails
+- No manual localStorage reads needed
+
+### 2. Update Zod Validation Schema (10 min)
 
 **File:** `src/components/dashboard/CardFormModal.tsx`
 
-Add UI to manage multiple links:
+**Step 2a: Add CustomLink import** (update existing import):
 
 ```tsx
-interface FormData {
-  title: string;
-  links: CustomLink[]; // Changed from href: string
-  iconName: string;
-}
-
-// New state for managing links
-const [links, setLinks] = useState<CustomLink[]>(
-  initialData?.links || [{ id: crypto.randomUUID(), label: '', href: '' }]
-);
-
-// Add link button
-const handleAddLink = () => {
-  if (links.length >= 5) {
-    toast.error('Maximum 5 links per card');
-    return;
-  }
-  setLinks([...links, { id: crypto.randomUUID(), label: '', href: '' }]);
-};
-
-// Remove link button
-const handleRemoveLink = (id: string) => {
-  if (links.length === 1) {
-    toast.error('Card must have at least 1 link');
-    return;
-  }
-  setLinks(links.filter((link) => link.id !== id));
-};
-
-// Update link
-const handleLinkChange = (
-  id: string,
-  field: 'label' | 'href',
-  value: string
-) => {
-  setLinks(
-    links.map((link) => (link.id === id ? { ...link, [field]: value } : link))
-  );
-};
+import { CustomCard, CustomLink } from '@/stores/use-app-store';
 ```
 
-**Form UI:**
+**Step 2b: Create CustomLink schema** (before cardFormSchema):
 
 ```tsx
+const customLinkSchema = z.object({
+  id: z.string(),
+  label: z.string().min(1, 'Label required').max(30, 'Max 30 characters'),
+  href: z.string().refine(
+    (val) => {
+      // Allow internal paths starting with /
+      if (val.startsWith('/')) return true;
+      // For external URLs, validate http/https only
+      try {
+        const url = new URL(val);
+        return ['http:', 'https:'].includes(url.protocol);
+      } catch {
+        return false;
+      }
+    },
+    {
+      message: 'Must be valid http/https URL or path starting with /',
+    }
+  ),
+});
+```
+
+**Step 2c: Update cardFormSchema**:
+
+```tsx
+const cardFormSchema = z.object({
+  title: z.string().min(1, 'Title is required').max(50, 'Title too long'),
+  links: z
+    .array(customLinkSchema)
+    .min(1, 'At least 1 link required')
+    .max(5, 'Maximum 5 links allowed'),
+  iconName: z.string().min(1, 'Icon is required'),
+});
+```
+
+### 3. Update CardFormModal with useFieldArray (35 min)
+
+**File:** `src/components/dashboard/CardFormModal.tsx`
+
+**Step 3a: Add imports** (add to existing import from 'react-hook-form'):
+
+```tsx
+import { useForm, useFieldArray } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid'; // Add this import
+import { Trash, Plus } from 'lucide-react'; // Add Trash and Plus
+```
+
+**Step 3b: Update useForm setup** (replace defaultValues):
+
+```tsx
+const {
+  register,
+  handleSubmit,
+  watch,
+  setValue,
+  reset,
+  control, // Add control for useFieldArray
+  formState: { errors, isSubmitting },
+} = useForm<CardFormData>({
+  resolver: zodResolver(cardFormSchema),
+  defaultValues: {
+    title: initialData?.title || '',
+    links: initialData?.links || [{ id: uuidv4(), label: '', href: '' }],
+    iconName: initialData?.iconName || 'Link',
+  },
+});
+```
+
+**Step 3c: Add useFieldArray hook** (after useForm):
+
+```tsx
+const { fields, append, remove } = useFieldArray({
+  control,
+  name: 'links',
+});
+```
+
+**Step 3d: Update reset logic in useEffect**:
+
+```tsx
+useEffect(() => {
+  if (open) {
+    reset({
+      title: initialData?.title || '',
+      links: initialData?.links || [{ id: uuidv4(), label: '', href: '' }],
+      iconName: initialData?.iconName || 'Link',
+    });
+  }
+}, [open, initialData, reset]);
+```
+
+**Step 3e: Replace URL field with Links section** (in the form JSX):
+
+```tsx
+{
+  /* Links Section - replaces single href field */
+}
 <div className="space-y-4">
   <Label>Quick Actions (1-5 links)</Label>
-  {links.map((link, index) => (
-    <div key={link.id} className="flex items-start gap-2">
+  {fields.map((field, index) => (
+    <div key={field.id} className="flex items-start gap-2">
       <div className="flex-1 space-y-2">
         <Input
-          placeholder="Label (e.g., Dashboard, Deployments)"
-          value={link.label}
-          onChange={(e) => handleLinkChange(link.id, 'label', e.target.value)}
-          maxLength={30}
+          placeholder="Label (e.g., Dashboard)"
+          {...register(`links.${index}.label`)}
+          aria-invalid={errors.links?.[index]?.label ? 'true' : 'false'}
+          aria-label={`Link ${index + 1} label`}
         />
+        {errors.links?.[index]?.label && (
+          <p className="text-sm text-red-500">
+            {errors.links[index]?.label?.message}
+          </p>
+        )}
         <Input
-          placeholder="https://example.com or /internal-path"
-          value={link.href}
-          onChange={(e) => handleLinkChange(link.id, 'href', e.target.value)}
+          placeholder="https://example.com or /path"
+          {...register(`links.${index}.href`)}
+          aria-invalid={errors.links?.[index]?.href ? 'true' : 'false'}
+          aria-label={`Link ${index + 1} URL`}
         />
+        {errors.links?.[index]?.href && (
+          <p className="text-sm text-red-500">
+            {errors.links[index]?.href?.message}
+          </p>
+        )}
       </div>
-      {links.length > 1 && (
+      {fields.length > 1 && (
         <Button
+          type="button"
           variant="ghost"
           size="sm"
-          onClick={() => handleRemoveLink(link.id)}
+          onClick={() => remove(index)}
           className="mt-1"
+          aria-label={`Remove link ${index + 1}`}
         >
           <Trash className="h-4 w-4" />
         </Button>
       )}
     </div>
   ))}
-  {links.length < 5 && (
-    <Button variant="outline" size="sm" onClick={handleAddLink}>
+  {errors.links && typeof errors.links.message === 'string' && (
+    <p className="text-sm text-red-500">{errors.links.message}</p>
+  )}
+  {fields.length < 5 && (
+    <Button
+      type="button"
+      variant="outline"
+      size="sm"
+      onClick={() => append({ id: uuidv4(), label: '', href: '' })}
+      aria-label="Add another link"
+    >
       <Plus className="mr-2 h-4 w-4" />
       Add Link
     </Button>
   )}
-</div>
+</div>;
 ```
+
+**Why useFieldArray:**
+
+- Integrates with react-hook-form validation
+- Automatic error handling per field
+- Proper form state management
+- ARIA labels for accessibility
 
 ### 4. Update Card Actions (15 min)
 
@@ -294,32 +415,29 @@ const handleFormSubmit = (data: {
 
 ## Validation Rules
 
-### Link Validation
+Validation is handled by **Zod schema** (defined in Step 2):
 
-- **Minimum:** 1 link required per card
-- **Maximum:** 5 links per card
-- **Label:** 1-30 characters, required
-- **Href:** Must start with http://, https://, or / (internal path), required
+### Link Constraints
 
-### Form Validation
+- **Minimum:** 1 link required per card (enforced by `z.array().min(1)`)
+- **Maximum:** 5 links per card (enforced by `z.array().max(5)`)
+- **Label:** 1-30 characters, required (enforced by `z.string().min(1).max(30)`)
+- **Href:** Must start with http://, https://, or / for internal paths (enforced by custom `refine()`)
 
-```tsx
-const validateLinks = (links: CustomLink[]): string | null => {
-  if (links.length === 0) return 'Add at least 1 link';
-  if (links.length > 5) return 'Maximum 5 links allowed';
+### Validation Flow
 
-  for (const link of links) {
-    if (!link.label.trim()) return 'All links must have a label';
-    if (link.label.length > 30) return 'Label must be 30 characters or less';
-    if (!link.href.trim()) return 'All links must have a URL';
-    if (!link.href.match(/^(https?:\/\/|\/)/)) {
-      return 'URL must start with http://, https://, or /';
-    }
-  }
+1. User enters data in form
+2. React Hook Form + Zod validate on submit
+3. Errors display inline per field (see Step 3e for error UI)
+4. Form submission blocked until all validation passes
+5. Valid data passed to `handleFormSubmit` in Dashboard
 
-  return null;
-};
-```
+**Benefits:**
+
+- Type-safe validation with Zod
+- Automatic error messages
+- No manual validation functions needed
+- Integrates seamlessly with react-hook-form
 
 ---
 
@@ -409,15 +527,16 @@ const validateLinks = (links: CustomLink[]): string | null => {
 
 ## Files to Change
 
-| File                                          | Changes                                                 | Effort |
-| --------------------------------------------- | ------------------------------------------------------- | ------ |
-| `src/stores/use-app-store.ts`                 | Add CustomLink type, update CustomCard, migration logic | 15 min |
-| `src/components/dashboard/CardFormModal.tsx`  | Multi-link form UI, add/remove link handlers            | 30 min |
-| `src/lib/card-actions.ts`                     | Generate actions from links array                       | 15 min |
-| `src/components/dashboard/CustomCardItem.tsx` | Update click handler for first link                     | 10 min |
-| `src/app/(app)/dashboard/page.tsx`            | Update form submit handler                              | 5 min  |
+| File                                          | Changes                                                   | Effort |
+| --------------------------------------------- | --------------------------------------------------------- | ------ |
+| `src/stores/use-app-store.ts`                 | Add CustomLink type, update CustomCard, Zustand migration | 15 min |
+| `src/components/dashboard/CardFormModal.tsx`  | Zod schema + useFieldArray multi-link form                | 45 min |
+| `src/lib/card-actions.ts`                     | Generate actions from links array                         | 15 min |
+| `src/components/dashboard/CustomCardItem.tsx` | Update click handler for first link                       | 10 min |
+| `src/app/(app)/dashboard/page.tsx`            | Update form submit handler type                           | 5 min  |
+| **Testing & Verification**                    | Migration testing, form validation, all flows             | 15 min |
 
-**Total:** ~1.5 hours
+**Total:** ~2 hours 5 minutes
 
 ---
 
@@ -470,10 +589,147 @@ When migrating to Supabase Storage (Phase 2 - Priority #1), the links array will
         }
       ],
       "iconName": "Cloud",
-      "createdAt": 1234567890
+      "createdAt": "2025-01-15T10:30:00.000Z"
     }
   ]
 }
 ```
 
-No additional migration needed - just upload the localStorage JSON to Supabase Storage.
+No additional migration needed - the links array structure works identically in Supabase Storage. Just read from Zustand localStorage and upload the JSON file to `user-data/{userId}.json` bucket.
+
+---
+
+## Implementation Notes & Best Practices
+
+### Architecture Decisions
+
+**1. Zustand Persist Migration (Step 1d)**
+
+- ✅ **Correct:** Uses `version` + `migrate` option in Zustand persist config
+- ❌ **Avoid:** Manual localStorage reads or separate migration functions
+- **Why:** Zustand's migrate runs automatically on state load, ensuring all users get migrated seamlessly
+
+**2. Timestamp Format (Step 1c)**
+
+- ✅ **Correct:** Keep `createdAt: string` with `new Date().toISOString()`
+- ❌ **Avoid:** Changing to `Date.now()` (number type)
+- **Why:** Preserves existing type, avoids breaking changes, ISO strings are more readable
+
+**3. UUID Generation (Throughout)**
+
+- ✅ **Correct:** Use existing `uuidv4()` from 'uuid' package
+- ❌ **Avoid:** `crypto.randomUUID()` (not imported in codebase)
+- **Why:** Consistency with existing imports, avoid adding new dependencies
+
+**4. Card Insertion Order (Step 1c)**
+
+- ✅ **Correct:** Append cards `[...get().customCards, newCard]`
+- ❌ **Avoid:** Prepend `[newCard, ...get().customCards]`
+- **Why:** Preserves existing UX, new cards appear at end of list
+
+**5. Form Architecture (Steps 2 & 3)**
+
+- ✅ **Correct:** Use Zod schema + react-hook-form's `useFieldArray`
+- ❌ **Avoid:** Manual `useState` for links array + separate validation function
+- **Why:** Integrates with existing form architecture, automatic validation, type safety
+
+### Accessibility Considerations
+
+**Keyboard Navigation:**
+
+- Tab through link fields (label → href → remove button → next link)
+- Enter/Space on "Add Link" and "Remove" buttons
+- Form submit with Enter key
+
+**Screen Reader Support:**
+
+- `aria-label` on each input (`Link 1 label`, `Link 1 URL`)
+- `aria-invalid` on fields with errors
+- Error messages announced when validation fails
+
+**Focus Management:**
+
+- Adding a link focuses the new label field
+- Removing a link focuses the previous link or Add button
+- Form validation errors focus first invalid field
+
+### Error Handling
+
+**Migration Errors:**
+
+- Try/catch in Zustand migrate function
+- Fallback: Reset custom cards to empty array, preserve other state
+- Console error logged for debugging
+
+**Form Validation:**
+
+- Zod schema validates on submit
+- Inline error messages per field
+- Array-level validation for min/max links
+- URL validation with custom refine() function
+
+**Runtime Errors:**
+
+- Empty links array: Card doesn't render or shows empty state
+- Missing href: Validation prevents submission
+- Invalid URL: Zod refine() catches before submission
+
+### Testing Checklist
+
+**Migration Testing:**
+
+- [ ] Existing cards with single `href` migrate to `links` array
+- [ ] Cards with no `href` (edge case) don't crash migration
+- [ ] Corrupted localStorage data falls back to empty array
+
+**Form Validation:**
+
+- [ ] Can't submit with 0 links
+- [ ] Can't add more than 5 links
+- [ ] Label validation: empty, 1 char, 30 chars, 31 chars
+- [ ] URL validation: http, https, internal path (/), invalid URL
+
+**User Flows:**
+
+- [ ] Create card with 1 link → appears on dashboard
+- [ ] Create card with 5 links → all appear in ActionModal
+- [ ] Edit card → pre-fills existing links correctly
+- [ ] Remove link → minimum 1 link enforced
+- [ ] Click card → opens first link
+- [ ] Long-press card → shows all links in modal
+
+**Edge Cases:**
+
+- [ ] Very long labels (30 chars) display correctly
+- [ ] Very long URLs don't break layout
+- [ ] Deleting all cards doesn't crash
+- [ ] Adding/removing links rapidly doesn't cause race conditions
+
+### Performance Considerations
+
+**Current Scale:**
+
+- 50 custom cards × 5 links = 250 actions to generate
+- Negligible performance impact with current implementation
+
+**Future Optimization (if needed):**
+
+- Memoize `getCardActions` result per card
+- Virtualize card list if users create 100+ cards
+- Debounce link form inputs to reduce re-renders
+
+### Version History
+
+**v1.0 - Initial Draft (2025-01-15)**
+
+- Basic implementation plan with manual useState and separate validation
+
+**v2.0 - Corrected Implementation (2025-01-15)**
+
+- Fixed: Zustand persist migration approach
+- Fixed: Timestamp format (ISO string, not number)
+- Fixed: UUID generation (uuidv4, not crypto)
+- Fixed: Form architecture (useFieldArray, not useState)
+- Fixed: Validation (Zod schema, not manual function)
+- Added: Accessibility notes, error handling, testing checklist
+- Updated: Time estimate (2h 5min, not 1.5h)
