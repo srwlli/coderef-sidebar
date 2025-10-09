@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import { MessageSquare, GitBranch, Settings } from 'lucide-react';
+import { MessageSquare, GitBranch, Settings, Plug } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -26,6 +26,11 @@ const workflowTools: WorkflowTool[] = [
     title: 'Next.js Setup',
     href: '/workflows/nextjs-setup',
     icon: Settings,
+  },
+  {
+    title: 'MCP',
+    href: '/workflows/mcp',
+    icon: Plug,
   },
 ];
 
