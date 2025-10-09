@@ -45,7 +45,7 @@ const cardFormSchema = z.object({
   links: z
     .array(customLinkSchema)
     .min(1, 'At least 1 link required')
-    .max(5, 'Maximum 5 links allowed'),
+    .max(16, 'Maximum 16 links allowed'),
   iconName: z.string().min(1, 'Icon is required'),
 });
 
@@ -155,7 +155,7 @@ export function CardFormModal({
 
           {/* Links Section - replaces single href field */}
           <div className="space-y-4">
-            <Label>Quick Actions (1-5 links)</Label>
+            <Label>Quick Actions (1-16 links)</Label>
             {fields.map((field, index) => (
               <div key={field.id} className="flex items-start gap-2">
                 <div className="flex-1 space-y-2">
@@ -203,7 +203,7 @@ export function CardFormModal({
             {errors.links && typeof errors.links.message === 'string' && (
               <p className="text-sm text-red-500">{errors.links.message}</p>
             )}
-            {fields.length < 5 && (
+            {fields.length < 16 && (
               <Button
                 type="button"
                 variant="outline"

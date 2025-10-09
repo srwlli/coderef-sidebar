@@ -17,7 +17,7 @@ Most flexible approach - each custom card stores an array of link objects.
 
 ### Benefits
 
-- User can add 1-5 links per card
+- User can add 1-16 links per card
 - Each link has custom label + href
 - Matches default card pattern in ActionModal
 - Simple migration path from single href
@@ -48,7 +48,7 @@ interface CustomLink {
 interface CustomCard {
   id: string;
   title: string;
-  links: CustomLink[]; // Array of 1-5 links
+  links: CustomLink[]; // Array of 1-16 links
   iconName: string;
   createdAt: string; // ISO timestamp - unchanged
 }
@@ -197,7 +197,7 @@ const cardFormSchema = z.object({
   links: z
     .array(customLinkSchema)
     .min(1, 'At least 1 link required')
-    .max(5, 'Maximum 5 links allowed'),
+    .max(16, 'Maximum 16 links allowed'),
   iconName: z.string().min(1, 'Icon is required'),
 });
 ```
@@ -265,7 +265,7 @@ useEffect(() => {
   /* Links Section - replaces single href field */
 }
 <div className="space-y-4">
-  <Label>Quick Actions (1-5 links)</Label>
+  <Label>Quick Actions (1-16 links)</Label>
   {fields.map((field, index) => (
     <div key={field.id} className="flex items-start gap-2">
       <div className="flex-1 space-y-2">
@@ -447,7 +447,7 @@ Validation is handled by **Zod schema** (defined in Step 2):
 ### Link Constraints
 
 - **Minimum:** 1 link required per card (enforced by `z.array().min(1)`)
-- **Maximum:** 5 links per card (enforced by `z.array().max(5)`)
+- **Maximum:** 16 links per card (enforced by `z.array().max(16)`)
 - **Label:** 1-30 characters, required (enforced by `z.string().min(1).max(30)`)
 - **Href:** Must start with http://, https://, or / for internal paths (enforced by custom `refine()`)
 
@@ -577,7 +577,7 @@ Validation is handled by **Zod schema** (defined in Step 2):
 ## Success Criteria
 
 - ✅ Existing cards with single href migrate automatically to links array
-- ✅ Users can add 1-5 links per custom card
+- ✅ Users can add 1-16 links per custom card
 - ✅ Each link has custom label (1-30 chars) and href
 - ✅ Clicking card opens first link
 - ✅ Long-press shows all links in ActionModal
@@ -719,14 +719,14 @@ No additional migration needed - the links array structure works identically in 
 **Form Validation:**
 
 - [ ] Can't submit with 0 links
-- [ ] Can't add more than 5 links
+- [ ] Can't add more than 16 links
 - [ ] Label validation: empty, 1 char, 30 chars, 31 chars
 - [ ] URL validation: http, https, internal path (/), invalid URL
 
 **User Flows:**
 
 - [ ] Create card with 1 link → appears on dashboard
-- [ ] Create card with 5 links → all appear in ActionModal
+- [ ] Create card with 16 links → all appear in ActionModal (4×4 grid)
 - [ ] Edit card → pre-fills existing links correctly
 - [ ] Remove link → minimum 1 link enforced
 - [ ] Click card → opens first link
@@ -743,15 +743,16 @@ No additional migration needed - the links array structure works identically in 
 
 **Current Scale:**
 
-- 50 custom cards × 5 links = 250 actions to generate
+- 50 custom cards × 16 links = 800 actions to generate
 - Negligible performance impact with current implementation
+- ActionModal displays 4 actions per row (automatic 4×4 grid for 16 links)
 
 **Link ID Usage:**
 
 - Each CustomLink has an `id` field (UUID) currently only used for React keys in the form
 - **Alternative:** Could use array index as key to save bytes in localStorage
 - **Current approach rationale:** UUID IDs support future drag-to-reorder feature without index shifts
-- **Storage impact:** ~36 bytes per link (UUID length), negligible for 5 links × 50 cards = 9KB total
+- **Storage impact:** ~36 bytes per link (UUID length), negligible for 16 links × 50 cards = 29KB total
 
 **Future Optimization (if needed):**
 
