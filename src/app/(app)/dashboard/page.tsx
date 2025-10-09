@@ -272,6 +272,7 @@ export default function Dashboard() {
 
   const handleFormSubmit = async (data: {
     title: string;
+    href: string;
     links: CustomLink[];
     iconName: string;
   }) => {
