@@ -168,14 +168,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
     },
   ],
 
-  Grok: [
-    {
-      icon: ExternalLink,
-      label: 'Open Grok',
-      onClick: openExternal('https://grok.x.ai'),
-    },
-  ],
-
   'Le Chat': [
     {
       icon: ExternalLink,

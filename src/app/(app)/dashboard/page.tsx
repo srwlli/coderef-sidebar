@@ -156,12 +156,6 @@ const dashboardItems: DashboardItem[] = [
     external: true,
   },
   {
-    title: 'Grok',
-    href: 'https://grok.x.ai',
-    icon: Bot,
-    external: true,
-  },
-  {
     title: 'Le Chat',
     href: 'https://chat.mistral.ai',
     icon: Bot,
