@@ -6,7 +6,6 @@ import {
   Bot,
   Github,
   Database,
-  Cloud,
   Globe,
   Sparkles,
   MessageSquare,
@@ -101,12 +100,6 @@ const dashboardItems: DashboardItem[] = [
     external: true,
   },
   {
-    title: 'Vercel',
-    href: 'https://vercel.com/teamhart',
-    icon: Cloud,
-    external: true,
-  },
-  {
     title: 'Anthropic Console',
     href: 'https://console.anthropic.com/dashboard',
     icon: Globe,
@@ -119,21 +112,9 @@ const dashboardItems: DashboardItem[] = [
     external: true,
   },
   {
-    title: 'Supabase',
-    href: 'https://supabase.com/dashboard/org/wskblpimfkjbkgayzxqj',
-    icon: Database,
-    external: true,
-  },
-  {
     title: 'Figma',
     href: 'https://www.figma.com/files/team/1500256681417245761/recents-and-sharing?fuid=1500256678774338537',
     icon: Figma,
-    external: true,
-  },
-  {
-    title: 'n8n Workflows',
-    href: 'http://localhost:5678/home/workflows',
-    icon: Workflow,
     external: true,
   },
 ];
