@@ -1,7 +1,13 @@
 {
   "title": "Supabase Per-User Custom Cards Implementation Plan",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "status": "pending",
+  "architecture_decision": {
+    "auth_required": true,
+    "guest_mode": false,
+    "rationale": "Dashboard is auth-protected route. No localStorage, no migration, simpler implementation.",
+    "see": "docs/ARCHITECTURE-DECISION.md"
+  },
   "tasks": [
     {
       "id": 1,
@@ -80,7 +86,7 @@
     {
       "id": 6,
       "name": "Update Zustand Store with Supabase Integration",
-      "description": "Hybrid store: Supabase for auth users, localStorage for guests, with optimistic updates",
+      "description": "Auth-only store with Supabase integration and optimistic updates",
       "files": ["src/stores/use-app-store.ts"],
       "implementation": {
         "interface": {
@@ -88,18 +94,11 @@
             "isLoadingCards: boolean - Loading state for async operations",
             "cardsError: string | null - Error message from failed operations"
           ],
-          "async_actions": [
+          "actions": [
             "fetchCustomCards: () => Promise<void> - Fetch from Supabase",
             "addCustomCard: (card) => Promise<void> - Add with optimistic update",
             "updateCustomCard: (id, updates) => Promise<void> - Update with optimistic update",
-            "deleteCustomCard: (id) => Promise<void> - Delete with optimistic update"
-          ],
-          "sync_actions": [
-            "addCustomCardLocal: (card) => void - localStorage add for guests",
-            "updateCustomCardLocal: (id, updates) => void - localStorage update for guests",
-            "deleteCustomCardLocal: (id) => void - localStorage delete for guests"
-          ],
-          "utility": [
+            "deleteCustomCard: (id) => Promise<void> - Delete with optimistic update",
             "clearCardsError: () => void - Clear error state"
           ]
         },
@@ -108,35 +107,27 @@
           "update": "1. Store original card\n2. Apply update to state\n3. Update in Supabase\n4. On failure: rollback to original + set error",
           "delete": "1. Store original card\n2. Remove from state\n3. Delete from Supabase\n4. On failure: re-add original + set error"
         },
-        "auth_detection": "async function isAuthenticated(): Promise<boolean> {\n  if (!supabase) return false;\n  const { data: { user } } = await supabase.auth.getUser();\n  return !!user;\n}",
-        "persistence_strategy": "partialize: (state) => ({\n  view: state.view,\n  sidebarOpen: state.sidebarOpen,\n  customCards: state.customCards, // Always persist, auth users override on fetch\n})"
+        "persistence_strategy": "partialize: (state) => ({\n  view: state.view,\n  sidebarOpen: state.sidebarOpen,\n  // Don't persist customCards (fetched from Supabase on auth)\n})"
       },
       "key_features": [
-        "Dual API: Async methods for auth, sync methods for guests",
+        "Supabase-only (no guest mode)",
         "Optimistic updates with automatic rollback on error",
         "Loading and error states for UI feedback",
-        "Auth detection via supabase.auth.getUser()",
         "Temp ID pattern (temp-${uuid}) for optimistic creates",
         "Original card backup for update/delete rollback",
-        "Conditional persistence (always save, fetch overrides for auth)"
+        "Cards fetched from Supabase on sign-in, cleared on sign-out"
       ],
-      "usage_examples": {
-        "auth_user": "const { fetchCustomCards, addCustomCard } = useAppStore();\nuseEffect(() => { if (user) fetchCustomCards(); }, [user?.id]);\nawait addCustomCard(data); // Optimistic",
-        "guest_user": "const { addCustomCardLocal } = useAppStore();\naddCustomCardLocal(data); // Sync, auto-persisted",
-        "unified_hook": "// Use useCustomCards() hook for automatic auth/guest detection"
-      },
+      "usage": "const { fetchCustomCards, addCustomCard, isLoadingCards, cardsError } = useAppStore();\nuseEffect(() => { if (user) fetchCustomCards(); }, [user?.id]);\nawait addCustomCard(data);",
       "error_handling": [
         "Network errors: Rollback optimistic update, set cardsError",
-        "Auth errors: Warn in console, don't execute async actions",
         "Validation errors: Thrown to caller for UI handling",
         "All errors re-thrown after rollback for toast notifications"
       ],
       "notes": [
+        "ARCHITECTURE: Auth-only, no guest mode (see docs/ARCHITECTURE-DECISION.md)",
         "Complete implementation in docs/zustand-supabase-store-implementation.md",
-        "Hybrid approach: Supabase for auth users, localStorage for guests",
         "Optimistic updates provide instant UI feedback",
-        "Rollback mechanism ensures data consistency",
-        "Separate sync/async methods prevent auth confusion"
+        "Rollback mechanism ensures data consistency"
       ]
     },
     {
@@ -172,34 +163,11 @@
     },
     {
       "id": 9,
-      "name": "Add Data Migration Utility",
-      "description": "Migrate existing localStorage cards to Supabase on first auth (Stage 2 migration: localStorage→Supabase)",
-      "files": ["src/lib/migrate-cards-to-supabase.ts"],
-      "implementation": {
-        "function": "export async function migrateLocalStorageCardsToSupabase(userId: string) {\n  // 1. Read from Zustand store (already at v1 after Stage 1 migration)\n  const localCards = useAppStore.getState().customCards;\n\n  // 2. Check if migration already happened\n  const migrated = localStorage.getItem('supabase-migration-complete');\n  if (migrated === 'true' || localCards.length === 0) {\n    return;\n  }\n\n  try {\n    // 3. Batch insert to Supabase (cards already have links array from v0→v1 migration)\n    await Promise.all(\n      localCards.map(card => createCustomCard({\n        user_id: userId,\n        title: card.title,\n        icon_name: card.iconName,  // camelCase → snake_case\n        links: card.links,         // Already converted to array in Stage 1\n      }))\n    );\n\n    // 4. Verify count before clearing\n    const insertedCount = await supabase\n      .from('custom_cards')\n      .select('id', { count: 'exact', head: true })\n      .eq('user_id', userId);\n\n    if (insertedCount.count === localCards.length) {\n      // 5. Mark migration complete\n      localStorage.setItem('supabase-migration-complete', 'true');\n\n      // 6. Clear localStorage cards (keep other state)\n      useAppStore.setState({ customCards: [] });\n    } else {\n      throw new Error('Card count mismatch - migration incomplete');\n    }\n  } catch (error) {\n    console.error('Migration failed:', error);\n    throw error; // Don't mark as complete on failure\n  }\n}"
-      },
-      "notes": [
-        "Stage 2 migration: localStorage (v1) → Supabase",
-        "Assumes Stage 1 (v0→v1 href→links) already ran via Zustand persist",
-        "One-time migration on first sign-in",
-        "Migration flag prevents duplicate runs",
-        "Verifies card count before clearing localStorage",
-        "Rolls back on failure (allows retry next sign-in)",
-        "See docs/custom-cards-migration-flow.md for complete flow"
-      ],
-      "migration_sequence": {
-        "stage_1": "v0→v1 (href→links) - Zustand persist migration - Already implemented",
-        "stage_2": "localStorage→Supabase - This task - To be implemented",
-        "stage_3": "Supabase-only - Future state after migration completes"
-      }
-    },
-    {
-      "id": 10,
-      "name": "Update Auth Provider to Trigger Migration",
-      "description": "Enhance existing AuthProvider to trigger migration and clear cards on auth events",
+      "name": "Update Auth Provider for Card Lifecycle",
+      "description": "Clear cards on sign-out (auth-only, no migration needed)",
       "files": ["src/lib/auth-context.tsx"],
       "existing_implementation": {
-        "status": "Already exists - needs enhancement",
+        "status": "Already exists - needs minor enhancement",
         "current_features": [
           "AuthProvider component wraps app",
           "useAuth hook provides user, loading, signIn, signUp, signOut, resetPassword",
@@ -215,30 +183,49 @@
         }
       },
       "required_changes": [
-        "Import migrateLocalStorageCardsToSupabase from Task 9",
         "Import useAppStore to clear cards on sign-out",
-        "Add migration trigger in onAuthStateChange SIGNED_IN event",
-        "Add card clearing in onAuthStateChange SIGNED_OUT event",
-        "Add error handling for migration failures (non-blocking)"
+        "Add card clearing in onAuthStateChange SIGNED_OUT event"
       ],
       "implementation": {
-        "code": "supabase.auth.onAuthStateChange(async (event, session) => {\n  setUser(session?.user ?? null);\n  setLoading(false);\n\n  // Trigger migration on sign-in\n  if (event === 'SIGNED_IN' && session?.user) {\n    try {\n      await migrateLocalStorageCardsToSupabase(session.user.id);\n      // Migration will call fetchCustomCards internally\n    } catch (error) {\n      console.error('Card migration failed:', error);\n      toast.error('Failed to sync cards. Retrying on next sign-in.');\n    }\n  }\n\n  // Clear Supabase cards on sign-out\n  if (event === 'SIGNED_OUT') {\n    useAppStore.setState({ customCards: [] });\n  }\n});"
+        "code": "import { useAppStore } from '@/stores/use-app-store';\n\n// In onAuthStateChange listener:\nsupabase.auth.onAuthStateChange((event, session) => {\n  setUser(session?.user ?? null);\n  setLoading(false);\n\n  // Clear Supabase cards on sign-out\n  if (event === 'SIGNED_OUT') {\n    useAppStore.setState({ customCards: [] });\n  }\n});"
       },
       "auth_events": {
-        "SIGNED_IN": "Trigger migration + fetch cards from Supabase",
+        "SIGNED_IN": "No action needed (fetchCustomCards called by useEffect in dashboard)",
         "SIGNED_OUT": "Clear customCards from Zustand state",
         "TOKEN_REFRESHED": "No action needed (automatic)",
         "USER_UPDATED": "No action needed (user state updates automatically)",
         "PASSWORD_RECOVERY": "No action needed for custom cards"
       },
       "notes": [
+        "ARCHITECTURE: Auth-only, no migration needed (see docs/ARCHITECTURE-DECISION.md)",
         "useAuth hook already exists - see docs/auth-integration.md",
-        "Non-blocking migration (errors logged, user can continue)",
-        "Error handling with toast notification",
-        "Migration flag (in Task 9) prevents duplicate migrations",
-        "Cards cleared on sign-out to prevent stale data"
+        "Cards cleared on sign-out to prevent stale data",
+        "fetchCustomCards triggered by useCustomCards hook in dashboard"
       ],
       "documentation": "docs/auth-integration.md"
+    },
+    {
+      "id": 10,
+      "name": "Add Route Protection to Dashboard",
+      "description": "Protect dashboard route - require authentication",
+      "files": ["src/app/(app)/dashboard/page.tsx"],
+      "implementation": {
+        "code": "import { useAuth } from '@/lib/auth-context';\nimport { useRouter } from 'next/navigation';\nimport { useEffect } from 'react';\n\nexport default function Dashboard() {\n  const { user, loading } = useAuth();\n  const router = useRouter();\n\n  useEffect(() => {\n    if (!loading && !user) {\n      router.push('/login');\n    }\n  }, [user, loading, router]);\n\n  if (loading) return <Spinner />;\n  if (!user) return null; // Redirecting\n\n  return <DashboardContent />;\n}"
+      },
+      "required_changes": [
+        "Import useAuth hook",
+        "Import useRouter for navigation",
+        "Add auth check in useEffect",
+        "Show loading spinner during auth check",
+        "Redirect to /login if not authenticated",
+        "Render dashboard only when authenticated"
+      ],
+      "notes": [
+        "ARCHITECTURE: Auth-only dashboard (see docs/ARCHITECTURE-DECISION.md)",
+        "Default cards (Prompts, Git Commands, etc.) can be on different public route",
+        "Custom cards only accessible when authenticated",
+        "useCustomCards hook will auto-fetch on mount"
+      ]
     },
     {
       "id": 11,
@@ -283,6 +270,13 @@
     11,
     12
   ],
+  "removed_tasks": [
+    {
+      "original_id": 9,
+      "name": "localStorage Migration",
+      "reason": "Auth-only architecture - no guest mode, no migration needed"
+    }
+  ],
   "testing_checklist": [
     {
       "category": "Database",
@@ -307,20 +301,20 @@
     {
       "category": "Store",
       "tests": [
-        "✓ Auth users use Supabase",
-        "✓ Non-auth users use localStorage",
+        "✓ fetchCustomCards loads from Supabase",
         "✓ Loading states update correctly",
         "✓ Error states clear on success",
-        "✓ Optimistic updates rollback on error"
+        "✓ Optimistic updates rollback on error",
+        "✓ Cards cleared on sign-out"
       ]
     },
     {
-      "category": "Migration",
+      "category": "Route Protection",
       "tests": [
-        "✓ localStorage cards migrate to Supabase on first sign-in",
-        "✓ Migration doesn't run twice",
-        "✓ localStorage cleared after successful migration",
-        "✓ Migration errors handled gracefully"
+        "✓ Dashboard redirects to /login when not authenticated",
+        "✓ Dashboard shows loading spinner during auth check",
+        "✓ Dashboard renders only when authenticated",
+        "✓ Custom cards fetch on mount (authenticated users)"
       ]
     },
     {
@@ -330,17 +324,18 @@
         "✓ Error messages display with retry option",
         "✓ Cards update across devices (if realtime enabled)",
         "✓ Optimistic updates feel instant",
-        "✓ Guest mode still works with localStorage"
+        "✓ Sign-out clears cards from state"
       ]
     }
   ],
   "rollback_plan": {
-    "description": "If Supabase integration fails, app should fall back to localStorage",
+    "description": "Auth-only mode - no localStorage fallback",
+    "approach": "Show error state with retry option",
     "steps": [
-      "Check if supabase.auth.getUser() succeeds",
-      "On error, use localStorage mode",
-      "Show toast: 'Offline mode - changes saved locally'",
-      "Provide 'Retry Sync' button in settings"
+      "If fetchCustomCards fails: Display error message",
+      "Provide 'Retry' button to re-fetch",
+      "If auth fails: Redirect to /login",
+      "No offline mode (auth required)"
     ]
   },
   "security_considerations": [
