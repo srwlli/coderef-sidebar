@@ -19,6 +19,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { IconPicker } from './IconPicker';
 import { CustomCard } from '@/stores/use-app-store';
+import { getIconComponent } from '@/lib/icon-utils';
 
 const customLinkSchema = z.object({
   id: z.string(),
@@ -99,6 +100,7 @@ export function CardFormModal({
   }, [open, initialData, reset]);
 
   const iconName = watch('iconName');
+  const IconComponent = getIconComponent(iconName);
 
   const handleFormSubmit = async (data: CardFormData) => {
     onSubmit(data);
@@ -114,20 +116,27 @@ export function CardFormModal({
   return (
     <Sheet open={open} onOpenChange={onClose}>
       <SheetContent side="bottom" className="sm:mx-auto sm:max-w-[500px]">
-        <SheetHeader>
-          <SheetTitle>
-            {initialData ? 'Edit Card' : 'Add Custom Card'}
-          </SheetTitle>
-          <SheetDescription>
-            {initialData
-              ? 'Update your custom dashboard card'
-              : 'Create a new custom card for your dashboard'}
-          </SheetDescription>
-        </SheetHeader>
+        {/* Drag Handle */}
+        <div className="flex justify-center pt-3 pb-2">
+          <div
+            className="bg-muted-foreground/30 h-1 w-10 rounded-full"
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* Header with Icon and Title */}
+        <div className="border-border border-b px-4 py-3">
+          <div className="flex items-center gap-3">
+            <IconComponent className="text-foreground h-6 w-6 flex-shrink-0" />
+            <SheetTitle className="text-foreground text-xl font-semibold">
+              {initialData ? 'Edit Card' : 'Add Custom Card'}
+            </SheetTitle>
+          </div>
+        </div>
 
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
-          className="space-y-6 py-4"
+          className="space-y-6 px-4 pt-4 pb-4"
         >
           {/* Title Field */}
           <div className="space-y-2">
