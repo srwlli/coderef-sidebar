@@ -144,14 +144,6 @@ export const cardActionsMap: Record<string, CardAction[]> = {
   ],
 
   // AI Tools
-  ChatGPT: [
-    {
-      icon: ExternalLink,
-      label: 'Open ChatGPT',
-      onClick: openExternal('https://chat.openai.com'),
-    },
-  ],
-
   Claude: [
     {
       icon: ExternalLink,

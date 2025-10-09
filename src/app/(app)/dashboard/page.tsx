@@ -144,12 +144,6 @@ const dashboardItems: DashboardItem[] = [
   },
   // AI Tools
   {
-    title: 'ChatGPT',
-    href: 'https://chat.openai.com',
-    icon: Bot,
-    external: true,
-  },
-  {
     title: 'Gemini',
     href: 'https://gemini.google.com',
     icon: Bot,
