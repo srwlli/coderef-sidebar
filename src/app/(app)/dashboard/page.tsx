@@ -125,12 +125,6 @@ const dashboardItems: DashboardItem[] = [
     external: true,
   },
   {
-    title: 'Google Stitch',
-    href: 'https://stitch.withgoogle.com/?pli=1',
-    icon: Sparkles,
-    external: true,
-  },
-  {
     title: 'Figma',
     href: 'https://www.figma.com/files/team/1500256681417245761/recents-and-sharing?fuid=1500256678774338537',
     icon: Figma,
@@ -140,61 +134,6 @@ const dashboardItems: DashboardItem[] = [
     title: 'n8n Workflows',
     href: 'http://localhost:5678/home/workflows',
     icon: Workflow,
-    external: true,
-  },
-  // AI Tools
-  {
-    title: 'Gemini',
-    href: 'https://gemini.google.com',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'DeepSeek',
-    href: 'https://chat.deepseek.com',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'Le Chat',
-    href: 'https://chat.mistral.ai',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'Perplexity',
-    href: 'https://perplexity.ai',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'Lovable',
-    href: 'https://lovable.dev/',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'Replit',
-    href: 'https://replit.com',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'GitHub Copilot',
-    href: 'https://github.com/features/copilot',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'Cursor',
-    href: 'https://cursor.sh',
-    icon: Bot,
-    external: true,
-  },
-  {
-    title: 'V0',
-    href: 'https://v0.dev',
-    icon: Bot,
     external: true,
   },
 ];
