@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, ListCard } from '@/components/cards';
 import {
   Bot,
@@ -21,12 +21,14 @@ import { getCardActions } from '@/lib/card-actions';
 import { LucideIcon } from 'lucide-react';
 import { useLongPress } from '@/hooks/use-long-press';
 import { useRouter } from 'next/navigation';
-import { useAppStore, CustomCard, CustomLink } from '@/stores/use-app-store';
+import { CustomCard, CustomLink } from '@/stores/use-app-store';
 import { getIconComponent } from '@/lib/icon-utils';
 import { CustomCardItem } from '@/components/dashboard/CustomCardItem';
 import { AddCardButton } from '@/components/dashboard/AddCardButton';
 import { CardFormModal } from '@/components/dashboard/CardFormModal';
 import { toast } from 'sonner';
+import { useAuth } from '@/lib/auth-context';
+import { useCustomCards } from '@/hooks/use-custom-cards';
 
 interface SelectedCard {
   title: string;
@@ -210,17 +212,44 @@ const dashboardItems: DashboardItem[] = [
 ];
 
 export default function Dashboard() {
+  const router = useRouter();
+  const { user, loading } = useAuth();
   const [view] = useViewPreference();
   const [showModal, setShowModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState<SelectedCard | null>(null);
   const [formOpen, setFormOpen] = useState(false);
   const [editingCard, setEditingCard] = useState<CustomCard | null>(null);
 
-  // Get custom cards from store
-  const customCards = useAppStore((state) => state.customCards);
-  const addCustomCard = useAppStore((state) => state.addCustomCard);
-  const updateCustomCard = useAppStore((state) => state.updateCustomCard);
-  const deleteCustomCard = useAppStore((state) => state.deleteCustomCard);
+  // Auth protection: redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  // Get custom cards from hook (auto-fetches on auth)
+  const {
+    cards: customCards,
+    isLoading: isLoadingCards,
+    error: cardsError,
+    addCard: addCustomCard,
+    updateCard: updateCustomCard,
+    deleteCard: deleteCustomCard,
+  } = useCustomCards();
+
+  // Show loading state during auth check
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
+  // Prevent flash of content before redirect
+  if (!user) {
+    return null;
+  }
 
   const handleLongPress = (item: DashboardItem) => {
     setSelectedCard({
@@ -241,21 +270,27 @@ export default function Dashboard() {
     setShowModal(true);
   };
 
-  const handleFormSubmit = (data: {
+  const handleFormSubmit = async (data: {
     title: string;
     links: CustomLink[];
     iconName: string;
   }) => {
-    if (editingCard) {
-      // Update existing card
-      updateCustomCard(editingCard.id, data);
-      toast.success('Card updated!');
-    } else {
-      // Add new card
-      addCustomCard(data);
-      toast.success('Card added!');
+    try {
+      if (editingCard) {
+        // Update existing card
+        await updateCustomCard(editingCard.id, data);
+        toast.success('Card updated!');
+      } else {
+        // Add new card
+        await addCustomCard(data);
+        toast.success('Card added!');
+      }
+      setEditingCard(null);
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to save card'
+      );
     }
-    setEditingCard(null);
   };
 
   const handleAddCardClick = () => {
@@ -269,14 +304,20 @@ export default function Dashboard() {
     setShowModal(false);
   };
 
-  const handleDeleteCard = (card: CustomCard) => {
+  const handleDeleteCard = async (card: CustomCard) => {
     const confirmed = window.confirm(
       `Delete "${card.title}"? This cannot be undone.`
     );
     if (confirmed) {
-      deleteCustomCard(card.id);
-      toast.success('Card deleted');
-      setShowModal(false);
+      try {
+        await deleteCustomCard(card.id);
+        toast.success('Card deleted');
+        setShowModal(false);
+      } catch (error) {
+        toast.error(
+          error instanceof Error ? error.message : 'Failed to delete card'
+        );
+      }
     }
   };
 

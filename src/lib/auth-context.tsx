@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from './supabase';
 import type { AuthState } from '@/types/auth';
+import { useAppStore } from '@/stores/use-app-store';
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
 
@@ -27,9 +28,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
+
+      // Clear custom cards on sign-out
+      if (event === 'SIGNED_OUT') {
+        useAppStore.setState({ customCards: [] });
+      }
     });
 
     return () => subscription.unsubscribe();

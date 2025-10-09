@@ -1,6 +1,12 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  fetchCustomCardsFromSupabase,
+  createCustomCardInSupabase,
+  updateCustomCardInSupabase,
+  deleteCustomCardFromSupabase,
+} from '@/lib/api/custom-cards';
 
 export interface CustomLink {
   id: string;
@@ -31,14 +37,20 @@ export interface AppStore {
   setSidebarOpen: (open: boolean) => void;
   toggleSidebar: () => void;
 
-  // Custom dashboard cards
+  // Custom dashboard cards (Supabase-backed)
   customCards: CustomCard[];
-  addCustomCard: (card: Omit<CustomCard, 'id' | 'createdAt'>) => void;
+  isLoadingCards: boolean;
+  cardsError: string | null;
+
+  // Async Supabase actions
+  fetchCustomCards: () => Promise<void>;
+  addCustomCard: (card: Omit<CustomCard, 'id' | 'createdAt'>) => Promise<void>;
   updateCustomCard: (
     id: string,
     updates: Partial<Omit<CustomCard, 'id' | 'createdAt'>>
-  ) => void;
-  deleteCustomCard: (id: string) => void;
+  ) => Promise<void>;
+  deleteCustomCard: (id: string) => Promise<void>;
+  clearCardsError: () => void;
 }
 
 /**
@@ -65,28 +77,113 @@ export const useAppStore = create<AppStore>()(
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
       toggleSidebar: () => set({ sidebarOpen: !get().sidebarOpen }),
 
-      // Custom cards state
+      // Custom cards state (Supabase-backed)
       customCards: [],
-      addCustomCard: (card) => {
-        const newCard: CustomCard = {
+      isLoadingCards: false,
+      cardsError: null,
+
+      // Fetch cards from Supabase
+      fetchCustomCards: async () => {
+        set({ isLoadingCards: true, cardsError: null });
+
+        try {
+          const cards = await fetchCustomCardsFromSupabase();
+          set({ customCards: cards, isLoadingCards: false });
+        } catch (error) {
+          const message =
+            error instanceof Error ? error.message : 'Failed to fetch cards';
+          set({ cardsError: message, isLoadingCards: false });
+          console.error('Error fetching custom cards:', error);
+        }
+      },
+
+      // Add card with optimistic update
+      addCustomCard: async (card) => {
+        const tempId = `temp-${uuidv4()}`;
+        const tempCard: CustomCard = {
           ...card,
-          id: uuidv4(),
+          id: tempId,
           createdAt: new Date().toISOString(),
         };
-        set({ customCards: [...get().customCards, newCard] });
+
+        // Optimistic update
+        set({ customCards: [...get().customCards, tempCard] });
+
+        try {
+          const serverCard = await createCustomCardInSupabase(card);
+
+          // Replace temp card with server card
+          set({
+            customCards: get().customCards.map((c) =>
+              c.id === tempId ? serverCard : c
+            ),
+          });
+        } catch (error) {
+          // Rollback on error
+          set({
+            customCards: get().customCards.filter((c) => c.id !== tempId),
+            cardsError:
+              error instanceof Error ? error.message : 'Failed to create card',
+          });
+          throw error;
+        }
       },
-      updateCustomCard: (id, updates) => {
+
+      // Update card with optimistic update
+      updateCustomCard: async (id, updates) => {
+        const previousCards = get().customCards;
+
+        // Optimistic update
         set({
-          customCards: get().customCards.map((card) =>
+          customCards: previousCards.map((card) =>
             card.id === id ? { ...card, ...updates } : card
           ),
         });
+
+        try {
+          const updatedCard = await updateCustomCardInSupabase(id, updates);
+
+          // Replace with server version
+          set({
+            customCards: get().customCards.map((c) =>
+              c.id === id ? updatedCard : c
+            ),
+          });
+        } catch (error) {
+          // Rollback on error
+          set({
+            customCards: previousCards,
+            cardsError:
+              error instanceof Error ? error.message : 'Failed to update card',
+          });
+          throw error;
+        }
       },
-      deleteCustomCard: (id) => {
+
+      // Delete card with optimistic update
+      deleteCustomCard: async (id) => {
+        const previousCards = get().customCards;
+
+        // Optimistic update
         set({
-          customCards: get().customCards.filter((card) => card.id !== id),
+          customCards: previousCards.filter((card) => card.id !== id),
         });
+
+        try {
+          await deleteCustomCardFromSupabase(id);
+        } catch (error) {
+          // Rollback on error
+          set({
+            customCards: previousCards,
+            cardsError:
+              error instanceof Error ? error.message : 'Failed to delete card',
+          });
+          throw error;
+        }
       },
+
+      // Clear error state
+      clearCardsError: () => set({ cardsError: null }),
     }),
     {
       name: 'app-storage', // localStorage key
@@ -144,7 +241,7 @@ export const useAppStore = create<AppStore>()(
         // Only persist these values
         view: state.view,
         sidebarOpen: state.sidebarOpen,
-        customCards: state.customCards,
+        // Don't persist customCards (fetched from Supabase on auth)
         // Don't persist lastCopiedId (session-only)
       }),
     }
