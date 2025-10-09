@@ -61,10 +61,17 @@ export function ActionModal({
     }
   }, [visible, onClose]);
 
-  // Split actions into rows (max 4 per row)
+  // Separate Edit and Delete actions from other actions
+  const editAction = actions.find((a) => a.label === 'Edit');
+  const deleteAction = actions.find((a) => a.label === 'Delete');
+  const otherActions = actions.filter(
+    (a) => a.label !== 'Edit' && a.label !== 'Delete'
+  );
+
+  // Split other actions into rows (max 4 per row)
   const actionRows: CardAction[][] = [];
-  for (let i = 0; i < actions.length; i += 4) {
-    actionRows.push(actions.slice(i, i + 4));
+  for (let i = 0; i < otherActions.length; i += 4) {
+    actionRows.push(otherActions.slice(i, i + 4));
   }
 
   if (!mounted) return null;
@@ -120,26 +127,58 @@ export function ActionModal({
               </div>
             </div>
 
-            {/* Action Rows */}
-            <div className="space-y-3 px-4 pt-4 pb-4">
-              {actionRows.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex gap-3">
-                  {row.map((action, actionIndex) => (
-                    <ActionButton
-                      key={`${rowIndex}-${actionIndex}`}
-                      icon={action.icon}
-                      label={action.label}
-                      onClick={() => {
-                        action.onClick();
-                        onClose();
-                      }}
-                      disabled={action.disabled}
-                      destructive={action.destructive}
-                    />
-                  ))}
-                </div>
-              ))}
-            </div>
+            {/* Other Action Rows */}
+            {actionRows.length > 0 && (
+              <div className="space-y-3 px-4 pt-4">
+                {actionRows.map((row, rowIndex) => (
+                  <div key={rowIndex} className="flex gap-3">
+                    {row.map((action, actionIndex) => (
+                      <ActionButton
+                        key={`${rowIndex}-${actionIndex}`}
+                        icon={action.icon}
+                        label={action.label}
+                        onClick={() => {
+                          action.onClick();
+                          onClose();
+                        }}
+                        disabled={action.disabled}
+                        destructive={action.destructive}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Edit and Delete Actions - Fixed 2x1 Grid at Bottom */}
+            {(editAction || deleteAction) && (
+              <div className="grid grid-cols-2 gap-3 px-4 pt-4 pb-4">
+                {editAction && (
+                  <ActionButton
+                    icon={editAction.icon}
+                    label={editAction.label}
+                    onClick={() => {
+                      editAction.onClick();
+                      onClose();
+                    }}
+                    disabled={editAction.disabled}
+                    destructive={editAction.destructive}
+                  />
+                )}
+                {deleteAction && (
+                  <ActionButton
+                    icon={deleteAction.icon}
+                    label={deleteAction.label}
+                    onClick={() => {
+                      deleteAction.onClick();
+                      onClose();
+                    }}
+                    disabled={deleteAction.disabled}
+                    destructive={deleteAction.destructive}
+                  />
+                )}
+              </div>
+            )}
           </motion.div>
         </>
       )}
