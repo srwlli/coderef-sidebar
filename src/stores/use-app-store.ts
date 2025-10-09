@@ -38,6 +38,11 @@ export interface AppStore {
   setSidebarOpen: (open: boolean) => void;
   toggleSidebar: () => void;
 
+  // Add card modal state
+  addCardModalOpen: boolean;
+  openAddCardModal: () => void;
+  closeAddCardModal: () => void;
+
   // Custom dashboard cards (Supabase-backed)
   customCards: CustomCard[];
   isLoadingCards: boolean;
@@ -77,6 +82,11 @@ export const useAppStore = create<AppStore>()(
       sidebarOpen: true,
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
       toggleSidebar: () => set({ sidebarOpen: !get().sidebarOpen }),
+
+      // Add card modal state
+      addCardModalOpen: false,
+      openAddCardModal: () => set({ addCardModalOpen: true }),
+      closeAddCardModal: () => set({ addCardModalOpen: false }),
 
       // Custom cards state (Supabase-backed)
       customCards: [],

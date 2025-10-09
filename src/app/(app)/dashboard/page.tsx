@@ -20,7 +20,7 @@ import { getCardActions } from '@/lib/card-actions';
 import { LucideIcon } from 'lucide-react';
 import { useLongPress } from '@/hooks/use-long-press';
 import { useRouter } from 'next/navigation';
-import { CustomCard, CustomLink } from '@/stores/use-app-store';
+import { useAppStore, CustomCard, CustomLink } from '@/stores/use-app-store';
 import { getIconComponent } from '@/lib/icon-utils';
 import { CustomCardItem } from '@/components/dashboard/CustomCardItem';
 import { AddCardButton } from '@/components/dashboard/AddCardButton';
@@ -108,8 +108,12 @@ export default function Dashboard() {
   const [view] = useViewPreference();
   const [showModal, setShowModal] = useState(false);
   const [selectedCard, setSelectedCard] = useState<SelectedCard | null>(null);
-  const [formOpen, setFormOpen] = useState(false);
   const [editingCard, setEditingCard] = useState<CustomCard | null>(null);
+
+  // Get modal state from store (can be opened from Header + button)
+  const addCardModalOpen = useAppStore((state) => state.addCardModalOpen);
+  const openAddCardModal = useAppStore((state) => state.openAddCardModal);
+  const closeAddCardModal = useAppStore((state) => state.closeAddCardModal);
 
   // Auth protection: redirect to login if not authenticated
   useEffect(() => {
@@ -187,12 +191,12 @@ export default function Dashboard() {
 
   const handleAddCardClick = () => {
     setEditingCard(null);
-    setFormOpen(true);
+    openAddCardModal();
   };
 
   const handleEditCard = (card: CustomCard) => {
     setEditingCard(card);
-    setFormOpen(true);
+    openAddCardModal();
     setShowModal(false);
   };
 
@@ -303,9 +307,9 @@ export default function Dashboard() {
 
       {/* Card Form Modal */}
       <CardFormModal
-        open={formOpen}
+        open={addCardModalOpen}
         onClose={() => {
-          setFormOpen(false);
+          closeAddCardModal();
           setEditingCard(null);
         }}
         onSubmit={handleFormSubmit}
