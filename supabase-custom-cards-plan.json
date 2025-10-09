@@ -53,34 +53,128 @@
     },
     {
       "id": 4,
-      "name": "Create TypeScript Types for Database",
-      "description": "Add Supabase database types",
-      "files": ["src/types/database.ts"],
-      "implementation": {
-        "typescript": "export interface CustomCardRow {\n  id: string;\n  user_id: string;\n  title: string;\n  icon_name: string;\n  links: {\n    id: string;\n    label: string;\n    href: string;\n  }[];\n  created_at: string;\n  updated_at: string;\n}\n\nexport interface CustomCardInsert {\n  user_id: string;\n  title: string;\n  icon_name: string;\n  links: {\n    id: string;\n    label: string;\n    href: string;\n  }[];\n}\n\nexport interface CustomCardUpdate {\n  title?: string;\n  icon_name?: string;\n  links?: {\n    id: string;\n    label: string;\n    href: string;\n  }[];\n}"
+      "name": "Create Field Mapping Layer (snake_case ↔ camelCase)",
+      "description": "Conversion layer between Database (snake_case) and App (camelCase)",
+      "files": ["src/lib/api/field-mapping.ts"],
+      "field_mappings": {
+        "database_to_app": {
+          "id": "id (no change)",
+          "user_id": "NOT in CustomCard (DB only)",
+          "title": "title (no change)",
+          "icon_name": "iconName",
+          "links": "links (no change)",
+          "created_at": "createdAt",
+          "updated_at": "NOT in CustomCard (DB only)"
+        },
+        "app_to_database": {
+          "title": "title (no change)",
+          "iconName": "icon_name",
+          "links": "links (no change)"
+        }
       },
+      "implementation": {
+        "types": {
+          "CustomCardRow": "Database row (snake_case) - id, user_id, title, icon_name, links, created_at, updated_at",
+          "CustomCardInsert": "Insert payload (snake_case) - user_id, title, icon_name, links",
+          "CustomCardUpdate": "Update payload (snake_case) - title?, icon_name?, links?"
+        },
+        "functions": {
+          "dbToApp": "function dbToApp(row: CustomCardRow): CustomCard - Converts DB row to app model",
+          "appToInsert": "function appToInsert(card, userId): CustomCardInsert - Converts app model to insert payload",
+          "appToUpdate": "function appToUpdate(updates): CustomCardUpdate - Converts app updates to DB payload",
+          "isCustomCardRow": "function isCustomCardRow(obj): boolean - Type guard for runtime validation"
+        }
+      },
+      "usage_in_api": {
+        "fetch": "const rows = await supabase.from('custom_cards').select('*');\nreturn rows.map(dbToApp);",
+        "create": "const payload = appToInsert(card, user.id);\nconst row = await supabase.from('custom_cards').insert(payload).single();\nreturn dbToApp(row);",
+        "update": "const payload = appToUpdate(updates);\nconst row = await supabase.from('custom_cards').update(payload).eq('id', id).single();\nreturn dbToApp(row);"
+      },
+      "benefits": [
+        "Type safety: Compile-time checks for correct field names",
+        "Single source of truth: Conversion logic centralized",
+        "Testable: Pure functions easy to unit test",
+        "Maintainable: Add new fields in one place",
+        "Clear boundaries: DB layer vs App layer separation"
+      ],
       "notes": [
-        "Separate types for Row, Insert, Update operations",
-        "links array type matches CustomLink from store"
-      ]
+        "Complete implementation in docs/field-name-mapping.md",
+        "Database uses snake_case (PostgreSQL convention)",
+        "App uses camelCase (TypeScript convention)",
+        "Conversion happens at API boundary only",
+        "user_id injected from auth.getUser(), not from app",
+        "updated_at auto-updated by DB trigger, not exposed to app"
+      ],
+      "documentation": "docs/field-name-mapping.md"
     },
     {
       "id": 5,
       "name": "Create Custom Cards API Service",
-      "description": "CRUD functions for custom cards in Supabase",
+      "description": "CRUD functions for custom cards in Supabase with field mapping",
       "files": ["src/lib/api/custom-cards.ts"],
+      "dependencies": ["Task 4 - Field mapping layer required"],
       "implementation": {
-        "functions": [
-          "fetchCustomCards(userId: string): Promise<CustomCardRow[]>",
-          "createCustomCard(data: CustomCardInsert): Promise<CustomCardRow>",
-          "updateCustomCard(id: string, data: CustomCardUpdate): Promise<CustomCardRow>",
-          "deleteCustomCard(id: string): Promise<void>"
-        ]
+        "functions": {
+          "fetchCustomCardsFromSupabase": {
+            "signature": "(): Promise<CustomCard[]>",
+            "description": "Fetch all cards for authenticated user",
+            "steps": [
+              "1. Get user from supabase.auth.getUser()",
+              "2. SELECT * FROM custom_cards WHERE user_id = user.id",
+              "3. Map rows using dbToApp() from Task 4",
+              "4. Return CustomCard[] (camelCase)"
+            ]
+          },
+          "createCustomCardInSupabase": {
+            "signature": "(card: Omit<CustomCard, 'id' | 'createdAt'>): Promise<CustomCard>",
+            "description": "Create new card",
+            "steps": [
+              "1. Get user from supabase.auth.getUser()",
+              "2. Convert using appToInsert(card, user.id) from Task 4",
+              "3. INSERT into custom_cards",
+              "4. Convert returned row using dbToApp()",
+              "5. Return CustomCard (camelCase)"
+            ]
+          },
+          "updateCustomCardInSupabase": {
+            "signature": "(id: string, updates: Partial<Omit<CustomCard, 'id' | 'createdAt'>>): Promise<CustomCard>",
+            "description": "Update existing card",
+            "steps": [
+              "1. Get user from supabase.auth.getUser()",
+              "2. Convert using appToUpdate(updates) from Task 4",
+              "3. UPDATE custom_cards WHERE id = id AND user_id = user.id",
+              "4. Convert returned row using dbToApp()",
+              "5. Return CustomCard (camelCase)"
+            ]
+          },
+          "deleteCustomCardFromSupabase": {
+            "signature": "(id: string): Promise<void>",
+            "description": "Delete card",
+            "steps": [
+              "1. Get user from supabase.auth.getUser()",
+              "2. DELETE FROM custom_cards WHERE id = id AND user_id = user.id",
+              "3. Throw error if failed"
+            ]
+          }
+        }
       },
+      "error_handling": [
+        "Throw 'Supabase not configured' if supabase is null",
+        "Throw 'Not authenticated' if no user",
+        "Throw Supabase error on query failure",
+        "All errors propagate to caller (store) for handling"
+      ],
+      "security": [
+        "user_id from auth.getUser(), never from caller",
+        "RLS policies enforce user isolation",
+        "UPDATE/DELETE include user_id check for safety"
+      ],
       "notes": [
-        "All functions use Supabase client",
-        "Error handling for network failures",
-        "RLS automatically filters by user_id"
+        "Uses field mapping from Task 4",
+        "All functions async (return Promises)",
+        "Error handling delegates to caller",
+        "RLS automatically filters by user_id",
+        "Complete implementation in docs/field-name-mapping.md"
       ]
     },
     {
