@@ -1,7 +1,13 @@
 'use client';
 
 import { Card, CardHeader, CardTitle } from '@/components/cards';
-import { MessageSquare, GitBranch, Settings, Plug } from 'lucide-react';
+import {
+  MessageSquare,
+  GitBranch,
+  Settings,
+  Plug,
+  Palette,
+} from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -31,6 +37,11 @@ const workflowTools: WorkflowTool[] = [
     title: 'MCP',
     href: '/workflows/mcp',
     icon: Plug,
+  },
+  {
+    title: 'Theme Switcher',
+    href: '/workflows/theme-switcher',
+    icon: Palette,
   },
 ];
 

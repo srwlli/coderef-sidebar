@@ -156,6 +156,7 @@ export default function Dashboard() {
         toast.success('Card added!');
       }
       setEditingCard(null);
+      closeAddCardModal(); // Close modal to reveal new card
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : 'Failed to save card'
