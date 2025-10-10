@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, ListCard } from '@/components/cards';
 import {
   Bot,
-  Github,
   Database,
   Globe,
   Sparkles,
@@ -77,21 +76,9 @@ function GridCardItem({ item, IconComponent, onLongPress }: GridCardItemProps) {
 
 const dashboardItems: DashboardItem[] = [
   {
-    title: 'Noted',
-    href: 'https://noted-bay-three.vercel.app/',
-    icon: Globe,
-    external: true,
-  },
-  {
     title: 'Anthropic Console',
     href: 'https://console.anthropic.com/dashboard',
     icon: Globe,
-    external: true,
-  },
-  {
-    title: 'GitHub',
-    href: 'https://github.com/dashboard',
-    icon: Github,
     external: true,
   },
   {
