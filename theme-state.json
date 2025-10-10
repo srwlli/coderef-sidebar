@@ -1,0 +1,189 @@
+{
+  "themeSystem": {
+    "framework": "next-themes",
+    "version": "0.4.6",
+    "description": "Theme management powered by next-themes library for Next.js applications"
+  },
+  "styling": {
+    "framework": "Tailwind CSS",
+    "version": "4.x",
+    "colorSpace": "oklch",
+    "configurationMethod": "CSS-based (Tailwind v4)",
+    "configFile": "None (Tailwind v4 uses @theme in CSS)",
+    "globalStyles": "src/app/globals.css"
+  },
+  "themeProvider": {
+    "location": "src/app/layout.tsx",
+    "component": "ThemeProvider",
+    "configuration": {
+      "attribute": "class",
+      "defaultTheme": "system",
+      "enableSystem": true,
+      "disableTransitionOnChange": true,
+      "suppressHydrationWarning": true
+    },
+    "description": "Wraps entire app at root layout level"
+  },
+  "themeModes": {
+    "available": ["light", "dark", "system"],
+    "default": "system",
+    "mechanism": "CSS class-based (.dark)",
+    "systemDetection": true
+  },
+  "colorTokens": {
+    "light": {
+      "background": "oklch(1 0 0)",
+      "foreground": "oklch(0.145 0 0)",
+      "card": "oklch(1 0 0)",
+      "card-foreground": "oklch(0.145 0 0)",
+      "popover": "oklch(1 0 0)",
+      "popover-foreground": "oklch(0.145 0 0)",
+      "primary": "oklch(0.205 0 0)",
+      "primary-foreground": "oklch(0.985 0 0)",
+      "secondary": "oklch(0.97 0 0)",
+      "secondary-foreground": "oklch(0.205 0 0)",
+      "muted": "oklch(0.97 0 0)",
+      "muted-foreground": "oklch(0.556 0 0)",
+      "accent": "oklch(0.97 0 0)",
+      "accent-foreground": "oklch(0.205 0 0)",
+      "destructive": "oklch(0.577 0.245 27.325)",
+      "border": "oklch(0.922 0 0)",
+      "input": "oklch(0.922 0 0)",
+      "ring": "oklch(0.708 0 0)",
+      "sidebar": "oklch(0.985 0 0)",
+      "sidebar-foreground": "oklch(0.145 0 0)",
+      "sidebar-primary": "oklch(0.205 0 0)",
+      "sidebar-primary-foreground": "oklch(0.985 0 0)",
+      "sidebar-accent": "oklch(0.97 0 0)",
+      "sidebar-accent-foreground": "oklch(0.205 0 0)",
+      "sidebar-border": "oklch(0.922 0 0)",
+      "sidebar-ring": "oklch(0.708 0 0)"
+    },
+    "dark": {
+      "background": "oklch(0.145 0 0)",
+      "foreground": "oklch(0.985 0 0)",
+      "card": "oklch(0.205 0 0)",
+      "card-foreground": "oklch(0.985 0 0)",
+      "popover": "oklch(0.205 0 0)",
+      "popover-foreground": "oklch(0.985 0 0)",
+      "primary": "oklch(0.922 0 0)",
+      "primary-foreground": "oklch(0.205 0 0)",
+      "secondary": "oklch(0.269 0 0)",
+      "secondary-foreground": "oklch(0.985 0 0)",
+      "muted": "oklch(0.269 0 0)",
+      "muted-foreground": "oklch(0.708 0 0)",
+      "accent": "oklch(0.269 0 0)",
+      "accent-foreground": "oklch(0.985 0 0)",
+      "destructive": "oklch(0.704 0.191 22.216)",
+      "border": "oklch(1 0 0 / 10%)",
+      "input": "oklch(1 0 0 / 15%)",
+      "ring": "oklch(0.556 0 0)",
+      "sidebar": "oklch(0.205 0 0)",
+      "sidebar-foreground": "oklch(0.985 0 0)",
+      "sidebar-primary": "oklch(0.488 0.243 264.376)",
+      "sidebar-primary-foreground": "oklch(0.985 0 0)",
+      "sidebar-accent": "oklch(0.269 0 0)",
+      "sidebar-accent-foreground": "oklch(0.985 0 0)",
+      "sidebar-border": "oklch(1 0 0 / 10%)",
+      "sidebar-ring": "oklch(0.556 0 0)"
+    },
+    "charts": {
+      "light": {
+        "chart-1": "oklch(0.646 0.222 41.116)",
+        "chart-2": "oklch(0.6 0.118 184.704)",
+        "chart-3": "oklch(0.398 0.07 227.392)",
+        "chart-4": "oklch(0.828 0.189 84.429)",
+        "chart-5": "oklch(0.769 0.188 70.08)"
+      },
+      "dark": {
+        "chart-1": "oklch(0.488 0.243 264.376)",
+        "chart-2": "oklch(0.696 0.17 162.48)",
+        "chart-3": "oklch(0.769 0.188 70.08)",
+        "chart-4": "oklch(0.627 0.265 303.9)",
+        "chart-5": "oklch(0.645 0.246 16.439)"
+      }
+    }
+  },
+  "borderRadius": {
+    "base": "0.625rem",
+    "sm": "calc(var(--radius) - 4px)",
+    "md": "calc(var(--radius) - 2px)",
+    "lg": "var(--radius)",
+    "xl": "calc(var(--radius) + 4px)"
+  },
+  "fonts": {
+    "sans": "Geist",
+    "mono": "Geist Mono",
+    "variables": {
+      "sans": "--font-geist-sans",
+      "mono": "--font-geist-mono"
+    }
+  },
+  "themeUI": {
+    "toggleLocation": "src/app/(app)/settings/page.tsx",
+    "component": "SettingsPage",
+    "hooks": ["useTheme from next-themes"],
+    "features": [
+      "Dark mode card with toggle",
+      "Icon switches between Sun/Moon based on theme",
+      "Hydration-safe rendering with mounted state",
+      "Skeleton loading states during theme initialization"
+    ]
+  },
+  "themedComponents": {
+    "toaster": {
+      "location": "src/components/ui/sonner.tsx",
+      "library": "sonner",
+      "version": "2.0.7",
+      "themeIntegration": "Uses next-themes useTheme hook",
+      "customColors": {
+        "background": "var(--popover)",
+        "text": "var(--popover-foreground)",
+        "border": "var(--border)",
+        "success": "var(--success)",
+        "error": "var(--destructive)"
+      },
+      "configuration": {
+        "position": "top-right",
+        "duration": 4000,
+        "richColors": true,
+        "closeButton": true
+      }
+    }
+  },
+  "cssCustomProperties": {
+    "declaration": ":root and .dark selectors in globals.css",
+    "tailwindMapping": "@theme inline directive maps CSS vars to Tailwind tokens",
+    "usage": "All components use Tailwind utility classes that reference these tokens"
+  },
+  "darkModeVariant": {
+    "method": "@custom-variant dark (&:is(.dark *))",
+    "description": "Custom Tailwind variant that applies when ancestor has .dark class"
+  },
+  "metaTheme": {
+    "location": "src/app/layout.tsx",
+    "color": "#000000",
+    "description": "Meta theme-color for browser chrome (static black)"
+  },
+  "pwaSupport": {
+    "manifestThemeColor": "Defined in public/manifest.json",
+    "appleWebApp": {
+      "capable": true,
+      "statusBarStyle": "black-translucent",
+      "title": "Coderef"
+    }
+  },
+  "implementationNotes": {
+    "hydrationProtection": "suppressHydrationWarning on <html> tag prevents theme flash",
+    "transitionDisabled": "disableTransitionOnChange prevents color transition on theme switch",
+    "systemPreference": "Automatically detects and follows OS theme preference",
+    "persistence": "next-themes automatically persists theme choice to localStorage",
+    "colorSpace": "Using oklch for perceptually uniform colors and better interpolation"
+  },
+  "tailwindV4Notes": {
+    "configLocation": "Inline in globals.css via @theme directive",
+    "noJsConfig": "Tailwind v4 eliminates tailwind.config.js in favor of CSS-first config",
+    "cssImports": "Uses @import 'tailwindcss' and @import 'tw-animate-css'",
+    "customProperties": "Direct CSS variable mapping replaces extend.colors pattern"
+  }
+}

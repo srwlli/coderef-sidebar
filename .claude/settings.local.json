@@ -35,7 +35,9 @@
       "Read(//c/Users/willh/Desktop/projects - current-location/build-library/**)",
       "Bash(cat:*)",
       "Bash(netstat:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Read(//c/Users/willh/Desktop/projects - current-location/bash/**)",
+      "Read(//c/Users/willh/Desktop/projects - current-location/**)"
     ],
     "deny": []
   }
