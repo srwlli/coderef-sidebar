@@ -74,20 +74,7 @@ function GridCardItem({ item, IconComponent, onLongPress }: GridCardItemProps) {
   );
 }
 
-const dashboardItems: DashboardItem[] = [
-  {
-    title: 'Anthropic Console',
-    href: 'https://console.anthropic.com/dashboard',
-    icon: Globe,
-    external: true,
-  },
-  {
-    title: 'Figma',
-    href: 'https://www.figma.com/files/team/1500256681417245761/recents-and-sharing?fuid=1500256678774338537',
-    icon: Figma,
-    external: true,
-  },
-];
+const dashboardItems: DashboardItem[] = [];
 
 export default function Dashboard() {
   const router = useRouter();
