@@ -1,5 +1,5 @@
 import { SimpleCollapsibleContainer } from '@/components/collapsibles';
-import { SimpleCommandBlock } from '@/components/inputs';
+import { SimpleCommandBlock, InputCommandBlock } from '@/components/inputs';
 import { FileText } from 'lucide-react';
 
 export default function MCPPage() {
@@ -11,52 +11,88 @@ export default function MCPPage() {
       >
         <div className="space-y-4">
           <div>
-            <div className="mb-2 text-sm font-medium">List Templates</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__list_templates" />
-          </div>
-
-          <div>
-            <div className="mb-2 text-sm font-medium">Get Template</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__get_template" />
-          </div>
-
-          <div>
-            <div className="mb-2 text-sm font-medium">
-              Generate All Foundation Docs
+            <div className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+              Initial Setup
             </div>
-            <SimpleCommandBlock command="mcp__docs-mcp__generate_foundation_docs" />
-          </div>
 
-          <div>
-            <div className="mb-2 text-sm font-medium">
-              Generate Individual Doc
+            <div>
+              <div className="mb-2 text-sm font-medium">
+                1. Foundation Docs (20 min)
+              </div>
+              <InputCommandBlock
+                baseCommand="Generate foundation documentation for my project at {{input}}"
+                placeholder="C:\Users\willh\my-react-app"
+              />
             </div>
-            <SimpleCommandBlock command="mcp__docs-mcp__generate_individual_doc" />
+
+            <div>
+              <div className="mb-2 text-sm font-medium">
+                2. Standards (5 min)
+              </div>
+              <InputCommandBlock
+                baseCommand="Establish standards for my project at {{input}}"
+                placeholder="C:\Users\willh\my-react-app"
+              />
+            </div>
+
+            <div>
+              <div className="mb-2 text-sm font-medium">3. Audit (3 min)</div>
+              <InputCommandBlock
+                baseCommand="Audit codebase at {{input}}"
+                placeholder="C:\Users\willh\my-react-app"
+              />
+            </div>
+
+            <div>
+              <div className="mb-2 text-sm font-medium">
+                4. Fix violations (1 hour, optional)
+              </div>
+              <SimpleCommandBlock command="Fix major violations in the audit report" />
+            </div>
           </div>
 
           <div>
-            <div className="mb-2 text-sm font-medium">Get Changelog</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__get_changelog" />
-          </div>
+            <div className="mb-4 text-sm font-semibold text-gray-900 dark:text-gray-100">
+              Ongoing Maintenance
+            </div>
 
-          <div>
-            <div className="mb-2 text-sm font-medium">Add Changelog Entry</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__add_changelog_entry" />
-          </div>
+            <div>
+              <div className="mb-2 text-sm font-medium">
+                Update individual docs after changes
+              </div>
+              <InputCommandBlock
+                baseCommand="Generate individual doc for my project at {{input}} using template [name]"
+                placeholder="C:\Users\willh\my-react-app"
+              />
+            </div>
 
-          <div>
-            <div className="mb-2 text-sm font-medium">Update Changelog</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__update_changelog" />
-          </div>
+            <div>
+              <div className="mb-2 text-sm font-medium">
+                Re-establish standards after major refactor
+              </div>
+              <InputCommandBlock
+                baseCommand="Establish standards for my project at {{input}}"
+                placeholder="C:\Users\willh\my-react-app"
+              />
+            </div>
 
-          <div>
-            <div className="mb-2 text-sm font-medium">Establish Standards</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__establish_standards" />
-          </div>
+            <div>
+              <div className="mb-2 text-sm font-medium">
+                Re-audit after changes
+              </div>
+              <InputCommandBlock
+                baseCommand="Audit codebase at {{input}}"
+                placeholder="C:\Users\willh\my-react-app"
+              />
+            </div>
 
-          <div>
-            <div className="mb-2 text-sm font-medium">Audit Codebase</div>
-            <SimpleCommandBlock command="mcp__docs-mcp__audit_codebase" />
+            <div>
+              <div className="mb-2 text-sm font-medium">Plan new features</div>
+              <InputCommandBlock
+                baseCommand="Create an implementation plan for [feature] at {{input}}"
+                placeholder="C:\Users\willh\my-react-app"
+              />
+            </div>
           </div>
         </div>
       </SimpleCollapsibleContainer>
