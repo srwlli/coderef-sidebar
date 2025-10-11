@@ -6,7 +6,7 @@ import {
   GitBranch,
   Settings,
   Plug,
-  Palette,
+  Package,
 } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -39,9 +39,9 @@ const workflowTools: WorkflowTool[] = [
     icon: Plug,
   },
   {
-    title: 'Theme Switcher',
-    href: '/workflows/theme-switcher',
-    icon: Palette,
+    title: 'Loud Packs',
+    href: '/workflows/loud-packs',
+    icon: Package,
   },
 ];
 
