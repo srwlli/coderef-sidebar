@@ -24,7 +24,7 @@ export default function MCPPage() {
                 1. Foundation Docs (20 min)
               </div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__generate_foundation_docs {{input}}"
+                baseCommand="/mcp__docs-mcp__generate_foundation_docs {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -34,7 +34,7 @@ export default function MCPPage() {
                 2. Standards (5 min)
               </div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__establish_standards {{input}}"
+                baseCommand="/mcp__docs-mcp__establish_standards {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -42,7 +42,7 @@ export default function MCPPage() {
             <div>
               <div className="mb-2 text-sm font-medium">3. Audit (3 min)</div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__audit_codebase {{input}}"
+                baseCommand="/mcp__docs-mcp__audit_codebase {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -51,7 +51,7 @@ export default function MCPPage() {
               <div className="mb-2 text-sm font-medium">
                 4. Fix violations (1 hour, optional)
               </div>
-              <SimpleCommandBlock command="mcp__docs-mcp__fix_violations" />
+              <SimpleCommandBlock command="/mcp__docs-mcp__fix_violations" />
             </div>
           </div>
 
@@ -65,7 +65,7 @@ export default function MCPPage() {
                 Update individual docs after changes
               </div>
               <SelectCommandBlock
-                baseCommand="mcp__docs-mcp__generate_individual_doc {{input}}"
+                baseCommand="/mcp__docs-mcp__generate_individual_doc {{input}}"
                 options={[
                   { value: 'architecture', label: 'Architecture' },
                   { value: 'api', label: 'API Documentation' },
@@ -84,7 +84,7 @@ export default function MCPPage() {
                 Re-establish standards after major refactor
               </div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__establish_standards {{input}}"
+                baseCommand="/mcp__docs-mcp__establish_standards {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -94,7 +94,7 @@ export default function MCPPage() {
                 Re-audit after changes
               </div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__audit_codebase {{input}}"
+                baseCommand="/mcp__docs-mcp__audit_codebase {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -102,7 +102,7 @@ export default function MCPPage() {
             <div>
               <div className="mb-2 text-sm font-medium">Plan new features</div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__create_implementation_plan {{input}}"
+                baseCommand="/mcp__docs-mcp__create_implementation_plan {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -110,7 +110,7 @@ export default function MCPPage() {
             <div>
               <div className="mb-2 text-sm font-medium">Get Changelog</div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__get_changelog {{input}}"
+                baseCommand="/mcp__docs-mcp__get_changelog {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -120,7 +120,7 @@ export default function MCPPage() {
                 Add Changelog Entry
               </div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__add_changelog_entry {{input}}"
+                baseCommand="/mcp__docs-mcp__add_changelog_entry {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
@@ -128,7 +128,7 @@ export default function MCPPage() {
             <div>
               <div className="mb-2 text-sm font-medium">Update Changelog</div>
               <InputCommandBlock
-                baseCommand="mcp__docs-mcp__update_changelog {{input}}"
+                baseCommand="/mcp__docs-mcp__update_changelog {{input}}"
                 placeholder="C:\Users\willh\my-react-app"
               />
             </div>
